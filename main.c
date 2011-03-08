@@ -183,6 +183,58 @@ static char *extract_alnum(char *s, char *what)
 	return s;
 }
 
+static char *extract_ip(char *s, char *what, unsigned *ipptr)
+{
+	unsigned octet = 0;
+	unsigned ip = 0;
+	if (!isdigit(*s))
+		croakx(0, "%s expected at line %d", what, stats.line_count);
+	while (isdigit(*s)) {
+		octet = 10*octet + *s - '0';
+		s++;
+	}
+	if (octet > 255 || *s != '.')
+		croakx(0, "%s not valid at line %d", what, stats.line_count);
+	s++;
+	if (!isdigit(*s))
+		croakx(0, "%s not valid at line %d", what, stats.line_count);
+	ip = 256*ip + octet;
+	octet = 0;
+	while (isdigit(*s)) {
+		octet = 10*octet + *s - '0';
+		s++;
+	}
+	if (octet > 255 || *s != '.')
+		croakx(0, "%s not valid at line %d", what, stats.line_count);
+	s++;
+	if (!isdigit(*s))
+		croakx(0, "%s not valid at line %d", what, stats.line_count);
+	ip = 256*ip + octet;
+	octet = 0;
+	while (isdigit(*s)) {
+		octet = 10*octet + *s - '0';
+		s++;
+	}
+	if (octet > 255 || *s != '.')
+		croakx(0, "%s not valid at line %d", what, stats.line_count);
+	s++;
+	if (!isdigit(*s))
+		croakx(0, "%s not valid at line %d", what, stats.line_count);
+	ip = 256*ip + octet;
+	octet = 0;
+	while (isdigit(*s)) {
+		octet = 10*octet + *s - '0';
+		s++;
+	}
+	ip = 256*ip + octet;
+	*ipptr = ip;
+
+	if (!isspace(*s))
+		croakx(0, "%s not valid at line %d", what, stats.line_count);
+	*s++ = '\0';
+	return s;
+}
+
 static void store_record(char *name, void *rrptr)
 {
 	struct rr *rr = rrptr;
@@ -201,6 +253,11 @@ static void store_record(char *name, void *rrptr)
 	*chain = rr;
 }
 
+/* Dangerous macros, make assumption about vars in the frame and what they are */
+#define GETNAME(var) { next = extract_name(s, #var); var = s; s = next; next = skip_white_space(s); s = next; }
+#define GETINT(var) { next = extract_integer(s, #var, &var); s = next; next = skip_white_space(s); s = next; }
+#define GETIP(var) { next = extract_ip(s, #var, &var); s = next; next = skip_white_space(s); s = next; }
+
 static void parse_soa(char *name, long ttl, char *s)
 {
 	char *next, *end;
@@ -208,43 +265,13 @@ static void parse_soa(char *name, long ttl, char *s)
 	long serial, refresh, retry, expire, minimum;
 	struct rr_soa *rr;
 
-	next = extract_name(s, "mname");
-	mname = s;
-	s = next;
-	next = skip_white_space(s);
-	s = next;
-
-	next = extract_name(s, "rname");
-	rname = s;
-	s = next;
-	next = skip_white_space(s);
-	s = next;
-
-	next = extract_integer(s, "serial", &serial);
-	s = next;
-	next = skip_white_space(s);
-	s = next;
-
-	next = extract_integer(s, "refresh", &refresh);
-	s = next;
-	next = skip_white_space(s);
-	s = next;
-
-	next = extract_integer(s, "retry", &retry);
-	s = next;
-	next = skip_white_space(s);
-	s = next;
-
-	next = extract_integer(s, "expire", &expire);
-	s = next;
-	next = skip_white_space(s);
-	s = next;
-
-	next = extract_integer(s, "minimum", &minimum);
-	s = next;
-	next = skip_white_space(s);
-	s = next;
-
+	GETNAME(mname);
+	GETNAME(rname);
+	GETINT(serial);
+	GETINT(refresh);
+	GETINT(retry);
+	GETINT(expire);
+	GETINT(minimum);
 	if (*s)
 		croakx(1, "garbage after valid SOA at line %d", stats.line_count);
 
@@ -278,7 +305,13 @@ static void parse_srv(char *name, long ttl, char *s)
 
 static void parse_cname(char *name, long ttl, char *s)
 {
+	char *next;
+	char *cname;
 	struct rr_cname *rr;
+
+	GETNAME(cname);
+	if (*s)
+		croakx(1, "garbage after valid CNAME at line %d", stats.line_count);
 	/* XXX */
 }
 
@@ -290,7 +323,15 @@ static void parse_aaaa(char *name, long ttl, char *s)
 
 static void parse_mx(char *name, long ttl, char *s)
 {
+	char *next;
+	long preference;
+	char *exchange;
 	struct rr_mx *rr;
+
+	GETINT(preference);
+	GETNAME(exchange);
+	if (*s)
+		croakx(1, "garbage after valid MX at line %d", stats.line_count);
 	/* XXX */
 }
 
@@ -332,7 +373,13 @@ static void parse_dnskey(char *name, long ttl, char *s)
 
 static void parse_a(char *name, long ttl, char *s)
 {
+	char *next;
+	unsigned address;
 	struct rr_a *rr;
+
+	GETIP(address);
+	if (*s)
+		croakx(1, "garbage after valid A at line %d", stats.line_count);
 	/* XXX */
 }
 
