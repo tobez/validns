@@ -53,7 +53,7 @@ struct rr_soa
 struct rr_ns
 {
 	struct rr rr;
-	/* XXX */
+	char nsdname[0];
 };
 
 struct rr_txt
@@ -95,7 +95,7 @@ struct rr_srv
 struct rr_cname
 {
 	struct rr rr;
-	/* XXX */
+	char cname[0];
 };
 
 struct rr_aaaa
@@ -312,7 +312,14 @@ static void parse_cname(char *name, long ttl, char *s)
 	GETNAME(cname);
 	if (*s)
 		croakx(1, "garbage after valid CNAME at line %d", stats.line_count);
-	/* XXX */
+
+	rr = malloc(sizeof(*rr) + strlen(cname) + 1);
+	if (!rr)
+		croak(1, "malloc rr_cname");
+	rr->rr.ttl    = ttl;
+	rr->rr.rdtype = T_CNAME;
+	strcpy(rr->cname, cname);
+	store_record(name, rr);
 }
 
 static void parse_aaaa(char *name, long ttl, char *s)
@@ -337,8 +344,21 @@ static void parse_mx(char *name, long ttl, char *s)
 
 static void parse_ns(char *name, long ttl, char *s)
 {
+	char *next;
+	char *nsdname;
 	struct rr_ns *rr;
-	/* XXX */
+
+	GETNAME(nsdname);
+	if (*s)
+		croakx(1, "garbage after valid NS at line %d", stats.line_count);
+
+	rr = malloc(sizeof(*rr) + strlen(nsdname) + 1);
+	if (!rr)
+		croak(1, "malloc rr_ns");
+	rr->rr.ttl    = ttl;
+	rr->rr.rdtype = T_NS;
+	strcpy(rr->nsdname, nsdname);
+	store_record(name, rr);
 }
 
 static void parse_txt(char *name, long ttl, char *s)
