@@ -6,6 +6,7 @@
 #include <Judy.h>
 
 #include "carp.h"
+#include "mempool.h"
 
 struct stats {
 	int line_count;
@@ -275,9 +276,7 @@ static void parse_soa(char *name, long ttl, char *s)
 	if (*s)
 		croakx(1, "garbage after valid SOA at line %d", stats.line_count);
 
-	rr = malloc(sizeof(*rr) + strlen(mname) + 1 + strlen(rname) + 1);
-	if (!rr)
-		croak(1, "malloc rr_soa");
+	rr = getmem(sizeof(*rr) + strlen(mname) + 1 + strlen(rname) + 1);
 	rr->rr.ttl    = ttl;
 	rr->rr.rdtype = T_SOA;
 	rr->serial    = serial;
@@ -313,9 +312,7 @@ static void parse_cname(char *name, long ttl, char *s)
 	if (*s)
 		croakx(1, "garbage after valid CNAME at line %d", stats.line_count);
 
-	rr = malloc(sizeof(*rr) + strlen(cname) + 1);
-	if (!rr)
-		croak(1, "malloc rr_cname");
+	rr = getmem(sizeof(*rr) + strlen(cname) + 1);
 	rr->rr.ttl    = ttl;
 	rr->rr.rdtype = T_CNAME;
 	strcpy(rr->cname, cname);
@@ -352,9 +349,7 @@ static void parse_ns(char *name, long ttl, char *s)
 	if (*s)
 		croakx(1, "garbage after valid NS at line %d", stats.line_count);
 
-	rr = malloc(sizeof(*rr) + strlen(nsdname) + 1);
-	if (!rr)
-		croak(1, "malloc rr_ns");
+	rr = getmem(sizeof(*rr) + strlen(nsdname) + 1);
 	rr->rr.ttl    = ttl;
 	rr->rr.rdtype = T_NS;
 	strcpy(rr->nsdname, nsdname);
