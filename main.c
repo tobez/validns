@@ -382,7 +382,9 @@ static void parse_nsec3param(char *name, long ttl, char *s)
 
 static void parse_dnskey(char *name, long ttl, char *s)
 {
+	char *next;
 	struct rr_dnskey *rr;
+	long flags, proto, algorithm;
 	/* XXX */
 }
 
