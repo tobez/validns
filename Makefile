@@ -12,3 +12,7 @@ carp.o: carp.c
 
 mempool.o: mempool.c
 	cc $(CFLAGS) $(OPTIMIZE) -c -o mempool.o mempool.c
+
+test:
+	cc -Wall -O2 -o base64-test base64.c -DTEST_PROGRAM
+	./base64-test
