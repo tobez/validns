@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <errno.h>
+#include <ctype.h>
 
 #include "base64.h"
 
@@ -12,10 +13,11 @@
  */
 
 int
-decode_base64(unsigned char *dst, unsigned char *src, size_t dstsize)
+decode_base64(void *dest, char *src, size_t dstsize)
 {
 	size_t processed = 0;
 	int full_bytes = 0;
+	unsigned char *dst = dest;
 
 	while (*src) {
 		int v;
@@ -29,9 +31,13 @@ decode_base64(unsigned char *dst, unsigned char *src, size_t dstsize)
 			v = 62;
 		else if (*src == '-')
 			v = 63;
-		else {
+		else if (isspace(*src) || *src == '=') {
 			src++;
 			continue;
+		} else {
+			/* any junk chars means input is corrupted */
+			errno = EINVAL;
+			return -1;
 		}
 		src++;
 		if (processed % 4 == 0) {
@@ -97,7 +103,7 @@ static int ok_string_test(int testnum, char *src, char *expect)
 		return 1;
 	}
 	memset(dstbuf, 0xAA, 512);
-	r = decode_base64(dstbuf, (unsigned char *)src, expect_sz);
+	r = decode_base64(dstbuf, src, expect_sz);
 	if (r != expect_sz) {
 		printf("test %d: NOT OK: expect size %d, got %d\n", testnum, expect_sz, r);
 		return 1;
@@ -111,7 +117,7 @@ static int ok_string_test(int testnum, char *src, char *expect)
 	}
 	memset(dstbuf, 0xAA, 512);
 	for (i = 0; i < expect_sz; i++) {
-		r0 = decode_base64(dstbuf, (unsigned char *)src, i);
+		r0 = decode_base64(dstbuf, src, i);
 		if (r0 > 0) {
 			printf("test %d: NOT OK: buffer size %d should not be enough\n", testnum, i);
 			return 1;
@@ -120,6 +126,20 @@ static int ok_string_test(int testnum, char *src, char *expect)
 			printf("test %d: NOT OK: corrupts memory with bufsize %d\n", testnum, i);
 			return 1;
 		}
+	}
+	printf("test %d: ok\n", testnum);
+	return 0;
+}
+
+static int expect_junk_error(int testnum, char *src)
+{
+	char *buf[20];
+	int r;
+
+	r = decode_base64(buf, src, 20);
+	if (r != -1) {
+		printf("test %d: NOT OK: junk input not recognized\n", testnum);
+		return 1;
 	}
 	printf("test %d: ok\n", testnum);
 	return 0;
@@ -158,6 +178,16 @@ int main(void)
 	ret |= ok_string_test(20, "Zm9vYmE=", "fooba");
 	ret |= ok_string_test(21, "Zm9vYmE", "fooba");
 	ret |= ok_string_test(22, "Zm9vYmFy", "foobar");
+
+	ret |= expect_junk_error(23, "?Zm9vYmFy");
+	ret |= expect_junk_error(24, "Z%m9vYmFy");
+	ret |= expect_junk_error(25, "Zm&9vYmFy");
+	ret |= expect_junk_error(26, "Zm9/vYmFy");
+	ret |= expect_junk_error(27, "Zm9v*YmFy");
+	ret |= expect_junk_error(28, "Zm9vY#mFy");
+	ret |= expect_junk_error(29, "Zm9vYm\x01Fy");
+	ret |= expect_junk_error(30, "Zm9vYmF!y");
+	ret |= expect_junk_error(31, "Zm9vYmFy.");
 
 	return ret;
 }
