@@ -29,7 +29,7 @@ decode_base64(void *dest, char *src, size_t dstsize)
 			v = 52 + *src - '0';
 		else if (*src == '+')
 			v = 62;
-		else if (*src == '-')
+		else if (*src == '/')
 			v = 63;
 		else if (isspace(*src) || *src == '=') {
 			src++;
@@ -182,7 +182,7 @@ int main(void)
 	ret |= expect_junk_error(23, "?Zm9vYmFy");
 	ret |= expect_junk_error(24, "Z%m9vYmFy");
 	ret |= expect_junk_error(25, "Zm&9vYmFy");
-	ret |= expect_junk_error(26, "Zm9/vYmFy");
+	ret |= expect_junk_error(26, "Zm9-vYmFy");
 	ret |= expect_junk_error(27, "Zm9v*YmFy");
 	ret |= expect_junk_error(28, "Zm9vY#mFy");
 	ret |= expect_junk_error(29, "Zm9vYm\x01Fy");
