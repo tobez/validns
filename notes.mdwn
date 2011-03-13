@@ -1,0 +1,33 @@
+# validns notes
+
+##
+
+Something bugs me just below conciousness.
+As in "what, do I have to write support for *this* as well?",
+without being able to remember what's "this" is.
+
+## TODO
+
+- nice CPAN module for external programs output testing?
+	- looks like Test::Command::Simple is what I want
+- master file support (RFC 1035, section 5)
+	- see whether there were changes to it
+- zone validations specified in RFC 1035
+- options support (`getopt`)
+- usage() function
+- `-v` option for verbose (multiple levels?)
+- `-q` option for extra quiet
+- `-f` option (die on first error)
+- `-s` option - produce validation summary/statistics
+- wired RDATA format
+- include file support
+	- `-I` option
+- $ORIGIN support
+	- `-z` option for initial ORIGIN
+- $TTL support
+- embedding lua for flexible validations
+	- "policy validations"
+	- `-p policy-file` option
+	- `-r policy-rule` option (maybe?)
+- better platform support
+	- `stpcpy()` might not be everywhere
