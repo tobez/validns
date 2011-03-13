@@ -20,6 +20,9 @@ struct rr
 	struct rr* next;
 	int	ttl;
 	int rdtype;
+
+	int line;
+	char *file_name;
 };
 
 struct rr_a

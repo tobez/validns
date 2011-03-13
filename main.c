@@ -11,12 +11,7 @@
 #include "mempool.h"
 #include "rr.h"
 
-struct stats {
-	int rr_count;
-	int rrset_count;
-} stats;
-
-struct command_line_options opt;
+struct globals G;
 struct file_info *file_info = NULL;
 
 Pvoid_t records = (Pvoid_t) NULL;
@@ -161,6 +156,8 @@ static void store_record(char *name, void *rrptr)
 	struct rr *rr = rrptr;
 	struct rr **chain;
 
+	rr->line = file_info->line;
+	rr->file_name = file_info->name;
 	rr->next = NULL;
 	JSLI(chain, records, (unsigned char*)name);
 	if (chain == PJERR)
@@ -168,9 +165,9 @@ static void store_record(char *name, void *rrptr)
 	if (*chain) {
 		rr->next = *chain;
 	} else {
-		stats.rrset_count++;
+		G.stats.rrset_count++;
 	}
-	stats.rr_count++;
+	G.stats.rr_count++;
 	*chain = rr;
 }
 
@@ -518,8 +515,8 @@ int
 main(int argc, char **argv)
 {
 	int o;
-	bzero(&opt, sizeof(opt));
-	bzero(&stats, sizeof(stats));
+	bzero(&G.opt, sizeof(G.opt));
+	bzero(&G.stats, sizeof(G.stats));
 
 	while ((o = getopt(argc, argv, "fhqsvI:z:")) != -1) {
 		switch(o) {
@@ -527,22 +524,22 @@ main(int argc, char **argv)
 			usage(NULL);
 			break;
 		case 'f':
-			opt.die_on_first_error = 1;
+			G.opt.die_on_first_error = 1;
 			break;
 		case 'q':
-			opt.no_output = 1;
+			G.opt.no_output = 1;
 			break;
 		case 's':
-			opt.summary = 1;
+			G.opt.summary = 1;
 			break;
 		case 'v':
-			opt.verbose = 1;
+			G.opt.verbose = 1;
 			break;
 		case 'I':
-			opt.include_path = optarg;
+			G.opt.include_path = optarg;
 			break;
 		case 'z':
-			opt.current_origin = optarg;
+			G.opt.current_origin = optarg;
 			break;
 		default:
 			usage(NULL);
@@ -554,9 +551,10 @@ main(int argc, char **argv)
 		usage(NULL);
 	open_zone_file(argv[0]);
 	read_zone_file();
-	if (opt.summary) {
-		printf("records found:     %d\n", stats.rr_count);
-		printf("record sets found: %d\n", stats.rrset_count);
+	if (G.opt.summary) {
+		printf("records found:     %d\n", G.stats.rr_count);
+		printf("record sets found: %d\n", G.stats.rrset_count);
+		printf("validation errors: %d\n", G.stats.error_count);
 	}
-	return opt.exit_code;
+	return G.exit_code;
 }

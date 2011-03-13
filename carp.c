@@ -52,7 +52,7 @@ bitch(const char *fmt, ...)
 {
 	va_list ap;
 	va_start(ap, fmt);
-	if (!opt.no_output) {
+	if (!G.opt.no_output) {
 		fprintf(stderr, "%s:%d: ", file_info->name, file_info->line);
 		if (fmt != NULL) {
 			vfprintf(stderr, fmt, ap);
@@ -60,8 +60,9 @@ bitch(const char *fmt, ...)
 		fprintf(stderr, "\n");
 	}
 	va_end(ap);
-	opt.exit_code = 1;
-	if (opt.die_on_first_error)
+	G.exit_code = 1;
+	G.stats.error_count++;
+	if (G.opt.die_on_first_error)
 		exit(1);
 	return NULL;
 }

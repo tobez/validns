@@ -11,18 +11,24 @@ struct file_info
 
 extern struct file_info *file_info;
 
-struct command_line_options
-{
-	int die_on_first_error;
-	int no_output;
-	int summary;
-	int verbose;
-	char *include_path;
-	char *current_origin;
-	/* not really options */
+struct globals {
+	struct stats {
+		int rr_count;
+		int rrset_count;
+		int error_count;
+	} stats;
+	struct command_line_options
+	{
+		int die_on_first_error;
+		int no_output;
+		int summary;
+		int verbose;
+		char *include_path;
+		char *current_origin;
+	} opt;
 	int exit_code;
 };
 
-extern struct command_line_options opt;
+extern struct globals G;
 
 #endif
