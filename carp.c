@@ -9,7 +9,6 @@
 #include "common.h"
 #include "carp.h"
 
-static const char *thisprogname(void);
 static void v(int is_croak, int is_x, int exit_code, const char *fmt, va_list ap);
 
 void
@@ -53,12 +52,17 @@ bitch(const char *fmt, ...)
 {
 	va_list ap;
 	va_start(ap, fmt);
-	fprintf(stderr, "%s:%d: ", file_info->name, file_info->line);
-	if (fmt != NULL) {
-		vfprintf(stderr, fmt, ap);
+	if (!opt.no_output) {
+		fprintf(stderr, "%s:%d: ", file_info->name, file_info->line);
+		if (fmt != NULL) {
+			vfprintf(stderr, fmt, ap);
+		}
+		fprintf(stderr, "\n");
 	}
-	fprintf(stderr, "\n");
 	va_end(ap);
+	opt.exit_code = 1;
+	if (opt.die_on_first_error)
+		exit(1);
 	return NULL;
 }
 
@@ -83,7 +87,7 @@ v(int is_croak, int use_errno, int exit_code, const char *fmt, va_list ap)
 static char proggy[MAXPATHLEN];
 #endif
 
-static const char *thisprogname(void)
+const char *thisprogname(void)
 {
 #if defined(__FreeBSD__)
 	return getprogname();

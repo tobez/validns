@@ -3,6 +3,7 @@
 #include <strings.h>
 #include <string.h>
 #include <ctype.h>
+#include <unistd.h>
 #include <Judy.h>
 
 #include "common.h"
@@ -15,7 +16,8 @@ struct stats {
 	int rrset_count;
 } stats;
 
-struct file_info *file_info;
+struct command_line_options opt;
+struct file_info *file_info = NULL;
 
 Pvoid_t records = (Pvoid_t) NULL;
 
@@ -362,125 +364,199 @@ read_zone_file(void)
 	char *next, *s;
 	char *name, *class, *rdtype;
 	long ttl;
-	while (fgets(buf, 2048, file_info->file)) {
-		file_info->line++;
-		if (empty_line_or_comment(buf))
-			continue;
+	while (file_info) {
+		while (fgets(buf, 2048, file_info->file)) {
+			file_info->line++;
+			if (empty_line_or_comment(buf))
+				continue;
 
-		s = buf;
-		next = skip_white_space(s);
-		s = next;
+			s = buf;
+			next = skip_white_space(s);
+			s = next;
 
-		next = extract_name(s, "record name");
-		if (!next)	continue;
-		name = s;
-		while (*s) {
-			*s = tolower(*s);
-			s++;
+			next = extract_name(s, "record name");
+			if (!next)	continue;
+			name = s;
+			while (*s) {
+				*s = tolower(*s);
+				s++;
+			}
+			s = next;
+			next = skip_white_space(s);
+			s = next;
+
+			next = extract_integer(s, "TTL", &ttl);
+			if (!next)	continue;
+			s = next;
+			next = skip_white_space(s);
+			s = next;
+
+			next = extract_alpha(s, "class");
+			if (!next)	continue;
+			class = s;
+			if (strcasecmp(class, "in") != 0) {
+				bitch("unsupported class %s", class);
+				continue;
+			}
+			s = next;
+			next = skip_white_space(s);
+			s = next;
+
+			next = extract_alnum(s, "rdtype");
+			if (!next)	continue;
+			rdtype = s;
+			while (*s) {
+				*s = toupper(*s);
+				s++;
+			}
+			s = next;
+			next = skip_white_space(s);
+			s = next;
+
+			switch (*rdtype) {
+			case 'A':
+				if (strcmp(rdtype, "A") == 0) {
+					parse_a(name, ttl, s);
+					break;
+				} else if (strcmp(rdtype, "AAAA") == 0) {
+					parse_aaaa(name, ttl, s);
+					break;
+				}
+			case 'C':
+				if (strcmp(rdtype, "CNAME") == 0) {
+					parse_cname(name, ttl, s);
+					break;
+				}
+			case 'D':
+				if (strcmp(rdtype, "DNSKEY") == 0) {
+					parse_dnskey(name, ttl, s);
+					break;
+				}
+			case 'M':
+				if (strcmp(rdtype, "MX") == 0) {
+					parse_mx(name, ttl, s);
+					break;
+				}
+			case 'N':
+				if (strcmp(rdtype, "NS") == 0) {
+					parse_ns(name, ttl, s);
+					break;
+				} else if (strcmp(rdtype, "NAPTR") == 0) {
+					parse_naptr(name, ttl, s);
+					break;
+				} else if (strcmp(rdtype, "NSEC3") == 0) {
+					parse_nsec3(name, ttl, s);
+					break;
+				} else if (strcmp(rdtype, "NSEC3PARAM") == 0) {
+					parse_nsec3param(name, ttl, s);
+					break;
+				}
+			case 'R':
+				if (strcmp(rdtype, "RRSIG") == 0) {
+					parse_rrsig(name, ttl, s);
+					break;
+				}
+			case 'S':
+				if (strcmp(rdtype, "SOA") == 0) {
+					parse_soa(name, ttl, s);
+					break;
+				} else if (strcmp(rdtype, "SRV") == 0) {
+					parse_srv(name, ttl, s);
+					break;
+				}
+			case 'T':
+				if (strcmp(rdtype, "TXT") == 0) {
+					parse_txt(name, ttl, s);
+					break;
+				}
+			default:
+				bitch("invalid or unsupported rdtype %s", rdtype);
+			}
 		}
-		s = next;
-		next = skip_white_space(s);
-		s = next;
-
-		next = extract_integer(s, "TTL", &ttl);
-		if (!next)	continue;
-		s = next;
-		next = skip_white_space(s);
-		s = next;
-
-		next = extract_alpha(s, "class");
-		if (!next)	continue;
-		class = s;
-		if (strcasecmp(class, "in") != 0) {
-			bitch("unsupported class %s", class);
-			continue;
-		}
-		s = next;
-		next = skip_white_space(s);
-		s = next;
-
-		next = extract_alnum(s, "rdtype");
-		if (!next)	continue;
-		rdtype = s;
-		while (*s) {
-			*s = toupper(*s);
-			s++;
-		}
-		s = next;
-		next = skip_white_space(s);
-		s = next;
-
-		switch (*rdtype) {
-		case 'A':
-			if (strcmp(rdtype, "A") == 0) {
-				parse_a(name, ttl, s);
-				break;
-			} else if (strcmp(rdtype, "AAAA") == 0) {
-				parse_aaaa(name, ttl, s);
-				break;
-			}
-		case 'C':
-			if (strcmp(rdtype, "CNAME") == 0) {
-				parse_cname(name, ttl, s);
-				break;
-			}
-		case 'D':
-			if (strcmp(rdtype, "DNSKEY") == 0) {
-				parse_dnskey(name, ttl, s);
-				break;
-			}
-		case 'M':
-			if (strcmp(rdtype, "MX") == 0) {
-				parse_mx(name, ttl, s);
-				break;
-			}
-		case 'N':
-			if (strcmp(rdtype, "NS") == 0) {
-				parse_ns(name, ttl, s);
-				break;
-			} else if (strcmp(rdtype, "NAPTR") == 0) {
-				parse_naptr(name, ttl, s);
-				break;
-			} else if (strcmp(rdtype, "NSEC3") == 0) {
-				parse_nsec3(name, ttl, s);
-				break;
-			} else if (strcmp(rdtype, "NSEC3PARAM") == 0) {
-				parse_nsec3param(name, ttl, s);
-				break;
-			}
-		case 'R':
-			if (strcmp(rdtype, "RRSIG") == 0) {
-				parse_rrsig(name, ttl, s);
-				break;
-			}
-		case 'S':
-			if (strcmp(rdtype, "SOA") == 0) {
-				parse_soa(name, ttl, s);
-				break;
-			} else if (strcmp(rdtype, "SRV") == 0) {
-				parse_srv(name, ttl, s);
-				break;
-			}
-		case 'T':
-			if (strcmp(rdtype, "TXT") == 0) {
-				parse_txt(name, ttl, s);
-				break;
-			}
-		default:
-			bitch("invalid or unsupported rdtype %s", rdtype);
-		}
+		if (ferror(file_info->file))
+			croak(1, "read error for %s", file_info->name);
+		file_info = file_info->next;
 	}
-	if (ferror(file_info->file))
-		croak(1, "read error");
 	return 0;
+}
+
+void
+open_zone_file(char *fname)
+{
+	FILE *f = fopen(fname, "r");
+	struct file_info *new_file_info;
+
+	if (!f)
+		croak(1, "open %s", fname);
+	new_file_info = malloc(sizeof(*new_file_info) + strlen(fname) + 1);
+	if (!new_file_info)
+		croak(1, "malloc(file_info), %s", fname);
+	new_file_info->next = file_info;
+	new_file_info->file = f;
+	new_file_info->line = 0;
+	strcpy(new_file_info->name, fname);
+	file_info = new_file_info;
+}
+
+void usage(char *err)
+{
+	fprintf(stderr, "Usage:\n");
+	fprintf(stderr, "    %s -h\n", thisprogname());
+	fprintf(stderr, "    %s [options]\n", thisprogname());
+	fprintf(stderr, "Usage parameters:\n");
+	fprintf(stderr, "\t-h\t\tproduce usage text and quit\n");
+	fprintf(stderr, "\t-f\t\tquit on first validation error\n");
+	fprintf(stderr, "\t-q\t\tquiet - do not produce any output\n");
+	fprintf(stderr, "\t-s\t\tprint validation summary/stats\n");
+	fprintf(stderr, "\t-v\t\tbe extra verbose\n");
+	fprintf(stderr, "\t-I path\tuse this path for $INCLUDE files\n");
+	fprintf(stderr, "\t-z origin\tuse this origin as initial $ORIGIN\n");
+	exit(1);
 }
 
 int
 main(int argc, char **argv)
 {
+	int o;
+	bzero(&opt, sizeof(opt));
 	bzero(&stats, sizeof(stats));
+
+	while ((o = getopt(argc, argv, "fhqsvI:z:")) != -1) {
+		switch(o) {
+		case 'h':
+			usage(NULL);
+			break;
+		case 'f':
+			opt.die_on_first_error = 1;
+			break;
+		case 'q':
+			opt.no_output = 1;
+			break;
+		case 's':
+			opt.summary = 1;
+			break;
+		case 'v':
+			opt.verbose = 1;
+			break;
+		case 'I':
+			opt.include_path = optarg;
+			break;
+		case 'z':
+			opt.current_origin = optarg;
+			break;
+		default:
+			usage(NULL);
+		}
+	}
+	argc -= optind;
+	argv += optind;
+	if (argc != 1)
+		usage(NULL);
+	open_zone_file(argv[0]);
 	read_zone_file();
-	printf("records found:     %d\n", stats.rr_count);
-	printf("record sets found: %d\n", stats.rrset_count);
-	return 0;
+	if (opt.summary) {
+		printf("records found:     %d\n", stats.rr_count);
+		printf("record sets found: %d\n", stats.rrset_count);
+	}
+	return opt.exit_code;
 }
