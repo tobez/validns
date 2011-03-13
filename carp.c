@@ -6,6 +6,7 @@
 #include <unistd.h>
 #include <sys/param.h>
 
+#include "common.h"
 #include "carp.h"
 
 static const char *thisprogname(void);
@@ -45,6 +46,20 @@ carpx(const char *fmt, ...)
 	va_start(ap, fmt);
 	v(0, -1, 0, fmt, ap);
 	va_end(ap);
+}
+
+void *
+bitch(const char *fmt, ...)
+{
+	va_list ap;
+	va_start(ap, fmt);
+	fprintf(stderr, "%s:%d: ", file_info->name, file_info->line);
+	if (fmt != NULL) {
+		vfprintf(stderr, fmt, ap);
+	}
+	fprintf(stderr, "\n");
+	va_end(ap);
+	return NULL;
 }
 
 void

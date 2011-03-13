@@ -5,20 +5,22 @@
 #include <ctype.h>
 #include <Judy.h>
 
+#include "common.h"
 #include "carp.h"
 #include "mempool.h"
 #include "rr.h"
 
 struct stats {
-	int line_count;
 	int rr_count;
 	int rrset_count;
 } stats;
 
+struct file_info *file_info;
+
 Pvoid_t records = (Pvoid_t) NULL;
 
 int
-read_zone_file(FILE *);
+read_zone_file(void);
 
 /* ============== */
 
@@ -39,15 +41,13 @@ static char *skip_white_space(char *s)
 static char *extract_name(char *s, char *what)
 {
 	if (!(isalnum(*s) || *s == '_')) {
-		carpx("%s expected at line %d", what, stats.line_count);
-		return NULL;
+		return bitch("%s expected", what);
 	}
 	s++;
 	while (isalnum(*s) || *s == '.' || *s == '-' || *s == '_')
 		s++;
 	if (!isspace(*s)) {
-		carpx("%s not valid at line %d", what, stats.line_count);
-		return NULL;
+		return bitch("%s is not valid", what);
 	}
 	*s++ = '\0';
 	return s;
@@ -57,13 +57,11 @@ static char *extract_integer(char *s, char *what, long *i)
 {
 	char *start = s;
 	if (!isdigit(*s++)) {
-		carpx("%s expected at line %d", what, stats.line_count);
-		return NULL;
+		return bitch("%s expected", what);
 	}
 	while (isdigit(*s)) s++;
 	if (!isspace(*s)) {
-		carpx("%s not valid at line %d", what, stats.line_count);
-		return NULL;
+		return bitch("%s is not valid", what);
 	}
 	*s++ = '\0';
 	*i = strtol(start, NULL, 10);
@@ -73,13 +71,11 @@ static char *extract_integer(char *s, char *what, long *i)
 static char *extract_alpha(char *s, char *what)
 {
 	if (!isalpha(*s++)) {
-		carpx("%s expected at line %d", what, stats.line_count);
-		return NULL;
+		return bitch("%s expected", what);
 	}
 	while (isalpha(*s)) s++;
 	if (!isspace(*s)) {
-		carpx("%s not valid at line %d", what, stats.line_count);
-		return NULL;
+		return bitch("%s is not valid", what);
 	}
 	*s++ = '\0';
 	return s;
@@ -88,13 +84,11 @@ static char *extract_alpha(char *s, char *what)
 static char *extract_alnum(char *s, char *what)
 {
 	if (!isalnum(*s++)) {
-		carpx("%s expected at line %d", what, stats.line_count);
-		return NULL;
+		return bitch("%s expected", what);
 	}
 	while (isalnum(*s)) s++;
 	if (!isspace(*s)) {
-		carpx("%s not valid at line %d", what, stats.line_count);
-		return NULL;
+		return bitch("%s is not valid", what);
 	}
 	*s++ = '\0';
 	return s;
@@ -105,21 +99,18 @@ static char *extract_ip(char *s, char *what, unsigned *ipptr)
 	unsigned octet = 0;
 	unsigned ip = 0;
 	if (!isdigit(*s)) {
-		carpx("%s expected at line %d", what, stats.line_count);
-		return NULL;
+		return bitch("%s expected", what);
 	}
 	while (isdigit(*s)) {
 		octet = 10*octet + *s - '0';
 		s++;
 	}
 	if (octet > 255 || *s != '.') {
-		carpx("%s not valid at line %d", what, stats.line_count);
-		return NULL;
+		return bitch("%s is not valid", what);
 	}
 	s++;
 	if (!isdigit(*s)) {
-		carpx("%s not valid at line %d", what, stats.line_count);
-		return NULL;
+		return bitch("%s is not valid", what);
 	}
 	ip = 256*ip + octet;
 	octet = 0;
@@ -128,13 +119,11 @@ static char *extract_ip(char *s, char *what, unsigned *ipptr)
 		s++;
 	}
 	if (octet > 255 || *s != '.') {
-		carpx("%s not valid at line %d", what, stats.line_count);
-		return NULL;
+		return bitch("%s is not valid", what);
 	}
 	s++;
 	if (!isdigit(*s)) {
-		carpx("%s not valid at line %d", what, stats.line_count);
-		return NULL;
+		return bitch("%s is not valid", what);
 	}
 	ip = 256*ip + octet;
 	octet = 0;
@@ -143,13 +132,11 @@ static char *extract_ip(char *s, char *what, unsigned *ipptr)
 		s++;
 	}
 	if (octet > 255 || *s != '.') {
-		carpx("%s not valid at line %d", what, stats.line_count);
-		return NULL;
+		return bitch("%s is not valid", what);
 	}
 	s++;
 	if (!isdigit(*s)) {
-		carpx("%s not valid at line %d", what, stats.line_count);
-		return NULL;
+		return bitch("%s is not valid", what);
 	}
 	ip = 256*ip + octet;
 	octet = 0;
@@ -161,8 +148,7 @@ static char *extract_ip(char *s, char *what, unsigned *ipptr)
 	*ipptr = ip;
 
 	if (!isspace(*s)) {
-		carpx("%s not valid at line %d", what, stats.line_count);
-		return NULL;
+		return bitch("%s is not valid", what);
 	}
 	*s++ = '\0';
 	return s;
@@ -176,7 +162,7 @@ static void store_record(char *name, void *rrptr)
 	rr->next = NULL;
 	JSLI(chain, records, (unsigned char*)name);
 	if (chain == PJERR)
-		croak(1, "store_record/JSLI at line %d", stats.line_count);
+		croak(1, "store_record/JSLI");
 	if (*chain) {
 		rr->next = *chain;
 	} else {
@@ -206,8 +192,7 @@ static void* parse_soa(char *name, long ttl, char *s)
 	GETINT(expire);
 	GETINT(minimum);
 	if (*s) {
-		carpx("garbage after valid SOA at line %d", stats.line_count);
-		return NULL;
+		return bitch("garbage after valid SOA data");
 	}
 
 	rr = getmem(sizeof(*rr) + strlen(mname) + 1 + strlen(rname) + 1);
@@ -247,8 +232,7 @@ static void *parse_cname(char *name, long ttl, char *s)
 
 	GETNAME(cname);
 	if (*s) {
-		carpx("garbage after valid CNAME at line %d", stats.line_count);
-		return NULL;
+		return bitch("garbage after valid CNAME data");
 	}
 
 	rr = getmem(sizeof(*rr) + strlen(cname) + 1);
@@ -276,8 +260,7 @@ static void *parse_mx(char *name, long ttl, char *s)
 	GETINT(preference);
 	GETNAME(exchange);
 	if (*s) {
-		carpx("garbage after valid MX at line %d", stats.line_count);
-		return NULL;
+		return bitch("garbage after valid MX data");
 	}
 	/* XXX */
 	return rr;
@@ -291,8 +274,7 @@ static void *parse_ns(char *name, long ttl, char *s)
 
 	GETNAME(nsdname);
 	if (*s) {
-		carpx("garbage after valid NS at line %d", stats.line_count);
-		return NULL;
+		return bitch("garbage after valid NS data");
 	}
 
 	rr = getmem(sizeof(*rr) + strlen(nsdname) + 1);
@@ -339,23 +321,19 @@ static void *parse_dnskey(char *name, long ttl, char *s)
 
 	GETINT(flags);
 	if (flags != 256 && flags != 257) {
-		carpx("Wrong flags in DNSKEY at line %d", stats.line_count);
-		return NULL;
+		return bitch("wrong flags in DNSKEY");
 	}
 	GETINT(proto);
 	if (proto != 3) {
-		carpx("Unrecognized protocol in DNSKEY at line %d", stats.line_count);
-		return NULL;
+		return bitch("unrecognized protocol in DNSKEY");
 	}
 	GETINT(algorithm);
 	if (algorithm != 8) {
-		carpx("Unsupported algorithm #%d in DNSKEY at line %d", algorithm, stats.line_count);
-		return NULL;
+		return bitch("unsupported algorithm #%d in DNSKEY", algorithm);
 	}
 
 	if (*s) {
-		carpx("garbage after otherwise valid DNSKEY at line %d", stats.line_count);
-		return NULL;
+		return bitch("garbage after valid DNSKEY data");
 	}
 
 	/* XXX */
@@ -370,8 +348,7 @@ static void *parse_a(char *name, long ttl, char *s)
 
 	GETIP(address);
 	if (*s) {
-		carpx("garbage after valid A at line %d", stats.line_count);
-		return NULL;
+		return bitch("garbage after valid A data");
 	}
 
 	/* XXX */
@@ -379,14 +356,14 @@ static void *parse_a(char *name, long ttl, char *s)
 }
 
 int
-read_zone_file(FILE *stream)
+read_zone_file(void)
 {
 	char buf[2048];
 	char *next, *s;
 	char *name, *class, *rdtype;
 	long ttl;
-	while (fgets(buf, 2048, stream)) {
-		stats.line_count++;
+	while (fgets(buf, 2048, file_info->file)) {
+		file_info->line++;
 		if (empty_line_or_comment(buf))
 			continue;
 
@@ -415,7 +392,7 @@ read_zone_file(FILE *stream)
 		if (!next)	continue;
 		class = s;
 		if (strcasecmp(class, "in") != 0) {
-			carpx("unsupported class: %s at line %d", class, stats.line_count);
+			bitch("unsupported class %s", class);
 			continue;
 		}
 		s = next;
@@ -490,20 +467,19 @@ read_zone_file(FILE *stream)
 				break;
 			}
 		default:
-			carpx("invalid or unsupported rdtype: %s at line %d", rdtype, stats.line_count);
+			bitch("invalid or unsupported rdtype %s", rdtype);
 		}
 	}
-	if (ferror(stream))
+	if (ferror(file_info->file))
 		croak(1, "read error");
 	return 0;
 }
 
 int
-main(void)
+main(int argc, char **argv)
 {
 	bzero(&stats, sizeof(stats));
-	read_zone_file(stdin);
-	printf("lines processed:   %d\n", stats.line_count);
+	read_zone_file();
 	printf("records found:     %d\n", stats.rr_count);
 	printf("record sets found: %d\n", stats.rrset_count);
 	return 0;
