@@ -368,6 +368,18 @@ read_zone_file(void)
 				continue;
 
 			s = buf;
+			if (!isspace(*s)) {
+				/* <domain-name>, $INCLUDE, $ORIGIN */
+				if (*s == '$') {
+					bitch("$STUFF parsing not implemented");
+					continue;
+				} else {
+					/* <domain-name> */
+					bitch("<domain-name> parsing not implemented");
+					continue;
+				}
+			}
+			/* XXX classes IN, CS, CH, HS */
 			next = skip_white_space(s);
 			s = next;
 
