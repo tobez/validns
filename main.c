@@ -32,22 +32,60 @@ static int empty_line_or_comment(char *s)
 static char *skip_white_space(char *s)
 {
 	while (isspace(*s)) s++;
+	if (*s == ';') {
+		while (*s) s++;
+	}
 	return s;
 }
 
-static char *extract_name(char *s, char *what)
+static char *extract_name(char **input, char *what)
 {
-	if (!(isalnum(*s) || *s == '_')) {
-		return bitch("%s expected", what);
-	}
-	s++;
-	while (isalnum(*s) || *s == '.' || *s == '-' || *s == '_')
+	char *s = *input;
+	char *r = NULL;
+	char *end = NULL;
+
+	if (*s == '@') {
 		s++;
-	if (!isspace(*s)) {
-		return bitch("%s is not valid", what);
+		if (*s && !isspace(*s)) {
+			return bitch("literal @ in %s is not all by itself", what);
+		}
+		if (!G.opt.current_origin) {
+			return bitch("do not know origin to expand @ in %s", what);
+		}
+		r = quickstrdup(G.opt.current_origin);
+	} else {
+		if (!(isalnum(*s) || *s == '_')) {
+			return bitch("%s expected", what);
+		}
+		s++;
+		while (isalnum(*s) || *s == '.' || *s == '-' || *s == '_')
+			s++;
+		if (*s && !isspace(*s)) {
+			return bitch("%s is not valid", what);
+		}
+		if (!*s)	end = s;
+		*s++ = '\0';
+		if (*(s-2) == '.') {
+			r = quickstrdup(*input);
+		} else {
+			if (!G.opt.current_origin) {
+				return bitch("do not know origin to determine %s", what);
+			}
+			r = getmem(strlen(*input) + 1 + strlen(G.opt.current_origin) + 1);
+			strcpy(stpcpy(stpcpy(r, *input), "."), G.opt.current_origin);
+		}
 	}
-	*s++ = '\0';
-	return s;
+	if (end) {
+		*input = end;
+	} else {
+		*input = skip_white_space(s);
+	}
+	s = r;
+	while (*s) {
+		*s = tolower(*s);
+		s++;
+	}
+	return r;
 }
 
 static char *extract_integer(char *s, char *what, long *i)
@@ -359,7 +397,7 @@ read_zone_file(void)
 {
 	char buf[2048];
 	char *next, *s;
-	char *name, *class, *rdtype;
+	char *name = NULL, *class, *rdtype;
 	long ttl;
 	while (file_info) {
 		while (fgets(buf, 2048, file_info->file)) {
@@ -375,10 +413,17 @@ read_zone_file(void)
 					continue;
 				} else {
 					/* <domain-name> */
-					bitch("<domain-name> parsing not implemented");
-					continue;
+					name = extract_name(&s, "record name");
+					if (!name)
+						continue;
 				}
 			}
+			if (!name) {
+				bitch("cannot assume previous name for it is not known");
+				continue;
+			}
+			bitch("the name is %s", name);
+			continue;
 			/* XXX classes IN, CS, CH, HS */
 			next = skip_white_space(s);
 			s = next;
@@ -551,7 +596,14 @@ main(int argc, char **argv)
 			G.opt.include_path = optarg;
 			break;
 		case 'z':
-			G.opt.current_origin = optarg;
+			if (strlen(optarg) && *(optarg+strlen(optarg)-1) == '.') {
+				G.opt.current_origin = optarg;
+			} else if (strlen(optarg)) {
+				G.opt.current_origin = getmem(strlen(optarg)+2);
+				strcpy(stpcpy(G.opt.current_origin, optarg), ".");
+			} else {
+				usage("origin must not be empty");
+			}
 			break;
 		default:
 			usage(NULL);

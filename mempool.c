@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <string.h>
 
 #include "mempool.h"
 #include "carp.h"
@@ -48,3 +49,8 @@ void *getmem(size_t size)
 	return ret;
 }
 
+char *quickstrdup(char *s)
+{
+	char *r = getmem(strlen(s)+1);
+	return strcpy(r, s);
+}

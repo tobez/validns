@@ -3,5 +3,6 @@
 
 void mem_requirements_hint(size_t size);
 void *getmem(size_t size);
+char *quickstrdup(char *s);
 
 #endif
