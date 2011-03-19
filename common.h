@@ -6,6 +6,7 @@ struct file_info
 	struct file_info *next;
 	FILE *file;
 	int  line;
+	int  paren_mode;
 	char name[0];
 };
 

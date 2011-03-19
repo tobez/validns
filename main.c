@@ -88,19 +88,65 @@ static char *extract_name(char **input, char *what)
 	return r;
 }
 
-static char *extract_integer(char *s, char *what, long *i)
+static char *extract_label(char **input, char *what)
 {
-	char *start = s;
-	if (!isdigit(*s++)) {
+	char *s = *input;
+	char *r = NULL;
+	char *end = NULL;
+
+	if (!isalpha(*s)) {
 		return bitch("%s expected", what);
 	}
-	while (isdigit(*s)) s++;
-	if (!isspace(*s)) {
+	s++;
+	while (isalnum(*s))
+		s++;
+	if (*s && !isspace(*s)) {
 		return bitch("%s is not valid", what);
 	}
+	if (!*s)	end = s;
 	*s++ = '\0';
-	*i = strtol(start, NULL, 10);
-	return s;
+	r = quickstrdup(*input);
+
+	if (end) {
+		*input = end;
+	} else {
+		*input = skip_white_space(s);
+	}
+	s = r;
+	while (*s) {
+		*s = tolower(*s);
+		s++;
+	}
+	return r;
+}
+
+static int extract_integer(char **input, char *what)
+{
+	char *s = *input;
+	int r = -1;
+	char *end = NULL;
+
+	if (!isdigit(*s)) {
+		bitch("%s expected", what);
+		return -1;
+	}
+	s++;
+	while (isdigit(*s))
+		s++;
+	if (*s && !isdigit(*s)) {
+		bitch("%s is not valid", what);
+		return -1;
+	}
+	if (!*s)	end = s;
+	*s++ = '\0';
+	r = strtol(*input, NULL, 10);
+
+	if (end) {
+		*input = end;
+	} else {
+		*input = skip_white_space(s);
+	}
+	return r;
 }
 
 static char *extract_alpha(char *s, char *what)
@@ -221,13 +267,13 @@ static void* parse_soa(char *name, long ttl, char *s)
 	long serial, refresh, retry, expire, minimum;
 	struct rr_soa *rr;
 
-	GETNAME(mname);
-	GETNAME(rname);
-	GETINT(serial);
-	GETINT(refresh);
-	GETINT(retry);
-	GETINT(expire);
-	GETINT(minimum);
+	//GETNAME(mname);
+	//GETNAME(rname);
+	//GETINT(serial);
+	//GETINT(refresh);
+	//GETINT(retry);
+	//GETINT(expire);
+	//GETINT(minimum);
 	if (*s) {
 		return bitch("garbage after valid SOA data");
 	}
@@ -267,7 +313,7 @@ static void *parse_cname(char *name, long ttl, char *s)
 	char *cname;
 	struct rr_cname *rr;
 
-	GETNAME(cname);
+	// GETNAME(cname);
 	if (*s) {
 		return bitch("garbage after valid CNAME data");
 	}
@@ -294,8 +340,8 @@ static void *parse_mx(char *name, long ttl, char *s)
 	char *exchange;
 	struct rr_mx *rr;
 
-	GETINT(preference);
-	GETNAME(exchange);
+	// GETINT(preference);
+	// GETNAME(exchange);
 	if (*s) {
 		return bitch("garbage after valid MX data");
 	}
@@ -309,7 +355,7 @@ static void *parse_ns(char *name, long ttl, char *s)
 	char *nsdname;
 	struct rr_ns *rr;
 
-	GETNAME(nsdname);
+	// GETNAME(nsdname);
 	if (*s) {
 		return bitch("garbage after valid NS data");
 	}
@@ -356,15 +402,15 @@ static void *parse_dnskey(char *name, long ttl, char *s)
 	struct rr_dnskey *rr;
 	long flags, proto, algorithm;
 
-	GETINT(flags);
+	// GETINT(flags);
 	if (flags != 256 && flags != 257) {
 		return bitch("wrong flags in DNSKEY");
 	}
-	GETINT(proto);
+	// GETINT(proto);
 	if (proto != 3) {
 		return bitch("unrecognized protocol in DNSKEY");
 	}
-	GETINT(algorithm);
+	// GETINT(algorithm);
 	if (algorithm != 8) {
 		return bitch("unsupported algorithm #%d in DNSKEY", algorithm);
 	}
@@ -402,6 +448,8 @@ read_zone_file(void)
 	while (file_info) {
 		while (fgets(buf, 2048, file_info->file)) {
 			file_info->line++;
+			file_info->paren_mode = 0;
+			rdtype = NULL;
 			if (empty_line_or_comment(buf))
 				continue;
 
@@ -417,18 +465,69 @@ read_zone_file(void)
 					if (!name)
 						continue;
 				}
+			} else {
+				s = skip_white_space(s);
 			}
 			if (!name) {
 				bitch("cannot assume previous name for it is not known");
 				continue;
 			}
-			bitch("the name is %s", name);
+			if (isdigit(*s)) {
+				ttl = extract_integer(&s, "TTL");
+				if (ttl < 0)
+					continue;
+				class = extract_label(&s, "class or type");
+				if (!class)
+					continue;
+				if (*class == 'i' && *(class+1) == 'n' && *(class+2) == 0) {
+				} else if (*class == 'c' && *(class+1) == 's' && *(class+2) == 0) {
+					bitch("CSNET class is not supported");
+					continue;
+				} else if (*class == 'c' && *(class+1) == 'h' && *(class+2) == 0) {
+					bitch("CHAOS class is not supported");
+					continue;
+				} else if (*class == 'h' && *(class+1) == 's' && *(class+2) == 0) {
+					bitch("HESIOD class is not supported");
+					continue;
+				} else {
+					rdtype = class;
+				}
+			} else {
+				class = extract_label(&s, "class or type");
+				if (!class)
+					continue;
+				if (*class == 'i' && *(class+1) == 'n' && *(class+2) == 0) {
+					if (isdigit(*s)) {
+						ttl = extract_integer(&s, "TTL");
+						if (ttl < 0)
+							continue;
+					}
+				} else if (*class == 'c' && *(class+1) == 's' && *(class+2) == 0) {
+					bitch("CSNET class is not supported");
+					continue;
+				} else if (*class == 'c' && *(class+1) == 'h' && *(class+2) == 0) {
+					bitch("CHAOS class is not supported");
+					continue;
+				} else if (*class == 'h' && *(class+1) == 's' && *(class+2) == 0) {
+					bitch("HESIOD class is not supported");
+					continue;
+				} else {
+					rdtype = class;
+				}
+			}
+			if (!rdtype) {
+				rdtype = extract_label(&s, "type");
+			}
+			if (!rdtype) {
+				continue;
+			}
+			bitch("the name is %s, type is %s", name, rdtype);
 			continue;
 			/* XXX classes IN, CS, CH, HS */
 			next = skip_white_space(s);
 			s = next;
 
-			next = extract_name(s, "record name");
+			next = extract_name(&s, "record name");
 			if (!next)	continue;
 			name = s;
 			while (*s) {
@@ -439,7 +538,7 @@ read_zone_file(void)
 			next = skip_white_space(s);
 			s = next;
 
-			next = extract_integer(s, "TTL", &ttl);
+			// next = extract_integer(s, "TTL", &ttl);
 			if (!next)	continue;
 			s = next;
 			next = skip_white_space(s);
