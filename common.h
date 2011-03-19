@@ -7,6 +7,7 @@ struct file_info
 	FILE *file;
 	int  line;
 	int  paren_mode;
+	char buf[2048];
 	char name[0];
 };
 

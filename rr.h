@@ -42,7 +42,7 @@ struct rr_soa
 struct rr_ns
 {
 	struct rr rr;
-	char nsdname[0];
+	char *nsdname;
 };
 
 struct rr_txt
@@ -96,7 +96,8 @@ struct rr_aaaa
 struct rr_mx
 {
 	struct rr rr;
-	/* XXX */
+	int   preference;
+	char *exchange;
 };
 
 struct rr_dnskey

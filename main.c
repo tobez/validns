@@ -34,6 +34,23 @@ static char *skip_white_space(char *s)
 	while (isspace(*s)) s++;
 	if (*s == ';') {
 		while (*s) s++;
+		if (file_info->paren_mode) {
+			if (fgets(file_info->buf, 2048, file_info->file)) {
+				file_info->line++;
+				return skip_white_space(file_info->buf);
+			} else {
+				return bitch("unexpected end of file");
+			}
+		}
+	}
+	if (*s == ')') {
+		if (file_info->paren_mode) {
+			file_info->paren_mode = 0;
+			s++;
+			return skip_white_space(s);
+		} else {
+			return bitch("unexpected closing parenthesis");
+		}
 	}
 	return s;
 }
@@ -79,6 +96,8 @@ static char *extract_name(char **input, char *what)
 		*input = end;
 	} else {
 		*input = skip_white_space(s);
+		if (!*input)
+			return NULL;  /* bitching's done elsewhere */
 	}
 	s = r;
 	while (*s) {
@@ -88,7 +107,7 @@ static char *extract_name(char **input, char *what)
 	return r;
 }
 
-static char *extract_label(char **input, char *what)
+static char *extract_label(char **input, char *what, void *is_temporary)
 {
 	char *s = *input;
 	char *r = NULL;
@@ -105,12 +124,18 @@ static char *extract_label(char **input, char *what)
 	}
 	if (!*s)	end = s;
 	*s++ = '\0';
-	r = quickstrdup(*input);
+	if (is_temporary) {
+		r = quickstrdup_temp(*input);
+	} else {
+		r = quickstrdup(*input);
+	}
 
 	if (end) {
 		*input = end;
 	} else {
 		*input = skip_white_space(s);
+		if (!*input)
+			return NULL;  /* bitching's done elsewhere */
 	}
 	s = r;
 	while (*s) {
@@ -120,11 +145,12 @@ static char *extract_label(char **input, char *what)
 	return r;
 }
 
-static int extract_integer(char **input, char *what)
+static long extract_integer(char **input, char *what)
 {
 	char *s = *input;
 	int r = -1;
 	char *end = NULL;
+	char c;
 
 	if (!isdigit(*s)) {
 		bitch("%s expected", what);
@@ -133,18 +159,22 @@ static int extract_integer(char **input, char *what)
 	s++;
 	while (isdigit(*s))
 		s++;
-	if (*s && !isdigit(*s)) {
+	if (*s && !isspace(*s) && *s != ';' && *s != ')') {
 		bitch("%s is not valid", what);
 		return -1;
 	}
 	if (!*s)	end = s;
-	*s++ = '\0';
+	c = *s;
+	*s = '\0';
 	r = strtol(*input, NULL, 10);
+	*s = c;
 
 	if (end) {
 		*input = end;
 	} else {
 		*input = skip_white_space(s);
+		if (!*input)
+			return -1;  /* bitching's done elsewhere */
 	}
 	return r;
 }
@@ -255,11 +285,6 @@ static void store_record(char *name, void *rrptr)
 	*chain = rr;
 }
 
-/* Dangerous macros, make assumption about vars in the frame and what they are */
-#define GETNAME(var) { next = extract_name(s, #var); if (!next) return NULL; var = s; s = next; next = skip_white_space(s); s = next; }
-#define GETINT(var) { next = extract_integer(s, #var, &var); if (!next) return NULL; s = next; next = skip_white_space(s); s = next; }
-#define GETIP(var) { next = extract_ip(s, #var, &var); if (!next) return NULL; s = next; next = skip_white_space(s); s = next; }
-
 static void* parse_soa(char *name, long ttl, char *s)
 {
 	char *next, *end;
@@ -335,35 +360,56 @@ static void *parse_aaaa(char *name, long ttl, char *s)
 
 static void *parse_mx(char *name, long ttl, char *s)
 {
-	char *next;
 	long preference;
 	char *exchange;
 	struct rr_mx *rr;
 
-	// GETINT(preference);
-	// GETNAME(exchange);
+	preference = extract_integer(&s, "MX preference");
+	if (preference < 0)
+		return NULL;
+	/* XXX prefernce range check */
+	exchange = extract_name(&s, "MX exchange");
+	if (!exchange)
+		return NULL;
 	if (*s) {
 		return bitch("garbage after valid MX data");
 	}
-	/* XXX */
+
+	if (G.opt.verbose) {
+		fprintf(stderr, "-> %s:%d: ", file_info->name, file_info->line);
+		fprintf(stderr, "parse_mx: %s IN %d MX %d %s\n", name, ttl, preference, exchange);
+	}
+
+	rr = getmem(sizeof(*rr));
+	rr->rr.ttl     = ttl;
+	rr->rr.rdtype  = T_MX;
+	rr->preference = preference;
+	rr->exchange   = exchange;
+	store_record(name, rr);
 	return rr;
 }
 
 static void *parse_ns(char *name, long ttl, char *s)
 {
-	char *next;
 	char *nsdname;
 	struct rr_ns *rr;
 
-	// GETNAME(nsdname);
+	nsdname = extract_name(&s, "nsdname");
+	if (!nsdname)
+		return NULL;
 	if (*s) {
 		return bitch("garbage after valid NS data");
 	}
 
-	rr = getmem(sizeof(*rr) + strlen(nsdname) + 1);
+	if (G.opt.verbose) {
+		fprintf(stderr, "-> %s:%d: ", file_info->name, file_info->line);
+		fprintf(stderr, "parse_ns: %s IN %d NS %s\n", name, ttl, nsdname);
+	}
+
+	rr = getmem(sizeof(*rr));
 	rr->rr.ttl    = ttl;
 	rr->rr.rdtype = T_NS;
-	strcpy(rr->nsdname, nsdname);
+	rr->nsdname   = nsdname;
 	store_record(name, rr);
 	return rr;
 }
@@ -429,7 +475,7 @@ static void *parse_a(char *name, long ttl, char *s)
 	unsigned address;
 	struct rr_a *rr;
 
-	GETIP(address);
+	// GETIP(address);
 	if (*s) {
 		return bitch("garbage after valid A data");
 	}
@@ -441,19 +487,19 @@ static void *parse_a(char *name, long ttl, char *s)
 int
 read_zone_file(void)
 {
-	char buf[2048];
 	char *next, *s;
 	char *name = NULL, *class, *rdtype;
-	long ttl;
+	long ttl = 0;
 	while (file_info) {
-		while (fgets(buf, 2048, file_info->file)) {
+		while (fgets(file_info->buf, 2048, file_info->file)) {
+			freeall_temp();
 			file_info->line++;
 			file_info->paren_mode = 0;
 			rdtype = NULL;
-			if (empty_line_or_comment(buf))
+			if (empty_line_or_comment(file_info->buf))
 				continue;
 
-			s = buf;
+			s = file_info->buf;
 			if (!isspace(*s)) {
 				/* <domain-name>, $INCLUDE, $ORIGIN */
 				if (*s == '$') {
@@ -476,7 +522,7 @@ read_zone_file(void)
 				ttl = extract_integer(&s, "TTL");
 				if (ttl < 0)
 					continue;
-				class = extract_label(&s, "class or type");
+				class = extract_label(&s, "class or type", "temporary");
 				if (!class)
 					continue;
 				if (*class == 'i' && *(class+1) == 'n' && *(class+2) == 0) {
@@ -493,7 +539,7 @@ read_zone_file(void)
 					rdtype = class;
 				}
 			} else {
-				class = extract_label(&s, "class or type");
+				class = extract_label(&s, "class or type", "temporary");
 				if (!class)
 					continue;
 				if (*class == 'i' && *(class+1) == 'n' && *(class+2) == 0) {
@@ -516,109 +562,68 @@ read_zone_file(void)
 				}
 			}
 			if (!rdtype) {
-				rdtype = extract_label(&s, "type");
+				rdtype = extract_label(&s, "type", "temporary");
 			}
 			if (!rdtype) {
 				continue;
 			}
-			bitch("the name is %s, type is %s", name, rdtype);
-			continue;
-			/* XXX classes IN, CS, CH, HS */
-			next = skip_white_space(s);
-			s = next;
-
-			next = extract_name(&s, "record name");
-			if (!next)	continue;
-			name = s;
-			while (*s) {
-				*s = tolower(*s);
-				s++;
+			if (ttl <= 0) {
+				ttl = 3600;  /* XXX handle default ttl and ttl option here */
 			}
-			s = next;
-			next = skip_white_space(s);
-			s = next;
-
-			// next = extract_integer(s, "TTL", &ttl);
-			if (!next)	continue;
-			s = next;
-			next = skip_white_space(s);
-			s = next;
-
-			next = extract_alpha(s, "class");
-			if (!next)	continue;
-			class = s;
-			if (strcasecmp(class, "in") != 0) {
-				bitch("unsupported class %s", class);
-				continue;
-			}
-			s = next;
-			next = skip_white_space(s);
-			s = next;
-
-			next = extract_alnum(s, "rdtype");
-			if (!next)	continue;
-			rdtype = s;
-			while (*s) {
-				*s = toupper(*s);
-				s++;
-			}
-			s = next;
-			next = skip_white_space(s);
-			s = next;
 
 			switch (*rdtype) {
-			case 'A':
-				if (strcmp(rdtype, "A") == 0) {
+			case 'a':
+				if (strcmp(rdtype, "a") == 0) {
 					parse_a(name, ttl, s);
 					break;
-				} else if (strcmp(rdtype, "AAAA") == 0) {
+				} else if (strcmp(rdtype, "aaaa") == 0) {
 					parse_aaaa(name, ttl, s);
 					break;
 				}
-			case 'C':
-				if (strcmp(rdtype, "CNAME") == 0) {
+			case 'c':
+				if (strcmp(rdtype, "cname") == 0) {
 					parse_cname(name, ttl, s);
 					break;
 				}
-			case 'D':
-				if (strcmp(rdtype, "DNSKEY") == 0) {
+			case 'd':
+				if (strcmp(rdtype, "dnskey") == 0) {
 					parse_dnskey(name, ttl, s);
 					break;
 				}
-			case 'M':
-				if (strcmp(rdtype, "MX") == 0) {
+			case 'm':
+				if (strcmp(rdtype, "mx") == 0) {
 					parse_mx(name, ttl, s);
 					break;
 				}
-			case 'N':
-				if (strcmp(rdtype, "NS") == 0) {
+			case 'n':
+				if (strcmp(rdtype, "ns") == 0) {
 					parse_ns(name, ttl, s);
 					break;
-				} else if (strcmp(rdtype, "NAPTR") == 0) {
+				} else if (strcmp(rdtype, "naptr") == 0) {
 					parse_naptr(name, ttl, s);
 					break;
-				} else if (strcmp(rdtype, "NSEC3") == 0) {
+				} else if (strcmp(rdtype, "nsec3") == 0) {
 					parse_nsec3(name, ttl, s);
 					break;
-				} else if (strcmp(rdtype, "NSEC3PARAM") == 0) {
+				} else if (strcmp(rdtype, "nsec3param") == 0) {
 					parse_nsec3param(name, ttl, s);
 					break;
 				}
-			case 'R':
-				if (strcmp(rdtype, "RRSIG") == 0) {
+			case 'r':
+				if (strcmp(rdtype, "rrsig") == 0) {
 					parse_rrsig(name, ttl, s);
 					break;
 				}
-			case 'S':
-				if (strcmp(rdtype, "SOA") == 0) {
+			case 's':
+				if (strcmp(rdtype, "soa") == 0) {
 					parse_soa(name, ttl, s);
 					break;
-				} else if (strcmp(rdtype, "SRV") == 0) {
+				} else if (strcmp(rdtype, "srv") == 0) {
 					parse_srv(name, ttl, s);
 					break;
 				}
-			case 'T':
-				if (strcmp(rdtype, "TXT") == 0) {
+			case 't':
+				if (strcmp(rdtype, "txt") == 0) {
 					parse_txt(name, ttl, s);
 					break;
 				}
