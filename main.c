@@ -205,10 +205,12 @@ static char *extract_alnum(char *s, char *what)
 	return s;
 }
 
-static char *extract_ip(char *s, char *what, unsigned *ipptr)
+static uint32_t extract_ip(char **input, char *what)
 {
+	char *s = *input;
 	unsigned octet = 0;
 	unsigned ip = 0;
+
 	if (!isdigit(*s)) {
 		return bitch("%s expected", what);
 	}
@@ -217,11 +219,13 @@ static char *extract_ip(char *s, char *what, unsigned *ipptr)
 		s++;
 	}
 	if (octet > 255 || *s != '.') {
-		return bitch("%s is not valid", what);
+		bitch("%s is not valid", what);
+		return 0;
 	}
 	s++;
 	if (!isdigit(*s)) {
-		return bitch("%s is not valid", what);
+		bitch("%s is not valid", what);
+		return 0;
 	}
 	ip = 256*ip + octet;
 	octet = 0;
@@ -230,11 +234,13 @@ static char *extract_ip(char *s, char *what, unsigned *ipptr)
 		s++;
 	}
 	if (octet > 255 || *s != '.') {
-		return bitch("%s is not valid", what);
+		bitch("%s is not valid", what);
+		return 0;
 	}
 	s++;
 	if (!isdigit(*s)) {
-		return bitch("%s is not valid", what);
+		bitch("%s is not valid", what);
+		return 0;
 	}
 	ip = 256*ip + octet;
 	octet = 0;
@@ -243,11 +249,13 @@ static char *extract_ip(char *s, char *what, unsigned *ipptr)
 		s++;
 	}
 	if (octet > 255 || *s != '.') {
-		return bitch("%s is not valid", what);
+		bitch("%s is not valid", what);
+		return 0;
 	}
 	s++;
 	if (!isdigit(*s)) {
-		return bitch("%s is not valid", what);
+		bitch("%s is not valid", what);
+		return 0;
 	}
 	ip = 256*ip + octet;
 	octet = 0;
@@ -256,13 +264,18 @@ static char *extract_ip(char *s, char *what, unsigned *ipptr)
 		s++;
 	}
 	ip = 256*ip + octet;
-	*ipptr = ip;
 
-	if (!isspace(*s)) {
-		return bitch("%s is not valid", what);
+	if (*s && !isspace(*s) && *s != ';' && *s != ')') {
+		bitch("%s is not valid", what);
+		return 0;
 	}
-	*s++ = '\0';
-	return s;
+
+	*input = skip_white_space(s);
+	if (!*input) {
+		return 0;  /* bitching's done elsewhere */
+	}
+
+	return ip;
 }
 
 static void store_record(char *name, void *rrptr)
@@ -471,16 +484,28 @@ static void *parse_dnskey(char *name, long ttl, char *s)
 
 static void *parse_a(char *name, long ttl, char *s)
 {
-	char *next;
-	unsigned address;
+	uint32_t address;
 	struct rr_a *rr;
 
-	// GETIP(address);
+	address = extract_ip(&s, "nsdname");
+	if (!address)
+		return NULL;
 	if (*s) {
 		return bitch("garbage after valid A data");
 	}
 
-	/* XXX */
+	if (G.opt.verbose) {
+		fprintf(stderr, "-> %s:%d: ", file_info->name, file_info->line);
+		fprintf(stderr, "parse_a: %s IN %d A %d.%d.%d.%d\n", name, ttl,
+				0xff & (address >> 24), 0xff & (address >> 16),
+				0xff & (address >> 8), 0xff & address);
+	}
+
+	rr = getmem(sizeof(*rr));
+	rr->rr.ttl    = ttl;
+	rr->rr.rdtype = T_A;
+	rr->address   = address;
+	store_record(name, rr);
 	return rr;
 }
 

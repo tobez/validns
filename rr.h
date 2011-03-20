@@ -28,7 +28,7 @@ struct rr
 struct rr_a
 {
 	struct rr rr;
-	/* XXX */
+	uint32_t address;
 };
 
 struct rr_soa
