@@ -3,3 +3,4 @@ base64-test
 *.o
 *.core
 experiment*
+*.swp
