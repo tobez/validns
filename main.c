@@ -179,6 +179,49 @@ static long extract_integer(char **input, char *what)
 	return r;
 }
 
+static long extract_timevalue(char **input, char *what)
+{
+	char *s = *input;
+	int r = 0;
+	int m;
+	char *end = NULL;
+	char c;
+
+	if (!isdigit(*s)) {
+		bitch("%s expected", what);
+		return -1;
+	}
+	while (isdigit(*s)) {
+		r *= 10;
+		r += *s - '0';
+		s++;
+	}
+	if (tolower(*s) == 's') {
+		s++;
+	} else if (tolower(*s) == 'm') {
+		r *= 60;
+		s++;
+	} else if (tolower(*s) == 'h') {
+		r *= 3600;
+		s++;
+	} else if (tolower(*s) == 'd') {
+		r *= 86400;
+		s++;
+	} else if (tolower(*s) == 'w') {
+		r *= 604800;
+		s++;
+	}
+
+	if (*s && !isspace(*s) && *s != ';' && *s != ')') {
+		bitch("%s is not valid", what);
+		return -1;
+	}
+	*input = skip_white_space(s);
+	if (!*input)
+		return -1;  /* bitching's done elsewhere */
+	return r;
+}
+
 static char *extract_alpha(char *s, char *what)
 {
 	if (!isalpha(*s++)) {
@@ -509,6 +552,51 @@ static void *parse_a(char *name, long ttl, char *s)
 	return rr;
 }
 
+static char *process_directive(char *s)
+{
+	if (*(s+1) == 'O' && strncmp(s, "$ORIGIN", 7) == 0) {
+		char *o;
+		s += 7;
+		if (!isspace(*s)) {
+			return bitch("bad $ORIGIN format");
+		}
+		s = skip_white_space(s);
+		o = extract_name(&s, "$ORIGIN value");
+		if (!o) {
+			return NULL;
+		}
+		if (*s) {
+			return bitch("garbage after valid $ORIGIN directive");
+		}
+		G.opt.current_origin = o;
+printf("1 %s\n", o);
+	} else if (*(s+1) == 'T' && strncmp(s, "$TTL", 4) == 0) {
+		s += 4;
+		if (!isspace(*s)) {
+			return bitch("bad $TTL format");
+		}
+		s = skip_white_space(s);
+		G.default_ttl = extract_timevalue(&s, "$TTL value");
+		if (G.default_ttl < 0) {
+			return NULL;
+		}
+		if (*s) {
+			return bitch("garbage after valid $TTL directive");
+		}
+printf("2 %d\n", G.default_ttl);
+	} else if (*(s+1) == 'I' && strncmp(s, "$INCLUDE", 8) == 0) {
+		s += 8;
+		if (!isspace(*s)) {
+			return bitch("bad $INCLUDE format");
+		}
+		s = skip_white_space(s);
+		return bitch("XXX include support is not implemented");
+	} else {
+		return bitch("unrecognized directive");
+	}
+	return s;
+}
+
 int
 read_zone_file(void)
 {
@@ -528,7 +616,7 @@ read_zone_file(void)
 			if (!isspace(*s)) {
 				/* <domain-name>, $INCLUDE, $ORIGIN */
 				if (*s == '$') {
-					bitch("$STUFF parsing not implemented");
+					process_directive(s);
 					continue;
 				} else {
 					/* <domain-name> */
@@ -544,7 +632,7 @@ read_zone_file(void)
 				continue;
 			}
 			if (isdigit(*s)) {
-				ttl = extract_integer(&s, "TTL");
+				ttl = extract_timevalue(&s, "TTL");
 				if (ttl < 0)
 					continue;
 				class = extract_label(&s, "class or type", "temporary");
@@ -569,7 +657,7 @@ read_zone_file(void)
 					continue;
 				if (*class == 'i' && *(class+1) == 'n' && *(class+2) == 0) {
 					if (isdigit(*s)) {
-						ttl = extract_integer(&s, "TTL");
+						ttl = extract_timevalue(&s, "TTL");
 						if (ttl < 0)
 							continue;
 					}
@@ -593,7 +681,11 @@ read_zone_file(void)
 				continue;
 			}
 			if (ttl <= 0) {
-				ttl = 3600;  /* XXX handle default ttl and ttl option here */
+				ttl = G.default_ttl;
+			}
+			if (ttl <= 0) {
+				bitch("ttl not specified and default is not known");
+				continue;
 			}
 
 			switch (*rdtype) {

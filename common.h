@@ -29,6 +29,7 @@ struct globals {
 		char *current_origin;
 	} opt;
 	int exit_code;
+	long default_ttl;
 };
 
 extern struct globals G;
