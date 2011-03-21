@@ -34,14 +34,6 @@ static char *skip_white_space(char *s)
 	while (isspace(*s)) s++;
 	if (*s == ';') {
 		while (*s) s++;
-		if (file_info->paren_mode) {
-			if (fgets(file_info->buf, 2048, file_info->file)) {
-				file_info->line++;
-				return skip_white_space(file_info->buf);
-			} else {
-				return bitch("unexpected end of file");
-			}
-		}
 	}
 	if (*s == ')') {
 		if (file_info->paren_mode) {
@@ -50,6 +42,25 @@ static char *skip_white_space(char *s)
 			return skip_white_space(s);
 		} else {
 			return bitch("unexpected closing parenthesis");
+		}
+	}
+	if (*s == '(') {
+		if (file_info->paren_mode) {
+			return bitch("unexpected opening parenthesis");
+		} else {
+			file_info->paren_mode = 1;
+			s++;
+			return skip_white_space(s);
+		}
+	}
+	if (*s == 0) {
+		if (file_info->paren_mode) {
+			if (fgets(file_info->buf, 2048, file_info->file)) {
+				file_info->line++;
+				return skip_white_space(file_info->buf);
+			} else {
+				return bitch("unexpected end of file");
+			}
 		}
 	}
 	return s;
@@ -343,33 +354,45 @@ static void store_record(char *name, void *rrptr)
 
 static void* parse_soa(char *name, long ttl, char *s)
 {
-	char *next, *end;
 	char *mname, *rname;
 	long serial, refresh, retry, expire, minimum;
 	struct rr_soa *rr;
 
-	//GETNAME(mname);
-	//GETNAME(rname);
-	//GETINT(serial);
-	//GETINT(refresh);
-	//GETINT(retry);
-	//GETINT(expire);
-	//GETINT(minimum);
+	mname = extract_name(&s, "mname");
+	if (!mname) return NULL;
+	rname = extract_name(&s, "rname");
+	if (!rname) return NULL;
+	serial = extract_integer(&s, "serial");
+	if (serial < 0) return NULL;
+	refresh = extract_timevalue(&s, "refresh");
+	if (refresh < 0) return NULL;
+	retry = extract_timevalue(&s, "retry");
+	if (retry < 0) return NULL;
+	expire = extract_timevalue(&s, "expire");
+	if (expire < 0) return NULL;
+	minimum = extract_timevalue(&s, "minimum");
+	if (minimum < 0) return NULL;
 	if (*s) {
 		return bitch("garbage after valid SOA data");
 	}
 
-	rr = getmem(sizeof(*rr) + strlen(mname) + 1 + strlen(rname) + 1);
+	if (G.opt.verbose) {
+		fprintf(stderr, "-> %s:%d: ", file_info->name, file_info->line);
+		fprintf(stderr, "parse_soa: %s IN %d SOA %s %s %d %d %d %d %d\n", name, ttl,
+				mname, rname, serial, refresh, retry, expire, minimum);
+	}
+
+	rr = getmem(sizeof(*rr));
 	rr->rr.ttl    = ttl;
 	rr->rr.rdtype = T_SOA;
+	rr->mname     = mname;
+	rr->rname     = rname;
 	rr->serial    = serial;
 	rr->refresh   = refresh;
 	rr->retry     = retry;
 	rr->expire    = expire;
 	rr->minimum   = minimum;
-	end = stpcpy(rr->mname, mname) + 1;
-	strcpy(end, rname);
-	rr->rname = end;
+
 	store_record(name, rr);
 	return rr;
 }
@@ -569,7 +592,10 @@ static char *process_directive(char *s)
 			return bitch("garbage after valid $ORIGIN directive");
 		}
 		G.opt.current_origin = o;
-printf("1 %s\n", o);
+		if (G.opt.verbose) {
+			fprintf(stderr, "-> %s:%d: ", file_info->name, file_info->line);
+			fprintf(stderr, "origin is now %s\n", o);
+		}
 	} else if (*(s+1) == 'T' && strncmp(s, "$TTL", 4) == 0) {
 		s += 4;
 		if (!isspace(*s)) {
@@ -583,7 +609,10 @@ printf("1 %s\n", o);
 		if (*s) {
 			return bitch("garbage after valid $TTL directive");
 		}
-printf("2 %d\n", G.default_ttl);
+		if (G.opt.verbose) {
+			fprintf(stderr, "-> %s:%d: ", file_info->name, file_info->line);
+			fprintf(stderr, "default ttl is now %d\n", G.default_ttl);
+		}
 	} else if (*(s+1) == 'I' && strncmp(s, "$INCLUDE", 8) == 0) {
 		s += 8;
 		if (!isspace(*s)) {
@@ -795,6 +824,7 @@ main(int argc, char **argv)
 	int o;
 	bzero(&G.opt, sizeof(G.opt));
 	bzero(&G.stats, sizeof(G.stats));
+	G.default_ttl = 3600; /* XXX orly? */
 
 	while ((o = getopt(argc, argv, "fhqsvI:z:")) != -1) {
 		switch(o) {

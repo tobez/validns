@@ -36,7 +36,7 @@ struct rr_soa
 	struct rr rr;
 	int serial, refresh, retry, expire, minimum;
 	char *rname;
-	char mname[0];
+	char *mname;
 };
 
 struct rr_ns
