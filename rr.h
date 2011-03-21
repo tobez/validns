@@ -14,6 +14,7 @@
 #define T_DNSKEY	48
 #define T_NSEC3	50
 #define T_NSEC3PARAM	51
+#define T_MAX	51
 
 struct rr
 {
@@ -105,5 +106,8 @@ struct rr_dnskey
 	struct rr rr;
 	/* XXX */
 };
+
+typedef void* (*parse_rr_func)(char *, long, char *);
+extern parse_rr_func parse_rr[T_MAX+1];
 
 #endif

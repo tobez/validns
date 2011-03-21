@@ -194,9 +194,6 @@ static long extract_timevalue(char **input, char *what)
 {
 	char *s = *input;
 	int r = 0;
-	int m;
-	char *end = NULL;
-	char c;
 
 	if (!isdigit(*s)) {
 		bitch("%s expected", what);
@@ -233,32 +230,6 @@ static long extract_timevalue(char **input, char *what)
 	return r;
 }
 
-static char *extract_alpha(char *s, char *what)
-{
-	if (!isalpha(*s++)) {
-		return bitch("%s expected", what);
-	}
-	while (isalpha(*s)) s++;
-	if (!isspace(*s)) {
-		return bitch("%s is not valid", what);
-	}
-	*s++ = '\0';
-	return s;
-}
-
-static char *extract_alnum(char *s, char *what)
-{
-	if (!isalnum(*s++)) {
-		return bitch("%s expected", what);
-	}
-	while (isalnum(*s)) s++;
-	if (!isspace(*s)) {
-		return bitch("%s is not valid", what);
-	}
-	*s++ = '\0';
-	return s;
-}
-
 static uint32_t extract_ip(char **input, char *what)
 {
 	char *s = *input;
@@ -266,7 +237,8 @@ static uint32_t extract_ip(char **input, char *what)
 	unsigned ip = 0;
 
 	if (!isdigit(*s)) {
-		return bitch("%s expected", what);
+		bitch("%s expected", what);
+		return 0;
 	}
 	while (isdigit(*s)) {
 		octet = 10*octet + *s - '0';
@@ -352,6 +324,11 @@ static void store_record(char *name, void *rrptr)
 	*chain = rr;
 }
 
+static void* parse_unknown_rr(char *name, long ttl, char *s)
+{
+	return bitch("unsupported resource record type");
+}
+
 static void* parse_soa(char *name, long ttl, char *s)
 {
 	char *mname, *rname;
@@ -378,7 +355,7 @@ static void* parse_soa(char *name, long ttl, char *s)
 
 	if (G.opt.verbose) {
 		fprintf(stderr, "-> %s:%d: ", file_info->name, file_info->line);
-		fprintf(stderr, "parse_soa: %s IN %d SOA %s %s %d %d %d %d %d\n", name, ttl,
+		fprintf(stderr, "parse_soa: %s IN %ld SOA %s %s %ld %ld %ld %ld %ld\n", name, ttl,
 				mname, rname, serial, refresh, retry, expire, minimum);
 	}
 
@@ -425,7 +402,7 @@ static void *parse_cname(char *name, long ttl, char *s)
 
 	if (G.opt.verbose) {
 		fprintf(stderr, "-> %s:%d: ", file_info->name, file_info->line);
-		fprintf(stderr, "parse_ns: %s IN %d CNAME %s\n", name, ttl, cname);
+		fprintf(stderr, "parse_cname: %s IN %ld CNAME %s\n", name, ttl, cname);
 	}
 
 	rr = getmem(sizeof(*rr));
@@ -462,7 +439,7 @@ static void *parse_mx(char *name, long ttl, char *s)
 
 	if (G.opt.verbose) {
 		fprintf(stderr, "-> %s:%d: ", file_info->name, file_info->line);
-		fprintf(stderr, "parse_mx: %s IN %d MX %d %s\n", name, ttl, preference, exchange);
+		fprintf(stderr, "parse_mx: %s IN %ld MX %ld %s\n", name, ttl, preference, exchange);
 	}
 
 	rr = getmem(sizeof(*rr));
@@ -488,7 +465,7 @@ static void *parse_ns(char *name, long ttl, char *s)
 
 	if (G.opt.verbose) {
 		fprintf(stderr, "-> %s:%d: ", file_info->name, file_info->line);
-		fprintf(stderr, "parse_ns: %s IN %d NS %s\n", name, ttl, nsdname);
+		fprintf(stderr, "parse_ns: %s IN %ld NS %s\n", name, ttl, nsdname);
 	}
 
 	rr = getmem(sizeof(*rr));
@@ -529,7 +506,6 @@ static void *parse_nsec3param(char *name, long ttl, char *s)
 
 static void *parse_dnskey(char *name, long ttl, char *s)
 {
-	char *next;
 	struct rr_dnskey *rr;
 	long flags, proto, algorithm;
 
@@ -568,7 +544,7 @@ static void *parse_a(char *name, long ttl, char *s)
 
 	if (G.opt.verbose) {
 		fprintf(stderr, "-> %s:%d: ", file_info->name, file_info->line);
-		fprintf(stderr, "parse_a: %s IN %d A %d.%d.%d.%d\n", name, ttl,
+		fprintf(stderr, "parse_a: %s IN %ld A %d.%d.%d.%d\n", name, ttl,
 				0xff & (address >> 24), 0xff & (address >> 16),
 				0xff & (address >> 8), 0xff & address);
 	}
@@ -617,7 +593,7 @@ static char *process_directive(char *s)
 		}
 		if (G.opt.verbose) {
 			fprintf(stderr, "-> %s:%d: ", file_info->name, file_info->line);
-			fprintf(stderr, "default ttl is now %d\n", G.default_ttl);
+			fprintf(stderr, "default ttl is now %ld\n", G.default_ttl);
 		}
 	} else if (*(s+1) == 'I' && strncmp(s, "$INCLUDE", 8) == 0) {
 		s += 8;
@@ -632,10 +608,61 @@ static char *process_directive(char *s)
 	return s;
 }
 
+static int str2rdtype(char *rdtype)
+{
+	if (!rdtype) return -1;
+	switch (*rdtype) {
+	case 'a':
+		if (strcmp(rdtype, "a") == 0) {
+			return T_A;
+		} else if (strcmp(rdtype, "aaaa") == 0) {
+			return T_AAAA;
+		}
+	case 'c':
+		if (strcmp(rdtype, "cname") == 0) {
+			return T_CNAME;
+		}
+	case 'd':
+		if (strcmp(rdtype, "dnskey") == 0) {
+			return T_DNSKEY;
+		}
+	case 'm':
+		if (strcmp(rdtype, "mx") == 0) {
+			return T_MX;
+		}
+	case 'n':
+		if (strcmp(rdtype, "ns") == 0) {
+			return T_NS;
+		} else if (strcmp(rdtype, "naptr") == 0) {
+			return T_NAPTR;
+		} else if (strcmp(rdtype, "nsec3") == 0) {
+			return T_NSEC3;
+		} else if (strcmp(rdtype, "nsec3param") == 0) {
+			return T_NSEC3PARAM;
+		}
+	case 'r':
+		if (strcmp(rdtype, "rrsig") == 0) {
+			return T_RRSIG;
+		}
+	case 's':
+		if (strcmp(rdtype, "soa") == 0) {
+			return T_SOA;
+		} else if (strcmp(rdtype, "srv") == 0) {
+			return T_SRV;
+		}
+	case 't':
+		if (strcmp(rdtype, "txt") == 0) {
+			return T_TXT;
+		}
+	}
+	bitch("invalid or unsupported rdtype %s", rdtype);
+	return -1;
+}
+
 int
 read_zone_file(void)
 {
-	char *next, *s;
+	char *s;
 	char *name = NULL, *class, *rdtype;
 	long ttl = 0;
 	while (file_info) {
@@ -725,64 +752,10 @@ read_zone_file(void)
 				continue;
 			}
 
-			switch (*rdtype) {
-			case 'a':
-				if (strcmp(rdtype, "a") == 0) {
-					parse_a(name, ttl, s);
-					break;
-				} else if (strcmp(rdtype, "aaaa") == 0) {
-					parse_aaaa(name, ttl, s);
-					break;
-				}
-			case 'c':
-				if (strcmp(rdtype, "cname") == 0) {
-					parse_cname(name, ttl, s);
-					break;
-				}
-			case 'd':
-				if (strcmp(rdtype, "dnskey") == 0) {
-					parse_dnskey(name, ttl, s);
-					break;
-				}
-			case 'm':
-				if (strcmp(rdtype, "mx") == 0) {
-					parse_mx(name, ttl, s);
-					break;
-				}
-			case 'n':
-				if (strcmp(rdtype, "ns") == 0) {
-					parse_ns(name, ttl, s);
-					break;
-				} else if (strcmp(rdtype, "naptr") == 0) {
-					parse_naptr(name, ttl, s);
-					break;
-				} else if (strcmp(rdtype, "nsec3") == 0) {
-					parse_nsec3(name, ttl, s);
-					break;
-				} else if (strcmp(rdtype, "nsec3param") == 0) {
-					parse_nsec3param(name, ttl, s);
-					break;
-				}
-			case 'r':
-				if (strcmp(rdtype, "rrsig") == 0) {
-					parse_rrsig(name, ttl, s);
-					break;
-				}
-			case 's':
-				if (strcmp(rdtype, "soa") == 0) {
-					parse_soa(name, ttl, s);
-					break;
-				} else if (strcmp(rdtype, "srv") == 0) {
-					parse_srv(name, ttl, s);
-					break;
-				}
-			case 't':
-				if (strcmp(rdtype, "txt") == 0) {
-					parse_txt(name, ttl, s);
-					break;
-				}
-			default:
-				bitch("invalid or unsupported rdtype %s", rdtype);
+			{
+				int type = str2rdtype(rdtype);
+				if (type <= 0 || type > T_MAX) continue;
+				parse_rr[type](name, ttl, s);
 			}
 		}
 		if (ferror(file_info->file))
@@ -826,13 +799,31 @@ void usage(char *err)
 	exit(1);
 }
 
+parse_rr_func parse_rr[T_MAX+1];
+
+static void initialize_globals(void)
+{
+	int i;
+
+	bzero(&G.opt, sizeof(G.opt));
+	bzero(&G.stats, sizeof(G.stats));
+	G.default_ttl = 3600; /* XXX orly? */
+
+	for (i = 0; i <= T_MAX; i++) {
+		parse_rr[i] = parse_unknown_rr;
+	}
+	parse_rr[T_A]     = parse_a;
+	parse_rr[T_CNAME] = parse_cname;
+	parse_rr[T_MX]    = parse_mx;
+	parse_rr[T_NS]    = parse_ns;
+	parse_rr[T_SOA]   = parse_soa;
+}
+
 int
 main(int argc, char **argv)
 {
 	int o;
-	bzero(&G.opt, sizeof(G.opt));
-	bzero(&G.stats, sizeof(G.stats));
-	G.default_ttl = 3600; /* XXX orly? */
+	initialize_globals();
 
 	while ((o = getopt(argc, argv, "fhqsvI:z:")) != -1) {
 		switch(o) {
