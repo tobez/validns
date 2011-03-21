@@ -84,7 +84,7 @@ struct rr_srv
 struct rr_cname
 {
 	struct rr rr;
-	char cname[0];
+	char *cname;
 };
 
 struct rr_aaaa

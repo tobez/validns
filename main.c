@@ -413,19 +413,25 @@ static void *parse_srv(char *name, long ttl, char *s)
 
 static void *parse_cname(char *name, long ttl, char *s)
 {
-	char *next;
 	char *cname;
 	struct rr_cname *rr;
 
-	// GETNAME(cname);
+	cname = extract_name(&s, "cname");
+	if (!cname)
+		return NULL;
 	if (*s) {
 		return bitch("garbage after valid CNAME data");
 	}
 
-	rr = getmem(sizeof(*rr) + strlen(cname) + 1);
+	if (G.opt.verbose) {
+		fprintf(stderr, "-> %s:%d: ", file_info->name, file_info->line);
+		fprintf(stderr, "parse_ns: %s IN %d CNAME %s\n", name, ttl, cname);
+	}
+
+	rr = getmem(sizeof(*rr));
 	rr->rr.ttl    = ttl;
-	rr->rr.rdtype = T_CNAME;
-	strcpy(rr->cname, cname);
+	rr->rr.rdtype = T_NS;
+	rr->cname     = cname;
 	store_record(name, rr);
 	return rr;
 }
