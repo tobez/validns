@@ -1,8 +1,13 @@
-OPTIMIZE=-O2
+OPTIMIZE=-O2 -g
 CFLAGS=-Wall
 
 validns: main.o carp.o mempool.o
-	cc $(CFLAGS) -o validns main.o carp.o mempool.o -L/usr/local/lib -lJudy
+	cc $(CFLAGS) $(OPTIMIZE) -o validns main.o carp.o mempool.o -L/usr/local/lib -lJudy
+
+clean:
+	-rm validns main.o carp.o mempool.o
+	-rm validns.core
+	@echo ':-)'
 
 main.o: main.c rr.h
 	cc $(CFLAGS) $(OPTIMIZE) -c -o main.o main.c -I/usr/local/include

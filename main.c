@@ -656,6 +656,8 @@ read_zone_file(void)
 			} else {
 				s = skip_white_space(s);
 			}
+			if (!s)
+				continue;
 			if (!name) {
 				bitch("cannot assume previous name for it is not known");
 				continue;
