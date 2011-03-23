@@ -30,7 +30,8 @@ extern struct rr_methods rr_methods[T_MAX+1];
 extern struct rr_methods unknown_methods;
 
 extern void *records;
-extern void *store_record(int rdtype, char *name, long ttl, void *rrptr);
+void *store_record(int rdtype, char *name, long ttl, void *rrptr);
+int str2rdtype(char *rdtype);
 
 struct rr
 {
@@ -63,6 +64,7 @@ struct rr_ns
 	struct rr rr;
 	char *nsdname;
 };
+extern struct rr_methods ns_methods;
 
 struct rr_txt
 {
@@ -91,8 +93,18 @@ struct rr_nsec3param
 struct rr_rrsig
 {
 	struct rr rr;
-	/* XXX */
+	uint16_t type_covered;
+	int algorithm;
+	int labels;
+	int orig_ttl;
+	int sig_expiration;
+	int sig_inception;
+	uint16_t key_tag;
+	char *signer;
+	int sig_len;
+	char *signature;
 };
+extern struct rr_methods rrsig_methods;
 
 struct rr_srv
 {
@@ -105,6 +117,7 @@ struct rr_cname
 	struct rr rr;
 	char *cname;
 };
+extern struct rr_methods cname_methods;
 
 struct rr_aaaa
 {
@@ -118,6 +131,7 @@ struct rr_mx
 	int   preference;
 	char *exchange;
 };
+extern struct rr_methods mx_methods;
 
 struct rr_dnskey
 {

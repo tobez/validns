@@ -2,15 +2,18 @@ OPTIMIZE=-O2 -g
 CFLAGS=-Wall
 INCPATH=-I/usr/local/include
 
-validns: main.o carp.o mempool.o textparse.o rr.o soa.o a.o
+validns: main.o carp.o mempool.o textparse.o \
+	rr.o soa.o a.o cname.o mx.o ns.o rrsig.o
 	cc $(CFLAGS) $(OPTIMIZE) -o validns \
 	    main.o carp.o mempool.o textparse.o \
-	    rr.o soa.o a.o \
+	    rr.o soa.o a.o cname.o mx.o ns.o \
+	    rrsig.o \
 	    -L/usr/local/lib -lJudy
 
 clean:
 	-rm validns main.o carp.o mempool.o textparse.o
-	-rm rr.o soa.o a.o
+	-rm rr.o soa.o a.o cname.o mx.o ns.o
+	-rm rrsig.o
 	-rm validns.core
 	@echo ':-)'
 
@@ -35,6 +38,18 @@ soa.o: soa.c
 a.o: a.c
 	cc $(CFLAGS) $(OPTIMIZE) -c -o a.o a.c $(INCPATH)
 
+cname.o: cname.c
+	cc $(CFLAGS) $(OPTIMIZE) -c -o cname.o cname.c $(INCPATH)
+
+mx.o: mx.c
+	cc $(CFLAGS) $(OPTIMIZE) -c -o mx.o mx.c $(INCPATH)
+
+ns.o: ns.c
+	cc $(CFLAGS) $(OPTIMIZE) -c -o ns.o ns.c $(INCPATH)
+
+rrsig.o: rrsig.c
+	cc $(CFLAGS) $(OPTIMIZE) -c -o rrsig.o rrsig.c $(INCPATH)
+
 main.c: common.h carp.h mempool.h rr.h
 
 rr.c: common.h carp.h mempool.h rr.h
@@ -42,6 +57,14 @@ rr.c: common.h carp.h mempool.h rr.h
 soa.c: common.h rr.h
 
 a.c: common.h rr.h
+
+cname.c: common.h rr.h
+
+mx.c: common.h rr.h
+
+ns.c: common.h rr.h
+
+rrsig.c: common.h rr.h
 
 carp.c: carp.h common.h
 

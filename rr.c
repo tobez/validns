@@ -61,3 +61,54 @@ static void* unknown_wirerdata(void *rrv)
 }
 
 struct rr_methods unknown_methods = { unknown_parse, unknown_human, unknown_wirerdata };
+
+int str2rdtype(char *rdtype)
+{
+	if (!rdtype) return -1;
+	switch (*rdtype) {
+	case 'a':
+		if (strcmp(rdtype, "a") == 0) {
+			return T_A;
+		} else if (strcmp(rdtype, "aaaa") == 0) {
+			return T_AAAA;
+		}
+	case 'c':
+		if (strcmp(rdtype, "cname") == 0) {
+			return T_CNAME;
+		}
+	case 'd':
+		if (strcmp(rdtype, "dnskey") == 0) {
+			return T_DNSKEY;
+		}
+	case 'm':
+		if (strcmp(rdtype, "mx") == 0) {
+			return T_MX;
+		}
+	case 'n':
+		if (strcmp(rdtype, "ns") == 0) {
+			return T_NS;
+		} else if (strcmp(rdtype, "naptr") == 0) {
+			return T_NAPTR;
+		} else if (strcmp(rdtype, "nsec3") == 0) {
+			return T_NSEC3;
+		} else if (strcmp(rdtype, "nsec3param") == 0) {
+			return T_NSEC3PARAM;
+		}
+	case 'r':
+		if (strcmp(rdtype, "rrsig") == 0) {
+			return T_RRSIG;
+		}
+	case 's':
+		if (strcmp(rdtype, "soa") == 0) {
+			return T_SOA;
+		} else if (strcmp(rdtype, "srv") == 0) {
+			return T_SRV;
+		}
+	case 't':
+		if (strcmp(rdtype, "txt") == 0) {
+			return T_TXT;
+		}
+	}
+	bitch("invalid or unsupported rdtype %s", rdtype);
+	return -1;
+}

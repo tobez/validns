@@ -18,13 +18,6 @@ read_zone_file(void);
 
 /* ============== */
 
-static void *parse_rrsig(char *name, long ttl, char *s)
-{
-	struct rr_rrsig *rr;
-	/* XXX */
-	return rr;
-}
-
 static void *parse_srv(char *name, long ttl, char *s)
 {
 	struct rr_srv *rr;
@@ -32,91 +25,10 @@ static void *parse_srv(char *name, long ttl, char *s)
 	return rr;
 }
 
-static void *parse_cname(char *name, long ttl, char *s)
-{
-	char *cname;
-	struct rr_cname *rr;
-
-	cname = extract_name(&s, "cname");
-	if (!cname)
-		return NULL;
-	if (*s) {
-		return bitch("garbage after valid CNAME data");
-	}
-
-	if (G.opt.verbose) {
-		fprintf(stderr, "-> %s:%d: ", file_info->name, file_info->line);
-		fprintf(stderr, "parse_cname: %s IN %ld CNAME %s\n", name, ttl, cname);
-	}
-
-	rr = getmem(sizeof(*rr));
-	rr->rr.ttl    = ttl;
-	rr->rr.rdtype = T_CNAME;
-	rr->cname     = cname;
-	store_record(T_CNAME, name, ttl, rr);
-	return rr;
-}
-
 static void *parse_aaaa(char *name, long ttl, char *s)
 {
 	struct rr_aaaa *rr;
 	/* XXX */
-	return rr;
-}
-
-static void *parse_mx(char *name, long ttl, char *s)
-{
-	long preference;
-	char *exchange;
-	struct rr_mx *rr;
-
-	preference = extract_integer(&s, "MX preference");
-	if (preference < 0)
-		return NULL;
-	/* XXX prefernce range check */
-	exchange = extract_name(&s, "MX exchange");
-	if (!exchange)
-		return NULL;
-	if (*s) {
-		return bitch("garbage after valid MX data");
-	}
-
-	if (G.opt.verbose) {
-		fprintf(stderr, "-> %s:%d: ", file_info->name, file_info->line);
-		fprintf(stderr, "parse_mx: %s IN %ld MX %ld %s\n", name, ttl, preference, exchange);
-	}
-
-	rr = getmem(sizeof(*rr));
-	rr->rr.ttl     = ttl;
-	rr->rr.rdtype  = T_MX;
-	rr->preference = preference;
-	rr->exchange   = exchange;
-	store_record(T_MX, name, ttl, rr);
-	return rr;
-}
-
-static void *parse_ns(char *name, long ttl, char *s)
-{
-	char *nsdname;
-	struct rr_ns *rr;
-
-	nsdname = extract_name(&s, "nsdname");
-	if (!nsdname)
-		return NULL;
-	if (*s) {
-		return bitch("garbage after valid NS data");
-	}
-
-	if (G.opt.verbose) {
-		fprintf(stderr, "-> %s:%d: ", file_info->name, file_info->line);
-		fprintf(stderr, "parse_ns: %s IN %ld NS %s\n", name, ttl, nsdname);
-	}
-
-	rr = getmem(sizeof(*rr));
-	rr->rr.ttl    = ttl;
-	rr->rr.rdtype = T_NS;
-	rr->nsdname   = nsdname;
-	store_record(T_NS, name, ttl, rr);
 	return rr;
 }
 
@@ -223,57 +135,6 @@ static char *process_directive(char *s)
 		return bitch("unrecognized directive");
 	}
 	return s;
-}
-
-static int str2rdtype(char *rdtype)
-{
-	if (!rdtype) return -1;
-	switch (*rdtype) {
-	case 'a':
-		if (strcmp(rdtype, "a") == 0) {
-			return T_A;
-		} else if (strcmp(rdtype, "aaaa") == 0) {
-			return T_AAAA;
-		}
-	case 'c':
-		if (strcmp(rdtype, "cname") == 0) {
-			return T_CNAME;
-		}
-	case 'd':
-		if (strcmp(rdtype, "dnskey") == 0) {
-			return T_DNSKEY;
-		}
-	case 'm':
-		if (strcmp(rdtype, "mx") == 0) {
-			return T_MX;
-		}
-	case 'n':
-		if (strcmp(rdtype, "ns") == 0) {
-			return T_NS;
-		} else if (strcmp(rdtype, "naptr") == 0) {
-			return T_NAPTR;
-		} else if (strcmp(rdtype, "nsec3") == 0) {
-			return T_NSEC3;
-		} else if (strcmp(rdtype, "nsec3param") == 0) {
-			return T_NSEC3PARAM;
-		}
-	case 'r':
-		if (strcmp(rdtype, "rrsig") == 0) {
-			return T_RRSIG;
-		}
-	case 's':
-		if (strcmp(rdtype, "soa") == 0) {
-			return T_SOA;
-		} else if (strcmp(rdtype, "srv") == 0) {
-			return T_SRV;
-		}
-	case 't':
-		if (strcmp(rdtype, "txt") == 0) {
-			return T_TXT;
-		}
-	}
-	bitch("invalid or unsupported rdtype %s", rdtype);
-	return -1;
 }
 
 int
@@ -429,8 +290,12 @@ static void initialize_globals(void)
 	for (i = 0; i <= T_MAX; i++) {
 		rr_methods[i] = unknown_methods;
 	}
-	rr_methods[T_A]     =   a_methods;
-	rr_methods[T_SOA]   = soa_methods;
+	rr_methods[T_A]     =     a_methods;
+	rr_methods[T_SOA]   =   soa_methods;
+	rr_methods[T_MX]    =    mx_methods;
+	rr_methods[T_NS]    =    ns_methods;
+	rr_methods[T_CNAME] = cname_methods;
+	rr_methods[T_RRSIG] = rrsig_methods;
 }
 
 int
