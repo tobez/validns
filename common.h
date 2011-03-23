@@ -1,6 +1,15 @@
 #ifndef _COMMON_H_
 #define _COMMON_H_ 1
 
+#include <stdio.h>
+#include <unistd.h>
+#include <string.h>
+#include <stdlib.h>
+
+#include "carp.h"
+#include "mempool.h"
+#include "textparse.h"
+
 struct file_info
 {
 	struct file_info *next;

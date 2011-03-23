@@ -4,7 +4,6 @@
 #include <string.h>
 #include <ctype.h>
 #include <unistd.h>
-#include <Judy.h>
 
 #include "common.h"
 #include "carp.h"
@@ -14,365 +13,10 @@
 struct globals G;
 struct file_info *file_info = NULL;
 
-Pvoid_t records = (Pvoid_t) NULL;
-
 int
 read_zone_file(void);
 
 /* ============== */
-
-static int empty_line_or_comment(char *s)
-{
-	while (isspace(*s)) s++;
-	if (!*s) return 1;
-	if (*s == ';')	return 1;
-	return 0;
-}
-
-static char *skip_white_space(char *s)
-{
-	while (isspace(*s)) s++;
-	if (*s == ';') {
-		while (*s) s++;
-	}
-	if (*s == ')') {
-		if (file_info->paren_mode) {
-			file_info->paren_mode = 0;
-			s++;
-			return skip_white_space(s);
-		} else {
-			return bitch("unexpected closing parenthesis");
-		}
-	}
-	if (*s == '(') {
-		if (file_info->paren_mode) {
-			return bitch("unexpected opening parenthesis");
-		} else {
-			file_info->paren_mode = 1;
-			s++;
-			return skip_white_space(s);
-		}
-	}
-	if (*s == 0) {
-		if (file_info->paren_mode) {
-			if (fgets(file_info->buf, 2048, file_info->file)) {
-				file_info->line++;
-				return skip_white_space(file_info->buf);
-			} else {
-				return bitch("unexpected end of file");
-			}
-		}
-	}
-	return s;
-}
-
-static char *extract_name(char **input, char *what)
-{
-	char *s = *input;
-	char *r = NULL;
-	char *end = NULL;
-
-	if (*s == '@') {
-		s++;
-		if (*s && !isspace(*s)) {
-			return bitch("literal @ in %s is not all by itself", what);
-		}
-		if (!G.opt.current_origin) {
-			return bitch("do not know origin to expand @ in %s", what);
-		}
-		r = quickstrdup(G.opt.current_origin);
-	} else {
-		if (!(isalnum(*s) || *s == '_')) {
-			return bitch("%s expected", what);
-		}
-		s++;
-		while (isalnum(*s) || *s == '.' || *s == '-' || *s == '_')
-			s++;
-		if (*s && !isspace(*s)) {
-			return bitch("%s is not valid", what);
-		}
-		if (!*s)	end = s;
-		*s++ = '\0';
-		if (*(s-2) == '.') {
-			r = quickstrdup(*input);
-		} else {
-			if (!G.opt.current_origin) {
-				return bitch("do not know origin to determine %s", what);
-			}
-			r = getmem(strlen(*input) + 1 + strlen(G.opt.current_origin) + 1);
-			strcpy(stpcpy(stpcpy(r, *input), "."), G.opt.current_origin);
-		}
-	}
-	if (end) {
-		*input = end;
-	} else {
-		*input = skip_white_space(s);
-		if (!*input)
-			return NULL;  /* bitching's done elsewhere */
-	}
-	s = r;
-	while (*s) {
-		*s = tolower(*s);
-		s++;
-	}
-	return r;
-}
-
-static char *extract_label(char **input, char *what, void *is_temporary)
-{
-	char *s = *input;
-	char *r = NULL;
-	char *end = NULL;
-
-	if (!isalpha(*s)) {
-		return bitch("%s expected", what);
-	}
-	s++;
-	while (isalnum(*s))
-		s++;
-	if (*s && !isspace(*s)) {
-		return bitch("%s is not valid", what);
-	}
-	if (!*s)	end = s;
-	*s++ = '\0';
-	if (is_temporary) {
-		r = quickstrdup_temp(*input);
-	} else {
-		r = quickstrdup(*input);
-	}
-
-	if (end) {
-		*input = end;
-	} else {
-		*input = skip_white_space(s);
-		if (!*input)
-			return NULL;  /* bitching's done elsewhere */
-	}
-	s = r;
-	while (*s) {
-		*s = tolower(*s);
-		s++;
-	}
-	return r;
-}
-
-static long extract_integer(char **input, char *what)
-{
-	char *s = *input;
-	int r = -1;
-	char *end = NULL;
-	char c;
-
-	if (!isdigit(*s)) {
-		bitch("%s expected", what);
-		return -1;
-	}
-	s++;
-	while (isdigit(*s))
-		s++;
-	if (*s && !isspace(*s) && *s != ';' && *s != ')') {
-		bitch("%s is not valid", what);
-		return -1;
-	}
-	if (!*s)	end = s;
-	c = *s;
-	*s = '\0';
-	r = strtol(*input, NULL, 10);
-	*s = c;
-
-	if (end) {
-		*input = end;
-	} else {
-		*input = skip_white_space(s);
-		if (!*input)
-			return -1;  /* bitching's done elsewhere */
-	}
-	return r;
-}
-
-static long extract_timevalue(char **input, char *what)
-{
-	char *s = *input;
-	int r = 0;
-
-	if (!isdigit(*s)) {
-		bitch("%s expected", what);
-		return -1;
-	}
-	while (isdigit(*s)) {
-		r *= 10;
-		r += *s - '0';
-		s++;
-	}
-	if (tolower(*s) == 's') {
-		s++;
-	} else if (tolower(*s) == 'm') {
-		r *= 60;
-		s++;
-	} else if (tolower(*s) == 'h') {
-		r *= 3600;
-		s++;
-	} else if (tolower(*s) == 'd') {
-		r *= 86400;
-		s++;
-	} else if (tolower(*s) == 'w') {
-		r *= 604800;
-		s++;
-	}
-
-	if (*s && !isspace(*s) && *s != ';' && *s != ')') {
-		bitch("%s is not valid", what);
-		return -1;
-	}
-	*input = skip_white_space(s);
-	if (!*input)
-		return -1;  /* bitching's done elsewhere */
-	return r;
-}
-
-static uint32_t extract_ip(char **input, char *what)
-{
-	char *s = *input;
-	unsigned octet = 0;
-	unsigned ip = 0;
-
-	if (!isdigit(*s)) {
-		bitch("%s expected", what);
-		return 0;
-	}
-	while (isdigit(*s)) {
-		octet = 10*octet + *s - '0';
-		s++;
-	}
-	if (octet > 255 || *s != '.') {
-		bitch("%s is not valid", what);
-		return 0;
-	}
-	s++;
-	if (!isdigit(*s)) {
-		bitch("%s is not valid", what);
-		return 0;
-	}
-	ip = 256*ip + octet;
-	octet = 0;
-	while (isdigit(*s)) {
-		octet = 10*octet + *s - '0';
-		s++;
-	}
-	if (octet > 255 || *s != '.') {
-		bitch("%s is not valid", what);
-		return 0;
-	}
-	s++;
-	if (!isdigit(*s)) {
-		bitch("%s is not valid", what);
-		return 0;
-	}
-	ip = 256*ip + octet;
-	octet = 0;
-	while (isdigit(*s)) {
-		octet = 10*octet + *s - '0';
-		s++;
-	}
-	if (octet > 255 || *s != '.') {
-		bitch("%s is not valid", what);
-		return 0;
-	}
-	s++;
-	if (!isdigit(*s)) {
-		bitch("%s is not valid", what);
-		return 0;
-	}
-	ip = 256*ip + octet;
-	octet = 0;
-	while (isdigit(*s)) {
-		octet = 10*octet + *s - '0';
-		s++;
-	}
-	ip = 256*ip + octet;
-
-	if (*s && !isspace(*s) && *s != ';' && *s != ')') {
-		bitch("%s is not valid", what);
-		return 0;
-	}
-
-	*input = skip_white_space(s);
-	if (!*input) {
-		return 0;  /* bitching's done elsewhere */
-	}
-
-	return ip;
-}
-
-static void store_record(char *name, void *rrptr)
-{
-	struct rr *rr = rrptr;
-	struct rr **chain;
-
-	rr->line = file_info->line;
-	rr->file_name = file_info->name;
-	rr->next = NULL;
-	JSLI(chain, records, (unsigned char*)name);
-	if (chain == PJERR)
-		croak(1, "store_record/JSLI");
-	if (*chain) {
-		rr->next = *chain;
-	} else {
-		G.stats.rrset_count++;
-	}
-	G.stats.rr_count++;
-	*chain = rr;
-}
-
-static void* parse_unknown_rr(char *name, long ttl, char *s)
-{
-	return bitch("unsupported resource record type");
-}
-
-static void* parse_soa(char *name, long ttl, char *s)
-{
-	char *mname, *rname;
-	long serial, refresh, retry, expire, minimum;
-	struct rr_soa *rr;
-
-	mname = extract_name(&s, "mname");
-	if (!mname) return NULL;
-	rname = extract_name(&s, "rname");
-	if (!rname) return NULL;
-	serial = extract_integer(&s, "serial");
-	if (serial < 0) return NULL;
-	refresh = extract_timevalue(&s, "refresh");
-	if (refresh < 0) return NULL;
-	retry = extract_timevalue(&s, "retry");
-	if (retry < 0) return NULL;
-	expire = extract_timevalue(&s, "expire");
-	if (expire < 0) return NULL;
-	minimum = extract_timevalue(&s, "minimum");
-	if (minimum < 0) return NULL;
-	if (*s) {
-		return bitch("garbage after valid SOA data");
-	}
-
-	if (G.opt.verbose) {
-		fprintf(stderr, "-> %s:%d: ", file_info->name, file_info->line);
-		fprintf(stderr, "parse_soa: %s IN %ld SOA %s %s %ld %ld %ld %ld %ld\n", name, ttl,
-				mname, rname, serial, refresh, retry, expire, minimum);
-	}
-
-	rr = getmem(sizeof(*rr));
-	rr->rr.ttl    = ttl;
-	rr->rr.rdtype = T_SOA;
-	rr->mname     = mname;
-	rr->rname     = rname;
-	rr->serial    = serial;
-	rr->refresh   = refresh;
-	rr->retry     = retry;
-	rr->expire    = expire;
-	rr->minimum   = minimum;
-
-	store_record(name, rr);
-	return rr;
-}
 
 static void *parse_rrsig(char *name, long ttl, char *s)
 {
@@ -407,9 +51,9 @@ static void *parse_cname(char *name, long ttl, char *s)
 
 	rr = getmem(sizeof(*rr));
 	rr->rr.ttl    = ttl;
-	rr->rr.rdtype = T_NS;
+	rr->rr.rdtype = T_CNAME;
 	rr->cname     = cname;
-	store_record(name, rr);
+	store_record(T_CNAME, name, ttl, rr);
 	return rr;
 }
 
@@ -447,7 +91,7 @@ static void *parse_mx(char *name, long ttl, char *s)
 	rr->rr.rdtype  = T_MX;
 	rr->preference = preference;
 	rr->exchange   = exchange;
-	store_record(name, rr);
+	store_record(T_MX, name, ttl, rr);
 	return rr;
 }
 
@@ -472,7 +116,7 @@ static void *parse_ns(char *name, long ttl, char *s)
 	rr->rr.ttl    = ttl;
 	rr->rr.rdtype = T_NS;
 	rr->nsdname   = nsdname;
-	store_record(name, rr);
+	store_record(T_NS, name, ttl, rr);
 	return rr;
 }
 
@@ -553,7 +197,7 @@ static void *parse_a(char *name, long ttl, char *s)
 	rr->rr.ttl    = ttl;
 	rr->rr.rdtype = T_A;
 	rr->address   = address;
-	store_record(name, rr);
+	store_record(T_A, name, ttl, rr);
 	return rr;
 }
 
@@ -755,7 +399,7 @@ read_zone_file(void)
 			{
 				int type = str2rdtype(rdtype);
 				if (type <= 0 || type > T_MAX) continue;
-				parse_rr[type](name, ttl, s);
+				rr_methods[type].rr_parse(name, ttl, s);
 			}
 		}
 		if (ferror(file_info->file))
@@ -799,7 +443,7 @@ void usage(char *err)
 	exit(1);
 }
 
-parse_rr_func parse_rr[T_MAX+1];
+struct rr_methods rr_methods[T_MAX+1];
 
 static void initialize_globals(void)
 {
@@ -810,13 +454,9 @@ static void initialize_globals(void)
 	G.default_ttl = 3600; /* XXX orly? */
 
 	for (i = 0; i <= T_MAX; i++) {
-		parse_rr[i] = parse_unknown_rr;
+		rr_methods[i] = unknown_methods;
 	}
-	parse_rr[T_A]     = parse_a;
-	parse_rr[T_CNAME] = parse_cname;
-	parse_rr[T_MX]    = parse_mx;
-	parse_rr[T_NS]    = parse_ns;
-	parse_rr[T_SOA]   = parse_soa;
+	rr_methods[T_SOA]   = soa_methods;
 }
 
 int

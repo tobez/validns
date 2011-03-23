@@ -1,6 +1,8 @@
 #ifndef _RR_H
 #define _RR_H 1
 
+#include <unistd.h>
+
 #define T_A		1
 #define T_NS	2
 #define T_CNAME	5
@@ -15,6 +17,20 @@
 #define T_NSEC3	50
 #define T_NSEC3PARAM	51
 #define T_MAX	51
+
+typedef void* (*rr_parse_func)(char *, long, char *);
+typedef char* (*rr_human_func)(void *);
+typedef void* (*rr_wire_func)(void *);
+struct rr_methods {
+	rr_parse_func rr_parse;
+	rr_human_func rr_human;
+	rr_wire_func  rr_wire;
+};
+extern struct rr_methods rr_methods[T_MAX+1];
+extern struct rr_methods unknown_methods;
+
+extern void *records;
+extern void *store_record(int rdtype, char *name, long ttl, void *rrptr);
 
 struct rr
 {
@@ -39,6 +55,7 @@ struct rr_soa
 	char *rname;
 	char *mname;
 };
+extern struct rr_methods soa_methods;
 
 struct rr_ns
 {
@@ -106,8 +123,5 @@ struct rr_dnskey
 	struct rr rr;
 	/* XXX */
 };
-
-typedef void* (*parse_rr_func)(char *, long, char *);
-extern parse_rr_func parse_rr[T_MAX+1];
 
 #endif
