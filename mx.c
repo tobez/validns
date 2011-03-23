@@ -24,7 +24,7 @@ static char* mx_human(void *rrv)
     struct rr_mx *rr = rrv;
     char s[1024];
 
-    snprintf(s, 1024, "MX %d %s",
+    snprintf(s, 1024, "%d %s",
 	     rr->preference, rr->exchange);
     return quickstrdup_temp(s);
 }

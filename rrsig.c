@@ -3,9 +3,10 @@
 
 static void* rrsig_parse(char *name, long ttl, char *s)
 {
-    struct rr_rrsig *rr = getmem(sizeof(*rr));
-	int type_covered;
+	struct rr_rrsig *rr = getmem(sizeof(*rr));
+	int type_covered, key_tag;
 	char *str_type_covered;
+	struct binary_data sig;
 
 	str_type_covered = extract_label(&s, "type covered", "temporary");
 	if (!str_type_covered) return NULL;
@@ -25,28 +26,34 @@ static void* rrsig_parse(char *name, long ttl, char *s)
 	if (rr->labels < 0)	return NULL;
 	/* TODO validate labels, see http://tools.ietf.org/html/rfc4034#section-3.1.3 */
 
-    rr->orig_ttl = extract_timevalue(&s, "original TTL");
-    if (rr->orig_ttl < 0) return NULL;
+	rr->orig_ttl = extract_timevalue(&s, "original TTL");
+	if (rr->orig_ttl < 0) return NULL;
 
-    rr->sig_expiration = extract_timestamp(&s, "signature expiration");
-    if (rr->sig_expiration < 0) return NULL;
+	rr->sig_expiration = extract_timestamp(&s, "signature expiration");
+	if (rr->sig_expiration < 0) return NULL;
 
-    rr->sig_inception = extract_timestamp(&s, "signature inception");
-    if (rr->sig_inception < 0) return NULL;
+	rr->sig_inception = extract_timestamp(&s, "signature inception");
+	if (rr->sig_inception < 0) return NULL;
+
+	key_tag = extract_integer(&s, "key tag");
+	if (key_tag < 0)	return NULL;
+	rr->key_tag = key_tag;
+
+	rr->signer = extract_name(&s, "signer name");
+	if (!rr->signer) return NULL;
+	/* TODO validate signer name, http://tools.ietf.org/html/rfc4034#section-3.1.7 */
+
+	sig = extract_base64_binary_data(&s, "signature");
+	if (sig.length < 0)	return NULL;
+	/* TODO validate signature length based on algorithm */
+	rr->sig_len = sig.length;
+	rr->signature = sig.data;
 
 	if (*s) {
 		return bitch("garbage after valid RRSIG data");
 	}
-    return store_record(T_RRSIG, name, ttl, rr);
+	return store_record(T_RRSIG, name, ttl, rr);
 }
-/*
-	int sig_expiration;
-	int sig_inception;
-	uint16_t key_tag;
-	char *signer;
-	int sig_len;
-	char *signature;
-*/
 
 static char* rrsig_human(void *rrv)
 {

@@ -2,10 +2,10 @@ OPTIMIZE=-O2 -g
 CFLAGS=-Wall
 INCPATH=-I/usr/local/include
 
-validns: main.o carp.o mempool.o textparse.o \
+validns: main.o carp.o mempool.o textparse.o base64.o \
 	rr.o soa.o a.o cname.o mx.o ns.o rrsig.o
 	cc $(CFLAGS) $(OPTIMIZE) -o validns \
-	    main.o carp.o mempool.o textparse.o \
+	    main.o carp.o mempool.o textparse.o base64.o \
 	    rr.o soa.o a.o cname.o mx.o ns.o \
 	    rrsig.o \
 	    -L/usr/local/lib -lJudy
@@ -28,6 +28,9 @@ mempool.o: mempool.c
 
 textparse.o: textparse.c
 	cc $(CFLAGS) $(OPTIMIZE) -c -o textparse.o textparse.c $(INCPATH)
+
+base64.o: base64.c
+	cc $(CFLAGS) $(OPTIMIZE) -c -o base64.o base64.c $(INCPATH)
 
 rr.o: rr.c
 	cc $(CFLAGS) $(OPTIMIZE) -c -o rr.o rr.c $(INCPATH)

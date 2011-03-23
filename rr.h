@@ -13,6 +13,7 @@
 #define T_SRV	33
 #define T_NAPTR	35
 #define T_RRSIG	46
+#define T_NSEC	47
 #define T_DNSKEY	48
 #define T_NSEC3	50
 #define T_NSEC3PARAM	51
@@ -32,6 +33,7 @@ extern struct rr_methods unknown_methods;
 extern void *records;
 void *store_record(int rdtype, char *name, long ttl, void *rrptr);
 int str2rdtype(char *rdtype);
+char *rdtype2str(int type);
 
 struct rr
 {

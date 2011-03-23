@@ -30,7 +30,7 @@ static char* soa_human(void *rrv)
     struct rr_soa *rr = rrv;
     char s[1024];
 
-    snprintf(s, 1024, "SOA %s %s %d %d %d %d %d",
+    snprintf(s, 1024, "%s %s %d %d %d %d %d",
 	     rr->mname, rr->rname, rr->serial,
 	     rr->refresh, rr->retry, rr->expire, rr->minimum);
     return quickstrdup_temp(s);

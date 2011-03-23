@@ -18,10 +18,8 @@ static void *ns_parse(char *name, long ttl, char *s)
 static char* ns_human(void *rrv)
 {
     struct rr_ns *rr = rrv;
-    char s[1024];
 
-    snprintf(s, 1024, "NS %s", rr->nsdname);
-    return quickstrdup_temp(s);
+    return rr->nsdname;
 }
 
 static void* ns_wirerdata(void *rrv)

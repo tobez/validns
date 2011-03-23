@@ -62,6 +62,7 @@ bitch(const char *fmt, ...)
 	va_end(ap);
 	G.exit_code = 1;
 	G.stats.error_count++;
+	file_info->paren_mode = 0;
 	if (G.opt.die_on_first_error)
 		exit(1);
 	return NULL;

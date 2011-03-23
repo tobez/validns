@@ -2,6 +2,7 @@
 #include <time.h>
 
 #include "common.h"
+#include "base64.h"
 
 int empty_line_or_comment(char *s)
 {
@@ -392,5 +393,43 @@ uint32_t extract_ip(char **input, char *what)
 	}
 
 	return ip;
+}
+
+struct binary_data extract_base64_binary_data(char **input, char *what)
+{
+	char b64[4096];
+	int l64 = 0;
+	char *s = *input;
+	struct binary_data r;
+	int bl;
+
+	r.length = -1;
+	r.data = NULL;
+
+	while (s && *s) {
+		if (!isalnum(*s) && *s != '=' && *s != '+' && *s != '/') {
+			bitch("%s expected", what);
+			return r;
+		}
+		while (isalnum(*s) || *s == '=' || *s == '+' || *s == '/') {
+			if (l64 >= 4095) {
+				bitch("%s is too long", what);
+				return r;
+			}
+			b64[l64++] = *s++;
+		}
+		s = skip_white_space(s);
+	}
+	*input = s;
+	if (!s)	return r;
+	b64[l64] = 0;
+	bl = (l64 * 3 + 3)/4;
+	r.data = getmem(bl);
+	r.length = decode_base64(r.data, b64, bl);
+	if (r.length < 0) {
+		bitch("error decoding base64 %s", what);
+		return r;
+	}
+	return r;
 }
 

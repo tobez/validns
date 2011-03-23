@@ -5,7 +5,68 @@
 #include "carp.h"
 #include "rr.h"
 
+static char* rdtype2str_map[T_MAX+1] = {
+	"0",
+	"A",
+	"NS",
+	"MD",
+	"MF",
+	"CNAME", /* 5 */
+	"SOA",
+	"MB",
+	"MG",
+	"MR",
+	"NULL", /* 10 */
+	"WKS",
+	"PTR",
+	"HINFO",
+	"MINFO",
+	"MX",  /* 15 */
+	"TXT", 
+	"RP",
+	"AFSDB",
+	"X25",
+	"ISDN", /* 20 */
+	"RT",
+	"NSAP",
+	"NSAP-PTR",
+	"SIG",
+	"KEY",  /* 25 */
+	"PX",
+	"GPOS",
+	"AAAA",
+	"LOC",
+	"NXT",  /* 30 */
+	"EID",
+	"NIMLOC",
+	"SRV",
+	"ATMA",
+	"NAPTR", /* 35 */
+	"KX",
+	"CERT",
+	"A6",
+	"DNAME",
+	"SINK", /* 40 */
+	"OPT",
+	"APL",
+	"DS",
+	"SSHFP",
+	"IPSECKEY", /* 45 */
+	"RRSIG",
+	"NSEC",
+	"DNSKEY",
+	"DHCID",
+	"NSEC3", /* 50 */
+	"NSEC3PARAM"
+};
 void *records = NULL;
+
+char *rdtype2str(int type)
+{
+	if (type < 0 || type > T_MAX)
+		return "???";
+	return rdtype2str_map[type];
+}
 
 void *store_record(int rdtype, char *name, long ttl, void *rrptr)
 {
@@ -20,9 +81,9 @@ void *store_record(int rdtype, char *name, long ttl, void *rrptr)
 
 	if (G.opt.verbose) {
 		char *rdata = rr_methods[rdtype].rr_human(rr);
-		fprintf(stderr, "-> %s:%d: %s IN %ld",
+		fprintf(stderr, "-> %s:%d: %s IN %ld %s",
 				file_info->name, file_info->line,
-				name, ttl);
+				name, ttl, rdtype2str(rdtype));
 		if (rdata) {
 			fprintf(stderr, " %s\n", rdata);
 		} else {
@@ -89,6 +150,8 @@ int str2rdtype(char *rdtype)
 			return T_NS;
 		} else if (strcmp(rdtype, "naptr") == 0) {
 			return T_NAPTR;
+		} else if (strcmp(rdtype, "nsec") == 0) {
+			return T_NSEC;
 		} else if (strcmp(rdtype, "nsec3") == 0) {
 			return T_NSEC3;
 		} else if (strcmp(rdtype, "nsec3param") == 0) {

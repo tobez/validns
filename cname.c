@@ -18,10 +18,7 @@ static void *cname_parse(char *name, long ttl, char *s)
 static char* cname_human(void *rrv)
 {
     struct rr_cname *rr = rrv;
-    char s[1024];
-
-    snprintf(s, 1024, "CNAME %s", rr->cname);
-    return quickstrdup_temp(s);
+    return rr->cname;
 }
 
 static void* cname_wirerdata(void *rrv)

@@ -20,7 +20,7 @@ static char* a_human(void *rrv)
     struct rr_a *rr = rrv;
     char s[1024];
 
-    snprintf(s, 1024, "A %d.%d.%d.%d",
+    snprintf(s, 1024, "%d.%d.%d.%d",
 			 0xff & (rr->address >> 24), 0xff & (rr->address >> 16),
 			 0xff & (rr->address >> 8), 0xff & rr->address);
     return quickstrdup_temp(s);
