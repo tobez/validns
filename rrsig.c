@@ -28,6 +28,12 @@ static void* rrsig_parse(char *name, long ttl, char *s)
     rr->orig_ttl = extract_timevalue(&s, "original TTL");
     if (rr->orig_ttl < 0) return NULL;
 
+    rr->sig_expiration = extract_timestamp(&s, "signature expiration");
+    if (rr->sig_expiration < 0) return NULL;
+
+    rr->sig_inception = extract_timestamp(&s, "signature inception");
+    if (rr->sig_inception < 0) return NULL;
+
 	if (*s) {
 		return bitch("garbage after valid RRSIG data");
 	}
