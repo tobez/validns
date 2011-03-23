@@ -1,6 +1,4 @@
 #include "common.h"
-#include "carp.h"
-#include "mempool.h"
 #include "rr.h"
 
 static void* soa_parse(char *name, long ttl, char *s)

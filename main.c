@@ -174,33 +174,6 @@ static void *parse_dnskey(char *name, long ttl, char *s)
 	return rr;
 }
 
-static void *parse_a(char *name, long ttl, char *s)
-{
-	uint32_t address;
-	struct rr_a *rr;
-
-	address = extract_ip(&s, "nsdname");
-	if (!address)
-		return NULL;
-	if (*s) {
-		return bitch("garbage after valid A data");
-	}
-
-	if (G.opt.verbose) {
-		fprintf(stderr, "-> %s:%d: ", file_info->name, file_info->line);
-		fprintf(stderr, "parse_a: %s IN %ld A %d.%d.%d.%d\n", name, ttl,
-				0xff & (address >> 24), 0xff & (address >> 16),
-				0xff & (address >> 8), 0xff & address);
-	}
-
-	rr = getmem(sizeof(*rr));
-	rr->rr.ttl    = ttl;
-	rr->rr.rdtype = T_A;
-	rr->address   = address;
-	store_record(T_A, name, ttl, rr);
-	return rr;
-}
-
 static char *process_directive(char *s)
 {
 	if (*(s+1) == 'O' && strncmp(s, "$ORIGIN", 7) == 0) {
@@ -456,6 +429,7 @@ static void initialize_globals(void)
 	for (i = 0; i <= T_MAX; i++) {
 		rr_methods[i] = unknown_methods;
 	}
+	rr_methods[T_A]     =   a_methods;
 	rr_methods[T_SOA]   = soa_methods;
 }
 

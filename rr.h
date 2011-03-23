@@ -47,6 +47,7 @@ struct rr_a
 	struct rr rr;
 	uint32_t address;
 };
+extern struct rr_methods a_methods;
 
 struct rr_soa
 {

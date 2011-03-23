@@ -2,15 +2,15 @@ OPTIMIZE=-O2 -g
 CFLAGS=-Wall
 INCPATH=-I/usr/local/include
 
-validns: main.o carp.o mempool.o textparse.o rr.o soa.o
+validns: main.o carp.o mempool.o textparse.o rr.o soa.o a.o
 	cc $(CFLAGS) $(OPTIMIZE) -o validns \
 	    main.o carp.o mempool.o textparse.o \
-	    rr.o soa.o \
+	    rr.o soa.o a.o \
 	    -L/usr/local/lib -lJudy
 
 clean:
 	-rm validns main.o carp.o mempool.o textparse.o
-	-rm rr.o soa.o
+	-rm rr.o soa.o a.o
 	-rm validns.core
 	@echo ':-)'
 
@@ -32,11 +32,16 @@ rr.o: rr.c
 soa.o: soa.c
 	cc $(CFLAGS) $(OPTIMIZE) -c -o soa.o soa.c $(INCPATH)
 
+a.o: a.c
+	cc $(CFLAGS) $(OPTIMIZE) -c -o a.o a.c $(INCPATH)
+
 main.c: common.h carp.h mempool.h rr.h
 
 rr.c: common.h carp.h mempool.h rr.h
 
-soa.c: common.h carp.h mempool.h rr.h
+soa.c: common.h rr.h
+
+a.c: common.h rr.h
 
 carp.c: carp.h common.h
 
