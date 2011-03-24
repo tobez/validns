@@ -290,13 +290,14 @@ static void initialize_globals(void)
 	for (i = 0; i <= T_MAX; i++) {
 		rr_methods[i] = unknown_methods;
 	}
-	rr_methods[T_A]     =     a_methods;
-	rr_methods[T_CNAME] = cname_methods;
-	rr_methods[T_MX]    =    mx_methods;
-	rr_methods[T_NSEC]  =  nsec_methods;
-	rr_methods[T_NS]    =    ns_methods;
-	rr_methods[T_RRSIG] = rrsig_methods;
-	rr_methods[T_SOA]   =   soa_methods;
+	rr_methods[T_A]      =      a_methods;
+	rr_methods[T_CNAME]  =  cname_methods;
+	rr_methods[T_DNSKEY] = dnskey_methods;
+	rr_methods[T_MX]     =     mx_methods;
+	rr_methods[T_NSEC]   =   nsec_methods;
+	rr_methods[T_NS]     =     ns_methods;
+	rr_methods[T_RRSIG]  =  rrsig_methods;
+	rr_methods[T_SOA]    =    soa_methods;
 }
 
 int

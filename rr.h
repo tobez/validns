@@ -147,7 +147,13 @@ extern struct rr_methods mx_methods;
 struct rr_dnskey
 {
 	struct rr rr;
-	/* XXX */
+	uint16_t flags;
+	uint8_t protocol;
+	uint8_t algorithm;
+	int pubkey_len;
+	char *pubkey;
+	uint16_t key_tag; /* calculated */
 };
+extern struct rr_methods dnskey_methods;
 
 #endif
