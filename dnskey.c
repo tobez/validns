@@ -47,7 +47,7 @@ static void* dnskey_parse(char *name, long ttl, int type, char *s)
 	ac += rr->protocol << 8;
 	ac += rr->algorithm;
 	for (i = 0; i < rr->pubkey_len; i++) {
-		ac += (i & 1) ? (unsigned)rr->pubkey[i] : ((unsigned)rr->pubkey[i]) << 8;
+		ac += (i & 1) ? (unsigned char)rr->pubkey[i] : ((unsigned char)rr->pubkey[i]) << 8;
 	}
 	ac += (ac >> 16) & 0xFFFF;
 	rr->key_tag = ac & 0xFFFF;
