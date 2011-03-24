@@ -1,7 +1,7 @@
 #include "common.h"
 #include "rr.h"
 
-static void *a_parse(char *name, long ttl, char *s)
+static void *a_parse(char *name, long ttl, int type, char *s)
 {
 	struct rr_a *rr = getmem(sizeof(*rr));
 
@@ -12,7 +12,7 @@ static void *a_parse(char *name, long ttl, char *s)
 		return bitch("garbage after valid A data");
 	}
 
-	return store_record(T_A, name, ttl, rr);
+	return store_record(type, name, ttl, rr);
 }
 
 static char* a_human(void *rrv)

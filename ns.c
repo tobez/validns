@@ -1,7 +1,7 @@
 #include "common.h"
 #include "rr.h"
 
-static void *ns_parse(char *name, long ttl, char *s)
+static void *ns_parse(char *name, long ttl, int type, char *s)
 {
 	struct rr_ns *rr = getmem(sizeof(*rr));
 
@@ -12,7 +12,7 @@ static void *ns_parse(char *name, long ttl, char *s)
 		return bitch("garbage after valid NS data");
 	}
 
-	return store_record(T_NS, name, ttl, rr);
+	return store_record(type, name, ttl, rr);
 }
 
 static char* ns_human(void *rrv)

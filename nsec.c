@@ -54,13 +54,13 @@ static struct binary_data compressed_set(struct binary_data *set)
 	return r;
 }
 
-static void* nsec_parse(char *name, long ttl, char *s)
+static void* nsec_parse(char *name, long ttl, int type, char *s)
 {
     struct rr_nsec *rr = getmem(sizeof(*rr));
 	struct binary_data bitmap;
 	struct binary_data type_bitmap;
 	char *str_type = NULL;
-	int type;
+	int ltype;
 
     rr->next_domain = extract_name(&s, "next domain");
 	/* TODO: validate next_domain, http://tools.ietf.org/html/rfc4034#section-4.1.1 */
@@ -69,8 +69,8 @@ static void* nsec_parse(char *name, long ttl, char *s)
 	while (s && *s) {
 		str_type = extract_label(&s, "type list", "temporary");
 		if (!str_type) return NULL;
-		type = str2rdtype(str_type);
-		add_bit_to_set(&bitmap, type);
+		ltype = str2rdtype(str_type);
+		add_bit_to_set(&bitmap, ltype);
 	}
 	if (!s)
 		return NULL;
@@ -81,7 +81,7 @@ static void* nsec_parse(char *name, long ttl, char *s)
 	rr->type_bitmap_len = type_bitmap.length;
 	rr->type_bitmap = type_bitmap.data;
 
-    return store_record(T_NSEC, name, ttl, rr);
+    return store_record(type, name, ttl, rr);
 }
 
 static char* nsec_human(void *rrv)

@@ -19,7 +19,7 @@
 #define T_NSEC3PARAM	51
 #define T_MAX	51
 
-typedef void* (*rr_parse_func)(char *, long, char *);
+typedef void* (*rr_parse_func)(char *, long, int, char *);
 typedef char* (*rr_human_func)(void *);
 typedef void* (*rr_wire_func)(void *);
 struct rr_methods {

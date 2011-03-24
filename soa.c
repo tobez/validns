@@ -1,7 +1,7 @@
 #include "common.h"
 #include "rr.h"
 
-static void* soa_parse(char *name, long ttl, char *s)
+static void* soa_parse(char *name, long ttl, int type, char *s)
 {
     struct rr_soa *rr = getmem(sizeof(*rr));
 
@@ -22,7 +22,7 @@ static void* soa_parse(char *name, long ttl, char *s)
     if (*s) {
 	return bitch("garbage after valid SOA data");
     }
-    return store_record(T_SOA, name, ttl, rr);
+    return store_record(type, name, ttl, rr);
 }
 
 static char* soa_human(void *rrv)

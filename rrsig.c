@@ -1,7 +1,7 @@
 #include "common.h"
 #include "rr.h"
 
-static void* rrsig_parse(char *name, long ttl, char *s)
+static void* rrsig_parse(char *name, long ttl, int type, char *s)
 {
 	struct rr_rrsig *rr = getmem(sizeof(*rr));
 	int type_covered, key_tag;
@@ -52,7 +52,7 @@ static void* rrsig_parse(char *name, long ttl, char *s)
 	if (*s) {
 		return bitch("garbage after valid RRSIG data");
 	}
-	return store_record(T_RRSIG, name, ttl, rr);
+	return store_record(type, name, ttl, rr);
 }
 
 static char* rrsig_human(void *rrv)

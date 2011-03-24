@@ -105,9 +105,9 @@ void *store_record(int rdtype, char *name, long ttl, void *rrptr)
 	return rr;
 }
 
-static void* unknown_parse(char *name, long ttl, char *s)
+static void* unknown_parse(char *name, long ttl, int type, char *s)
 {
-	return bitch("unsupported resource record type");
+	return bitch("unsupported resource record type %s", rdtype2str(type));
 }
 
 static char* unknown_human(void *rrv)

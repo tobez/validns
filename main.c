@@ -233,7 +233,7 @@ read_zone_file(void)
 			{
 				int type = str2rdtype(rdtype);
 				if (type <= 0 || type > T_MAX) continue;
-				rr_methods[type].rr_parse(name, ttl, s);
+				rr_methods[type].rr_parse(name, ttl, type, s);
 			}
 		}
 		if (ferror(file_info->file))

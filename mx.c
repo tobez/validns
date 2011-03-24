@@ -1,7 +1,7 @@
 #include "common.h"
 #include "rr.h"
 
-static void *mx_parse(char *name, long ttl, char *s)
+static void *mx_parse(char *name, long ttl, int type, char *s)
 {
 	struct rr_mx *rr = getmem(sizeof(*rr));
 
@@ -16,7 +16,7 @@ static void *mx_parse(char *name, long ttl, char *s)
 		return bitch("garbage after valid MX data");
 	}
 
-	return store_record(T_MX, name, ttl, rr);
+	return store_record(type, name, ttl, rr);
 }
 
 static char* mx_human(void *rrv)

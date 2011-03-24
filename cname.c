@@ -1,7 +1,7 @@
 #include "common.h"
 #include "rr.h"
 
-static void *cname_parse(char *name, long ttl, char *s)
+static void *cname_parse(char *name, long ttl, int type, char *s)
 {
 	struct rr_cname *rr = getmem(sizeof(*rr));
 
@@ -12,7 +12,7 @@ static void *cname_parse(char *name, long ttl, char *s)
 		return bitch("garbage after valid CNAME data");
 	}
 
-	return store_record(T_CNAME, name, ttl, rr);
+	return store_record(type, name, ttl, rr);
 }
 
 static char* cname_human(void *rrv)
