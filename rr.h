@@ -80,6 +80,15 @@ struct rr_naptr
 	/* XXX */
 };
 
+struct rr_nsec
+{
+	struct rr rr;
+	char *next_domain;
+	int type_bitmap_len;
+	char *type_bitmap;
+};
+extern struct rr_methods nsec_methods;
+
 struct rr_nsec3
 {
 	struct rr rr;

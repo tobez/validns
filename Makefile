@@ -3,17 +3,18 @@ CFLAGS=-Wall
 INCPATH=-I/usr/local/include
 
 validns: main.o carp.o mempool.o textparse.o base64.o \
-	rr.o soa.o a.o cname.o mx.o ns.o rrsig.o
+	rr.o soa.o a.o cname.o mx.o ns.o \
+	rrsig.o nsec.o
 	cc $(CFLAGS) $(OPTIMIZE) -o validns \
 	    main.o carp.o mempool.o textparse.o base64.o \
 	    rr.o soa.o a.o cname.o mx.o ns.o \
-	    rrsig.o \
+	    rrsig.o nsec.o \
 	    -L/usr/local/lib -lJudy
 
 clean:
 	-rm validns main.o carp.o mempool.o textparse.o
 	-rm rr.o soa.o a.o cname.o mx.o ns.o
-	-rm rrsig.o
+	-rm rrsig.o nsec.o
 	-rm validns.core
 	@echo ':-)'
 
@@ -53,6 +54,9 @@ ns.o: ns.c
 rrsig.o: rrsig.c
 	cc $(CFLAGS) $(OPTIMIZE) -c -o rrsig.o rrsig.c $(INCPATH)
 
+nsec.o: nsec.c
+	cc $(CFLAGS) $(OPTIMIZE) -c -o nsec.o nsec.c $(INCPATH)
+
 main.c: common.h carp.h mempool.h rr.h
 
 rr.c: common.h carp.h mempool.h rr.h
@@ -68,6 +72,8 @@ mx.c: common.h rr.h
 ns.c: common.h rr.h
 
 rrsig.c: common.h rr.h
+
+nsec.c: common.h rr.h
 
 carp.c: carp.h common.h
 
