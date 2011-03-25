@@ -1,3 +1,11 @@
+/*
+ * Part of DNS zone file validator `validns`.
+ *
+ * Copyright 2011, Anton Berezin <tobez@tobez.org>
+ * Modified BSD license.
+ * (See LICENSE file in the distribution.)
+ *
+ */
 #ifndef _COMMON_H_
 #define _COMMON_H_ 1
 

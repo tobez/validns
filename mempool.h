@@ -1,3 +1,11 @@
+/*
+ * Part of DNS zone file validator `validns`.
+ *
+ * Copyright 2011, Anton Berezin <tobez@tobez.org>
+ * Modified BSD license.
+ * (See LICENSE file in the distribution.)
+ *
+ */
 #ifndef _MEMPOOL_H
 #define _MEMPOOL_H 1
 
