@@ -4,17 +4,20 @@ INCPATH=-I/usr/local/include
 
 validns: main.o carp.o mempool.o textparse.o base64.o \
 	rr.o soa.o a.o cname.o mx.o ns.o \
-	rrsig.o nsec.o dnskey.o txt.o aaaa.o
+	rrsig.o nsec.o dnskey.o txt.o aaaa.o \
+	naptr.o
 	cc $(CFLAGS) $(OPTIMIZE) -o validns \
 	    main.o carp.o mempool.o textparse.o base64.o \
 	    rr.o soa.o a.o cname.o mx.o ns.o \
 	    rrsig.o nsec.o dnskey.o txt.o aaaa.o \
+	    naptr.o \
 	    -L/usr/local/lib -lJudy
 
 clean:
 	-rm validns main.o carp.o mempool.o textparse.o
 	-rm rr.o soa.o a.o cname.o mx.o ns.o
 	-rm rrsig.o nsec.o dnskey.o txt.o aaaa.o
+	-rm naptr.o
 	-rm validns.core
 	@echo ':-)'
 
@@ -66,6 +69,9 @@ txt.o: txt.c
 aaaa.o: aaaa.c
 	cc $(CFLAGS) $(OPTIMIZE) -c -o aaaa.o aaaa.c $(INCPATH)
 
+naptr.o: naptr.c
+	cc $(CFLAGS) $(OPTIMIZE) -c -o naptr.o naptr.c $(INCPATH)
+
 main.c: common.h carp.h mempool.h rr.h
 
 carp.c: carp.h common.h
@@ -97,6 +103,8 @@ dnskey.c: common.h rr.h
 txt.c: common.h rr.h
 
 aaaa.c: common.h rr.h
+
+naptr.c: common.h rr.h
 
 common.h: textparse.h carp.h mempool.h
 

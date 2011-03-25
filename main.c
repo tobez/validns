@@ -25,13 +25,6 @@ static void *parse_srv(char *name, long ttl, char *s)
 	return rr;
 }
 
-static void *parse_naptr(char *name, long ttl, char *s)
-{
-	struct rr_naptr *rr;
-	/* XXX */
-	return rr;
-}
-
 static void *parse_nsec3(char *name, long ttl, char *s)
 {
 	struct rr_nsec3 *rr;
@@ -255,6 +248,7 @@ static void initialize_globals(void)
 	rr_methods[T_CNAME]  =  cname_methods;
 	rr_methods[T_DNSKEY] = dnskey_methods;
 	rr_methods[T_MX]     =     mx_methods;
+	rr_methods[T_NAPTR]  =  naptr_methods;
 	rr_methods[T_NSEC]   =   nsec_methods;
 	rr_methods[T_NS]     =     ns_methods;
 	rr_methods[T_RRSIG]  =  rrsig_methods;

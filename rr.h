@@ -82,8 +82,14 @@ extern struct rr_methods txt_methods;
 struct rr_naptr
 {
     struct rr rr;
-    /* XXX */
+	uint16_t order;
+	uint16_t preference;
+	struct binary_data flags;
+	struct binary_data services;
+	struct binary_data regexp;
+	char *replacement;
 };
+extern struct rr_methods naptr_methods;
 
 struct rr_nsec
 {
