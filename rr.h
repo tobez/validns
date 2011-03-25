@@ -2,6 +2,9 @@
 #define _RR_H 1
 
 #include <unistd.h>
+#include <sys/types.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
 
 #define T_A		1
 #define T_NS	2
@@ -135,8 +138,9 @@ extern struct rr_methods cname_methods;
 struct rr_aaaa
 {
 	struct rr rr;
-	/* XXX */
+	struct in6_addr address;
 };
+extern struct rr_methods aaaa_methods;
 
 struct rr_mx
 {

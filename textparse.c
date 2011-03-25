@@ -1,5 +1,6 @@
 #include <ctype.h>
 #include <time.h>
+#include <arpa/inet.h>
 
 #include "common.h"
 #include "base64.h"
@@ -393,6 +394,39 @@ uint32_t extract_ip(char **input, char *what)
 	}
 
 	return ip;
+}
+
+int extract_ipv6(char **input, char *what, struct in6_addr *addr)
+{
+	char *s = *input;
+	char c;
+
+	while (isdigit(*s) || *s == ':' || *s == '.' ||
+		  (*s >= 'a' && *s <= 'f') || (*s >= 'A' && *s <= 'F'))
+	{
+		s++;
+	}
+	if (s == *input) {
+		bitch("%s is not valid", what);
+		return -1;
+	}
+	if (*s && !isspace(*s) && *s != ';' && *s != ')') {
+		bitch("%s is not valid", what);
+		return -1;
+	}
+	c = *s;
+	*s = 0;
+	if (inet_pton(AF_INET6, *input, addr) != 1) {
+		*s = c;
+		bitch("cannot parse %s", what);
+		return -1;
+	}
+	*s = c;
+	*input = skip_white_space(s);
+	if (!*input) {
+		return -1;  /* bitching's done elsewhere */
+	}
+	return 1;
 }
 
 struct binary_data extract_base64_binary_data(char **input, char *what)

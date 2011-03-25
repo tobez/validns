@@ -4,17 +4,17 @@ INCPATH=-I/usr/local/include
 
 validns: main.o carp.o mempool.o textparse.o base64.o \
 	rr.o soa.o a.o cname.o mx.o ns.o \
-	rrsig.o nsec.o dnskey.o txt.o
+	rrsig.o nsec.o dnskey.o txt.o aaaa.o
 	cc $(CFLAGS) $(OPTIMIZE) -o validns \
 	    main.o carp.o mempool.o textparse.o base64.o \
 	    rr.o soa.o a.o cname.o mx.o ns.o \
-	    rrsig.o nsec.o dnskey.o txt.o \
+	    rrsig.o nsec.o dnskey.o txt.o aaaa.o \
 	    -L/usr/local/lib -lJudy
 
 clean:
 	-rm validns main.o carp.o mempool.o textparse.o
 	-rm rr.o soa.o a.o cname.o mx.o ns.o
-	-rm rrsig.o nsec.o dnskey.o txt.o
+	-rm rrsig.o nsec.o dnskey.o txt.o aaaa.o
 	-rm validns.core
 	@echo ':-)'
 
@@ -63,6 +63,9 @@ dnskey.o: dnskey.c
 txt.o: txt.c
 	cc $(CFLAGS) $(OPTIMIZE) -c -o txt.o txt.c $(INCPATH)
 
+aaaa.o: aaaa.c
+	cc $(CFLAGS) $(OPTIMIZE) -c -o aaaa.o aaaa.c $(INCPATH)
+
 main.c: common.h carp.h mempool.h rr.h
 
 carp.c: carp.h common.h
@@ -92,6 +95,8 @@ nsec.c: common.h rr.h
 dnskey.c: common.h rr.h
 
 txt.c: common.h rr.h
+
+aaaa.c: common.h rr.h
 
 common.h: textparse.h carp.h mempool.h
 

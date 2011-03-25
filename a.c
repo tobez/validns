@@ -5,7 +5,7 @@ static void *a_parse(char *name, long ttl, int type, char *s)
 {
 	struct rr_a *rr = getmem(sizeof(*rr));
 
-	rr->address = extract_ip(&s, "nsdname");
+	rr->address = extract_ip(&s, "ip address");
 	if (!rr->address)
 		return NULL;
 	if (*s) {
