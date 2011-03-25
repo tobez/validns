@@ -1,33 +1,90 @@
 # validns notes
 
-##
+## INSTALLATION
 
-Something bugs me just below conciousness.
-As in "what, do I have to write support for *this* as well?",
-without being able to remember what's "this" is.
+### Compatibility
+
+Known to compile and work on:
+
+- FreeBSD 9.0 amd64
+- Ubuntu 10.10 1 i386
+
+Is likely to compile and work on any modern Unix-like OS.
+
+### Requirements
+
+- Judy dynamic arrays
+	- http://judy.sourceforge.net/
+	- FreeBSD: ports/devel/judy
+	- Debian/Ubuntu: libjudy-dev
+- Test::Command::Simple perl module (for tests only)
+	- FreeBSD: ports/devel/p5-Test-Command-Simple
+	- anywhere: cpanm Test::Command::Simple
+
+### Compilation
+
+Type `make`.  If there are troubles,
+have a hard look at the `Makefile`, fix
+the problems, repeat.
+
+### Installation
+
+Copy `validns` executable someplace.
+There is no manual page at the moment,
+just read this file for usage.
+
+## OMISSIONS
+
+A number of corners were cut to assume the most usual
+way of doing things.  Therefore, in many cases,
+`validns` currently does not strictly adhere
+to various standards.  In particular, it
+should be possible (and easy) to construct
+a perfectly valid zone file which `validns`
+will report as problematic.  It is expected
+that those cases will be all fixed over time.
+But if you have a valid zone which `validns`
+cannot parse, please do report this fact
+to the author, with examples.  If there is
+a need for the community to fix a particular
+omission, it will be fixed sooner.
+Needless to say, patches are always welcome.
 
 ## TODO
 
+The todo list is not complete by its nature.
+
+- proper manual page
+- missing rdtypes parsing support, in particular:
+	- NSEC3PARAM
+	- NSEC3
 - nice CPAN module for external programs output testing?
 	- looks like Test::Command::Simple is what I want
-- master file support (RFC 1035, section 5)
-	- see whether there were changes to it
 - zone validations specified in RFC 1035
-- options support (`getopt`)
-- usage() function
-- `-v` option for verbose (multiple levels?)
-- `-q` option for extra quiet
-- `-f` option (die on first error)
-- `-s` option - produce validation summary/statistics
-- wired RDATA format
+- mulitple verboseness levels (`-v` option repeated)
+- wire RDATA format
 - include file support
 	- `-I` option
-- $ORIGIN support
-	- `-z` option for initial ORIGIN
-- $TTL support
 - embedding lua for flexible validations
 	- "policy validations"
 	- `-p policy-file` option
 	- `-r policy-rule` option (maybe?)
 - better platform support
 	- `stpcpy()` might not be everywhere
+- NSEC3PARAM parsing
+
+## DONE
+
+The done list is not complete.
+
+- (./) usage() function
+- (./) options support (`getopt`)
+- (./) $TTL support
+- (./) $ORIGIN support
+	- (./) `-z` option for initial ORIGIN
+- (./) master file support (RFC 1035, section 5)
+	- (./) see whether there were changes to it
+- `-v` option for verbose
+- (./) `-q` option for extra quiet
+- (./) `-f` option (die on first error)
+- (./) `-s` option - produce validation summary/statistics

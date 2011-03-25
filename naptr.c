@@ -11,14 +11,14 @@ static void *naptr_parse(char *name, long ttl, int type, char *s)
 	if (i < 0)
 		return NULL;
 	if (i >= 65536)
-		return bitch("order is not valid");
+		return bitch("order range is not valid");
 	rr->order = i;
 
 	i = extract_integer(&s, "preference");
 	if (i < 0)
 		return NULL;
 	if (i >= 65536)
-		return bitch("preference is not valid");
+		return bitch("preference range is not valid");
 	rr->preference = i;
 
 	text = extract_text(&s, "flags");

@@ -18,13 +18,6 @@ read_zone_file(void);
 
 /* ============== */
 
-static void *parse_srv(char *name, long ttl, char *s)
-{
-	struct rr_srv *rr;
-	/* XXX */
-	return rr;
-}
-
 static void *parse_nsec3(char *name, long ttl, char *s)
 {
 	struct rr_nsec3 *rr;
@@ -253,6 +246,7 @@ static void initialize_globals(void)
 	rr_methods[T_NS]     =     ns_methods;
 	rr_methods[T_RRSIG]  =  rrsig_methods;
 	rr_methods[T_SOA]    =    soa_methods;
+	rr_methods[T_SRV]    =    srv_methods;
 	rr_methods[T_TXT]    =    txt_methods;
 }
 

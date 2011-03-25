@@ -131,8 +131,12 @@ extern struct rr_methods rrsig_methods;
 struct rr_srv
 {
 	struct rr rr;
-	/* XXX */
+	uint16_t priority;
+	uint16_t weight;
+	uint16_t port;
+	char *target;
 };
+extern struct rr_methods srv_methods;
 
 struct rr_cname
 {
