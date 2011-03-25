@@ -58,8 +58,7 @@ The todo list is not complete by its nature.
 - missing rdtypes parsing support, in particular:
 	- NSEC3PARAM
 	- NSEC3
-- nice CPAN module for external programs output testing?
-	- looks like Test::Command::Simple is what I want
+- a test for every error message
 - zone validations specified in RFC 1035
 - mulitple verboseness levels (`-v` option repeated)
 - wire RDATA format
@@ -88,3 +87,5 @@ The done list is not complete.
 - (./) `-q` option for extra quiet
 - (./) `-f` option (die on first error)
 - (./) `-s` option - produce validation summary/statistics
+- (./) nice CPAN module for external programs output testing?
+	- (./) looks like Test::Command::Simple is what I want

@@ -1,0 +1,27 @@
+$FUNNYDIRECTIVE
+$ORIGIN galaxyplus.org.
+$TTL    5M
+something
+@       SOA ns1.catpipe.net. hostmaster.catpipe.net. (
+            2011011400  ; Serial
+            1H  ; Refresh
+            30M ; Retry
+            1W  ; Expire
+            5M )    ; Minimum TTL
+        NS  ns1.catpipe.net.
+        NS  ns2.catpipe.net.
+        NS
+        NS  ns2.catpipe.net. garbage
+
+        A   194.28.255.11
+        A
+        A   194.28.255.11 garbage
+        A   257.17.81.54
+        A   this.is.not.an.a.
+        MX  5 horch.tobez.org.
+        MX
+        MX  5
+        MX  5 horch.tobez.org. garbage
+
+www     A 194.28.255.11
+cvs     A 194.28.255.11
