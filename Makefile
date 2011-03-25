@@ -114,5 +114,11 @@ srv.c: common.h rr.h
 common.h: textparse.h carp.h mempool.h
 
 test:
+	perl -MTest::Harness -e 'runtests("t/test.pl")'
+
+test-details:
+	perl t/test.pl
+
+test64:
 	cc -Wall -O2 -o base64-test base64.c -DTEST_PROGRAM
 	./base64-test

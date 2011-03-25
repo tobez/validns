@@ -1,6 +1,16 @@
 $FUNNYDIRECTIVE
 $ORIGIN galaxyplus.org.
+$ORIGINBUTNOTREALLY
+$ORIGIN ; no origin
+$ORIGIN galaxyplus.org. muhaha.
 $TTL    5M
+$TTLAST
+$TTL ; no ttl
+$TTL not a number
+$TTL 1z
+$TTL 1mz
+$TTL 1m z
+$INCLUDESSIMO x.yz
 something
 @       SOA ns1.catpipe.net. hostmaster.catpipe.net. (
             2011011400  ; Serial
