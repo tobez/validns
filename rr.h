@@ -63,21 +63,23 @@ extern struct rr_methods soa_methods;
 
 struct rr_ns
 {
-	struct rr rr;
-	char *nsdname;
+    struct rr rr;
+    char *nsdname;
 };
 extern struct rr_methods ns_methods;
 
 struct rr_txt
 {
-	struct rr rr;
-	/* XXX */
+    struct rr rr;
+    int length;
+    char *txt;
 };
+extern struct rr_methods txt_methods;
 
 struct rr_naptr
 {
-	struct rr rr;
-	/* XXX */
+    struct rr rr;
+    /* XXX */
 };
 
 struct rr_nsec

@@ -433,3 +433,69 @@ struct binary_data extract_base64_binary_data(char **input, char *what)
 	return r;
 }
 
+struct binary_data extract_text(char **input, char *what)
+{
+	char *s = *input;
+	struct binary_data r;
+	char *o = getmem_temp(65536);
+	int l = 0;
+	int c;
+
+	r.length = -1;
+	r.data = NULL;
+	if (*s != '"') {
+		bitch("for now, %s must be put in double quotes", what);
+		return r;
+	}
+	s++;
+more_text:
+	while (*s && *s != '"') {
+		if (*s == '\\') {
+			s++;
+			if (*s == 0) {
+				bitch("bad backslash quoting of %s", what);
+				return r;
+			} else if (isdigit(*s)) {
+				c = 0;
+				while (isdigit(*s)) {
+					c = c*10 + *s - '0';
+					s++;
+				}
+				o[l] = (unsigned char)c;
+			} else {
+				o[l] = *s;
+				goto new_char;
+			}
+		} else {
+			o[l] = *s;
+new_char:
+			if (l >= 65534) {
+				bitch("%s string too long", what);
+				return r;
+			}
+			l++;
+			s++;
+		}
+	}
+	if (!*s) {
+		if (fgets(file_info->buf, 2048, file_info->file)) {
+			file_info->line++;
+			s = file_info->buf;
+			goto more_text;
+		} else {
+			bitch("closing quote not found while parsing %s", what);
+			return r;
+		}
+	}
+	s++;
+	*input = skip_white_space(s);
+	if (!*input)
+		return r;  /* bitching's done elsewhere */
+
+	o[l] = 0;
+	r.data = getmem(l+1);
+	r.length = l;
+	memcpy(r.data, o, l+1);
+	return r;
+}
+

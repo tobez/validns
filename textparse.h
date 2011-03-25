@@ -15,5 +15,6 @@ long extract_timevalue(char **input, char *what);
 long extract_timestamp(char **input, char *what);
 uint32_t extract_ip(char **input, char *what);
 struct binary_data extract_base64_binary_data(char **input, char *what);
+struct binary_data extract_text(char **input, char *what);
 
 #endif

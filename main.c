@@ -32,13 +32,6 @@ static void *parse_aaaa(char *name, long ttl, char *s)
 	return rr;
 }
 
-static void *parse_txt(char *name, long ttl, char *s)
-{
-	struct rr_txt *rr;
-	/* XXX */
-	return rr;
-}
-
 static void *parse_naptr(char *name, long ttl, char *s)
 {
 	struct rr_naptr *rr;
@@ -56,32 +49,6 @@ static void *parse_nsec3(char *name, long ttl, char *s)
 static void *parse_nsec3param(char *name, long ttl, char *s)
 {
 	struct rr_nsec3param *rr;
-	/* XXX */
-	return rr;
-}
-
-static void *parse_dnskey(char *name, long ttl, char *s)
-{
-	struct rr_dnskey *rr;
-	long flags, proto, algorithm;
-
-	// GETINT(flags);
-	if (flags != 256 && flags != 257) {
-		return bitch("wrong flags in DNSKEY");
-	}
-	// GETINT(proto);
-	if (proto != 3) {
-		return bitch("unrecognized protocol in DNSKEY");
-	}
-	// GETINT(algorithm);
-	if (algorithm != 8) {
-		return bitch("unsupported algorithm #%d in DNSKEY", algorithm);
-	}
-
-	if (*s) {
-		return bitch("garbage after valid DNSKEY data");
-	}
-
 	/* XXX */
 	return rr;
 }
@@ -298,6 +265,7 @@ static void initialize_globals(void)
 	rr_methods[T_NS]     =     ns_methods;
 	rr_methods[T_RRSIG]  =  rrsig_methods;
 	rr_methods[T_SOA]    =    soa_methods;
+	rr_methods[T_TXT]    =    txt_methods;
 }
 
 int
