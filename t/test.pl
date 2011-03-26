@@ -6,6 +6,12 @@ use warnings;
 use Test::More;
 BEGIN { use_ok("Test::Command::Simple"); }
 
+unless (*run{CODE})
+{
+	done_testing;
+	exit(0);
+}
+
 run('./validns', 't/zones/galaxyplus.org');
 is(rc, 0, 'valid zone parses ok');
 
