@@ -45,6 +45,7 @@ struct globals {
 		int verbose;
 		char *include_path;
 		char *current_origin;
+		int current_time;
 	} opt;
 	int exit_code;
 	long default_ttl;

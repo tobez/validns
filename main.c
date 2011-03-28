@@ -12,6 +12,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <unistd.h>
+#include <time.h>
 
 #include "common.h"
 #include "carp.h"
@@ -228,6 +229,7 @@ void usage(char *err)
 	fprintf(stderr, "\t-v\t\tbe extra verbose\n");
 	fprintf(stderr, "\t-I path\tuse this path for $INCLUDE files\n");
 	fprintf(stderr, "\t-z origin\tuse this origin as initial $ORIGIN\n");
+	fprintf(stderr, "\t-t epoch-time\tuse this time instead of \"now\"\n");
 	exit(1);
 }
 
@@ -240,6 +242,7 @@ static void initialize_globals(void)
 	bzero(&G.opt, sizeof(G.opt));
 	bzero(&G.stats, sizeof(G.stats));
 	G.default_ttl = 3600; /* XXX orly? */
+	G.opt.current_time = time(NULL);
 
 	for (i = 0; i <= T_MAX; i++) {
 		rr_methods[i] = unknown_methods;
@@ -264,7 +267,7 @@ main(int argc, char **argv)
 	int o;
 	initialize_globals();
 
-	while ((o = getopt(argc, argv, "fhqsvI:z:")) != -1) {
+	while ((o = getopt(argc, argv, "fhqsvI:z:t:")) != -1) {
 		switch(o) {
 		case 'h':
 			usage(NULL);
@@ -293,6 +296,11 @@ main(int argc, char **argv)
 			} else {
 				usage("origin must not be empty");
 			}
+			break;
+		case 't':
+			G.opt.current_time = strtol(optarg, NULL, 10);
+			if (G.opt.verbose)
+				fprintf(stderr, "using time %d instead of \"now\"\n", G.opt.current_time);
 			break;
 		default:
 			usage(NULL);
