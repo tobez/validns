@@ -111,8 +111,14 @@ extern struct rr_methods nsec_methods;
 struct rr_nsec3
 {
 	struct rr rr;
-	/* XXX */
+	uint8_t hash_algorithm;
+	uint8_t flags;
+	uint16_t iterations;
+	struct binary_data salt;
+	struct binary_data next_hashed_owner;
+	struct binary_data type_bitmap;
 };
+extern struct rr_methods nsec3_methods;
 
 struct rr_nsec3param
 {

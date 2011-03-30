@@ -25,15 +25,6 @@ struct file_info *file_info = NULL;
 int
 read_zone_file(void);
 
-/* ============== */
-
-static void *parse_nsec3(char *name, long ttl, char *s)
-{
-	struct rr_nsec3 *rr;
-	/* XXX */
-	return rr;
-}
-
 static char *process_directive(char *s)
 {
 	if (*(s+1) == 'O' && strncmp(s, "$ORIGIN", 7) == 0) {
@@ -246,9 +237,10 @@ static void initialize_globals(void)
 	rr_methods[T_DNSKEY]       =     dnskey_methods;
 	rr_methods[T_MX]           =         mx_methods;
 	rr_methods[T_NAPTR]        =      naptr_methods;
-	rr_methods[T_NSEC]         =       nsec_methods;
-	rr_methods[T_NSEC3PARAM]   = nsec3param_methods;
 	rr_methods[T_NS]           =         ns_methods;
+	rr_methods[T_NSEC]         =       nsec_methods;
+	rr_methods[T_NSEC3]        =      nsec3_methods;
+	rr_methods[T_NSEC3PARAM]   = nsec3param_methods;
 	rr_methods[T_RRSIG]        =      rrsig_methods;
 	rr_methods[T_SOA]          =        soa_methods;
 	rr_methods[T_SRV]          =        srv_methods;

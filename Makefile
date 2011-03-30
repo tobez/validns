@@ -5,19 +5,19 @@ INCPATH=-I/usr/local/include
 validns: main.o carp.o mempool.o textparse.o base64.o \
 	rr.o soa.o a.o cname.o mx.o ns.o \
 	rrsig.o nsec.o dnskey.o txt.o aaaa.o \
-	naptr.o srv.o nsec3param.o
+	naptr.o srv.o nsec3param.o nsec3.o
 	cc $(CFLAGS) $(OPTIMIZE) -o validns \
 	    main.o carp.o mempool.o textparse.o base64.o \
 	    rr.o soa.o a.o cname.o mx.o ns.o \
 	    rrsig.o nsec.o dnskey.o txt.o aaaa.o \
-	    naptr.o srv.o nsec3param.o \
+	    naptr.o srv.o nsec3param.o nsec3.o \
 	    -L/usr/local/lib -lJudy
 
 clean:
 	-rm validns main.o carp.o mempool.o textparse.o
 	-rm rr.o soa.o a.o cname.o mx.o ns.o
 	-rm rrsig.o nsec.o dnskey.o txt.o aaaa.o
-	-rm naptr.o srv.o nsec3param.o
+	-rm naptr.o srv.o nsec3param.o nsec3.o
 	-rm validns.core
 	@echo ':-)'
 
@@ -78,6 +78,9 @@ srv.o: srv.c
 nsec3param.o: nsec3param.c
 	cc $(CFLAGS) $(OPTIMIZE) -c -o nsec3param.o nsec3param.c $(INCPATH)
 
+nsec3.o: nsec3.c
+	cc $(CFLAGS) $(OPTIMIZE) -c -o nsec3.o nsec3.c $(INCPATH)
+
 main.c: common.h carp.h mempool.h rr.h
 
 carp.c: carp.h common.h
@@ -115,6 +118,8 @@ naptr.c: common.h rr.h
 srv.c: common.h rr.h
 
 nsec3param.c: common.h rr.h
+
+nsec3.c: common.h rr.h
 
 common.h: textparse.h carp.h mempool.h
 
