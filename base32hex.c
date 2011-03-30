@@ -22,10 +22,15 @@
  *      0          1          2         3          4
  *
  * normal byte 0 is (base32[0] << 3) | (base32[1] >> 2)
+ *    masks: F8; 07
  * normal byte 1 is ((base32[1]&0x03) << 6) | (base32[2] << 1) | (base32[3] >> 4)
+ *    masks: C0; 3E; 01
  * normal byte 2 is ((base32[3]&0x0F) << 4) | (base32[4] >> 1)
+ *    masks: F0; 0F
  * normal byte 3 is ((base32[4]&0x01) << 7) | (base32[5] << 2) | (base32[6] >> 3)
+ *    masks: 80; 7C; 03
  * normal byte 4 is ((base32[6]&0x07) << 5) | base32[7]
+ *    masks: E0; 1F
  */
 
 int
