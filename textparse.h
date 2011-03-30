@@ -29,5 +29,11 @@ uint32_t extract_ip(char **input, char *what);
 int extract_ipv6(char **input, char *what, struct in6_addr *addr);
 struct binary_data extract_base64_binary_data(char **input, char *what);
 struct binary_data extract_text(char **input, char *what);
+struct binary_data extract_hex_binary_data(char **input, char *what);
+
+/* for NSEC/NSEC3 sets */
+struct binary_data new_set(void);
+void add_bit_to_set(struct binary_data *set, int bit);
+struct binary_data compressed_set(struct binary_data *set);
 
 #endif

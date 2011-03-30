@@ -183,3 +183,4 @@ int str2rdtype(char *rdtype)
 	bitch("invalid or unsupported rdtype %s", rdtype);
 	return -1;
 }
+

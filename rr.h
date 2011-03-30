@@ -117,8 +117,12 @@ struct rr_nsec3
 struct rr_nsec3param
 {
 	struct rr rr;
-	/* XXX */
+	uint8_t hash_algorithm;
+	uint8_t flags;
+	uint16_t iterations;
+	struct binary_data salt;
 };
+extern struct rr_methods nsec3param_methods;
 
 struct rr_rrsig
 {

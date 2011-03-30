@@ -34,13 +34,6 @@ static void *parse_nsec3(char *name, long ttl, char *s)
 	return rr;
 }
 
-static void *parse_nsec3param(char *name, long ttl, char *s)
-{
-	struct rr_nsec3param *rr;
-	/* XXX */
-	return rr;
-}
-
 static char *process_directive(char *s)
 {
 	if (*(s+1) == 'O' && strncmp(s, "$ORIGIN", 7) == 0) {
@@ -247,18 +240,19 @@ static void initialize_globals(void)
 	for (i = 0; i <= T_MAX; i++) {
 		rr_methods[i] = unknown_methods;
 	}
-	rr_methods[T_A]      =      a_methods;
-	rr_methods[T_AAAA]   =   aaaa_methods;
-	rr_methods[T_CNAME]  =  cname_methods;
-	rr_methods[T_DNSKEY] = dnskey_methods;
-	rr_methods[T_MX]     =     mx_methods;
-	rr_methods[T_NAPTR]  =  naptr_methods;
-	rr_methods[T_NSEC]   =   nsec_methods;
-	rr_methods[T_NS]     =     ns_methods;
-	rr_methods[T_RRSIG]  =  rrsig_methods;
-	rr_methods[T_SOA]    =    soa_methods;
-	rr_methods[T_SRV]    =    srv_methods;
-	rr_methods[T_TXT]    =    txt_methods;
+	rr_methods[T_A]            =          a_methods;
+	rr_methods[T_AAAA]         =       aaaa_methods;
+	rr_methods[T_CNAME]        =      cname_methods;
+	rr_methods[T_DNSKEY]       =     dnskey_methods;
+	rr_methods[T_MX]           =         mx_methods;
+	rr_methods[T_NAPTR]        =      naptr_methods;
+	rr_methods[T_NSEC]         =       nsec_methods;
+	rr_methods[T_NSEC3PARAM]   = nsec3param_methods;
+	rr_methods[T_NS]           =         ns_methods;
+	rr_methods[T_RRSIG]        =      rrsig_methods;
+	rr_methods[T_SOA]          =        soa_methods;
+	rr_methods[T_SRV]          =        srv_methods;
+	rr_methods[T_TXT]          =        txt_methods;
 }
 
 int
