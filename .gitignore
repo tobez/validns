@@ -1,5 +1,6 @@
 validns
 base64-test
+base32hex-test
 *.o
 *.core
 experiment*

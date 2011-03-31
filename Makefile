@@ -2,12 +2,12 @@ OPTIMIZE=-O2 -g
 CFLAGS=-Wall
 INCPATH=-I/usr/local/include
 
-validns: main.o carp.o mempool.o textparse.o base64.o \
+validns: main.o carp.o mempool.o textparse.o base64.o base32hex.o \
 	rr.o soa.o a.o cname.o mx.o ns.o \
 	rrsig.o nsec.o dnskey.o txt.o aaaa.o \
 	naptr.o srv.o nsec3param.o nsec3.o
 	cc $(CFLAGS) $(OPTIMIZE) -o validns \
-	    main.o carp.o mempool.o textparse.o base64.o \
+	    main.o carp.o mempool.o textparse.o base64.o base32hex.o \
 	    rr.o soa.o a.o cname.o mx.o ns.o \
 	    rrsig.o nsec.o dnskey.o txt.o aaaa.o \
 	    naptr.o srv.o nsec3param.o nsec3.o \
@@ -35,6 +35,9 @@ textparse.o: textparse.c
 
 base64.o: base64.c
 	cc $(CFLAGS) $(OPTIMIZE) -c -o base64.o base64.c $(INCPATH)
+
+base32hex.o: base32hex.c
+	cc $(CFLAGS) $(OPTIMIZE) -c -o base32hex.o base32hex.c $(INCPATH)
 
 rr.o: rr.c
 	cc $(CFLAGS) $(OPTIMIZE) -c -o rr.o rr.c $(INCPATH)
@@ -91,6 +94,8 @@ textparse.c: common.h
 
 base64.c: base64.h
 
+base32hex.c: base32hex.h
+
 rr.c: common.h carp.h mempool.h rr.h
 
 soa.c: common.h rr.h
@@ -132,3 +137,7 @@ test-details:
 test64:
 	cc -Wall -O2 -o base64-test base64.c -DTEST_PROGRAM
 	./base64-test
+
+test32hex:
+	cc -Wall -O2 -o base32hex-test base32hex.c -DTEST_PROGRAM
+	./base32hex-test

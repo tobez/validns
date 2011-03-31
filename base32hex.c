@@ -63,7 +63,7 @@ decode_base32hex(void *dest, char *src, size_t dstsize)
 				return -1;
 			}
 			dst[0] &= 0x07;
-			dst[0] |= (v << 5) & 0xF8;
+			dst[0] |= (v << 3) & 0xF8;
 			processed++;
 		} else if (processed % 8 == 1) {
 			if (dstsize < 1) {
@@ -71,36 +71,78 @@ decode_base32hex(void *dest, char *src, size_t dstsize)
 				return -1;
 			}
 			dst[0] &= 0xF8;
-			dst[0] |= (v >> 4) & 0x03;
+			dst[0] |= (v >> 2) & 0x07;
 			if (dstsize >= 2) {
-				dst[1] &= 0x0F;
-				dst[1] |= (v << 4) & 0xF0;
+				dst[1] &= 0x3F;
+				dst[1] |= (v << 6) & 0xC0;
 			}
 			processed++;
 			full_bytes++;
-		} else if (processed % 4 == 2) {
+		} else if (processed % 8 == 2) {
 			if (dstsize < 2) {
 				errno = EINVAL;
 				return -1;
 			}
-			dst[1] &= 0xF0;
-			dst[1] |= (v >> 2) & 0x0F;
+			dst[1] &= 0xC1;
+			dst[1] |= (v << 1) & 0x3E;
+			processed++;
+		} else if (processed % 8 == 3) {
+			if (dstsize < 2) {
+				errno = EINVAL;
+				return -1;
+			}
+			dst[1] &= 0xFE;
+			dst[1] |= (v >> 4) & 0x01;
 			if (dstsize >= 3) {
-				dst[2] &= 0x3F;
-				dst[2] |= (v << 6) & 0xC0;
+				dst[2] &= 0x0F;
+				dst[2] |= (v << 4) & 0xF0;
+			}
+			processed++;
+			full_bytes++;
+		} else if (processed % 8 == 4) {
+			if (dstsize < 3) {
+				errno = EINVAL;
+				return -1;
+			}
+			dst[2] &= 0xF0;
+			dst[2] |= (v >> 1) & 0x0F;
+			if (dstsize >= 4) {
+				dst[3] &= 0x7F;
+				dst[3] |= (v << 7) & 0x80;
+			}
+			processed++;
+			full_bytes++;
+		} else if (processed % 8 == 5) {
+			if (dstsize < 4) {
+				errno = EINVAL;
+				return -1;
+			}
+			dst[3] &= 0x83;
+			dst[3] |= (v << 2) & 0x7C;
+			processed++;
+		} else if (processed % 8 == 6) {
+			if (dstsize < 4) {
+				errno = EINVAL;
+				return -1;
+			}
+			dst[3] &= 0xFC;
+			dst[3] |= (v >> 3) & 0x03;
+			if (dstsize >= 5) {
+				dst[4] &= 0x1F;
+				dst[4] |= (v << 5) & 0xE0;
 			}
 			processed++;
 			full_bytes++;
 		} else {
-			if (dstsize <= 2) {
+			if (dstsize < 5) {
 				errno = EINVAL;
 				return -1;
 			}
-			dst[2] &= 0xC0;
-			dst[2] |= v & 0x3F;
+			dst[4] &= 0xE0;
+			dst[4] |= v & 0x1F;
 			processed++;
-			dst += 3;
-			dstsize -= 3;
+			dst += 5;
+			dstsize -= 5;
 			full_bytes++;
 		}
 	}
@@ -120,7 +162,7 @@ static int ok_string_test(int testnum, char *src, char *expect)
 		return 1;
 	}
 	memset(dstbuf, 0xAA, 512);
-	r = decode_base64(dstbuf, src, expect_sz);
+	r = decode_base32hex(dstbuf, src, expect_sz);
 	if (r != expect_sz) {
 		printf("test %d: NOT OK: expect size %d, got %d\n", testnum, expect_sz, r);
 		return 1;
@@ -134,7 +176,7 @@ static int ok_string_test(int testnum, char *src, char *expect)
 	}
 	memset(dstbuf, 0xAA, 512);
 	for (i = 0; i < expect_sz; i++) {
-		r0 = decode_base64(dstbuf, src, i);
+		r0 = decode_base32hex(dstbuf, src, i);
 		if (r0 > 0) {
 			printf("test %d: NOT OK: buffer size %d should not be enough\n", testnum, i);
 			return 1;
@@ -153,7 +195,7 @@ static int expect_junk_error(int testnum, char *src)
 	char *buf[20];
 	int r;
 
-	r = decode_base64(buf, src, 20);
+	r = decode_base32hex(buf, src, 20);
 	if (r != -1) {
 		printf("test %d: NOT OK: junk input not recognized\n", testnum);
 		return 1;
@@ -165,46 +207,59 @@ static int expect_junk_error(int testnum, char *src)
 int main(void)
 {
 	int ret = 0;
+	int t = 1;
 
-	/* from http://en.wikipedia.org/wiki/Base64 */
-	ret |= ok_string_test(1, "bGVhc3VyZS4=", "leasure.");
-	ret |= ok_string_test(2, "bGVhc3VyZS4", "leasure.");
-	ret |= ok_string_test(3, "ZWFzdXJlLg==", "easure.");
-	ret |= ok_string_test(4, "ZWFzdXJlLg=", "easure.");
-	ret |= ok_string_test(5, "ZWFzdXJlLg", "easure.");
-	ret |= ok_string_test(6, "YXN1cmUu", "asure.");
-	ret |= ok_string_test(7, "c3VyZS4=", "sure.");
-	ret |= ok_string_test(8, "c3VyZS4", "sure.");
-	ret |= ok_string_test(9, "TWFuIGlzIGRpc3Rpbmd1aXNoZWQsIG5vdCBvbmx5IGJ5IGhpcyByZWFzb24sIGJ1dCBieSB0aGlz\n"
-		"IHNpbmd1bGFyIHBhc3Npb24gZnJvbSBvdGhlciBhbmltYWxzLCB3aGljaCBpcyBhIGx1c3Qgb2Yg\n"
-		"dGhlIG1pbmQsIHRoYXQgYnkgYSBwZXJzZXZlcmFuY2Ugb2YgZGVsaWdodCBpbiB0aGUgY29udGlu\n"
-		"dWVkIGFuZCBpbmRlZmF0aWdhYmxlIGdlbmVyYXRpb24gb2Yga25vd2xlZGdlLCBleGNlZWRzIHRo\n"
-		"ZSBzaG9ydCB2ZWhlbWVuY2Ugb2YgYW55IGNhcm5hbCBwbGVhc3VyZS4=",
-		"Man is distinguished, not only by his reason, but by this singular passion from other animals, which is a lust of the mind, that by a perseverance of delight in the continued and indefatigable generation of knowledge, exceeds the short vehemence of any carnal pleasure.");
 	/* from http://tools.ietf.org/html/rfc4648#section-10 */
-	ret |= ok_string_test(10, "", "");
-	ret |= ok_string_test(11, "Zg==", "f");
-	ret |= ok_string_test(12, "Zg=", "f");
-	ret |= ok_string_test(13, "Zg", "f");
-	ret |= ok_string_test(14, "Zm8=", "fo");
-	ret |= ok_string_test(15, "Zm8", "fo");
-	ret |= ok_string_test(16, "Zm9v", "foo");
-	ret |= ok_string_test(17, "Zm9vYg==", "foob");
-	ret |= ok_string_test(18, "Zm9vYg=", "foob");
-	ret |= ok_string_test(19, "Zm9vYg", "foob");
-	ret |= ok_string_test(20, "Zm9vYmE=", "fooba");
-	ret |= ok_string_test(21, "Zm9vYmE", "fooba");
-	ret |= ok_string_test(22, "Zm9vYmFy", "foobar");
+	ret |= ok_string_test(t++, "", "");
+	ret |= ok_string_test(t++, "CO======", "f");
+	ret |= ok_string_test(t++, "Co=====", "f");
+	ret |= ok_string_test(t++, "cO====", "f");
+	ret |= ok_string_test(t++, "co===", "f");
+	ret |= ok_string_test(t++, "CO==", "f");
+	ret |= ok_string_test(t++, "CO=", "f");
+	ret |= ok_string_test(t++, "CO", "f");
 
-	ret |= expect_junk_error(23, "?Zm9vYmFy");
-	ret |= expect_junk_error(24, "Z%m9vYmFy");
-	ret |= expect_junk_error(25, "Zm&9vYmFy");
-	ret |= expect_junk_error(26, "Zm9-vYmFy");
-	ret |= expect_junk_error(27, "Zm9v*YmFy");
-	ret |= expect_junk_error(28, "Zm9vY#mFy");
-	ret |= expect_junk_error(29, "Zm9vYm\x01Fy");
-	ret |= expect_junk_error(30, "Zm9vYmF!y");
-	ret |= expect_junk_error(31, "Zm9vYmFy.");
+	ret |= ok_string_test(t++, "CPNG====", "fo");
+	ret |= ok_string_test(t++, "cPNG===", "fo");
+	ret |= ok_string_test(t++, "cpNG==", "fo");
+	ret |= ok_string_test(t++, "cpnG=", "fo");
+	ret |= ok_string_test(t++, "cpng", "fo");
+
+	ret |= ok_string_test(t++, "CPNMU===", "foo");
+	ret |= ok_string_test(t++, "CPnMU==", "foo");
+	ret |= ok_string_test(t++, "CPnmu=", "foo");
+	ret |= ok_string_test(t++, "cpNMU", "foo");
+
+	ret |= ok_string_test(t++, "CPNMUOG=", "foob");
+	ret |= ok_string_test(t++, "CPNMUoG", "foob");
+
+	ret |= ok_string_test(t++, "CPNMUOJ1", "fooba");
+	ret |= ok_string_test(t++, "cPnMuOj1", "fooba");
+	ret |= ok_string_test(t++, "CpNmUoJ1", "fooba");
+	ret |= ok_string_test(t++, "CpNm   UoJ1", "fooba");
+
+	ret |= ok_string_test(t++, "CPNMUOJ1E8======", "foobar");
+	ret |= ok_string_test(t++, "CPNMuOJ1E8=====", "foobar");
+	ret |= ok_string_test(t++, "CpNMuOJ1E8====", "foobar");
+	ret |= ok_string_test(t++, "CpNMuOJ1e8===", "foobar");
+	ret |= ok_string_test(t++, "CpNmuOJ 1e8==", "foobar");
+	ret |= ok_string_test(t++, "CpnmuOJ 1e8=", "foobar");
+	ret |= ok_string_test(t++, "Cpn muOj 1e8", "foobar");
+
+	ret |= expect_junk_error(t++, "?m9vmF");
+	ret |= expect_junk_error(t++, "%m9vmF");
+	ret |= expect_junk_error(t++, "m&9vmF");
+	ret |= expect_junk_error(t++, "m9-vmF");
+	ret |= expect_junk_error(t++, "m9v*mF");
+	ret |= expect_junk_error(t++, "m9v#mF");
+	ret |= expect_junk_error(t++, "m9vm\x01F");
+	ret |= expect_junk_error(t++, "m9vmF!");
+	ret |= expect_junk_error(t++, "m9vmF.");
+	ret |= expect_junk_error(t++, "CpnmuOj/1e8x");
+	ret |= expect_junk_error(t++, "CpnYmuOj1e8");
+	ret |= expect_junk_error(t++, "CZpnmuOj1e8");
+
+	ret |= ok_string_test(t++, "MEQIMI6FJE5NI47PJAHV5QIGU1LV3JLJ", "\xb3\xb5\x2b\x48\xcf\x9b\x8b\x79\x10\xf9\x9a\xa3\xf2\xea\x50\xf0\x6b\xf1\xce\xb3");
 
 	return ret;
 }
