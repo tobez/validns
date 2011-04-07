@@ -159,8 +159,6 @@ void *store_record(int rdtype, char *name, long ttl, void *rrptr)
 	if (strlen(name) > 511)
 		return bitch("name is too long: %s", name);
 
-	if (rdtype == T_SOA)
-		fprintf(stderr, "adding SOA in store_record\n");
 	if (G.stats.rr_count == 0) {
 		if (rdtype != T_SOA) {
 			return bitch("the first record in the zone must be an SOA record");
@@ -319,7 +317,8 @@ void validate_rrset(struct rr_set *rr_set)
 	while (rr) {
 		validate_record(rr);
 		if (ttl != rr->ttl) {
-			moan(rr->file_name, rr->line, "TTL values differ within an RR set");
+		   	if (rr->rdtype != T_RRSIG) /* RRSIG is an exception */
+				moan(rr->file_name, rr->line, "TTL values differ within an RR set");
 		}
 		rr = rr->next;
 	}

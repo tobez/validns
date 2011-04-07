@@ -14,6 +14,7 @@ $INCLUDESSIMO x.yz
 something
 @	A 1.2.3.4	; SOA must be the first
 @	NS some.ns.ws.	; SOA must be the first
+@       SOA meow. grau.  201101144500 1H 30M 1W 5M ; the serial is honestly too large
 @       SOA ns1.catpipe.net. hostmaster.catpipe.net. (
             2011011400  ; Serial
             1H  ; Refresh
