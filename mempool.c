@@ -64,7 +64,7 @@ void *getmem_temp(size_t size)
 	size = (size + sizeof(void *) - 1) / sizeof(void *);
 	size *= sizeof(void *);
 	if (!temp_freespace) {
-		size_t pool_size = size > 256000 ? size : 256000;
+		size_t pool_size = size > 1024*1024 ? size : 1024*1024;
 		pool_size = (pool_size + sizeof(void *) - 1) / sizeof(void *);
 		pool_size *= sizeof(void *);
 		temp_freespace = malloc(pool_size + sizeof(struct pool));

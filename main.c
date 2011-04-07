@@ -299,9 +299,10 @@ main(int argc, char **argv)
 	open_zone_file(argv[0]);
 	read_zone_file();
 	if (G.opt.summary) {
-		printf("records found:     %d\n", G.stats.rr_count);
-		printf("record sets found: %d\n", G.stats.rrset_count);
-		printf("validation errors: %d\n", G.stats.error_count);
+		printf("records found:      %d\n", G.stats.rr_count);
+		printf("record sets found:  %d\n", G.stats.rrset_count);
+		printf("unique names found: %d\n", G.stats.names_count);
+		printf("validation errors:  %d\n", G.stats.error_count);
 	}
 	return G.exit_code;
 }

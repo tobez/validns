@@ -33,6 +33,7 @@ extern struct file_info *file_info;
 
 struct globals {
 	struct stats {
+		int names_count;
 		int rr_count;
 		int rrset_count;
 		int error_count;

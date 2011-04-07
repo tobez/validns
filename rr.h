@@ -30,6 +30,10 @@
 #define T_NSEC3PARAM	51
 #define T_MAX	51
 
+struct named_rr;
+struct rr_set;
+struct rr;
+
 typedef void* (*rr_parse_func)(char *, long, int, char *);
 typedef char* (*rr_human_func)(void *);
 typedef void* (*rr_wire_func)(void *);
@@ -41,14 +45,32 @@ struct rr_methods {
 extern struct rr_methods rr_methods[T_MAX+1];
 extern struct rr_methods unknown_methods;
 
-extern void *records;
 void *store_record(int rdtype, char *name, long ttl, void *rrptr);
 int str2rdtype(char *rdtype);
 char *rdtype2str(int type);
+struct named_rr *find_named_rr(char *name);
+struct rr_set *find_rr_set(int rdtype, char *name);
+struct rr_set *find_rr_set_in_named_rr(struct named_rr *named_rr, int rdtype);
+
+struct named_rr
+{
+	char *name;
+	void *rr_sets;
+};
+
+struct rr_set
+{
+	struct rr* head;
+	struct rr* tail;
+	struct named_rr *named_rr;
+};
 
 struct rr
 {
 	struct rr* next;
+	struct rr* prev;
+	struct rr_set *rr_set;
+
 	int	ttl;
 	int rdtype;
 
