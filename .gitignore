@@ -5,3 +5,4 @@ base32hex-test
 *.core
 experiment*
 *.swp
+core
