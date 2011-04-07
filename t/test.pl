@@ -47,6 +47,7 @@ like(shift @e, qr/garbage after valid MX data/, "bad MX");
 
 ## actual validations done after parsing
 like(shift @e, qr/there should be at least two NS records/, "NS limit");
+like(shift @e, qr/TTL values differ within an RR set/, "TTL conflict");
 
 is(+@e, 0, "no unaccounted errors");
 #like(stdout, qr/validation errors: XX/, "error count");

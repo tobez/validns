@@ -34,5 +34,8 @@ something
         MX  5 horch.tobez.org. garbage
 
 singlens	NS x.y.z
+xy IN 300 A 194.28.255.11
+xy IN 400 A 194.28.255.12
+
 www     A 194.28.255.11
 cvs     A 194.28.255.11

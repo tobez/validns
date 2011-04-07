@@ -300,13 +300,19 @@ int str2rdtype(char *rdtype)
 void validate_rrset(struct rr_set *rr_set)
 {
 	struct rr *rr;
+	int ttl;
 
 	rr = rr_set->tail;
 	if (rr_set->rdtype == T_NS && rr_set->count < 2) {
 		moan(rr->file_name, rr->line, "there should be at least two NS records per name");
 	}
+	ttl = rr->ttl;
+
 	while (rr) {
 		validate_record(rr);
+		if (ttl != rr->ttl) {
+			moan(rr->file_name, rr->line, "TTL values differ within an RR set");
+		}
 		rr = rr->next;
 	}
 }
