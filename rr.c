@@ -159,6 +159,12 @@ void *store_record(int rdtype, char *name, long ttl, void *rrptr)
 	if (strlen(name) > 511)
 		return bitch("name is too long: %s", name);
 
+	if (G.stats.rr_count == 0) {
+		if (rdtype != T_SOA) {
+			return bitch("the first record in the zone must be an SOA record");
+		}
+	}
+
 	named_rr = find_or_create_named_rr(name);
 	rr_set = find_or_create_rr_set(named_rr, rdtype);
 

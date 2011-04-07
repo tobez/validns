@@ -35,6 +35,8 @@ like(shift @e, qr/bad \$INCLUDE format/, "not really an include");
 ## TODO continue main.c at "cannot assume previous name"
 
 like(shift @e, qr/class or type expected/, "nonsense line");
+like(shift @e, qr/the first record in the zone must be an SOA record/, "non-SOA 1");
+like(shift @e, qr/the first record in the zone must be an SOA record/, "non-SOA 2");
 like(shift @e, qr/nsdname expected/, "empty NS");
 like(shift @e, qr/garbage after valid NS/, "bad NS");
 like(shift @e, qr/ip address expected/, "empty A");
