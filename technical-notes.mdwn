@@ -1,0 +1,67 @@
+# validns technical notes
+
+## Data structures considerations
+
+- the whole parsed zone must be loaded into memory
+- some validations work on individual records
+- thus, whole zone traversal is needed
+- some validations work on records sorted in a particular way
+	- the "canonical order" described here
+	  http://tools.ietf.org/html/rfc4034#section-6.1
+	- thus, this traversal should be in this canonical order
+	- Judy is a good way to quickly find and iterate over
+	  string-indexed data
+	- but it uses normal lexicographic sort order
+	- is it possible to map the names in such a way
+	  that the result, sorted lexicographically,
+	  will correspond to the canonical order?
+	- if we agree that labels cannot contain chr(0)
+		- this, strictly speaking, is possible
+		- but we ignore that this can be seen in practice
+	- and, if we agree that labels cannot contain chr(1)
+		- same as above - possible, but it's not within "IN" class
+	- then we can reverse the name and use chr(1) as the label separator
+	- we could just use chr(0) as the label separator,
+	  but then we cannot use normal C-style strings, so
+	  the code will be somewhat more complex
+- some validations apply to given names
+- need quick retrieval of all records with a given name
+- some validations require complete RR sets
+- need quick retrieval of all records in a given RR set
+
+## TODO
+
+The todo list is not complete by its nature.
+
+- proper manual page
+- a test for every error message
+- zone validations specified in RFC 1035
+- multiple verboseness levels (`-v` option repeated)
+- wire RDATA format
+- include file support
+	- `-I` option
+- embedding lua for flexible validations
+	- "policy validations"
+	- `-p policy-file` option
+	- `-r policy-rule` option (maybe?)
+- better platform support
+	- `stpcpy()` might not be everywhere
+- NSEC3 parsing
+
+## DONE
+
+The done list is not complete.
+
+- (./) usage() function
+- (./) options support (`getopt`)
+- (./) $TTL support
+- (./) $ORIGIN support
+	- (./) `-z` option for initial ORIGIN
+- (./) master file support (RFC 1035, section 5)
+	- (./) see whether there were changes to it
+- `-v` option for verbose
+- (./) `-q` option for extra quiet
+- (./) `-f` option (die on first error)
+- (./) `-s` option - produce validation summary/statistics
+- (./) nice CPAN module for external programs output testing?
+	- (./) looks like Test::Command::Simple is what I want

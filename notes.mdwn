@@ -1,38 +1,5 @@
 # validns notes
 
-## INSTALLATION
-
-### Compatibility
-
-Known to compile and work on:
-
-- FreeBSD 9.0 amd64
-- Ubuntu 10.10 1 i386
-
-Is likely to compile and work on any modern Unix-like OS.
-
-### Requirements
-
-- Judy dynamic arrays
-	- http://judy.sourceforge.net/
-	- FreeBSD: ports/devel/judy
-	- Debian/Ubuntu: libjudy-dev
-- Test::Command::Simple perl module (for tests only)
-	- FreeBSD: ports/devel/p5-Test-Command-Simple
-	- anywhere: cpanm Test::Command::Simple
-
-### Compilation
-
-Type `make`.  If there are troubles,
-have a hard look at the `Makefile`, fix
-the problems, repeat.
-
-### Installation
-
-Copy `validns` executable someplace.
-There is no manual page at the moment,
-just read this file for usage.
-
 ## OMISSIONS
 
 A number of corners were cut to assume the most usual
@@ -49,55 +16,3 @@ to the author, with examples.  If there is
 a need for the community to fix a particular
 omission, it will be fixed sooner.
 Needless to say, patches are always welcome.
-
-## Data structures considerations
-
-- the whole parsed zone must be loaded into memory
-- some validations work on individual records
-- thus, whole zone traversal is needed
-- some validations work on records sorted in a particular way
-- thus, this traversal should be in the "natural" sort order
-- some validations apply to given names
-- need quick retrieval of all records with a given name
-- some validations require complete RR sets
-- need quick retrieval of all records in a given RR set
-
-## TODO
-
-The todo list is not complete by its nature.
-
-- proper manual page
-- missing rdtypes parsing support, in particular:
-	- NSEC3PARAM
-	- NSEC3
-- a test for every error message
-- zone validations specified in RFC 1035
-- mulitple verboseness levels (`-v` option repeated)
-- wire RDATA format
-- include file support
-	- `-I` option
-- embedding lua for flexible validations
-	- "policy validations"
-	- `-p policy-file` option
-	- `-r policy-rule` option (maybe?)
-- better platform support
-	- `stpcpy()` might not be everywhere
-- NSEC3PARAM parsing
-
-## DONE
-
-The done list is not complete.
-
-- (./) usage() function
-- (./) options support (`getopt`)
-- (./) $TTL support
-- (./) $ORIGIN support
-	- (./) `-z` option for initial ORIGIN
-- (./) master file support (RFC 1035, section 5)
-	- (./) see whether there were changes to it
-- `-v` option for verbose
-- (./) `-q` option for extra quiet
-- (./) `-f` option (die on first error)
-- (./) `-s` option - produce validation summary/statistics
-- (./) nice CPAN module for external programs output testing?
-	- (./) looks like Test::Command::Simple is what I want

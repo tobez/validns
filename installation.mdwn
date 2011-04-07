@@ -1,0 +1,33 @@
+# validns installation
+
+## Compatibility
+
+Known to compile and work on:
+
+- FreeBSD 9.0 amd64
+- Ubuntu 10.10 1 i386
+
+Is likely to compile and work on any modern Unix-like OS.
+
+## Requirements
+
+- Judy dynamic arrays
+	- http://judy.sourceforge.net/
+	- FreeBSD: ports/devel/judy
+	- Debian/Ubuntu: libjudy-dev
+- Test::Command::Simple perl module (for tests only)
+	- FreeBSD: ports/devel/p5-Test-Command-Simple
+	- anywhere: cpanm Test::Command::Simple
+
+## Compilation
+
+Type `make`.  If there are troubles,
+have a long hard look at the `Makefile`, fix
+the problems, repeat.
+
+## Installation
+
+Copy `validns` executable someplace.
+There is no manual page at the moment,
+just read usage.mdwn.
+
