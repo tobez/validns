@@ -50,6 +50,18 @@ a need for the community to fix a particular
 omission, it will be fixed sooner.
 Needless to say, patches are always welcome.
 
+## Data structures considerations
+
+- the whole parsed zone must be loaded into memory
+- some validations work on individual records
+- thus, whole zone traversal is needed
+- some validations work on records sorted in a particular way
+- thus, this traversal should be in the "natural" sort order
+- some validations apply to given names
+- need quick retrieval of all records with a given name
+- some validations require complete RR sets
+- need quick retrieval of all records in a given RR set
+
 ## TODO
 
 The todo list is not complete by its nature.
