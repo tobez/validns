@@ -173,7 +173,6 @@ void *store_record(int rdtype, char *name, long ttl, void *rrptr)
 	rr->line = file_info->line;
 	rr->file_name = file_info->name;
 	rr->rr_set = rr_set;
-
 	rr->next = NULL;
 	rr->prev = rr_set->head;
 	rr_set->head = rr;

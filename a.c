@@ -11,16 +11,16 @@
 
 static void *a_parse(char *name, long ttl, int type, char *s)
 {
-	struct rr_a *rr = getmem(sizeof(*rr));
+    struct rr_a *rr = getmem(sizeof(*rr));
 
-	rr->address = extract_ip(&s, "ip address");
-	if (!rr->address)
-		return NULL;
-	if (*s) {
-		return bitch("garbage after valid A data");
-	}
+    rr->address = extract_ip(&s, "ip address");
+    if (!rr->address)
+	return NULL;
+    if (*s) {
+	return bitch("garbage after valid A data");
+    }
 
-	return store_record(type, name, ttl, rr);
+    return store_record(type, name, ttl, rr);
 }
 
 static char* a_human(void *rrv)

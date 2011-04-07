@@ -18,7 +18,7 @@ clean:
 	-rm rr.o soa.o a.o cname.o mx.o ns.o
 	-rm rrsig.o nsec.o dnskey.o txt.o aaaa.o
 	-rm naptr.o srv.o nsec3param.o nsec3.o
-	-rm validns.core
+	-rm validns.core core
 	@echo ':-)'
 
 main.o: main.c
