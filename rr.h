@@ -45,6 +45,8 @@ struct rr_methods {
 extern struct rr_methods rr_methods[T_MAX+1];
 extern struct rr_methods unknown_methods;
 
+void validate_record(struct rr *rr);
+void validate_zone(void);
 void *store_record(int rdtype, char *name, long ttl, void *rrptr);
 int str2rdtype(char *rdtype);
 char *rdtype2str(int type);
@@ -56,6 +58,9 @@ struct named_rr
 {
 	char *name;
 	void *rr_sets;
+
+	int line;
+	char *file_name;
 };
 
 struct rr_set
@@ -63,6 +68,7 @@ struct rr_set
 	struct rr* head;
 	struct rr* tail;
 	struct named_rr *named_rr;
+	int rdtype;
 	int count;
 };
 

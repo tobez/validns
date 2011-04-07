@@ -298,6 +298,7 @@ main(int argc, char **argv)
 		usage(NULL);
 	open_zone_file(argv[0]);
 	read_zone_file();
+	validate_zone();
 	if (G.opt.summary) {
 		printf("records found:      %d\n", G.stats.rr_count);
 		printf("record sets found:  %d\n", G.stats.rrset_count);

@@ -44,6 +44,10 @@ like(shift @e, qr/ip address expected/, "not an IP in A");
 like(shift @e, qr/MX preference expected/, "empty MX");
 like(shift @e, qr/MX exchange expected/, "MX without exchange");
 like(shift @e, qr/garbage after valid MX data/, "bad MX");
+
+## actual validations done after parsing
+like(shift @e, qr/there should be at least two NS records/, "NS limit");
+
 is(+@e, 0, "no unaccounted errors");
 #like(stdout, qr/validation errors: XX/, "error count");
 

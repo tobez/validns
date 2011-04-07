@@ -76,6 +76,26 @@ bitch(const char *fmt, ...)
 	return NULL;
 }
 
+void *
+moan(char *file_name, int line, const char *fmt, ...)
+{
+	va_list ap;
+	va_start(ap, fmt);
+	if (!G.opt.no_output) {
+		fprintf(stderr, "%s:%d: ", file_name, line);
+		if (fmt != NULL) {
+			vfprintf(stderr, fmt, ap);
+		}
+		fprintf(stderr, "\n");
+	}
+	va_end(ap);
+	G.exit_code = 1;
+	G.stats.error_count++;
+	if (G.opt.die_on_first_error)
+		exit(1);
+	return NULL;
+}
+
 void
 v(int is_croak, int use_errno, int exit_code, const char *fmt, va_list ap)
 {

@@ -33,5 +33,6 @@ something
         MX  5
         MX  5 horch.tobez.org. garbage
 
+singlens	NS x.y.z
 www     A 194.28.255.11
 cvs     A 194.28.255.11

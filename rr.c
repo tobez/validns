@@ -110,6 +110,8 @@ static struct named_rr *find_or_create_named_rr(char *name)
 		named_rr = getmem(sizeof(struct named_rr));
 		named_rr->name = quickstrdup(name);
 		named_rr->rr_sets = NULL;
+		named_rr->line = file_info->line;
+		named_rr->file_name = file_info->name;
 
 		JSLI(named_rr_slot, zone, name2findable_name(name));
 		if (named_rr_slot == PJERR)
@@ -133,6 +135,7 @@ static struct rr_set *find_or_create_rr_set(struct named_rr *named_rr, int rdtyp
 		rr_set->head = NULL;
 		rr_set->tail = NULL;
 		rr_set->named_rr = named_rr;
+		rr_set->rdtype = rdtype;
 		rr_set->count = 0;
 
 		JLI(rr_set_slot, named_rr->rr_sets, rdtype);
@@ -152,6 +155,9 @@ void *store_record(int rdtype, char *name, long ttl, void *rrptr)
 	struct rr *rr = rrptr;
 	struct named_rr *named_rr;
 	struct rr_set *rr_set;
+
+	if (strlen(name) > 511)
+		return bitch("name is too long: %s", name);
 
 	named_rr = find_or_create_named_rr(name);
 	rr_set = find_or_create_rr_set(named_rr, rdtype);
@@ -289,5 +295,49 @@ int str2rdtype(char *rdtype)
 	}
 	bitch("invalid or unsupported rdtype %s", rdtype);
 	return -1;
+}
+
+void validate_rrset(struct rr_set *rr_set)
+{
+	struct rr *rr;
+
+	rr = rr_set->tail;
+	if (rr_set->rdtype == T_NS && rr_set->count < 2) {
+		moan(rr->file_name, rr->line, "there should be at least two NS records per name");
+	}
+	while (rr) {
+		validate_record(rr);
+		rr = rr->next;
+	}
+}
+
+void validate_named_rr(struct named_rr *named_rr)
+{
+	Word_t rdtype;
+	struct rr_set **rr_set_p;
+
+	rdtype = 0;
+	JLF(rr_set_p, named_rr->rr_sets, rdtype);
+	while (rr_set_p) {
+		validate_rrset(*rr_set_p);
+		JLN(rr_set_p, named_rr->rr_sets, rdtype);
+	}
+}
+
+void validate_zone(void)
+{
+	unsigned char sorted_name[512];
+	struct named_rr **named_rr_p;
+
+	sorted_name[0] = 0;
+	JSLF(named_rr_p, zone, sorted_name);
+	while (named_rr_p) {
+		validate_named_rr(*named_rr_p);
+		JSLN(named_rr_p, zone, sorted_name);
+	}
+}
+
+void validate_record(struct rr *rr)
+{
 }
 
