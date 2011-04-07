@@ -351,5 +351,6 @@ void validate_zone(void)
 
 void validate_record(struct rr *rr)
 {
+	freeall_temp();
 }
 
