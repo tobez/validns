@@ -95,7 +95,8 @@ extern struct rr_methods a_methods;
 struct rr_soa
 {
 	struct rr rr;
-	int serial, refresh, retry, expire, minimum;
+	uint32_t serial;
+	int refresh, retry, expire, minimum;
 	char *rname;
 	char *mname;
 };

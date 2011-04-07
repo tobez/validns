@@ -12,13 +12,16 @@
 static void* soa_parse(char *name, long ttl, int type, char *s)
 {
 	struct rr_soa *rr = getmem(sizeof(*rr));
+	long long i;
 
 	rr->mname = extract_name(&s, "mname");
 	if (!rr->mname) return NULL;
 	rr->rname = extract_name(&s, "rname");
 	if (!rr->rname) return NULL;
-	rr->serial = extract_integer(&s, "serial");
-	if (rr->serial < 0) return NULL;
+	i = extract_integer(&s, "serial");
+	if (i < 0) return NULL;
+	if (i > 4294967295) return bitch("serial is out of range");
+	rr->serial = i;
 	rr->refresh = extract_timevalue(&s, "refresh");
 	if (rr->refresh < 0) return NULL;
 	rr->retry = extract_timevalue(&s, "retry");
@@ -38,7 +41,7 @@ static char* soa_human(void *rrv)
     struct rr_soa *rr = rrv;
     char s[1024];
 
-    snprintf(s, 1024, "%s %s %d %d %d %d %d",
+    snprintf(s, 1024, "%s %s %u %d %d %d %d",
 	     rr->mname, rr->rname, rr->serial,
 	     rr->refresh, rr->retry, rr->expire, rr->minimum);
     return quickstrdup_temp(s);

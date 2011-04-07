@@ -148,10 +148,10 @@ char *extract_label(char **input, char *what, void *is_temporary)
 	return r;
 }
 
-long extract_integer(char **input, char *what)
+long long extract_integer(char **input, char *what)
 {
 	char *s = *input;
-	int r = -1;
+	long long r = -1;
 	char *end = NULL;
 	char c;
 
@@ -169,7 +169,7 @@ long extract_integer(char **input, char *what)
 	if (!*s)	end = s;
 	c = *s;
 	*s = '\0';
-	r = strtol(*input, NULL, 10);
+	r = strtoll(*input, NULL, 10);
 	*s = c;
 
 	if (end) {
