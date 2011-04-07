@@ -63,6 +63,7 @@ struct rr_set
 	struct rr* head;
 	struct rr* tail;
 	struct named_rr *named_rr;
+	int count;
 };
 
 struct rr

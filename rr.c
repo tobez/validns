@@ -113,7 +113,7 @@ static struct named_rr *find_or_create_named_rr(char *name)
 
 		JSLI(named_rr_slot, zone, name2findable_name(name));
 		if (named_rr_slot == PJERR)
-			croak(2, "find_or_create_named_rr/JSLI");
+			croak(2, "find_or_create_named_rr: JSLI failed");
 		if (*named_rr_slot)
 			croak(3, "find_or_create_named_rr: assertion error, %s should not be there", name);
 		*named_rr_slot = named_rr;
@@ -127,11 +127,25 @@ static struct rr_set *find_or_create_rr_set(struct named_rr *named_rr, int rdtyp
 {
 	struct rr_set *rr_set = find_rr_set_in_named_rr(named_rr, rdtype);
 	if (!rr_set) {
+		struct rr_set **rr_set_slot;
+
+		rr_set = getmem(sizeof(struct rr_set));
+		rr_set->head = NULL;
+		rr_set->tail = NULL;
+		rr_set->named_rr = named_rr;
+		rr_set->count = 0;
+
+		JLI(rr_set_slot, named_rr->rr_sets, rdtype);
+		if (rr_set_slot == PJERR)
+			croak(2, "find_or_create_rr_set: JLI failed");
+		if (*rr_set_slot)
+			croak(3, "find_or_create_rr_set: assertion error, %s/%s should not be there",
+				  named_rr->name, rdtype2str(rdtype));
+		*rr_set_slot = rr_set;
+		G.stats.rrset_count++;
 	}
-#error "Implement me"
 	return rr_set;
 }
-
 
 void *store_record(int rdtype, char *name, long ttl, void *rrptr)
 {
@@ -142,12 +156,21 @@ void *store_record(int rdtype, char *name, long ttl, void *rrptr)
 	named_rr = find_or_create_named_rr(name);
 	rr_set = find_or_create_rr_set(named_rr, rdtype);
 
-#error "Finish implementing me"
 	rr->rdtype = rdtype;
 	rr->ttl = ttl;
 	rr->line = file_info->line;
 	rr->file_name = file_info->name;
+	rr->rr_set = rr_set;
+
 	rr->next = NULL;
+	rr->prev = rr_set->head;
+	rr_set->head = rr;
+	if (rr->prev)
+		rr->prev->next = rr;
+	if (!rr_set->tail)
+		rr_set->tail = rr;
+
+	rr_set->count++;
 
 	if (G.opt.verbose) {
 		char *rdata = rr_methods[rdtype].rr_human(rr);
@@ -161,23 +184,19 @@ void *store_record(int rdtype, char *name, long ttl, void *rrptr)
 		}
 	}
 
-	JSLI(chain, records, (unsigned char*)name);
-	if (chain == PJERR)
-		croak(1, "store_record/JSLI");
-	if (*chain) {
-		rr->next = *chain;
-	} else {
-		G.stats.rrset_count++;
-	}
 	G.stats.rr_count++;
-	*chain = rr;
 
 	return rr;
 }
 
 struct named_rr *find_named_rr(char *name)
 {
-#error "Implement me"
+	struct named_rr **named_rr_slot;
+
+	JSLG(named_rr_slot, zone, name2findable_name(name));
+	if (named_rr_slot)
+		return *named_rr_slot;
+	return NULL;
 }
 
 struct rr_set *find_rr_set(int rdtype, char *name)
@@ -193,7 +212,12 @@ struct rr_set *find_rr_set(int rdtype, char *name)
 
 struct rr_set *find_rr_set_in_named_rr(struct named_rr *named_rr, int rdtype)
 {
-#error "Implement me"
+	struct rr_set **rr_set_slot;
+
+	JLG(rr_set_slot, named_rr->rr_sets, rdtype);
+	if (rr_set_slot)
+		return *rr_set_slot;
+	return NULL;
 }
 
 static void* unknown_parse(char *name, long ttl, int type, char *s)
