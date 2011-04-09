@@ -308,9 +308,8 @@ void validate_rrset(struct rr_set *rr_set)
 	int ttl;
 
 	rr = rr_set->tail;
-	if (rr_set->rdtype == T_NS && rr_set->count < 2) {
-		moan(rr->file_name, rr->line, "there should be at least two NS records per name");
-	}
+	if (rr_methods[rr_set->rdtype].rr_validate_set)
+		rr_methods[rr_set->rdtype].rr_validate_set(rr_set);
 	ttl = rr->ttl;
 
 	while (rr) {
@@ -352,5 +351,7 @@ void validate_zone(void)
 void validate_record(struct rr *rr)
 {
 	freeall_temp();
+	if (rr_methods[rr->rdtype].rr_validate)
+		rr_methods[rr->rdtype].rr_validate(rr);
 }
 
