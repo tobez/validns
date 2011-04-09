@@ -34,20 +34,24 @@ struct named_rr;
 struct rr_set;
 struct rr;
 
-typedef void* (*rr_parse_func)(char *, long, int, char *);
-typedef char* (*rr_human_func)(void *);
-typedef void* (*rr_wire_func)(void *);
+typedef struct rr* (*rr_parse_func)(char *, long, int, char *);
+typedef char* (*rr_human_func)(struct rr*);
+typedef struct binary_data (*rr_wire_func)(struct rr*);
+typedef void (*rr_validate_set_func)(struct rr_set*);
+typedef void (*rr_validate_func)(struct rr*);
 struct rr_methods {
-	rr_parse_func rr_parse;
-	rr_human_func rr_human;
-	rr_wire_func  rr_wire;
+	rr_parse_func        rr_parse;
+	rr_human_func        rr_human;
+	rr_wire_func         rr_wire;
+	rr_validate_set_func rr_validate_set;
+	rr_validate_func     rr_validate;
 };
 extern struct rr_methods rr_methods[T_MAX+1];
 extern struct rr_methods unknown_methods;
 
 void validate_record(struct rr *rr);
 void validate_zone(void);
-void *store_record(int rdtype, char *name, long ttl, void *rrptr);
+struct rr *store_record(int rdtype, char *name, long ttl, void *rrptr);
 int str2rdtype(char *rdtype);
 char *rdtype2str(int type);
 struct named_rr *find_named_rr(char *name);

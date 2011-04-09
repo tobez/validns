@@ -12,7 +12,7 @@
 #include "common.h"
 #include "rr.h"
 
-static void* nsec3_parse(char *name, long ttl, int type, char *s)
+static struct rr* nsec3_parse(char *name, long ttl, int type, char *s)
 {
     struct rr_nsec3 *rr = getmem(sizeof(*rr));
 	int i;
