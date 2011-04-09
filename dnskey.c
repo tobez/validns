@@ -11,7 +11,7 @@
 #include "common.h"
 #include "rr.h"
 
-static void* dnskey_parse(char *name, long ttl, int type, char *s)
+static struct rr* dnskey_parse(char *name, long ttl, int type, char *s)
 {
 	struct rr_dnskey *rr = getmem(sizeof(*rr));
 	struct binary_data key;
@@ -66,9 +66,9 @@ static void* dnskey_parse(char *name, long ttl, int type, char *s)
 	return store_record(type, name, ttl, rr);
 }
 
-static char* dnskey_human(void *rrv)
+static char* dnskey_human(struct rr *rrv)
 {
-    struct rr_dnskey *rr = rrv;
+    struct rr_dnskey *rr = (struct rr_dnskey *)rrv;
     char s[1024];
 
     snprintf(s, 1024, "%hu %d %d XXX ; key id = %hu",
@@ -76,11 +76,9 @@ static char* dnskey_human(void *rrv)
     return quickstrdup_temp(s);
 }
 
-static void* dnskey_wirerdata(void *rrv)
+static struct binary_data dnskey_wirerdata(struct rr *rrv)
 {
-    struct rr_dnskey *rr = rrv;
-
-    return NULL;
+    return bad_binary_data();
 }
 
-struct rr_methods dnskey_methods = { dnskey_parse, dnskey_human, dnskey_wirerdata };
+struct rr_methods dnskey_methods = { dnskey_parse, dnskey_human, dnskey_wirerdata, NULL, NULL };

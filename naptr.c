@@ -6,10 +6,12 @@
  * (See LICENSE file in the distribution.)
  *
  */
+#include <ctype.h>
+
 #include "common.h"
 #include "rr.h"
 
-static void *naptr_parse(char *name, long ttl, int type, char *s)
+static struct rr *naptr_parse(char *name, long ttl, int type, char *s)
 {
 	struct rr_naptr *rr = getmem(sizeof(*rr));
 	int i;
@@ -60,9 +62,9 @@ static void *naptr_parse(char *name, long ttl, int type, char *s)
 	return store_record(type, name, ttl, rr);
 }
 
-static char* naptr_human(void *rrv)
+static char* naptr_human(struct rr *rrv)
 {
-    struct rr_naptr *rr = rrv;
+    struct rr_naptr *rr = (struct rr_naptr *)rrv;
     char s[1024];
 
 	snprintf(s, 1024, "%hu %hu \"%s\" ...",
@@ -71,11 +73,9 @@ static char* naptr_human(void *rrv)
 	return quickstrdup_temp(s);
 }
 
-static void* naptr_wirerdata(void *rrv)
+static struct binary_data naptr_wirerdata(struct rr *rrv)
 {
-    struct rr_soa *rr = rrv;
-
-    return NULL;
+    return bad_binary_data();
 }
 
-struct rr_methods naptr_methods = { naptr_parse, naptr_human, naptr_wirerdata };
+struct rr_methods naptr_methods = { naptr_parse, naptr_human, naptr_wirerdata, NULL, NULL };

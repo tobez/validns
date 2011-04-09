@@ -65,16 +65,13 @@ static struct rr* nsec3_parse(char *name, long ttl, int type, char *s)
     return store_record(type, name, ttl, rr);
 }
 
-static char* nsec3_human(void *rrv)
+static char* nsec3_human(struct rr *rrv)
 {
-    struct rr_nsec3 *rr = rrv;
+    struct rr_nsec3 *rr = (struct rr_nsec3 *)rrv;
     char ss[1024];
 	char *s = ss;
 	int l;
-	char *base;
-	int i, k;
-	int type;
-	char *type_name;
+	int i;
 
     l = snprintf(s, 1024, "%u %u %u ", rr->hash_algorithm, rr->flags, rr->iterations);
 	s += l;
@@ -89,11 +86,9 @@ static char* nsec3_human(void *rrv)
     return quickstrdup_temp(ss);
 }
 
-static void* nsec3_wirerdata(void *rrv)
+static struct binary_data nsec3_wirerdata(struct rr *rrv)
 {
-    struct rr_nsec3 *rr = rrv;
-
-    return NULL;
+    return bad_binary_data();
 }
 
-struct rr_methods nsec3_methods = { nsec3_parse, nsec3_human, nsec3_wirerdata };
+struct rr_methods nsec3_methods = { nsec3_parse, nsec3_human, nsec3_wirerdata, NULL, NULL };

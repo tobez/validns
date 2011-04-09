@@ -9,7 +9,7 @@
 #include "common.h"
 #include "rr.h"
 
-static void* nsec_parse(char *name, long ttl, int type, char *s)
+static struct rr* nsec_parse(char *name, long ttl, int type, char *s)
 {
     struct rr_nsec *rr = getmem(sizeof(*rr));
 	struct binary_data bitmap;
@@ -39,9 +39,9 @@ static void* nsec_parse(char *name, long ttl, int type, char *s)
     return store_record(type, name, ttl, rr);
 }
 
-static char* nsec_human(void *rrv)
+static char* nsec_human(struct rr *rrv)
 {
-    struct rr_nsec *rr = rrv;
+    struct rr_nsec *rr = (struct rr_nsec *)rrv;
     char ss[1024];
 	char *s = ss;
 	int l;
@@ -69,11 +69,9 @@ static char* nsec_human(void *rrv)
     return quickstrdup_temp(ss);
 }
 
-static void* nsec_wirerdata(void *rrv)
+static struct binary_data nsec_wirerdata(struct rr *rrv)
 {
-    struct rr_nsec *rr = rrv;
-
-    return NULL;
+    return bad_binary_data();
 }
 
-struct rr_methods nsec_methods = { nsec_parse, nsec_human, nsec_wirerdata };
+struct rr_methods nsec_methods = { nsec_parse, nsec_human, nsec_wirerdata, NULL, NULL };

@@ -12,7 +12,7 @@
 #include "common.h"
 #include "rr.h"
 
-static void* nsec3param_parse(char *name, long ttl, int type, char *s)
+static struct rr* nsec3param_parse(char *name, long ttl, int type, char *s)
 {
     struct rr_nsec3param *rr = getmem(sizeof(*rr));
 	int i;
@@ -65,16 +65,13 @@ static void* nsec3param_parse(char *name, long ttl, int type, char *s)
     return store_record(type, name, ttl, rr);
 }
 
-static char* nsec3param_human(void *rrv)
+static char* nsec3param_human(struct rr *rrv)
 {
-    struct rr_nsec3param *rr = rrv;
+    struct rr_nsec3param *rr = (struct rr_nsec3param *)rrv;
     char ss[1024];
 	char *s = ss;
 	int l;
-	char *base;
-	int i, k;
-	int type;
-	char *type_name;
+	int i;
 
     l = snprintf(s, 1024, "%u %u %u ", rr->hash_algorithm, rr->flags, rr->iterations);
 	s += l;
@@ -89,11 +86,9 @@ static char* nsec3param_human(void *rrv)
     return quickstrdup_temp(ss);
 }
 
-static void* nsec3param_wirerdata(void *rrv)
+static struct binary_data nsec3param_wirerdata(struct rr *rrv)
 {
-    struct rr_nsec3param *rr = rrv;
-
-    return NULL;
+    return bad_binary_data();
 }
 
-struct rr_methods nsec3param_methods = { nsec3param_parse, nsec3param_human, nsec3param_wirerdata };
+struct rr_methods nsec3param_methods = { nsec3param_parse, nsec3param_human, nsec3param_wirerdata, NULL, NULL };

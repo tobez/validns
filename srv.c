@@ -9,7 +9,7 @@
 #include "common.h"
 #include "rr.h"
 
-static void *srv_parse(char *name, long ttl, int type, char *s)
+static struct rr *srv_parse(char *name, long ttl, int type, char *s)
 {
 	struct rr_srv *rr = getmem(sizeof(*rr));
 	int i;
@@ -48,9 +48,9 @@ static void *srv_parse(char *name, long ttl, int type, char *s)
 	return store_record(type, name, ttl, rr);
 }
 
-static char* srv_human(void *rrv)
+static char* srv_human(struct rr *rrv)
 {
-    struct rr_srv *rr = rrv;
+    struct rr_srv *rr = (struct rr_srv *)rrv;
     char s[1024];
 
 	snprintf(s, 1024, "%hu %hu %hu %s",
@@ -59,11 +59,9 @@ static char* srv_human(void *rrv)
 	return quickstrdup_temp(s);
 }
 
-static void* srv_wirerdata(void *rrv)
+static struct binary_data srv_wirerdata(struct rr *rrv)
 {
-    struct rr_soa *rr = rrv;
-
-    return NULL;
+    return bad_binary_data();
 }
 
-struct rr_methods srv_methods = { srv_parse, srv_human, srv_wirerdata };
+struct rr_methods srv_methods = { srv_parse, srv_human, srv_wirerdata, NULL, NULL };
