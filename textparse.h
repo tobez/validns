@@ -30,6 +30,7 @@ int extract_ipv6(char **input, char *what, struct in6_addr *addr);
 struct binary_data extract_base64_binary_data(char **input, char *what);
 struct binary_data extract_text(char **input, char *what);
 struct binary_data extract_hex_binary_data(char **input, char *what);
+struct binary_data bad_binary_data(void);
 
 /* for NSEC/NSEC3 sets */
 struct binary_data new_set(void);

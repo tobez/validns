@@ -150,7 +150,7 @@ static struct rr_set *find_or_create_rr_set(struct named_rr *named_rr, int rdtyp
 	return rr_set;
 }
 
-void *store_record(int rdtype, char *name, long ttl, void *rrptr)
+struct rr *store_record(int rdtype, char *name, long ttl, void *rrptr)
 {
 	struct rr *rr = rrptr;
 	struct named_rr *named_rr;
@@ -231,23 +231,23 @@ struct rr_set *find_rr_set_in_named_rr(struct named_rr *named_rr, int rdtype)
 	return NULL;
 }
 
-static void* unknown_parse(char *name, long ttl, int type, char *s)
+static struct rr *unknown_parse(char *name, long ttl, int type, char *s)
 {
 	return bitch("unsupported resource record type %s", rdtype2str(type));
 }
 
-static char* unknown_human(void *rrv)
+static char* unknown_human(struct rr *rr)
 {
 	return NULL;
 }
 
-static void* unknown_wirerdata(void *rrv)
+static struct binary_data unknown_wirerdata(struct rr *rr)
 {
-	struct rr *rr = rrv;
-	return bitch("not implemented wire rdata for rdtype %d", rr->rdtype);
+	bitch("not implemented wire rdata for rdtype %s", rdtype2str(rr->rdtype));
+	return bad_binary_data();
 }
 
-struct rr_methods unknown_methods = { unknown_parse, unknown_human, unknown_wirerdata };
+struct rr_methods unknown_methods = { unknown_parse, unknown_human, unknown_wirerdata, NULL, NULL };
 
 int str2rdtype(char *rdtype)
 {

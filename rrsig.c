@@ -9,7 +9,7 @@
 #include "common.h"
 #include "rr.h"
 
-static void* rrsig_parse(char *name, long ttl, int type, char *s)
+static struct rr* rrsig_parse(char *name, long ttl, int type, char *s)
 {
 	struct rr_rrsig *rr = getmem(sizeof(*rr));
 	int type_covered, key_tag;
@@ -63,10 +63,10 @@ static void* rrsig_parse(char *name, long ttl, int type, char *s)
 	return store_record(type, name, ttl, rr);
 }
 
-static char* rrsig_human(void *rrv)
+static char* rrsig_human(struct rr *rrv)
 {
-    struct rr_rrsig *rr = rrv;
-    char s[1024];
+    // struct rr_rrsig *rr = (struct rr_rrsig *)rrv;
+    // char s[1024];
 
     //snprintf(s, 1024, "SOA %s %s %d %d %d %d %d",
 	 //    rr->mname, rr->rname, rr->serial,
@@ -75,11 +75,9 @@ static char* rrsig_human(void *rrv)
 	return NULL;
 }
 
-static void* rrsig_wirerdata(void *rrv)
+static struct binary_data rrsig_wirerdata(struct rr *rrv)
 {
-    struct rr_rrsig *rr = rrv;
-
-    return NULL;
+    return bad_binary_data();
 }
 
-struct rr_methods rrsig_methods = { rrsig_parse, rrsig_human, rrsig_wirerdata };
+struct rr_methods rrsig_methods = { rrsig_parse, rrsig_human, rrsig_wirerdata, NULL, NULL };

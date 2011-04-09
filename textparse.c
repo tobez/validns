@@ -437,16 +437,21 @@ int extract_ipv6(char **input, char *what, struct in6_addr *addr)
 	return 1;
 }
 
+struct binary_data bad_binary_data(void)
+{
+	struct binary_data r;
+	r.length = -1;
+	r.data = NULL;
+	return r;
+}
+
 struct binary_data extract_base64_binary_data(char **input, char *what)
 {
 	char b64[4096];
 	int l64 = 0;
 	char *s = *input;
-	struct binary_data r;
+	struct binary_data r = bad_binary_data();
 	int bl;
-
-	r.length = -1;
-	r.data = NULL;
 
 	while (s && *s) {
 		if (!isalnum(*s) && *s != '=' && *s != '+' && *s != '/') {
@@ -478,13 +483,11 @@ struct binary_data extract_base64_binary_data(char **input, char *what)
 struct binary_data extract_text(char **input, char *what)
 {
 	char *s = *input;
-	struct binary_data r;
+	struct binary_data r = bad_binary_data();
 	char *o = getmem_temp(65536);
 	int l = 0;
 	int c;
 
-	r.length = -1;
-	r.data = NULL;
 	if (*s != '"') {
 		bitch("for now, %s must be put in double quotes", what);
 		return r;
@@ -545,11 +548,8 @@ struct binary_data extract_hex_binary_data(char **input, char *what)
 {
 	char hex[4096];
 	char *s = *input;
-	struct binary_data r;
+	struct binary_data r = bad_binary_data();
 	int hl, hi, hb;
-
-	r.length = -1;
-	r.data = NULL;
 
 	hex[0] = '0';
 	hl = 1;

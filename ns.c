@@ -9,7 +9,7 @@
 #include "common.h"
 #include "rr.h"
 
-static void *ns_parse(char *name, long ttl, int type, char *s)
+static struct rr *ns_parse(char *name, long ttl, int type, char *s)
 {
 	struct rr_ns *rr = getmem(sizeof(*rr));
 
@@ -23,18 +23,16 @@ static void *ns_parse(char *name, long ttl, int type, char *s)
 	return store_record(type, name, ttl, rr);
 }
 
-static char* ns_human(void *rrv)
+static char* ns_human(struct rr *rrv)
 {
-    struct rr_ns *rr = rrv;
+    struct rr_ns *rr = (struct rr_ns *)rrv;
 
     return rr->nsdname;
 }
 
-static void* ns_wirerdata(void *rrv)
+static struct binary_data ns_wirerdata(struct rr *rrv)
 {
-    struct rr_ns *rr = rrv;
-
-    return NULL;
+    return bad_binary_data();
 }
 
-struct rr_methods ns_methods = { ns_parse, ns_human, ns_wirerdata };
+struct rr_methods ns_methods = { ns_parse, ns_human, ns_wirerdata, NULL, NULL };

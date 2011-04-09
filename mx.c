@@ -9,7 +9,7 @@
 #include "common.h"
 #include "rr.h"
 
-static void *mx_parse(char *name, long ttl, int type, char *s)
+static struct rr *mx_parse(char *name, long ttl, int type, char *s)
 {
 	struct rr_mx *rr = getmem(sizeof(*rr));
 
@@ -27,9 +27,9 @@ static void *mx_parse(char *name, long ttl, int type, char *s)
 	return store_record(type, name, ttl, rr);
 }
 
-static char* mx_human(void *rrv)
+static char* mx_human(struct rr *rrv)
 {
-    struct rr_mx *rr = rrv;
+    struct rr_mx *rr = (struct rr_mx *)rrv;
     char s[1024];
 
     snprintf(s, 1024, "%d %s",
@@ -37,11 +37,9 @@ static char* mx_human(void *rrv)
     return quickstrdup_temp(s);
 }
 
-static void* mx_wirerdata(void *rrv)
+static struct binary_data mx_wirerdata(struct rr *rrv)
 {
-    struct rr_mx *rr = rrv;
-
-    return NULL;
+    return bad_binary_data();
 }
 
-struct rr_methods mx_methods = { mx_parse, mx_human, mx_wirerdata };
+struct rr_methods mx_methods = { mx_parse, mx_human, mx_wirerdata, NULL, NULL };

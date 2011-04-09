@@ -9,7 +9,7 @@
 #include "common.h"
 #include "rr.h"
 
-static void *cname_parse(char *name, long ttl, int type, char *s)
+static struct rr *cname_parse(char *name, long ttl, int type, char *s)
 {
 	struct rr_cname *rr = getmem(sizeof(*rr));
 
@@ -23,17 +23,15 @@ static void *cname_parse(char *name, long ttl, int type, char *s)
 	return store_record(type, name, ttl, rr);
 }
 
-static char* cname_human(void *rrv)
+static char* cname_human(struct rr *rrv)
 {
-    struct rr_cname *rr = rrv;
+    struct rr_cname *rr = (struct rr_cname *)rrv;
     return rr->cname;
 }
 
-static void* cname_wirerdata(void *rrv)
+static struct binary_data cname_wirerdata(struct rr *rrv)
 {
-    struct rr_cname *rr = rrv;
-
-    return NULL;
+	return bad_binary_data();
 }
 
-struct rr_methods cname_methods = { cname_parse, cname_human, cname_wirerdata };
+struct rr_methods cname_methods = { cname_parse, cname_human, cname_wirerdata, NULL, NULL };

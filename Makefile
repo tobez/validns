@@ -1,5 +1,5 @@
 OPTIMIZE=-O2 -g
-CFLAGS=-Wall
+CFLAGS=-Wall -Werror
 INCPATH=-I/usr/local/include
 
 validns: main.o carp.o mempool.o textparse.o base64.o base32hex.o \

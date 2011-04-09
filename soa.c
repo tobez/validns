@@ -9,7 +9,7 @@
 #include "common.h"
 #include "rr.h"
 
-static void* soa_parse(char *name, long ttl, int type, char *s)
+static struct rr* soa_parse(char *name, long ttl, int type, char *s)
 {
 	struct rr_soa *rr = getmem(sizeof(*rr));
 	long long i;
@@ -36,9 +36,9 @@ static void* soa_parse(char *name, long ttl, int type, char *s)
 	return store_record(type, name, ttl, rr);
 }
 
-static char* soa_human(void *rrv)
+static char* soa_human(struct rr *rrv)
 {
-    struct rr_soa *rr = rrv;
+    struct rr_soa *rr = (struct rr_soa *)rrv;
     char s[1024];
 
     snprintf(s, 1024, "%s %s %u %d %d %d %d",
@@ -47,11 +47,9 @@ static char* soa_human(void *rrv)
     return quickstrdup_temp(s);
 }
 
-static void* soa_wirerdata(void *rrv)
+static struct binary_data soa_wirerdata(struct rr *rrv)
 {
-    struct rr_soa *rr = rrv;
-
-    return NULL;
+    return bad_binary_data();
 }
 
-struct rr_methods soa_methods = { soa_parse, soa_human, soa_wirerdata };
+struct rr_methods soa_methods = { soa_parse, soa_human, soa_wirerdata, NULL, NULL };
