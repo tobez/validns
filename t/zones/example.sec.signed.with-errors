@@ -183,7 +183,7 @@ example.sec.		300	IN SOA	ns1.example.sec. hostmaster.example.sec. (
 					rpT07UDWcPivBC64Nj8pyW4pqKkIk00f1dXI
 					tLbECa2mar7uiN1SkFYrofbbSXAH2Adic4p+
 					OPjDJiSb0qIhbi3Biw== )
-			300	NSEC	mail.example.sec. A NS SOA MX RRSIG NSEC DNSKEY
+			300	NSEC	mail.example.sec. A NS SOA RRSIG NSEC DNSKEY
 			300	RRSIG	NSEC 5 2 300 20121212121212 (
 					20110321190904 516 example.sec.
 					NzQ6/OI3Lb97qiSV1GSI2Z+7KZl+d7cfejS4
@@ -357,7 +357,7 @@ mail.example.sec.	300	IN A	2.3.4.5
 					0/cOKaal6+xEao7r7vVLB11NDgrIH2smeMSU
 					QrqFMPAtIxQgQVqk4urc6YTtfe8p1HIDzDVf
 					/7xqj3WpVcLa0+s7rA== )
-			300	NSEC	ns1.example.sec. A RRSIG NSEC
+			300	NSEC	ns1.example.sec. A RRSIG NSEC SRV
 			300	RRSIG	NSEC 5 3 300 20121212121212 (
 					20110321190904 516 example.sec.
 					PGsq/tTtjx+oeDoZTZhLrWFF+EkQ8MjBpmVF

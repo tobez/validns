@@ -128,10 +128,10 @@ nsec3.c: common.h rr.h
 
 common.h: textparse.h carp.h mempool.h
 
-test:
+test: validns
 	perl -MTest::Harness -e 'runtests("t/test.pl")'
 
-test-details:
+test-details: validns
 	perl t/test.pl
 
 test64:
