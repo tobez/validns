@@ -15,6 +15,9 @@ unless (*run{CODE})
 run('./validns', 't/zones/galaxyplus.org');
 is(rc, 0, 'valid zone parses ok');
 
+run('./validns', 't/zones/example.sec.signed');
+is(rc, 0, 'valid signed zone parses ok');
+
 run('./validns', '-s', 't/zones/manyerrors.zone');
 isnt(rc, 0, 'bad zone returns an error');
 my @e = split /\n/, stderr;
@@ -54,5 +57,11 @@ like(shift @e, qr/TTL values differ within an RR set/, "TTL conflict");
 
 is(+@e, 0, "no unaccounted errors");
 #like(stdout, qr/validation errors: XX/, "error count");
+
+run('./validns', '-s', 't/zones/example.sec.signed.with-errors');
+isnt(rc, 0, 'bad signed zone returns an error');
+@e = split /\n/, stderr;
+
+is(+@e, 0, "no unaccounted errors");
 
 done_testing;
