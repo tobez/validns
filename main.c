@@ -13,10 +13,13 @@
 #include <ctype.h>
 #include <unistd.h>
 #include <time.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
 
 #include "common.h"
 #include "carp.h"
 #include "mempool.h"
+#include "textparse.h"
 #include "rr.h"
 
 struct globals G;

@@ -7,11 +7,14 @@
  *
  */
 #include <string.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
 #include <Judy.h>
 
 #include "common.h"
 #include "mempool.h"
 #include "carp.h"
+#include "textparse.h"
 #include "rr.h"
 
 static char* rdtype2str_map[T_MAX+1] = {

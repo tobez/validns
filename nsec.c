@@ -6,9 +6,16 @@
  * (See LICENSE file in the distribution.)
  *
  */
+#include <sys/types.h>
+#include <stdio.h>
+#include <netinet/in.h>
+#include <arpa/inet.h>
 #include <Judy.h>
 
 #include "common.h"
+#include "textparse.h"
+#include "mempool.h"
+#include "carp.h"
 #include "rr.h"
 
 static struct rr* nsec_parse(char *name, long ttl, int type, char *s)

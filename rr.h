@@ -9,11 +9,6 @@
 #ifndef _RR_H
 #define _RR_H 1
 
-#include <unistd.h>
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-
 #define T_A		1
 #define T_NS	2
 #define T_CNAME	5

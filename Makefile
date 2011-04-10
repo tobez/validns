@@ -84,49 +84,47 @@ nsec3param.o: nsec3param.c
 nsec3.o: nsec3.c
 	cc $(CFLAGS) $(OPTIMIZE) -c -o nsec3.o nsec3.c $(INCPATH)
 
-main.c: common.h carp.h mempool.h rr.h
+main.c: common.h carp.h mempool.h textparse.h rr.h
 
 carp.c: carp.h common.h
 
 mempool.c: mempool.h carp.h
 
-textparse.c: common.h
+textparse.c: common.h carp.h mempool.h textparse.h base64.h
 
 base64.c: base64.h
 
 base32hex.c: base32hex.h
 
-rr.c: common.h carp.h mempool.h rr.h
+rr.c: common.h mempool.h carp.h textparse.h rr.h
 
-soa.c: common.h rr.h
+soa.c: common.h textparse.h mempool.h carp.h rr.h
 
-a.c: common.h rr.h
+a.c: common.h textparse.h mempool.h carp.h rr.h
 
-cname.c: common.h rr.h
+cname.c: common.h textparse.h mempool.h carp.h rr.h
 
-mx.c: common.h rr.h
+mx.c: common.h textparse.h mempool.h carp.h rr.h
 
-ns.c: common.h rr.h
+ns.c: common.h textparse.h mempool.h carp.h rr.h
 
-rrsig.c: common.h rr.h
+rrsig.c: common.h textparse.h mempool.h carp.h rr.h
 
-nsec.c: common.h rr.h
+nsec.c: common.h textparse.h mempool.h carp.h rr.h
 
-dnskey.c: common.h rr.h
+dnskey.c: common.h textparse.h mempool.h carp.h rr.h
 
-txt.c: common.h rr.h
+txt.c: common.h textparse.h mempool.h carp.h rr.h
 
-aaaa.c: common.h rr.h
+aaaa.c: common.h textparse.h mempool.h carp.h rr.h
 
-naptr.c: common.h rr.h
+naptr.c: common.h textparse.h mempool.h carp.h rr.h
 
-srv.c: common.h rr.h
+srv.c: common.h textparse.h mempool.h carp.h rr.h
 
-nsec3param.c: common.h rr.h
+nsec3param.c: common.h textparse.h mempool.h carp.h rr.h
 
-nsec3.c: common.h rr.h
-
-common.h: textparse.h carp.h mempool.h
+nsec3.c: common.h textparse.h mempool.h carp.h rr.h
 
 test: validns
 	perl -MTest::Harness -e 'runtests("t/test.pl")'

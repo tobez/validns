@@ -8,9 +8,17 @@
  */
 #include <ctype.h>
 #include <time.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <sys/socket.h>
+#include <netinet/in.h>
 #include <arpa/inet.h>
 
 #include "common.h"
+#include "carp.h"
+#include "mempool.h"
+#include "textparse.h"
 #include "base64.h"
 
 int empty_line_or_comment(char *s)

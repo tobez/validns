@@ -9,10 +9,6 @@
 #ifndef _TEXTPARSE_H_
 #define _TEXTPARSE_H_
 
-#include <sys/types.h>
-#include <sys/socket.h>
-#include <netinet/in.h>
-
 struct binary_data {
 	int length;
 	char *data;
