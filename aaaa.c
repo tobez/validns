@@ -43,7 +43,12 @@ static char* aaaa_human(struct rr *rrv)
 
 static struct binary_data aaaa_wirerdata(struct rr *rrv)
 {
-    return bad_binary_data();
+	struct rr_aaaa *rr = (struct rr_aaaa *)rrv;
+	struct binary_data r;
+
+	r.length = sizeof(rr->address);
+	r.data = (void *)&rr->address;
+	return r;
 }
 
 struct rr_methods aaaa_methods = { aaaa_parse, aaaa_human, aaaa_wirerdata, NULL, NULL };

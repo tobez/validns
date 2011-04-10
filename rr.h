@@ -87,7 +87,7 @@ struct rr
 struct rr_a
 {
 	struct rr rr;
-	uint32_t address;
+	struct in_addr address;
 };
 extern struct rr_methods a_methods;
 

@@ -21,7 +21,7 @@ char *extract_label(char **input, char *what, void *is_temporary);
 long long extract_integer(char **input, char *what);
 long extract_timevalue(char **input, char *what);
 long extract_timestamp(char **input, char *what);
-uint32_t extract_ip(char **input, char *what);
+int extract_ipv4(char **input, char *what, struct in_addr *addr);
 int extract_ipv6(char **input, char *what, struct in6_addr *addr);
 struct binary_data extract_base64_binary_data(char **input, char *what);
 struct binary_data extract_text(char **input, char *what);

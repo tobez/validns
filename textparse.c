@@ -338,78 +338,35 @@ done:
 	return epoch;
 }
 
-uint32_t extract_ip(char **input, char *what)
+int extract_ipv4(char **input, char *what, struct in_addr *addr)
 {
 	char *s = *input;
-	unsigned octet = 0;
-	unsigned ip = 0;
+	char c;
 
-	if (!isdigit(*s)) {
-		bitch("%s expected", what);
-		return 0;
-	}
-	while (isdigit(*s)) {
-		octet = 10*octet + *s - '0';
+	while (isdigit(*s) || *s == '.') {
 		s++;
 	}
-	if (octet > 255 || *s != '.') {
+	if (s == *input) {
 		bitch("%s is not valid", what);
-		return 0;
+		return -1;
 	}
-	s++;
-	if (!isdigit(*s)) {
-		bitch("%s is not valid", what);
-		return 0;
-	}
-	ip = 256*ip + octet;
-	octet = 0;
-	while (isdigit(*s)) {
-		octet = 10*octet + *s - '0';
-		s++;
-	}
-	if (octet > 255 || *s != '.') {
-		bitch("%s is not valid", what);
-		return 0;
-	}
-	s++;
-	if (!isdigit(*s)) {
-		bitch("%s is not valid", what);
-		return 0;
-	}
-	ip = 256*ip + octet;
-	octet = 0;
-	while (isdigit(*s)) {
-		octet = 10*octet + *s - '0';
-		s++;
-	}
-	if (octet > 255 || *s != '.') {
-		bitch("%s is not valid", what);
-		return 0;
-	}
-	s++;
-	if (!isdigit(*s)) {
-		bitch("%s is not valid", what);
-		return 0;
-	}
-	ip = 256*ip + octet;
-	octet = 0;
-	while (isdigit(*s)) {
-		octet = 10*octet + *s - '0';
-		s++;
-	}
-	ip = 256*ip + octet;
-
 	if (*s && !isspace(*s) && *s != ';' && *s != ')') {
 		bitch("%s is not valid", what);
-		return 0;
+		return -1;
 	}
-
+	c = *s;
+	*s = 0;
+	if (inet_pton(AF_INET, *input, addr) != 1) {
+		*s = c;
+		bitch("cannot parse %s", what);
+		return -1;
+	}
+	*s = c;
 	*input = skip_white_space(s);
 	if (!*input) {
-		return 0;  /* bitching's done elsewhere */
+		return -1;  /* bitching's done elsewhere */
 	}
-
-	return ip;
+	return 1;
 }
 
 int extract_ipv6(char **input, char *what, struct in6_addr *addr)

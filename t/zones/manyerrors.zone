@@ -31,6 +31,13 @@ something
         A   194.28.255.11 garbage
         A   257.17.81.54
         A   this.is.not.an.a.
+
+		AAAA 2001:2010:1::feef
+		AAAA
+		AAAA 2001:2010:1::feef garbage
+		AAAA 2001:2010:1::feeL
+        AAAA this.is.not.an.aaaa.
+
         MX  5 horch.tobez.org.
         MX
         MX  5
@@ -46,3 +53,4 @@ outsidegalaxyplus.org. A 194.28.255.11
 insidegalaxyplus.org.galaxyplus.org. A 194.28.255.11
 www     A 194.28.255.11
 cvs     A 194.28.255.11
+v6		AAAA 2001:2010:1::feef

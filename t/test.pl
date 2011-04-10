@@ -43,10 +43,14 @@ like(shift @e, qr/the first record in the zone must be an SOA record/, "non-SOA 
 like(shift @e, qr/serial is out of range/, "out of range serial");
 like(shift @e, qr/nsdname expected/, "empty NS");
 like(shift @e, qr/garbage after valid NS/, "bad NS");
-like(shift @e, qr/ip address expected/, "empty A");
+like(shift @e, qr/IPv4 address is not valid/, "empty A");
 like(shift @e, qr/garbage after valid A data/, "bad A");
-like(shift @e, qr/ip address is not valid/, "bad A IP");
-like(shift @e, qr/ip address expected/, "not an IP in A");
+like(shift @e, qr/cannot parse IPv4 address/, "bad A IP");
+like(shift @e, qr/IPv4 address is not valid/, "not an IP in A");
+like(shift @e, qr/IPv6 address is not valid/, "empty AAAA");
+like(shift @e, qr/garbage after valid AAAA data/, "bad AAAA");
+like(shift @e, qr/IPv6 address is not valid/, "bad AAAA IP");
+like(shift @e, qr/IPv6 address is not valid/, "not an IP in AAAA");
 like(shift @e, qr/MX preference expected/, "empty MX");
 like(shift @e, qr/MX exchange expected/, "MX without exchange");
 like(shift @e, qr/garbage after valid MX data/, "bad MX");

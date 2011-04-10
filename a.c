@@ -8,6 +8,7 @@
  */
 #include <sys/types.h>
 #include <stdio.h>
+#include <sys/socket.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
@@ -19,32 +20,35 @@
 
 static struct rr *a_parse(char *name, long ttl, int type, char *s)
 {
-    struct rr_a *rr = getmem(sizeof(*rr));
+	struct rr_a *rr = getmem(sizeof(*rr));
 
-    rr->address = extract_ip(&s, "ip address");
-    if (!rr->address)
-	return NULL;
-    if (*s) {
-	return bitch("garbage after valid A data");
-    }
+	if (extract_ipv4(&s, "IPv4 address", &rr->address) <= 0)
+		return NULL;
+	if (*s) {
+		return bitch("garbage after valid A data");
+	}
 
-    return store_record(type, name, ttl, rr);
+	return store_record(type, name, ttl, rr);
 }
 
 static char* a_human(struct rr *rrv)
 {
-    struct rr_a *rr = (struct rr_a *)rrv;
-    char s[1024];
+	struct rr_a *rr = (struct rr_a *)rrv;
+	char s[1024];
 
-    snprintf(s, 1024, "%d.%d.%d.%d",
-			 0xff & (rr->address >> 24), 0xff & (rr->address >> 16),
-			 0xff & (rr->address >> 8), 0xff & rr->address);
-    return quickstrdup_temp(s);
+	if (inet_ntop(AF_INET, &rr->address, s, 1024))
+		return quickstrdup_temp(s);
+	return "????";
 }
 
 static struct binary_data a_wirerdata(struct rr *rrv)
 {
-    return bad_binary_data();
+	struct rr_a *rr = (struct rr_a *)rrv;
+	struct binary_data r;
+
+	r.length = sizeof(rr->address);
+	r.data = (void *)&rr->address;
+	return r;
 }
 
 struct rr_methods a_methods = { a_parse, a_human, a_wirerdata, NULL, NULL };
