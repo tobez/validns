@@ -28,7 +28,7 @@ static struct rr* soa_parse(char *name, long ttl, int type, char *s)
 	if (!rr->rname) return NULL;
 	i = extract_integer(&s, "serial");
 	if (i < 0) return NULL;
-	if (i > 4294967295) return bitch("serial is out of range");
+	if (i > 4294967295UL) return bitch("serial is out of range");
 	rr->serial = i;
 	rr->refresh = extract_timevalue(&s, "refresh");
 	if (rr->refresh < 0) return NULL;
