@@ -173,10 +173,9 @@ struct rr *store_record(int rdtype, char *name, long ttl, void *rrptr)
 		}
 	}
 	if (zone_name && name_l >= zone_name_l) {
-		char *in = strstr(name, zone_name);
-		if (!in || (in-name) + zone_name_l != name_l) {
+		if (strcmp(zone_name, name+name_l-zone_name_l) != 0) {
 			return bitch("%s does not belong to zone %s", name, zone_name);
-		} else if (in > name && *(in-1) != '.') {
+		} else if (name_l > zone_name_l && name[name_l-zone_name_l-1] != '.') {
 			return bitch("%s does not belong to zone %s", name, zone_name);
 		}
 	} else {
