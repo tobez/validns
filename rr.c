@@ -6,6 +6,7 @@
  * (See LICENSE file in the distribution.)
  *
  */
+#include <string.h>
 #include <Judy.h>
 
 #include "common.h"
@@ -68,6 +69,8 @@ static char* rdtype2str_map[T_MAX+1] = {
 	"NSEC3PARAM"
 };
 void *zone = NULL;
+char *zone_name = NULL;
+int zone_name_l = 0;
 
 char *rdtype2str(int type)
 {
@@ -155,13 +158,32 @@ struct rr *store_record(int rdtype, char *name, long ttl, void *rrptr)
 	struct rr *rr = rrptr;
 	struct named_rr *named_rr;
 	struct rr_set *rr_set;
+	int name_l;
 
-	if (strlen(name) > 511)
+	name_l = strlen(name);
+	if (name_l > 511)
 		return bitch("name is too long: %s", name);
 
 	if (G.stats.rr_count == 0) {
 		if (rdtype != T_SOA) {
 			return bitch("the first record in the zone must be an SOA record");
+		} else {
+			zone_name = name;
+			zone_name_l = name_l;
+		}
+	}
+	if (zone_name && name_l >= zone_name_l) {
+		char *in = strstr(name, zone_name);
+		if (!in || (in-name) + zone_name_l != name_l) {
+			return bitch("%s does not belong to zone %s", name, zone_name);
+		} else if (in > name && *(in-1) != '.') {
+			return bitch("%s does not belong to zone %s", name, zone_name);
+		}
+	} else {
+		if (zone_name) {
+			return bitch("%s does not belong to zone %s", name, zone_name);
+		} else {
+			croakx(3, "assertion error: %s does not belong to a zone", name);
 		}
 	}
 
@@ -172,6 +194,10 @@ struct rr *store_record(int rdtype, char *name, long ttl, void *rrptr)
 	rr->ttl = ttl;
 	rr->line = file_info->line;
 	rr->file_name = file_info->name;
+
+	/* TODO: finding a duplicate should go here */
+	/* TODO: multiple SOA bitching should go here */
+
 	rr->rr_set = rr_set;
 	rr->next = NULL;
 	rr->prev = rr_set->head;

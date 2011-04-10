@@ -50,6 +50,9 @@ like(shift @e, qr/ip address expected/, "not an IP in A");
 like(shift @e, qr/MX preference expected/, "empty MX");
 like(shift @e, qr/MX exchange expected/, "MX without exchange");
 like(shift @e, qr/garbage after valid MX data/, "bad MX");
+like(shift @e, qr/outside.org. does not belong to zone galaxyplus.org./, "outsider");
+like(shift @e, qr/long.outside.org. does not belong to zone galaxyplus.org./, "long outsider");
+like(shift @e, qr/outsidegalaxyplus.org. does not belong to zone galaxyplus.org./, "tricky outsider");
 
 ## actual validations done after parsing
 like(shift @e, qr/there should be at least two NS records/, "NS limit");
