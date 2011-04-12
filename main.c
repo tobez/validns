@@ -84,7 +84,7 @@ read_zone_file(void)
 {
 	char *s;
 	char *name = NULL, *class, *rdtype;
-	long ttl = 0;
+	long ttl = -1;
 	while (file_info) {
 		while (fgets(file_info->buf, 2048, file_info->file)) {
 			freeall_temp();
@@ -164,10 +164,10 @@ read_zone_file(void)
 			if (!rdtype) {
 				continue;
 			}
-			if (ttl <= 0) {
+			if (ttl < 0) {
 				ttl = G.default_ttl;
 			}
-			if (ttl <= 0) {
+			if (ttl < 0) {
 				bitch("ttl not specified and default is not known");
 				continue;
 			}
