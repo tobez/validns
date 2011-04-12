@@ -82,7 +82,7 @@ static struct binary_data nsec_wirerdata(struct rr *rrv)
     return bad_binary_data();
 }
 
-static void nsec_validate(struct rr *rrv)
+static void* nsec_validate(struct rr *rrv)
 {
     struct rr_nsec *rr = (struct rr_nsec *)rrv;
 	int type;
@@ -103,7 +103,7 @@ static void nsec_validate(struct rr *rrv)
 					nsec_distinct_types++;
 					set = find_rr_set_in_named_rr(named_rr, type);
 					if (!set) {
-						moan(rr->rr.file_name, rr->rr.line, "NSEC mentions %s, but no such record found", rdtype2str(type));
+						return moan(rr->rr.file_name, rr->rr.line, "NSEC mentions %s, but no such record found", rdtype2str(type));
 					}
 				}
 			}
@@ -112,9 +112,10 @@ static void nsec_validate(struct rr *rrv)
 	}
 	real_distinct_types = get_rr_set_count(named_rr);
 	if (real_distinct_types > nsec_distinct_types) {
-		moan(rr->rr.file_name, rr->rr.line, "there are more record types than NSEC mentions");
+		return moan(rr->rr.file_name, rr->rr.line, "there are more record types than NSEC mentions");
 	}
 	/* TODO: more checks */
+	return rr;
 }
 
 struct rr_methods nsec_methods = { nsec_parse, nsec_human, nsec_wirerdata, NULL, nsec_validate };

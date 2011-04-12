@@ -72,6 +72,9 @@ isnt(rc, 0, 'bad signed zone returns an error');
 like(shift @e, qr/there are more record types than NSEC mentions/, "NSEC incomplete");
 like(shift @e, qr/NSEC mentions SRV, but no such record found/, "NSEC lists too much");
 
+like(shift @e, qr/RRSIG exists for non-existing type NAPTR/, "RRSIG for absent");
+like(shift @e, qr/RRSIG's original TTL differs from corresponding record's/, "RRSIG orig ttl bad");
+
 is(+@e, 0, "no unaccounted errors");
 
 done_testing;

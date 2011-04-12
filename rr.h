@@ -32,8 +32,8 @@ struct rr;
 typedef struct rr* (*rr_parse_func)(char *, long, int, char *);
 typedef char* (*rr_human_func)(struct rr*);
 typedef struct binary_data (*rr_wire_func)(struct rr*);
-typedef void (*rr_validate_set_func)(struct rr_set*);
-typedef void (*rr_validate_func)(struct rr*);
+typedef void* (*rr_validate_set_func)(struct rr_set*);
+typedef void* (*rr_validate_func)(struct rr*);
 struct rr_methods {
 	rr_parse_func        rr_parse;
 	rr_human_func        rr_human;

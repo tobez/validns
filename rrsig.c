@@ -88,4 +88,21 @@ static struct binary_data rrsig_wirerdata(struct rr *rrv)
     return bad_binary_data();
 }
 
-struct rr_methods rrsig_methods = { rrsig_parse, rrsig_human, rrsig_wirerdata, NULL, NULL };
+static void *rrsig_validate(struct rr *rrv)
+{
+	struct rr_rrsig *rr = (struct rr_rrsig *)rrv;
+	struct named_rr *named_rr;
+	struct rr_set *signed_set;
+
+	named_rr = rr->rr.rr_set->named_rr;
+	signed_set = find_rr_set_in_named_rr(named_rr, rr->type_covered);
+	if (!signed_set) {
+		return moan(rr->rr.file_name, rr->rr.line, "%s RRSIG exists for non-existing type %s", named_rr->name, rdtype2str(rr->type_covered));
+	}
+	if (signed_set->tail->ttl != rr->orig_ttl) {
+		return moan(rr->rr.file_name, rr->rr.line, "%s RRSIG's original TTL differs from corresponding record's", named_rr->name);
+	}
+	return rr;
+}
+
+struct rr_methods rrsig_methods = { rrsig_parse, rrsig_human, rrsig_wirerdata, NULL, rrsig_validate };

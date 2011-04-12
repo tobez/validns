@@ -665,3 +665,22 @@ www.example.sec.	300	IN CNAME example.sec.
 					ukb4JEiS3zkuLTMX59PqJ+sw6y3QBgKOSnbv
 					k18XsducRJhqpwfUGOsmAn6/qGw0HC9XN+rO
 					jE94zVw/whela3Q7vA== )
+			300	RRSIG	NSEC 10 3 256 20121212121212 (
+					20110321190904 1862 example.sec.
+					T1Y1W3dghJKxZzjGnJaoFIuuA0qu8xebm5Vj
+					j8V3W6tdtgnfmIGfHles5wIP8djWMPCYcA4X
+					yco/dhyVW+6xHgW6DtIWFp6w6maoLzASXf4J
+					upwQZaBsFTbu/BPaEna0H8RWV8bo34zdh2qD
+					Uve6XcdosNAkObfLNs7JPBJhEVxwu/ms3Z6h
+					9IpdoeNDBi3DoBC8GA+m7KW61GnxMd0KGj0H
+					QnK1sS2mZe5lGKCoZDViG4ttTl3ctWoLw5R3
+					ukb4JEiS3zkuLTMX59PqJ+sw6y3QBgKOSnbv
+					k18XsducRJhqpwfUGOsmAn6/qGw0HC9XN+rO
+					jE94zVw/whela3Q7vA== )
+nosuch.example.sec.	300	RRSIG	NAPTR 5 2 300 20121212121212 (
+					20110321190904 516 example.sec.
+					JMRbXaDnvv39FoonWE688oliqrw7xe6ZNi1r
+					AQUkgjlZGmuNcCDlarDiQHUu1O2GBizRpv2o
+					nh+TFfgqn7FrT7mPDCj5J04BuLl4x9+CayG3
+					jgdtZ+UW8UUu6jUO/woEsbmdB3HrVjI/UWGC
+					7qFMaz+i7IxCkMLTS2Qh65Dq74U= )
