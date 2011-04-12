@@ -10,7 +10,6 @@
 #include <stdio.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
-#include <Judy.h>
 
 #include "common.h"
 #include "textparse.h"
