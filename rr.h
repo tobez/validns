@@ -52,6 +52,7 @@ char *rdtype2str(int type);
 struct named_rr *find_named_rr(char *name);
 struct rr_set *find_rr_set(int rdtype, char *name);
 struct rr_set *find_rr_set_in_named_rr(struct named_rr *named_rr, int rdtype);
+uint32_t get_rr_set_count(struct named_rr *named_rr);
 
 struct named_rr
 {

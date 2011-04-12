@@ -111,7 +111,7 @@ static void nsec_validate(struct rr *rrv)
 		}
 		base += base[1]+2;
 	}
-	JLC(real_distinct_types, named_rr->rr_sets, 0, -1);
+	real_distinct_types = get_rr_set_count(named_rr);
 	if (real_distinct_types > nsec_distinct_types) {
 		moan(rr->rr.file_name, rr->rr.line, "there are more record types than NSEC mentions");
 	}

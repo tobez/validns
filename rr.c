@@ -259,6 +259,13 @@ struct rr_set *find_rr_set_in_named_rr(struct named_rr *named_rr, int rdtype)
 	return NULL;
 }
 
+uint32_t get_rr_set_count(struct named_rr *named_rr)
+{
+	uint32_t count;
+	JLC(count, named_rr->rr_sets, 0, -1);
+	return count;
+}
+
 static struct rr *unknown_parse(char *name, long ttl, int type, char *s)
 {
 	return bitch("unsupported resource record type %s", rdtype2str(type));
