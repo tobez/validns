@@ -39,7 +39,8 @@ static char* cname_human(struct rr *rrv)
 
 static struct binary_data cname_wirerdata(struct rr *rrv)
 {
-	return bad_binary_data();
+	struct rr_cname *rr = (struct rr_cname *)rrv;
+	return name2wire_name(rr->cname);
 }
 
 struct rr_methods cname_methods = { cname_parse, cname_human, cname_wirerdata, NULL, NULL };
