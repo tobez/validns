@@ -8,6 +8,7 @@
  */
 #include <sys/types.h>
 #include <string.h>
+#include <stdlib.h>
 #include <stdio.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
@@ -128,16 +129,38 @@ static struct binary_data rrsig_wirerdata(struct rr *rrv)
 	return rrsig_wirerdata_ex(rrv, 1);
 }
 
+struct rr_with_wired
+{
+	struct rr *rr;
+	struct binary_data wired;
+};
+
+static int compare_rr_with_wired(const void *va, const void *vb)
+{
+	const struct rr_with_wired *a = va;
+	const struct rr_with_wired *b = vb;
+	int r;
+
+	if (a->wired.length == b->wired.length) {
+		return memcmp(a->wired.data, b->wired.data, a->wired.length);
+	} else if (a->wired.length < b->wired.length) {
+		r = memcmp(a->wired.data, b->wired.data, a->wired.length);
+		if (r != 0) return r;
+		return -1;
+	} else {
+		r = memcmp(a->wired.data, b->wired.data, b->wired.length);
+		if (r != 0) return r;
+		return 1;
+	}
+}
+
 static int verify_signature(struct rr_rrsig *rr, struct rr_dnskey *key, struct rr_set *signed_set)
 {
 	EVP_MD_CTX ctx;
 	uint16_t b2;
 	uint32_t b4;
 	struct binary_data chunk;
-	struct {
-		struct rr *rr;
-		struct binary_data wired;
-	} *set;
+	struct rr_with_wired *set;
 	struct rr *signed_rr;
 	int i;
 	rr_wire_func get_wired;
@@ -155,8 +178,6 @@ static int verify_signature(struct rr_rrsig *rr, struct rr_dnskey *key, struct r
 		return 0;
 	EVP_VerifyUpdate(&ctx, chunk.data, chunk.length);
 
-//	if (signed_set->count != 1)  // XXX remove when sorting is done!
-//		return 0;
 	set = getmem_temp(sizeof(*set) * signed_set->count);
 
 	signed_rr = signed_set->tail;
@@ -169,7 +190,7 @@ static int verify_signature(struct rr_rrsig *rr, struct rr_dnskey *key, struct r
 		i++;
 		signed_rr = signed_rr->next;
 	}
-	// XXX sorting here, implement
+	qsort(set, signed_set->count, sizeof(*set), compare_rr_with_wired);
 
 	for (i = 0; i < signed_set->count; i++) {
 		chunk = name2wire_name(signed_set->named_rr->name);
@@ -184,7 +205,7 @@ static int verify_signature(struct rr_rrsig *rr, struct rr_dnskey *key, struct r
 	}
 
 	if (EVP_VerifyFinal(&ctx, (unsigned char *)rr->signature.data, rr->signature.length, key->pkey) == 1) {
-		fprintf(stderr, "YOHOHO, Sig REALLY verifies!\n");
+		fprintf(stderr, "EXCELLENT(%s %s, alg %d)\n", signed_set->named_rr->name, rdtype2str(signed_set->rdtype), rr->algorithm);
 		return 1;
 	}
 	return 0;
@@ -215,12 +236,8 @@ static void *rrsig_validate(struct rr *rrv)
 	while (key) {
 		if (key->algorithm == rr->algorithm && key->key_tag == rr->key_tag) {
 			found_key = 1;
-			if (dnskey_build_pkey(key)) {
-				if (verify_signature(rr, key, signed_set)) {
-					moan(rr->rr.file_name, rr->rr.line, "OK SIG VERIFY");
-					break;
-				}
-			}
+			if (dnskey_build_pkey(key) && verify_signature(rr, key, signed_set))
+				break;
 		}
 		key = (struct rr_dnskey *)key->rr.next;
 	}

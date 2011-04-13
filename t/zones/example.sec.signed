@@ -50,8 +50,8 @@ example.sec.		300	IN SOA	ns1.example.sec. hostmaster.example.sec. (
 					IgSYuQJrNBODfhHl5DIl3FNTICah4tJdJaZ7
 					Qnm8xKmiHcwGuLGIA1BG1psbwA5QUuRwNWmB
 					imQyoXTAgDWVb6blJw== )
-			300	NS	ns1.example.sec.
 			300	NS	ns2.example.sec.
+			300	NS	ns1.example.sec.
 			300	RRSIG	NS 5 2 300 20121212121212 (
 					20110321190904 516 example.sec.
 					TuA7snYtya2rLvT4a5kUsSufYqU0PvzaKqrs
