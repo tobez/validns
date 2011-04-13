@@ -40,7 +40,8 @@ static char* ns_human(struct rr *rrv)
 
 static struct binary_data ns_wirerdata(struct rr *rrv)
 {
-    return bad_binary_data();
+    struct rr_ns *rr = (struct rr_ns *)rrv;
+	return name2wire_name(rr->nsdname);
 }
 
 static void* ns_validate_set(struct rr_set *rr_set)

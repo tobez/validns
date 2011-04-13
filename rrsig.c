@@ -155,8 +155,8 @@ static int verify_signature(struct rr_rrsig *rr, struct rr_dnskey *key, struct r
 		return 0;
 	EVP_VerifyUpdate(&ctx, chunk.data, chunk.length);
 
-	if (signed_set->count != 1)  // XXX remove when sorting is done!
-		return 0;
+//	if (signed_set->count != 1)  // XXX remove when sorting is done!
+//		return 0;
 	set = getmem_temp(sizeof(*set) * signed_set->count);
 
 	signed_rr = signed_set->tail;
