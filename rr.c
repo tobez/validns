@@ -106,6 +106,32 @@ static unsigned char *name2findable_name(char *s)
 	return res;
 }
 
+struct binary_data name2wire_name(char *s)
+{
+	unsigned char *res = getmem_temp(strlen(s)+2);
+	unsigned char *r = res;
+	unsigned char *c = res;
+	struct binary_data toret;
+
+	r++;
+	*c = 0;
+	while (*s) {
+		if (*s != '.') {
+			*r++ = *s++;
+		} else {
+			*c = (unsigned char)(r-c-1);
+			c = r;
+			*c = 0;
+			r++;
+			s++;
+		}
+	}
+	*c = (unsigned char)(r-c-1);
+	toret.length = r-res;
+	toret.data = (char*)res;
+	return toret;
+}
+
 static struct named_rr *find_or_create_named_rr(char *name)
 {
 	struct named_rr *named_rr = find_named_rr(name);

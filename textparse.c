@@ -230,7 +230,7 @@ long extract_timevalue(char **input, char *what)
 	return r;
 }
 
-long extract_timestamp(char **input, char *what)
+long long extract_timestamp(char **input, char *what)
 {
 	char *s = *input;
 	int year = 0;
@@ -239,7 +239,7 @@ long extract_timestamp(char **input, char *what)
 	int hour = 0;
 	int minute = 0;
 	int second = 0;
-	int epoch = 0;
+	long long epoch = 0;
 	struct tm tm;
 
 	if (!isdigit(*s)) {

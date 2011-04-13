@@ -7,10 +7,14 @@
  *
  */
 #include <sys/types.h>
+#include <string.h>
 #include <stdio.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <openssl/evp.h>
+
+/* FreeBSD-only?   Debug, anyway.  */
+#include <libutil.h>
 
 #include "common.h"
 #include "textparse.h"
@@ -24,6 +28,7 @@ static struct rr* rrsig_parse(char *name, long ttl, int type, char *s)
 	int type_covered, key_tag;
 	char *str_type_covered;
 	struct binary_data sig;
+	long long ts;
 
 	str_type_covered = extract_label(&s, "type covered", "temporary");
 	if (!str_type_covered) return NULL;
@@ -46,11 +51,13 @@ static struct rr* rrsig_parse(char *name, long ttl, int type, char *s)
 	rr->orig_ttl = extract_timevalue(&s, "original TTL");
 	if (rr->orig_ttl < 0) return NULL;
 
-	rr->sig_expiration = extract_timestamp(&s, "signature expiration");
-	if (rr->sig_expiration < 0) return NULL;
+	ts = extract_timestamp(&s, "signature expiration");
+	if (ts < 0) return NULL;
+	rr->sig_expiration = ts;
 
-	rr->sig_inception = extract_timestamp(&s, "signature inception");
-	if (rr->sig_inception < 0) return NULL;
+	ts = extract_timestamp(&s, "signature inception");
+	if (ts < 0) return NULL;
+	rr->sig_inception = ts;
 
 	key_tag = extract_integer(&s, "key tag");
 	if (key_tag < 0)	return NULL;
@@ -63,8 +70,7 @@ static struct rr* rrsig_parse(char *name, long ttl, int type, char *s)
 	sig = extract_base64_binary_data(&s, "signature");
 	if (sig.length < 0)	return NULL;
 	/* TODO validate signature length based on algorithm */
-	rr->sig_len = sig.length;
-	rr->signature = sig.data;
+	rr->signature = sig;
 
 	if (*s) {
 		return bitch("garbage after valid RRSIG data");
@@ -84,9 +90,104 @@ static char* rrsig_human(struct rr *rrv)
 	return NULL;
 }
 
+static struct binary_data rrsig_wirerdata_ex(struct rr *rrv, int with_signature)
+{
+    struct rr_rrsig *rr = (struct rr_rrsig *)rrv;
+	struct binary_data r = bad_binary_data();
+	struct binary_data signer;
+	uint8_t  b1;
+	uint16_t b2;
+	uint32_t b4;
+
+	signer = name2wire_name(rr->signer);
+	if (signer.length < 0)
+		return r;
+
+	r.length = 2+1+1+4+4+4+2+signer.length;
+	if (with_signature)
+		r.length += rr->signature.length;
+	/* ATTENTION!  This sub returns rrsig wire rdata *minus* the signature. */
+	r.data   = getmem_temp(r.length);
+
+	b2 = htons(rr->type_covered);    memcpy(r.data, &b2, 2);
+	b1 = rr->algorithm;              memcpy(r.data+2, &b1, 1);
+	b1 = rr->labels;                 memcpy(r.data+3, &b1, 1);
+	b4 = htonl(rr->orig_ttl);        memcpy(r.data+4, &b4, 4);
+	b4 = htonl(rr->sig_expiration);  memcpy(r.data+8, &b4, 4);
+	b4 = htonl(rr->sig_inception);   memcpy(r.data+12, &b4, 4);
+	b2 = htons(rr->key_tag);         memcpy(r.data+16, &b2, 2);
+	memcpy(r.data+18, signer.data, signer.length);
+	if (with_signature)
+		memcpy(r.data+18+signer.length, rr->signature.data, rr->signature.length);
+
+	return r;
+}
+
 static struct binary_data rrsig_wirerdata(struct rr *rrv)
 {
-    return bad_binary_data();
+	return rrsig_wirerdata_ex(rrv, 1);
+}
+
+static int verify_signature(struct rr_rrsig *rr, struct rr_dnskey *key, struct rr_set *signed_set)
+{
+	EVP_MD_CTX ctx;
+	uint16_t b2;
+	uint32_t b4;
+	struct binary_data chunk;
+	struct {
+		struct rr *rr;
+		struct binary_data wired;
+	} *set;
+	struct rr *signed_rr;
+	int i;
+	rr_wire_func get_wired;
+
+	get_wired = rr_methods[signed_set->rdtype].rr_wire;
+	if (!get_wired)
+		return 0;
+
+	EVP_MD_CTX_init(&ctx);
+	if (EVP_VerifyInit(&ctx, EVP_sha256()) != 1)  // XXX method!
+		return 0;
+
+	chunk = rrsig_wirerdata_ex(&rr->rr, 0);
+	if (chunk.length < 0)
+		return 0;
+	EVP_VerifyUpdate(&ctx, chunk.data, chunk.length);
+
+	if (signed_set->count != 1)  // XXX remove when sorting is done!
+		return 0;
+	set = getmem_temp(sizeof(*set) * signed_set->count);
+
+	signed_rr = signed_set->tail;
+	i = 0;
+	while (signed_rr) {
+		set[i].rr = signed_rr;
+		set[i].wired = get_wired(signed_rr);
+		if (set[i].wired.length < 0)
+			return 0;
+		i++;
+		signed_rr = signed_rr->next;
+	}
+	// XXX sorting here, implement
+
+	for (i = 0; i < signed_set->count; i++) {
+		chunk = name2wire_name(signed_set->named_rr->name);
+		if (chunk.length < 0)
+			return 0;
+		EVP_VerifyUpdate(&ctx, chunk.data, chunk.length);
+		b2 = htons(set[i].rr->rdtype);    EVP_VerifyUpdate(&ctx, &b2, 2);
+		b2 = htons(1);  /* class IN */   EVP_VerifyUpdate(&ctx, &b2, 2);
+		b4 = htonl(set[i].rr->ttl);       EVP_VerifyUpdate(&ctx, &b4, 4);
+		b2 = htons(set[i].wired.length); EVP_VerifyUpdate(&ctx, &b2, 2);
+		EVP_VerifyUpdate(&ctx, set[i].wired.data, set[i].wired.length);
+	}
+
+	if (EVP_VerifyFinal(&ctx, (unsigned char *)rr->signature.data, rr->signature.length, key->pkey) == 1) {
+		fprintf(stderr, "YOHOHO, Sig REALLY verifies!\n");
+		return 1;
+	}
+	return 0;
 }
 
 static void *rrsig_validate(struct rr *rrv)
@@ -115,8 +216,10 @@ static void *rrsig_validate(struct rr *rrv)
 		if (key->algorithm == rr->algorithm && key->key_tag == rr->key_tag) {
 			found_key = 1;
 			if (dnskey_build_pkey(key)) {
-				moan(rr->rr.file_name, rr->rr.line, "OK SIG VERIFY");
-				break;
+				if (verify_signature(rr, key, signed_set)) {
+					moan(rr->rr.file_name, rr->rr.line, "OK SIG VERIFY");
+					break;
+				}
 			}
 		}
 		key = (struct rr_dnskey *)key->rr.next;

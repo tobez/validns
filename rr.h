@@ -53,6 +53,7 @@ struct named_rr *find_named_rr(char *name);
 struct rr_set *find_rr_set(int rdtype, char *name);
 struct rr_set *find_rr_set_in_named_rr(struct named_rr *named_rr, int rdtype);
 uint32_t get_rr_set_count(struct named_rr *named_rr);
+struct binary_data name2wire_name(char *s);
 
 struct named_rr
 {
@@ -167,12 +168,11 @@ struct rr_rrsig
 	int algorithm;
 	int labels;
 	int orig_ttl;
-	int sig_expiration;
-	int sig_inception;
+	uint32_t sig_expiration;
+	uint32_t sig_inception;
 	uint16_t key_tag;
 	char *signer;
-	int sig_len;
-	char *signature;
+	struct binary_data signature;
 };
 extern struct rr_methods rrsig_methods;
 
