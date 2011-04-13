@@ -93,6 +93,9 @@ static void *rrsig_validate(struct rr *rrv)
 	struct rr_rrsig *rr = (struct rr_rrsig *)rrv;
 	struct named_rr *named_rr;
 	struct rr_set *signed_set;
+	struct rr_dnskey *key = NULL;
+	struct rr_set *dnskey_rr_set;
+	int found_key;
 
 	named_rr = rr->rr.rr_set->named_rr;
 	signed_set = find_rr_set_in_named_rr(named_rr, rr->type_covered);
@@ -101,6 +104,28 @@ static void *rrsig_validate(struct rr *rrv)
 	}
 	if (signed_set->tail->ttl != rr->orig_ttl) {
 		return moan(rr->rr.file_name, rr->rr.line, "%s RRSIG's original TTL differs from corresponding record's", named_rr->name);
+	}
+	dnskey_rr_set = find_rr_set(T_DNSKEY, rr->signer);
+	if (!dnskey_rr_set) {
+		return moan(rr->rr.file_name, rr->rr.line, "%s RRSIG(%s): cannot find a signer key (%s)", named_rr->name, rdtype2str(rr->type_covered), rr->signer);
+	}
+	key = (struct rr_dnskey *)dnskey_rr_set->tail;
+	while (key) {
+		if (key->algorithm == rr->algorithm && key->key_tag == rr->key_tag) {
+			found_key = 1;
+			if (dnskey_build_pkey(key)) {
+				moan(rr->rr.file_name, rr->rr.line, "OK SIG VERIFY");
+				break;
+			}
+		}
+		key = (struct rr_dnskey *)key->rr.next;
+	}
+	if (!key) {
+		if (found_key) {
+			return moan(rr->rr.file_name, rr->rr.line, "%s RRSIG(%s): cannot verify the signature", named_rr->name, rdtype2str(rr->type_covered), rr->signer);
+		} else {
+			return moan(rr->rr.file_name, rr->rr.line, "%s RRSIG(%s): cannot find the right signer key (%s)", named_rr->name, rdtype2str(rr->type_covered), rr->signer);
+		}
 	}
 	return rr;
 }

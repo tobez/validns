@@ -216,8 +216,13 @@ struct rr_dnskey
 	uint8_t algorithm;
 	int pubkey_len;
 	char *pubkey;
-	uint16_t key_tag; /* calculated */
+	/* calculated */
+	uint16_t key_tag;
+	int pkey_built;
+	void *pkey;
 };
 extern struct rr_methods dnskey_methods;
+
+int dnskey_build_pkey(struct rr_dnskey *rr);
 
 #endif

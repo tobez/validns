@@ -74,6 +74,7 @@ like(shift @e, qr/NSEC mentions SRV, but no such record found/, "NSEC lists too 
 
 like(shift @e, qr/RRSIG exists for non-existing type NAPTR/, "RRSIG for absent");
 like(shift @e, qr/RRSIG's original TTL differs from corresponding record's/, "RRSIG orig ttl bad");
+like(shift @e, qr/RRSIG\(NSEC\): cannot find a signer key/, "unknown signer");
 
 is(+@e, 0, "no unaccounted errors");
 
