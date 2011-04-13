@@ -10,6 +10,9 @@
 #include <stdio.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <openssl/bn.h>
+#include <openssl/evp.h>
+#include <openssl/rsa.h>
 
 #include "common.h"
 #include "textparse.h"
@@ -66,6 +69,9 @@ static struct rr* dnskey_parse(char *name, long ttl, int type, char *s)
 	ac += (ac >> 16) & 0xFFFF;
 	rr->key_tag = ac & 0xFFFF;
 
+	rr->pkey_built = 0;
+	rr->pkey = NULL;
+
 	if (*s) {
 		return bitch("garbage after valid DNSKEY data");
 	}
@@ -88,3 +94,23 @@ static struct binary_data dnskey_wirerdata(struct rr *rrv)
 }
 
 struct rr_methods dnskey_methods = { dnskey_parse, dnskey_human, dnskey_wirerdata, NULL, NULL };
+
+int dnskey_build_pkey(struct rr_dnskey *rr)
+{
+	RSA *rsa;
+
+	if (rr->pkey_built)
+		return rr->pkey ? 1 : 0;
+
+	if (rr->algorithm == 8) {
+		rsa = RSA_new();
+		if (rsa == NULL)
+			croak(1, "dnskey_build_pkey: RSA_new");
+		rr->pkey = (void *)1;
+	} else {
+		rr->pkey_built = 1;
+		moan(rr->rr.file_name, rr->rr.line, "error building pkey");
+	}
+	return rr->pkey ? 1 : 0;
+}
+
