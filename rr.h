@@ -214,8 +214,7 @@ struct rr_dnskey
 	uint16_t flags;
 	uint8_t protocol;
 	uint8_t algorithm;
-	int pubkey_len;
-	char *pubkey;
+	struct binary_data pubkey;
 	/* calculated */
 	uint16_t key_tag;
 	int pkey_built;

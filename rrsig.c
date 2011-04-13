@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <openssl/evp.h>
 
 #include "common.h"
 #include "textparse.h"

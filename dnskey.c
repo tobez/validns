@@ -56,15 +56,14 @@ static struct rr* dnskey_parse(char *name, long ttl, int type, char *s)
 	key = extract_base64_binary_data(&s, "public key");
 	if (key.length < 0)	return NULL;
 	/* TODO validate key length based on algorithm */
-	rr->pubkey_len = key.length;
-	rr->pubkey = key.data;
+	rr->pubkey = key;
 
 	ac = 0;
 	ac += rr->flags;
 	ac += rr->protocol << 8;
 	ac += rr->algorithm;
-	for (i = 0; i < rr->pubkey_len; i++) {
-		ac += (i & 1) ? (unsigned char)rr->pubkey[i] : ((unsigned char)rr->pubkey[i]) << 8;
+	for (i = 0; i < rr->pubkey.length; i++) {
+		ac += (i & 1) ? (unsigned char)rr->pubkey.data[i] : ((unsigned char)rr->pubkey.data[i]) << 8;
 	}
 	ac += (ac >> 16) & 0xFFFF;
 	rr->key_tag = ac & 0xFFFF;
@@ -97,18 +96,54 @@ struct rr_methods dnskey_methods = { dnskey_parse, dnskey_human, dnskey_wirerdat
 
 int dnskey_build_pkey(struct rr_dnskey *rr)
 {
-	RSA *rsa;
-
 	if (rr->pkey_built)
 		return rr->pkey ? 1 : 0;
 
+	rr->pkey_built = 1;
+
 	if (rr->algorithm == 8) {
+		RSA *rsa;
+		EVP_PKEY *pkey;
+		unsigned int e_bytes;
+		unsigned char *pk;
+		int l;
+
 		rsa = RSA_new();
-		if (rsa == NULL)
-			croak(1, "dnskey_build_pkey: RSA_new");
-		rr->pkey = (void *)1;
-	} else {
-		rr->pkey_built = 1;
+		if (!rsa)
+			goto done;
+
+		pk = (unsigned char *)rr->pubkey.data;
+		l = rr->pubkey.length;
+
+		e_bytes = *pk++;
+		l--;
+		if (e_bytes == 0) {
+			if (l < 2) /* public key is too short */
+				goto done;
+			e_bytes = (*pk++)  << 8;
+			e_bytes += *pk++;
+			l -= 2;
+		}
+		if (l < e_bytes) /* public key is too short */
+			goto done;
+
+		rsa->e = BN_bin2bn(pk, e_bytes, NULL);
+		pk += e_bytes;
+		l -= e_bytes;
+
+		rsa->n = BN_bin2bn(pk, l, NULL);
+
+		pkey = EVP_PKEY_new();
+		if (!pkey)
+			goto done;
+
+		if (!EVP_PKEY_set1_RSA(pkey, rsa))
+			goto done;
+
+		rr->pkey = pkey;
+	}
+done:
+	if (!rr->pkey) {
 		moan(rr->rr.file_name, rr->rr.line, "error building pkey");
 	}
 	return rr->pkey ? 1 : 0;
