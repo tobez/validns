@@ -14,6 +14,22 @@ struct binary_data {
 	char *data;
 };
 
+struct binary_data compose_binary_data(const char *fmt, int tmp, ...);
+/*
+ * Format:
+ * 1 - byte
+ * 2 - 16-bit, will convert to network byte order
+ * 4 - 32-bit, will convert to network byte order
+ * d - another binary structure, will incorporate its data
+ * b - another binary structure, will incorporate its data,
+ *     and prepend the length as a byte (fatal error on overflow)
+ * B - another binary structure, will incorporate its data,
+ *     and prepend the length as a 16-bit word in NBO,
+ *     fatal error on overflow
+ * tmp : allocate temp storage if true, permanent if false
+ *
+ */
+
 int empty_line_or_comment(char *s);
 char *skip_white_space(char *s);
 char *extract_name(char **input, char *what);
