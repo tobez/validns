@@ -50,14 +50,8 @@ static char* txt_human(struct rr *rrv)
 static struct binary_data txt_wirerdata(struct rr *rrv)
 {
     struct rr_txt *rr = (struct rr_txt *)rrv;
-	struct binary_data r;
-	uint8_t b1;
 
-	r.length = rr->txt.length + 1;
-	r.data = getmem_temp(r.length);
-	memcpy(r.data+1, rr->txt.data, rr->txt.length);
-	b1 = (unsigned char)rr->txt.length;    memcpy(r.data, &b1, 1);
-	return r;
+    return compose_binary_data("b", 1, rr->txt);
 }
 
 struct rr_methods txt_methods = { txt_parse, txt_human, txt_wirerdata, NULL, NULL };
