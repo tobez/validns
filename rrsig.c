@@ -15,7 +15,7 @@
 #include <openssl/evp.h>
 
 /* FreeBSD-only?   Debug, anyway.  */
-#include <libutil.h>
+// #include <libutil.h>
 
 #include "common.h"
 #include "textparse.h"
@@ -94,34 +94,16 @@ static char* rrsig_human(struct rr *rrv)
 static struct binary_data rrsig_wirerdata_ex(struct rr *rrv, int with_signature)
 {
     struct rr_rrsig *rr = (struct rr_rrsig *)rrv;
-	struct binary_data r = bad_binary_data();
-	struct binary_data signer;
-	uint8_t  b1;
-	uint16_t b2;
-	uint32_t b4;
+	struct binary_data bd;
 
-	signer = name2wire_name(rr->signer);
-	if (signer.length < 0)
-		return r;
-
-	r.length = 2+1+1+4+4+4+2+signer.length;
-	if (with_signature)
-		r.length += rr->signature.length;
-	/* ATTENTION!  This sub returns rrsig wire rdata *minus* the signature. */
-	r.data   = getmem_temp(r.length);
-
-	b2 = htons(rr->type_covered);    memcpy(r.data, &b2, 2);
-	b1 = rr->algorithm;              memcpy(r.data+2, &b1, 1);
-	b1 = rr->labels;                 memcpy(r.data+3, &b1, 1);
-	b4 = htonl(rr->orig_ttl);        memcpy(r.data+4, &b4, 4);
-	b4 = htonl(rr->sig_expiration);  memcpy(r.data+8, &b4, 4);
-	b4 = htonl(rr->sig_inception);   memcpy(r.data+12, &b4, 4);
-	b2 = htons(rr->key_tag);         memcpy(r.data+16, &b2, 2);
-	memcpy(r.data+18, signer.data, signer.length);
-	if (with_signature)
-		memcpy(r.data+18+signer.length, rr->signature.data, rr->signature.length);
-
-	return r;
+	bd = compose_binary_data("2114442d", 1,
+		rr->type_covered, rr->algorithm, rr->labels,
+		rr->orig_ttl, rr->sig_expiration, rr->sig_inception,
+		rr->key_tag, name2wire_name(rr->signer));
+	if (with_signature) {
+		return compose_binary_data("dd", 1, bd, rr->signature);
+	}
+	return bd;
 }
 
 static struct binary_data rrsig_wirerdata(struct rr *rrv)

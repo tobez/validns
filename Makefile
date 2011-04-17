@@ -11,7 +11,7 @@ validns: main.o carp.o mempool.o textparse.o base64.o base32hex.o \
 	    rr.o soa.o a.o cname.o mx.o ns.o \
 	    rrsig.o nsec.o dnskey.o txt.o aaaa.o \
 	    naptr.o srv.o nsec3param.o nsec3.o \
-	    -L/usr/local/lib -lJudy -lcrypto -lutil
+	    -L/usr/local/lib -lJudy -lcrypto
 
 clean:
 	-rm validns main.o carp.o mempool.o textparse.o

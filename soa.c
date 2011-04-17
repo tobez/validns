@@ -57,7 +57,12 @@ static char* soa_human(struct rr *rrv)
 
 static struct binary_data soa_wirerdata(struct rr *rrv)
 {
-    return bad_binary_data();
+    struct rr_soa *rr = (struct rr_soa *)rrv;
+
+	return compose_binary_data("dd44444", 1,
+		name2wire_name(rr->mname), name2wire_name(rr->rname),
+		rr->serial, rr->refresh, rr->retry,
+		rr->expire, rr->minimum);
 }
 
 struct rr_methods soa_methods = { soa_parse, soa_human, soa_wirerdata, NULL, NULL };

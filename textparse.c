@@ -10,6 +10,7 @@
 #include <time.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <stdarg.h>
 #include <string.h>
 #include <sys/socket.h>
 #include <netinet/in.h>
@@ -600,3 +601,104 @@ struct binary_data compressed_set(struct binary_data *set)
 	return r;
 }
 
+struct binary_data compose_binary_data(const char *fmt, int tmp, ...)
+{
+	va_list ap;
+	const char *args;
+	int sz;
+	struct binary_data bd;
+	struct binary_data r;
+	char *t;
+	uint8_t b1;
+	uint16_t b2;
+	uint32_t b4;
+
+	va_start(ap, tmp);
+	args = fmt;
+	sz = 0;
+	while (*args) {
+		switch (*args++) {
+		case '1':
+			va_arg(ap, unsigned int);
+			sz += 1;
+			break;
+		case '2':
+			va_arg(ap, unsigned int);
+			sz += 2;
+			break;
+		case '4':
+			va_arg(ap, unsigned int);
+			sz += 4;
+			break;
+		case 'd':
+			bd = va_arg(ap, struct binary_data);
+			sz += bd.length;
+			break;
+		case 'b':
+			bd = va_arg(ap, struct binary_data);
+			if (bd.length > 255)
+				croak(5, "compose_binary_data: 'b' data too long");
+			sz += bd.length + 1;
+			break;
+		case 'B':
+			bd = va_arg(ap, struct binary_data);
+			if (bd.length > 65535)
+				croak(5, "compose_binary_data: 'B' data too long");
+			sz += bd.length + 2;
+			break;
+		default:
+			croak(5, "compose_binary_data: bad format");
+		}
+	}
+	va_end(ap);
+
+	r.length = sz;
+	r.data = tmp ? getmem_temp(sz) : getmem(sz);
+	t = r.data;
+	va_start(ap, tmp);
+	args = fmt;
+	while (*args) {
+		switch (*args++) {
+		case '1':
+			b1 = (uint8_t)va_arg(ap, unsigned int);
+			memcpy(t, &b1, 1);
+			t += 1;
+			break;
+		case '2':
+			b2 = htons(va_arg(ap, unsigned int));
+			memcpy(t, &b2, 2);
+			t += 2;
+			break;
+		case '4':
+			b4 = htonl(va_arg(ap, unsigned int));
+			memcpy(t, &b4, 4);
+			t += 4;
+			break;
+		case 'd':
+			bd = va_arg(ap, struct binary_data);
+			memcpy(t, bd.data, bd.length);
+			t += bd.length;
+			break;
+		case 'b':
+			bd = va_arg(ap, struct binary_data);
+			b1 = (uint8_t)bd.length;
+			memcpy(t, &b1, 1);
+			t += 1;
+			memcpy(t, bd.data, bd.length);
+			t += bd.length;
+			break;
+		case 'B':
+			bd = va_arg(ap, struct binary_data);
+			b2 = htons(bd.length);
+			memcpy(t, &b2, 2);
+			t += 2;
+			memcpy(t, bd.data, bd.length);
+			t += bd.length;
+			break;
+		default:
+			croak(5, "compose_binary_data: bad format");
+		}
+	}
+	va_end(ap);
+	return r;
+}

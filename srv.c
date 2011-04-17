@@ -69,7 +69,10 @@ static char* srv_human(struct rr *rrv)
 
 static struct binary_data srv_wirerdata(struct rr *rrv)
 {
-    return bad_binary_data();
+    struct rr_srv *rr = (struct rr_srv *)rrv;
+    return compose_binary_data("222d", 1,
+		rr->priority, rr->weight, rr->port,
+		name2wire_name(rr->target));
 }
 
 struct rr_methods srv_methods = { srv_parse, srv_human, srv_wirerdata, NULL, NULL };
