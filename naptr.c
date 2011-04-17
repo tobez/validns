@@ -82,7 +82,12 @@ static char* naptr_human(struct rr *rrv)
 
 static struct binary_data naptr_wirerdata(struct rr *rrv)
 {
-    return bad_binary_data();
+    struct rr_naptr *rr = (struct rr_naptr *)rrv;
+
+    return compose_binary_data("22bbbd", 1,
+		rr->order, rr->preference,
+		rr->flags, rr->services, rr->regexp,
+		name2wire_name(rr->replacement));
 }
 
 struct rr_methods naptr_methods = { naptr_parse, naptr_human, naptr_wirerdata, NULL, NULL };
