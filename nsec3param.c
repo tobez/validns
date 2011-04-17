@@ -95,7 +95,11 @@ static char* nsec3param_human(struct rr *rrv)
 
 static struct binary_data nsec3param_wirerdata(struct rr *rrv)
 {
-    return bad_binary_data();
+    struct rr_nsec3param *rr = (struct rr_nsec3param *)rrv;
+
+	return compose_binary_data("112b", 1,
+		rr->hash_algorithm, rr->flags,
+		rr->iterations, rr->salt);
 }
 
 struct rr_methods nsec3param_methods = { nsec3param_parse, nsec3param_human, nsec3param_wirerdata, NULL, NULL };
