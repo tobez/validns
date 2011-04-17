@@ -41,6 +41,7 @@ like(shift @e, qr/class or type expected/, "nonsense line");
 like(shift @e, qr/the first record in the zone must be an SOA record/, "non-SOA 1");
 like(shift @e, qr/the first record in the zone must be an SOA record/, "non-SOA 2");
 like(shift @e, qr/serial is out of range/, "out of range serial");
+like(shift @e, qr/there could only be one SOA in a zone/, "another SOA");
 like(shift @e, qr/nsdname expected/, "empty NS");
 like(shift @e, qr/garbage after valid NS/, "bad NS");
 like(shift @e, qr/IPv4 address is not valid/, "empty A");
@@ -57,6 +58,7 @@ like(shift @e, qr/garbage after valid MX data/, "bad MX");
 like(shift @e, qr/outside.org. does not belong to zone galaxyplus.org./, "outsider");
 like(shift @e, qr/long.outside.org. does not belong to zone galaxyplus.org./, "long outsider");
 like(shift @e, qr/outsidegalaxyplus.org. does not belong to zone galaxyplus.org./, "tricky outsider");
+like(shift @e, qr/there could only be one SOA in a zone/, "another SOA at the end");
 
 ## actual validations done after parsing
 like(shift @e, qr/there should be at least two NS records/, "NS limit");

@@ -21,6 +21,18 @@ something
             30M ; Retry
             1W  ; Expire
             5M )    ; Minimum TTL
+       SOA ns1.catpipe.net. hostmaster.catpipe.net. ( ; this will be skipped
+            2011011400  ; Serial
+            1H  ; Refresh
+            30M ; Retry
+            1W  ; Expire
+            5M )    ; Minimum TTL
+       SOA ns1.catpipe.net. hostmaster.catpipe.net. ( ; this will be an error
+            2011011401  ; Serial
+            1H  ; Refresh
+            30M ; Retry
+            1W  ; Expire
+            5M )    ; Minimum TTL
         NS  ns1.catpipe.net.
         NS  ns2.catpipe.net.
         NS
@@ -54,3 +66,15 @@ insidegalaxyplus.org.galaxyplus.org. A 194.28.255.11
 www     A 194.28.255.11
 cvs     A 194.28.255.11
 v6		AAAA 2001:2010:1::feef
+zzz     SOA ns1.catpipe.net. hostmaster.catpipe.net. ( ; this will be an error
+            2011011400  ; Serial
+            1H  ; Refresh
+            30M ; Retry
+            1W  ; Expire
+            5M )    ; Minimum TTL
+@       SOA ns1.catpipe.net. hostmaster.catpipe.net. ( ; skipped again
+            2011011400  ; Serial
+            1H  ; Refresh
+            30M ; Retry
+            1W  ; Expire
+            5M )    ; Minimum TTL

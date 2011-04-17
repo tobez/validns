@@ -223,8 +223,33 @@ struct rr *store_record(int rdtype, char *name, long ttl, void *rrptr)
 	rr->line = file_info->line;
 	rr->file_name = file_info->name;
 
-	/* TODO: finding a duplicate should go here */
-	/* TODO: multiple SOA bitching should go here */
+	if (rr_set->count > 0) {
+		rr_wire_func get_wired;
+		struct binary_data new_d, old_d;
+		struct rr *old_rr;
+
+		get_wired = rr_methods[rdtype].rr_wire;
+		if (!get_wired) goto after_dup_check;
+		new_d = get_wired(rr);
+		if (new_d.length < 0) goto after_dup_check;
+		old_rr = rr_set->tail;
+		while (old_rr) {
+			old_d = get_wired(old_rr);
+			if (old_d.length == new_d.length &&
+				memcmp(old_d.data, new_d.data, old_d.length) == 0)
+			{
+				G.stats.skipped_dup_rr_count++;
+				return old_rr;
+			}
+			old_rr = old_rr->next;
+		}
+	}
+after_dup_check:
+	if (rdtype == T_SOA) {
+	   	if (G.stats.soa_rr_count++) {
+			return bitch("there could only be one SOA in a zone");
+		}
+	}
 
 	rr->rr_set = rr_set;
 	rr->next = NULL;

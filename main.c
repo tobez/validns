@@ -304,6 +304,7 @@ main(int argc, char **argv)
 	validate_zone();
 	if (G.opt.summary) {
 		printf("records found:      %d\n", G.stats.rr_count);
+		printf("skipped dups:       %d\n", G.stats.skipped_dup_rr_count);
 		printf("record sets found:  %d\n", G.stats.rrset_count);
 		printf("unique names found: %d\n", G.stats.names_count);
 		printf("validation errors:  %d\n", G.stats.error_count);
