@@ -89,7 +89,11 @@ static char* dnskey_human(struct rr *rrv)
 
 static struct binary_data dnskey_wirerdata(struct rr *rrv)
 {
-    return bad_binary_data();
+    struct rr_dnskey *rr = (struct rr_dnskey *)rrv;
+
+	return compose_binary_data("211d", 1,
+		rr->flags, rr->protocol, rr->algorithm,
+		rr->pubkey);
 }
 
 struct rr_methods dnskey_methods = { dnskey_parse, dnskey_human, dnskey_wirerdata, NULL, NULL };
