@@ -47,7 +47,10 @@ static char* mx_human(struct rr *rrv)
 
 static struct binary_data mx_wirerdata(struct rr *rrv)
 {
-    return bad_binary_data();
+    struct rr_mx *rr = (struct rr_mx *)rrv;
+
+    return compose_binary_data("2d", 1,
+		rr->preference, name2wire_name(rr->exchange));
 }
 
 struct rr_methods mx_methods = { mx_parse, mx_human, mx_wirerdata, NULL, NULL };
