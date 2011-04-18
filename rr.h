@@ -133,8 +133,7 @@ struct rr_nsec
 {
 	struct rr rr;
 	char *next_domain;
-	int type_bitmap_len;
-	char *type_bitmap;
+	struct binary_data type_bitmap;
 };
 extern struct rr_methods nsec_methods;
 

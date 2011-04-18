@@ -21,7 +21,6 @@ static struct rr* nsec_parse(char *name, long ttl, int type, char *s)
 {
     struct rr_nsec *rr = getmem(sizeof(*rr));
 	struct binary_data bitmap;
-	struct binary_data type_bitmap;
 	char *str_type = NULL;
 	int ltype;
 
@@ -40,9 +39,7 @@ static struct rr* nsec_parse(char *name, long ttl, int type, char *s)
 	if (!str_type) {
 		return bitch("NSEC type list should not be empty");
 	}
-	type_bitmap = compressed_set(&bitmap);
-	rr->type_bitmap_len = type_bitmap.length;
-	rr->type_bitmap = type_bitmap.data;
+	rr->type_bitmap = compressed_set(&bitmap);
 
     return store_record(type, name, ttl, rr);
 }
@@ -60,8 +57,8 @@ static char* nsec_human(struct rr *rrv)
 
     l = snprintf(s, 1024, "%s", rr->next_domain);
 	s += l;
-	base = rr->type_bitmap;
-	while (base - rr->type_bitmap < rr->type_bitmap_len) {
+	base = rr->type_bitmap.data;
+	while (base - rr->type_bitmap.data < rr->type_bitmap.length) {
 		for (i = 0; i < base[1]; i++) {
 			for (k = 0; k <= 7; k++) {
 				if (base[2+i] & (0x80 >> k)) {
@@ -79,7 +76,10 @@ static char* nsec_human(struct rr *rrv)
 
 static struct binary_data nsec_wirerdata(struct rr *rrv)
 {
-    return bad_binary_data();
+    struct rr_nsec *rr = (struct rr_nsec *)rrv;
+
+	return compose_binary_data("dd", 1,
+		name2wire_name(rr->next_domain), rr->type_bitmap);
 }
 
 static void* nsec_validate(struct rr *rrv)
@@ -94,8 +94,8 @@ static void* nsec_validate(struct rr *rrv)
 	uint32_t real_distinct_types;
 
 	named_rr = rr->rr.rr_set->named_rr;
-	base = rr->type_bitmap;
-	while (base - rr->type_bitmap < rr->type_bitmap_len) {
+	base = rr->type_bitmap.data;
+	while (base - rr->type_bitmap.data < rr->type_bitmap.length) {
 		for (i = 0; i < base[1]; i++) {
 			for (k = 0; k <= 7; k++) {
 				if (base[2+i] & (0x80 >> k)) {
