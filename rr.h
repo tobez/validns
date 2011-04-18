@@ -25,6 +25,9 @@
 #define T_NSEC3PARAM	51
 #define T_MAX	51
 
+extern char *zone_name;
+extern int zone_name_l;
+
 struct named_rr;
 struct rr_set;
 struct rr;
@@ -50,6 +53,7 @@ struct rr *store_record(int rdtype, char *name, long ttl, void *rrptr);
 int str2rdtype(char *rdtype);
 char *rdtype2str(int type);
 struct named_rr *find_named_rr(char *name);
+struct named_rr *find_next_named_rr(struct named_rr *named_rr);
 struct rr_set *find_rr_set(int rdtype, char *name);
 struct rr_set *find_rr_set_in_named_rr(struct named_rr *named_rr, int rdtype);
 uint32_t get_rr_set_count(struct named_rr *named_rr);

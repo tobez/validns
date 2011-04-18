@@ -489,6 +489,7 @@ ns1.example.sec.	300	IN A	1.2.3.4
 					5HCsQ0IKKATmkbPnBS3JhJ1zcEtZkFqiOSw+
 					wgwWv+2hIpKrq0RR9qX/vYUEYjCADsadjbEE
 					CWO/9GT27DcUegbMrw== )
+ns122.example.sec.	300 IN A	7.7.7.7  ; this is outside of NSEC
 ns2.example.sec.	300	IN A	5.6.7.8
 			300	RRSIG	A 5 3 300 20121212121212 (
 					20110321190904 516 example.sec.
@@ -689,6 +690,8 @@ www.example.sec.	300	IN CNAME example.sec.
 					ukb4JEiS3zkuLTMX59PqJ+sw6y3QBgKOSnbv
 					k18XsducRJhqpwfUGOsmAn6/qGw0HC9XN+rO
 					jE94zVw/whela3Q7vA== )
+zzz.example.sec.	300	IN CNAME example.sec. ; previous NSEC should bitch about it
+			300	NSEC	zzzz.example.sec. CNAME NSEC  ; this one will also bitch
 nosuch.example.sec.	300	RRSIG	NAPTR 5 2 300 20121212121212 (
 					20110321190904 516 example.sec.
 					JMRbXaDnvv39FoonWE688oliqrw7xe6ZNi1r

@@ -7,6 +7,7 @@
  *
  */
 #include <sys/types.h>
+#include <string.h>
 #include <stdio.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
@@ -88,7 +89,7 @@ static void* nsec_validate(struct rr *rrv)
 	int type;
 	char *base;
 	int i, k;
-	struct named_rr *named_rr;
+	struct named_rr *named_rr, *next_named_rr;
 	struct rr_set *set;
 	uint32_t nsec_distinct_types = 0;
 	uint32_t real_distinct_types;
@@ -114,6 +115,23 @@ static void* nsec_validate(struct rr *rrv)
 	if (real_distinct_types > nsec_distinct_types) {
 		return moan(rr->rr.file_name, rr->rr.line, "there are more record types than NSEC mentions");
 	}
+
+	next_named_rr = find_next_named_rr(named_rr);
+	if (strcmp(rr->next_domain, zone_name) == 0) {
+		if (next_named_rr) {
+			return moan(rr->rr.file_name, rr->rr.line, "NSEC says %s is the last name, but %s exists",
+						named_rr->name, next_named_rr->name);
+		}
+	} else {
+		if (!next_named_rr) {
+			return moan(rr->rr.file_name, rr->rr.line, "NSEC says %s comes after %s, but nothing does",
+						rr->next_domain, named_rr->name);
+		} else if (strcmp(rr->next_domain, next_named_rr->name) != 0) {
+			return moan(rr->rr.file_name, rr->rr.line, "NSEC says %s comes after %s, but %s does",
+						rr->next_domain, named_rr->name, next_named_rr->name);
+		}
+	}
+
 	/* TODO: more checks */
 	return rr;
 }

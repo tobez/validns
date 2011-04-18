@@ -289,6 +289,18 @@ struct named_rr *find_named_rr(char *name)
 	return NULL;
 }
 
+struct named_rr *find_next_named_rr(struct named_rr *named_rr)
+{
+	unsigned char sorted_name[512];
+	struct named_rr **named_rr_p;
+
+	strcpy((char*)sorted_name, (char*)name2findable_name(named_rr->name));
+	JSLN(named_rr_p, zone, sorted_name);
+	if (named_rr_p)
+		return *named_rr_p;
+	return NULL;
+}
+
 struct rr_set *find_rr_set(int rdtype, char *name)
 {
 	struct named_rr *named_rr;

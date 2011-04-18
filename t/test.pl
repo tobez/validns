@@ -77,8 +77,11 @@ like(shift @e, qr/RRSIG\(NSEC\): cannot verify the signature/, "NSEC lists too m
 like(shift @e, qr/NSEC mentions SRV, but no such record found/, "NSEC lists too much");
 
 like(shift @e, qr/RRSIG exists for non-existing type NAPTR/, "RRSIG for absent");
+like(shift @e, qr/NSEC says ns2.example.sec. comes after ns1.example.sec., but ns122.example.sec. does/, "NSEC chain error");
 like(shift @e, qr/RRSIG's original TTL differs from corresponding record's/, "RRSIG orig ttl bad");
 like(shift @e, qr/RRSIG\(NSEC\): cannot find a signer key/, "unknown signer");
+like(shift @e, qr/NSEC says www.example.sec. is the last name, but zzz.example.sec. exists/, "NSEC chain not the last");
+like(shift @e, qr/NSEC says zzzz.example.sec. comes after zzz.example.sec., but nothing does/, "NSEC chain unexpected last");
 
 is(+@e, 0, "no unaccounted errors");
 
