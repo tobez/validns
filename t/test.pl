@@ -71,7 +71,9 @@ run('./validns', '-s', 't/zones/example.sec.signed.with-errors');
 isnt(rc, 0, 'bad signed zone returns an error');
 @e = split /\n/, stderr;
 
+like(shift @e, qr/RRSIG\(NSEC\): cannot verify the signature/, "NSEC incomplete fallout") for 1..4;
 like(shift @e, qr/there are more record types than NSEC mentions/, "NSEC incomplete");
+like(shift @e, qr/RRSIG\(NSEC\): cannot verify the signature/, "NSEC lists too much fallout") for 1..4;
 like(shift @e, qr/NSEC mentions SRV, but no such record found/, "NSEC lists too much");
 
 like(shift @e, qr/RRSIG exists for non-existing type NAPTR/, "RRSIG for absent");
