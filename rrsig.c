@@ -152,8 +152,22 @@ static int verify_signature(struct rr_rrsig *rr, struct rr_dnskey *key, struct r
 		return 0;
 
 	EVP_MD_CTX_init(&ctx);
-	if (EVP_VerifyInit(&ctx, EVP_sha256()) != 1)  // XXX method!
+	switch (rr->algorithm) {
+	case 5:
+		if (EVP_VerifyInit(&ctx, EVP_sha1()) != 1)
+			return 0;
+		break;
+	case 8:
+		if (EVP_VerifyInit(&ctx, EVP_sha256()) != 1)
+			return 0;
+		break;
+	case 10:
+		if (EVP_VerifyInit(&ctx, EVP_sha512()) != 1)
+			return 0;
+		break;
+	default:
 		return 0;
+	}
 
 	chunk = rrsig_wirerdata_ex(&rr->rr, 0);
 	if (chunk.length < 0)

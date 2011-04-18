@@ -105,7 +105,7 @@ int dnskey_build_pkey(struct rr_dnskey *rr)
 
 	rr->pkey_built = 1;
 
-	if (rr->algorithm == 8) {
+	if (rr->algorithm == 5 || rr->algorithm == 8 || rr->algorithm == 10) {
 		RSA *rsa;
 		EVP_PKEY *pkey;
 		unsigned int e_bytes;
