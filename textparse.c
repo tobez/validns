@@ -21,6 +21,7 @@
 #include "mempool.h"
 #include "textparse.h"
 #include "base64.h"
+#include "base32hex.h"
 
 int empty_line_or_comment(char *s)
 {
@@ -441,6 +442,46 @@ struct binary_data extract_base64_binary_data(char **input, char *what)
 	r.length = decode_base64(r.data, b64, bl);
 	if (r.length < 0) {
 		bitch("error decoding base64 %s", what);
+		return r;
+	}
+	return r;
+}
+
+struct binary_data extract_base32hex_binary_data(char **input, char *what)
+{
+	char b32[4096];
+	int l32 = 0;
+	char *s = *input;
+	struct binary_data r = bad_binary_data();
+	int bl;
+
+	while (
+		   (*s >= 'A' && *s <= 'V') ||
+		   (*s >= 'a' && *s <= 'v') ||
+		   (*s >= '0' && *s <= '9') ||
+		   *s == '=')
+	{
+		if (l32 >= 4095) {
+			bitch("%s is too long", what);
+			return r;
+		}
+		b32[l32++] = *s++;
+	}
+	if (l32 <= 0) {
+		bitch("%s expected", what);
+		return r;
+	}
+
+	s = skip_white_space(s);
+	*input = s;
+	if (!s)	return r;
+
+	b32[l32] = 0;
+	bl = (l32 * 5 + 7)/8;
+	r.data = getmem(bl);
+	r.length = decode_base32hex(r.data, b32, bl);
+	if (r.length < 0) {
+		bitch("error decoding base32hex %s", what);
 		return r;
 	}
 	return r;

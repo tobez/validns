@@ -42,6 +42,8 @@ struct globals {
 	} opt;
 	int exit_code;
 	long default_ttl;
+	int nsec3_present;
+	int nsec3_opt_out_present;
 };
 
 extern struct globals G;

@@ -22,7 +22,12 @@
 static struct rr* nsec3_parse(char *name, long ttl, int type, char *s)
 {
     struct rr_nsec3 *rr = getmem(sizeof(*rr));
+	struct rr *ret_rr;
+	struct binary_data bitmap;
 	int i;
+	int opt_out = 0;
+	char *str_type = NULL;
+	int ltype;
 
 	i = extract_integer(&s, "hash algorithm");
 	if (i < 0)
@@ -38,8 +43,11 @@ static struct rr* nsec3_parse(char *name, long ttl, int type, char *s)
 		return NULL;
 	if (i > 255)
 		return bitch("bad flags value");
-	if (i != 0)
-		return bitch("flags is supposed to be 0 for NSEC3");
+
+	if (!(i == 0 || i == 1))
+		return bitch("unsupported flags value");
+	if (i == 1)
+		opt_out = 1;
 	rr->flags = i;
 
 	i = extract_integer(&s, "iterations");
@@ -65,11 +73,27 @@ static struct rr* nsec3_parse(char *name, long ttl, int type, char *s)
 		if (rr->salt.length > 255)
 			return bitch("salt is too long");
 	}
-	if (*s) {
-		return bitch("garbage after valid NSEC3 data");
-	}
 
-    return store_record(type, name, ttl, rr);
+	rr->next_hashed_owner = extract_base32hex_binary_data(&s, "next hashed owner");
+
+	bitmap = new_set();
+	while (s && *s) {
+		str_type = extract_label(&s, "type list", "temporary");
+		if (!str_type) return NULL;
+		ltype = str2rdtype(str_type);
+		add_bit_to_set(&bitmap, ltype);
+	}
+	if (!s)
+		return NULL;
+	rr->type_bitmap = compressed_set(&bitmap);
+
+    ret_rr = store_record(type, name, ttl, rr);
+	if (ret_rr) {
+		G.nsec3_present = 1;
+		if (opt_out)
+			G.nsec3_opt_out_present = 1;
+	}
+	return ret_rr;
 }
 
 static char* nsec3_human(struct rr *rrv)
@@ -95,7 +119,12 @@ static char* nsec3_human(struct rr *rrv)
 
 static struct binary_data nsec3_wirerdata(struct rr *rrv)
 {
-    return bad_binary_data();
+    struct rr_nsec3 *rr = (struct rr_nsec3 *)rrv;
+
+	return compose_binary_data("112bbd", 1,
+		rr->hash_algorithm, rr->flags,
+		rr->iterations, rr->salt,
+		rr->next_hashed_owner, rr->type_bitmap);
 }
 
 struct rr_methods nsec3_methods = { nsec3_parse, nsec3_human, nsec3_wirerdata, NULL, NULL };

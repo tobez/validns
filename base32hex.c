@@ -44,7 +44,7 @@ decode_base32hex(void *dest, char *src, size_t dstsize)
 		int v;
 		if (*src >= 'A' && *src <= 'V')
 			v = *src - 'A' + 10;
-		else if (*src >= 'a' && *src <= 'z')
+		else if (*src >= 'a' && *src <= 'v')
 			v = *src - 'a' + 10;
 		else if (*src >= '0' && *src <= '9')
 			v = *src - '0';
@@ -258,6 +258,7 @@ int main(void)
 	ret |= expect_junk_error(t++, "CpnmuOj/1e8x");
 	ret |= expect_junk_error(t++, "CpnYmuOj1e8");
 	ret |= expect_junk_error(t++, "CZpnmuOj1e8");
+	ret |= expect_junk_error(t++, "CzpnmuOj1e8");
 
 	ret |= ok_string_test(t++, "MEQIMI6FJE5NI47PJAHV5QIGU1LV3JLJ", "\xb3\xb5\x2b\x48\xcf\x9b\x8b\x79\x10\xf9\x9a\xa3\xf2\xea\x50\xf0\x6b\xf1\xce\xb3");
 

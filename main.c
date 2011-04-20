@@ -226,6 +226,7 @@ static void initialize_globals(void)
 {
 	int i;
 
+	bzero(&G, sizeof(G));
 	bzero(&G.opt, sizeof(G.opt));
 	bzero(&G.stats, sizeof(G.stats));
 	G.default_ttl = 3600; /* XXX orly? */
