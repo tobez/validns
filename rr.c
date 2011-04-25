@@ -407,7 +407,15 @@ void validate_rrset(struct rr_set *rr_set)
 	struct rr *rr;
 	int ttl;
 
+	/* This can happen when rr_set was allocated but
+	 * nothing was added to it due to an error. */
+	if (rr_set->count == 0) return;
 	rr = rr_set->tail;
+	if (!rr) {
+		croakx(4, "assertion failed: %s %s is null, but count is %d",
+			   rdtype2str(rr_set->rdtype), rr_set->named_rr->name,
+			   rr_set->count);
+	}
 	if (rr_methods[rr_set->rdtype].rr_validate_set)
 		rr_methods[rr_set->rdtype].rr_validate_set(rr_set);
 	ttl = rr->ttl;
