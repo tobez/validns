@@ -217,6 +217,12 @@ static void *rrsig_validate(struct rr *rrv)
 	int found_key;
 
 	named_rr = rr->rr.rr_set->named_rr;
+	if (G.opt.current_time < rr->sig_inception) {
+		return moan(rr->rr.file_name, rr->rr.line, "%s signature is too new", named_rr->name);
+	}
+	if (G.opt.current_time > rr->sig_expiration) {
+		return moan(rr->rr.file_name, rr->rr.line, "%s signature is too old", named_rr->name);
+	}
 	signed_set = find_rr_set_in_named_rr(named_rr, rr->type_covered);
 	if (!signed_set) {
 		return moan(rr->rr.file_name, rr->rr.line, "%s RRSIG exists for non-existing type %s", named_rr->name, rdtype2str(rr->type_covered));

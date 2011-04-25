@@ -12,15 +12,27 @@ unless (*run{CODE})
 	exit(0);
 }
 
+my @e;
+
 run('./validns', 't/zones/galaxyplus.org');
 is(rc, 0, 'valid zone parses ok');
 
-run('./validns', 't/zones/example.sec.signed');
+run('./validns', '-t1303720021', 't/zones/example.sec.signed');
 is(rc, 0, 'valid signed zone parses ok');
+
+run('./validns', '-t1303720010', 't/zones/example.sec.signed');
+isnt(rc, 0, 'valid signed zone with timestamps in the future');
+@e = split /\n/, stderr;
+like(shift @e, qr/signature is too new/, "signature is too new");
+
+run('./validns', '-t1355314832', 't/zones/example.sec.signed');
+isnt(rc, 0, 'valid signed zone with timestamps in the past');
+@e = split /\n/, stderr;
+like(shift @e, qr/signature is too old/, "signature is too old");
 
 run('./validns', '-s', 't/zones/manyerrors.zone');
 isnt(rc, 0, 'bad zone returns an error');
-my @e = split /\n/, stderr;
+@e = split /\n/, stderr;
 
 # main.c
 like(shift @e, qr/unrecognized directive/, "unrecognized directive");
