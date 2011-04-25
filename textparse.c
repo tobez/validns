@@ -551,7 +551,7 @@ new_char:
 	return r;
 }
 
-struct binary_data extract_hex_binary_data(char **input, char *what)
+struct binary_data extract_hex_binary_data(char **input, char *what, int eat_whitespace)
 {
 	char hex[4096];
 	char *s = *input;
@@ -560,21 +560,42 @@ struct binary_data extract_hex_binary_data(char **input, char *what)
 
 	hex[0] = '0';
 	hl = 1;
-	while (isxdigit(*s)) {
-		if (hl >= 4095) {
-			bitch("%s is too long", what);
+
+	if (eat_whitespace == EXTRACT_DONT_EAT_WHITESPACE) {
+		while (isxdigit(*s)) {
+			if (hl >= 4095) {
+				bitch("%s is too long", what);
+				return r;
+			}
+			hex[hl] = *s;
+			s++;
+			hl++;
+		}
+		if (*s && !isspace(*s) && *s != ';' && *s != ')') {
+			bitch("%s is not valid", what);
 			return r;
 		}
-		hex[hl] = *s;
-		s++;
-		hl++;
+		*input = skip_white_space(s);
+	} else if (eat_whitespace == EXTRACT_EAT_WHITESPACE) {
+		while (s && *s) {
+			if (!isxdigit(*s)) {
+				bitch("%s expected", what);
+				return r;
+			}
+			while (isxdigit(*s)) {
+				if (hl >= 4095) {
+					bitch("%s is too long", what);
+					return r;
+				}
+				hex[hl++] = *s++;
+			}
+			s = skip_white_space(s);
+		}
+		*input = s;
+	} else {
+		bitch("%s: internal: invalid eat_whitespace");
 	}
 
-	if (*s && !isspace(*s) && *s != ';' && *s != ')') {
-		bitch("%s is not valid", what);
-		return r;
-	}
-	*input = skip_white_space(s);
 	if (!*input)
 		return r;  /* bitching's done elsewhere */
 

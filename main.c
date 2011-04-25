@@ -239,6 +239,7 @@ static void initialize_globals(void)
 	rr_methods[T_AAAA]         =       aaaa_methods;
 	rr_methods[T_CNAME]        =      cname_methods;
 	rr_methods[T_DNSKEY]       =     dnskey_methods;
+	rr_methods[T_DS]           =         ds_methods;
 	rr_methods[T_MX]           =         mx_methods;
 	rr_methods[T_NAPTR]        =      naptr_methods;
 	rr_methods[T_NS]           =         ns_methods;

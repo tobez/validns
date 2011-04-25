@@ -18,6 +18,7 @@
 #define T_AAAA	28
 #define T_SRV	33
 #define T_NAPTR	35
+#define T_DS	43
 #define T_RRSIG	46
 #define T_NSEC	47
 #define T_DNSKEY	48
@@ -225,5 +226,15 @@ struct rr_dnskey
 extern struct rr_methods dnskey_methods;
 
 int dnskey_build_pkey(struct rr_dnskey *rr);
+
+struct rr_ds
+{
+	struct rr rr;
+	uint16_t key_tag;
+	uint8_t algorithm;
+	uint8_t digest_type;
+	struct binary_data digest;
+};
+extern struct rr_methods ds_methods;
 
 #endif

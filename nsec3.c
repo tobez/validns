@@ -67,7 +67,7 @@ static struct rr* nsec3_parse(char *name, long ttl, int type, char *s)
 			return bitch("salt is not valid");
 		s = skip_white_space(s);
 	} else {
-		rr->salt = extract_hex_binary_data(&s, "salt");
+		rr->salt = extract_hex_binary_data(&s, "salt", EXTRACT_DONT_EAT_WHITESPACE);
 		if (rr->salt.length <= 0)
 			return NULL;
 		if (rr->salt.length > 255)

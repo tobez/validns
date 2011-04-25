@@ -362,7 +362,9 @@ int str2rdtype(char *rdtype)
 			return T_CNAME;
 		}
 	case 'd':
-		if (strcmp(rdtype, "dnskey") == 0) {
+		if (strcmp(rdtype, "ds") == 0) {
+			return T_DS;
+		} else if (strcmp(rdtype, "dnskey") == 0) {
 			return T_DNSKEY;
 		}
 	case 'm':

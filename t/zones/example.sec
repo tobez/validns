@@ -16,3 +16,9 @@ ns1		A	1.2.3.4
 ns2		A	5.6.7.8
 mail	A	2.3.4.5
 www     CNAME example.sec.
+
+delegation NS ns1
+delegation NS ns2
+delegation DS 60485 5 1 ( 2BB183AF5F22588179A53B0A
+		98631FAD1A292118 )
+
