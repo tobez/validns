@@ -207,7 +207,7 @@ void usage(char *err)
 {
 	fprintf(stderr, "Usage:\n");
 	fprintf(stderr, "    %s -h\n", thisprogname());
-	fprintf(stderr, "    %s [options]\n", thisprogname());
+	fprintf(stderr, "    %s [options] zone-file\n", thisprogname());
 	fprintf(stderr, "Usage parameters:\n");
 	fprintf(stderr, "\t-h\t\tproduce usage text and quit\n");
 	fprintf(stderr, "\t-f\t\tquit on first validation error\n");
