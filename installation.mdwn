@@ -18,7 +18,6 @@ Is likely to compile and work on any modern Unix-like OS.
 - Test::Command::Simple perl module (for tests only)
 	- FreeBSD: ports/devel/p5-Test-Command-Simple
 	- anywhere: cpanm Test::Command::Simple
-- [pandoc](http://johnmacfarlane.net/pandoc/) for manual page generation
 
 ## Compilation
 
@@ -26,14 +25,9 @@ Type `make`.  If there are troubles,
 have a long hard look at the `Makefile`, fix
 the problems, repeat.
 
-For manual page: type `make man`.  You need
-to have `pandoc` installed (see above).
-You don't have to have the manual page generated,
-everything is documented in `usage.mdwn`.
-
 ## Installation
 
 Copy `validns` executable someplace.
 
-If you generated the man page in the previous
-step, copy that some(other)place as well.
+The manual page will be added soon.  Once it
+is here, copy it some(other)place as well.
