@@ -6,6 +6,7 @@
  * (See LICENSE file in the distribution.)
  *
  */
+#define _GNU_SOURCE
 #include <ctype.h>
 #include <time.h>
 #include <stdlib.h>

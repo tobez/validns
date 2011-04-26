@@ -5,7 +5,9 @@
 Known to compile and work on:
 
 - FreeBSD 9.0 amd64
+- FreeBSD 8.2 i386
 - Ubuntu 10.10 1 i386
+- Debian 5.0.3 "lenny" x86_64
 
 Is likely to compile and work on any modern Unix-like OS.
 
