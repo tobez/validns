@@ -195,12 +195,14 @@ long long extract_integer(char **input, char *what)
 long extract_timevalue(char **input, char *what)
 {
 	char *s = *input;
-	int r = 0;
+	int r = 0, acc = 0;
 
 	if (!isdigit(*s)) {
 		bitch("%s expected", what);
 		return -1;
 	}
+next_component:
+	r = 0;
 	while (isdigit(*s)) {
 		r *= 10;
 		r += *s - '0';
@@ -221,6 +223,8 @@ long extract_timevalue(char **input, char *what)
 		r *= 604800;
 		s++;
 	}
+	acc += r;
+	if (isdigit(*s)) goto next_component;
 
 	if (*s && !isspace(*s) && *s != ';' && *s != ')') {
 		bitch("%s is not valid", what);
@@ -229,7 +233,7 @@ long extract_timevalue(char **input, char *what)
 	*input = skip_white_space(s);
 	if (!*input)
 		return -1;  /* bitching's done elsewhere */
-	return r;
+	return acc;
 }
 
 long long extract_timestamp(char **input, char *what)
