@@ -29,6 +29,18 @@
 - some validations require complete RR sets
 - need quick retrieval of all records in a given RR set
 
+## Memory requirements and execution speed
+
+Naturally, memory usage is much higher on 64-bit
+platforms.  For a 4 million records zone, it
+eats around 700 MB on a 64-bit platform,
+and only around 400 MB on a 32-bit platform.
+
+It also looks that 32-bit version is somewhat
+faster than 64-bit one, although I did not do
+a strict comparison - the tested machines were
+not the same.
+
 ## TODO
 
 The todo list is not complete by its nature.
@@ -37,7 +49,6 @@ The todo list is not complete by its nature.
 - a test for every error message
 - zone validations specified in RFC 1035
 - multiple verboseness levels (`-v` option repeated)
-- wire RDATA format
 - include file support
 	- `-I` option
 - embedding lua for flexible validations
@@ -46,7 +57,6 @@ The todo list is not complete by its nature.
 	- `-r policy-rule` option (maybe?)
 - better platform support
 	- `stpcpy()` might not be everywhere
-- NSEC3 parsing
 
 ## DONE
 
@@ -65,3 +75,5 @@ The done list is not complete.
 - (./) `-s` option - produce validation summary/statistics
 - (./) nice CPAN module for external programs output testing?
 	- (./) looks like Test::Command::Simple is what I want
+- (./) wire RDATA format
+- (./) NSEC3 parsing
