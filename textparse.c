@@ -75,6 +75,7 @@ char *extract_name(char **input, char *what)
 	char *r = NULL;
 	char *end = NULL;
 	char c;
+	int wildcard = 0;
 
 	if (*s == '@') {
 		s++;
@@ -87,7 +88,11 @@ char *extract_name(char **input, char *what)
 		r = quickstrdup(G.opt.current_origin);
 	} else {
 		if (!(isalnum(*s) || *s == '_')) {
-			return bitch("%s expected", what);
+			if (*s == '*') {
+				wildcard = 1;
+			} else {
+				return bitch("%s expected", what);
+			}
 		}
 		s++;
 		while (isalnum(*s) || *s == '.' || *s == '-' || *s == '_')
@@ -120,6 +125,9 @@ char *extract_name(char **input, char *what)
 	while (*s) {
 		*s = tolower(*s);
 		s++;
+	}
+	if (wildcard && r[1] != '.') {
+		return bitch("%s: bad wildcard", what);
 	}
 	return r;
 }

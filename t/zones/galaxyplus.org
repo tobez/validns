@@ -15,3 +15,4 @@ $TTL    5M
 www     A 194.28.255.11
 cvs     A 194.28.255.11
 v6		AAAA 2001:2010:1::feef
+*.meow	CNAME www
