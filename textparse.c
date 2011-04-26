@@ -73,10 +73,11 @@ char *extract_name(char **input, char *what)
 	char *s = *input;
 	char *r = NULL;
 	char *end = NULL;
+	char c;
 
 	if (*s == '@') {
 		s++;
-		if (*s && !isspace(*s)) {
+		if (*s && !isspace(*s) && *s != ';' && *s != ')') {
 			return bitch("literal @ in %s is not all by itself", what);
 		}
 		if (!G.opt.current_origin) {
@@ -90,12 +91,13 @@ char *extract_name(char **input, char *what)
 		s++;
 		while (isalnum(*s) || *s == '.' || *s == '-' || *s == '_')
 			s++;
-		if (*s && !isspace(*s)) {
+		if (*s && !isspace(*s) && *s != ';' && *s != ')') {
 			return bitch("%s is not valid", what);
 		}
 		if (!*s)	end = s;
-		*s++ = '\0';
-		if (*(s-2) == '.') {
+		c = *s;
+		*s = '\0';
+		if (*(s-1) == '.') {
 			r = quickstrdup(*input);
 		} else {
 			if (!G.opt.current_origin) {
@@ -104,6 +106,7 @@ char *extract_name(char **input, char *what)
 			r = getmem(strlen(*input) + 1 + strlen(G.opt.current_origin) + 1);
 			strcpy(stpcpy(stpcpy(r, *input), "."), G.opt.current_origin);
 		}
+		*s = c;
 	}
 	if (end) {
 		*input = end;
