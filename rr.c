@@ -357,20 +357,34 @@ int str2rdtype(char *rdtype)
 		} else if (strcmp(rdtype, "aaaa") == 0) {
 			return T_AAAA;
 		}
+		break;
 	case 'c':
 		if (strcmp(rdtype, "cname") == 0) {
 			return T_CNAME;
 		}
+		break;
 	case 'd':
 		if (strcmp(rdtype, "ds") == 0) {
 			return T_DS;
 		} else if (strcmp(rdtype, "dnskey") == 0) {
 			return T_DNSKEY;
 		}
+		break;
+	case 'h':
+		if (strcmp(rdtype, "hinfo") == 0) {
+			return T_HINFO;
+		}
+		break;
+	case 'l':
+		if (strcmp(rdtype, "loc") == 0) {
+			return T_LOC;
+		}
+		break;
 	case 'm':
 		if (strcmp(rdtype, "mx") == 0) {
 			return T_MX;
 		}
+		break;
 	case 'n':
 		if (strcmp(rdtype, "ns") == 0) {
 			return T_NS;
@@ -383,20 +397,24 @@ int str2rdtype(char *rdtype)
 		} else if (strcmp(rdtype, "nsec3param") == 0) {
 			return T_NSEC3PARAM;
 		}
+		break;
 	case 'r':
 		if (strcmp(rdtype, "rrsig") == 0) {
 			return T_RRSIG;
 		}
+		break;
 	case 's':
 		if (strcmp(rdtype, "soa") == 0) {
 			return T_SOA;
 		} else if (strcmp(rdtype, "srv") == 0) {
 			return T_SRV;
 		}
+		break;
 	case 't':
 		if (strcmp(rdtype, "txt") == 0) {
 			return T_TXT;
 		}
+		break;
 	}
 	bitch("invalid or unsupported rdtype %s", rdtype);
 	return -1;

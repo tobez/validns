@@ -13,9 +13,11 @@
 #define T_NS	2
 #define T_CNAME	5
 #define T_SOA	6
+#define T_HINFO	13
 #define T_MX	15
 #define T_TXT	16
 #define T_AAAA	28
+#define T_LOC	29
 #define T_SRV	33
 #define T_NAPTR	35
 #define T_DS	43
@@ -236,5 +238,13 @@ struct rr_ds
 	struct binary_data digest;
 };
 extern struct rr_methods ds_methods;
+
+struct rr_hinfo
+{
+	struct rr rr;
+    struct binary_data cpu;
+    struct binary_data os;
+};
+extern struct rr_methods hinfo_methods;
 
 #endif

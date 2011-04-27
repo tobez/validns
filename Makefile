@@ -5,12 +5,14 @@ INCPATH=-I/usr/local/include
 validns: main.o carp.o mempool.o textparse.o base64.o base32hex.o \
 	rr.o soa.o a.o cname.o mx.o ns.o \
 	rrsig.o nsec.o dnskey.o txt.o aaaa.o \
-	naptr.o srv.o nsec3param.o nsec3.o ds.o
+	naptr.o srv.o nsec3param.o nsec3.o ds.o \
+	hinfo.o
 	cc $(CFLAGS) $(OPTIMIZE) -o validns \
 	    main.o carp.o mempool.o textparse.o base64.o base32hex.o \
 	    rr.o soa.o a.o cname.o mx.o ns.o \
 	    rrsig.o nsec.o dnskey.o txt.o aaaa.o \
 	    naptr.o srv.o nsec3param.o nsec3.o ds.o \
+	    hinfo.o \
 	    -L/usr/local/lib -lJudy -lcrypto
 
 clean:
@@ -18,6 +20,7 @@ clean:
 	-rm rr.o soa.o a.o cname.o mx.o ns.o
 	-rm rrsig.o nsec.o dnskey.o txt.o aaaa.o
 	-rm naptr.o srv.o nsec3param.o nsec3.o ds.o
+	-rm hinfo.o
 	-rm validns.core core
 	@echo ':-)'
 
@@ -86,6 +89,9 @@ nsec3.o: nsec3.c common.h textparse.h mempool.h carp.h rr.h
 
 ds.o: ds.c common.h textparse.h mempool.h carp.h rr.h
 	cc $(CFLAGS) $(OPTIMIZE) -c -o ds.o ds.c $(INCPATH)
+
+hinfo.o: hinfo.c common.h textparse.h mempool.h carp.h rr.h
+	cc $(CFLAGS) $(OPTIMIZE) -c -o hinfo.o hinfo.c $(INCPATH)
 
 test: validns
 	perl -MTest::Harness -e 'runtests("t/test.pl")'
