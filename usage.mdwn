@@ -25,6 +25,12 @@ Coming soon.
     `validns` continues working on a zone after encountering
     a parsing or validation error.
 
+-p
+:   Activate standard policy checks.
+    By default, only basic checks and DNSSEC
+    checks are performed.
+    See **POLICY CHECKS**, below, for details.
+
 -q
 :   quiet - do not produce any output
 
@@ -43,3 +49,43 @@ Coming soon.
 -t *epoch-time*
 :    Use specified time instead of the current time
      when verifying validity of the signatures.
+
+# BASIC CHECKS
+
+Every record and every supported directive should be parsable,
+which consitutes the most basic check of all.
+The `validns` program will report an exact reason
+why it cannot parse a record or a directive.
+
+Other basic checks include:
+
+- there could only be one SOA in a zone;
+- the first record in the zone must be an SOA record;
+- a record outside the apex;
+- TTL values differ within an RR set (excepting *RRSIG*);
+
+# DNSSEC CHECKS
+
+- there are more record types than NSEC mentions;
+- NSEC says *x* is the last name, but *z* exists;
+- NSEC says *z* comes after *x*, but nothing does;
+- NSEC says *z* comes after *x*, but *y* does;
+- signature is too new;
+- signature is too old;
+- RRSIG exists for non-existing type *type*;
+- RRSIG's original TTL differs from corresponding record's;
+- RRSIG(*type*): cannot find a signer key;
+- RRSIG(*type*): cannot verify the signature;
+- RRSIG(*type*): cannot find the right signer key.
+
+# POLICY CHECKS
+
+- there should be at least two NS records per name (or zero);
+
+# BUGS
+
+- textual segments in *TXT* and *HINFO* must be enclosed in double quotes;
+- there cannot be more than 20 textual segments in a *TXT* record;
+- *$INCLUDE* directive is not implemented;
+- no backslash escapes in names are supported.
+

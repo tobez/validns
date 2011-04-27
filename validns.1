@@ -22,6 +22,13 @@ encountering a parsing or validation error.
 .RS
 .RE
 .TP
+.B -p
+Activate standard policy checks.
+By default, only basic checks and DNSSEC checks are performed.
+See \f[B]POLICY CHECKS\f[], below, for details.
+.RS
+.RE
+.TP
 .B -q
 quiet - do not produce any output
 .RS
@@ -52,5 +59,58 @@ Use specified time instead of the current time when verifying
 validity of the signatures.
 .RS
 .RE
+.SH BASIC CHECKS
+.PP
+Every record and every supported directive should be parsable,
+which consitutes the most basic check of all.
+The \f[C]validns\f[] program will report an exact reason why it
+cannot parse a record or a directive.
+.PP
+Other basic checks include:
+.IP \[bu] 2
+there could only be one SOA in a zone;
+.IP \[bu] 2
+the first record in the zone must be an SOA record;
+.IP \[bu] 2
+a record outside the apex;
+.IP \[bu] 2
+TTL values differ within an RR set (excepting \f[I]RRSIG\f[]);
+.SH DNSSEC CHECKS
+.IP \[bu] 2
+there are more record types than NSEC mentions;
+.IP \[bu] 2
+NSEC says \f[I]x\f[] is the last name, but \f[I]z\f[] exists;
+.IP \[bu] 2
+NSEC says \f[I]z\f[] comes after \f[I]x\f[], but nothing does;
+.IP \[bu] 2
+NSEC says \f[I]z\f[] comes after \f[I]x\f[], but \f[I]y\f[] does;
+.IP \[bu] 2
+signature is too new;
+.IP \[bu] 2
+signature is too old;
+.IP \[bu] 2
+RRSIG exists for non-existing type \f[I]type\f[];
+.IP \[bu] 2
+RRSIG's original TTL differs from corresponding record's;
+.IP \[bu] 2
+RRSIG(\f[I]type\f[]): cannot find a signer key;
+.IP \[bu] 2
+RRSIG(\f[I]type\f[]): cannot verify the signature;
+.IP \[bu] 2
+RRSIG(\f[I]type\f[]): cannot find the right signer key.
+.SH POLICY CHECKS
+.IP \[bu] 2
+there should be at least two NS records per name (or zero);
+.SH BUGS
+.IP \[bu] 2
+textual segments in \f[I]TXT\f[] and \f[I]HINFO\f[] must be
+enclosed in double quotes;
+.IP \[bu] 2
+there cannot be more than 20 textual segments in a \f[I]TXT\f[]
+record;
+.IP \[bu] 2
+\f[I]$INCLUDE\f[] directive is not implemented;
+.IP \[bu] 2
+no backslash escapes in names are supported.
 .SH AUTHORS
 Anton Berezin.
