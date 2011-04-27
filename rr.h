@@ -274,4 +274,6 @@ struct rr_loc
 };
 extern struct rr_methods loc_methods;
 
+extern void calculate_hashed_names(void);
+
 #endif
