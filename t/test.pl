@@ -30,7 +30,7 @@ isnt(rc, 0, 'valid signed zone with timestamps in the past');
 @e = split /\n/, stderr;
 like(shift @e, qr/signature is too old/, "signature is too old");
 
-run('./validns', '-s', 't/zones/manyerrors.zone');
+run('./validns', '-sp', 't/zones/manyerrors.zone');
 isnt(rc, 0, 'bad zone returns an error');
 @e = split /\n/, stderr;
 

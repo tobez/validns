@@ -39,6 +39,7 @@ struct globals {
 		char *include_path;
 		char *current_origin;
 		uint32_t current_time;
+		int policy_checks;
 	} opt;
 	int exit_code;
 	long default_ttl;

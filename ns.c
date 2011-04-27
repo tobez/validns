@@ -47,9 +47,11 @@ static struct binary_data ns_wirerdata(struct rr *rrv)
 static void* ns_validate_set(struct rr_set *rr_set)
 {
 	struct rr *rr;
-	if (rr_set->count < 2) {
-		rr = rr_set->tail;
-		return moan(rr->file_name, rr->line, "there should be at least two NS records per name");
+	if (G.opt.policy_checks) {
+		if (rr_set->count < 2) {
+			rr = rr_set->tail;
+			return moan(rr->file_name, rr->line, "there should be at least two NS records per name");
+		}
 	}
 	return NULL;
 }
