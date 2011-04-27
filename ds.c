@@ -28,9 +28,7 @@ static struct rr* ds_parse(char *name, long ttl, int type, char *s)
 
 	algorithm = extract_integer(&s, "algorithm");
 	if (algorithm < 0)	return NULL;
-	if (algorithm != 3 && algorithm != 5 &&
-		algorithm != 8 && algorithm != 10)
-	{
+	if (algorithm_type(algorithm) == ALG_UNSUPPORTED) {
 		return bitch("bad or unsupported algorithm %d", algorithm);
 	}
 	rr->algorithm = algorithm;

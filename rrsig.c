@@ -39,9 +39,7 @@ static struct rr* rrsig_parse(char *name, long ttl, int type, char *s)
 
 	rr->algorithm = extract_integer(&s, "algorithm");
 	if (rr->algorithm < 0)	return NULL;
-	if (rr->algorithm != 3 && rr->algorithm != 5 &&
-		rr->algorithm != 8 && rr->algorithm != 10)
-	{
+	if (algorithm_type(rr->algorithm) == ALG_UNSUPPORTED) {
 		return bitch("bad or unsupported algorithm %d", rr->algorithm);
 	}
 
@@ -153,15 +151,18 @@ static int verify_signature(struct rr_rrsig *rr, struct rr_dnskey *key, struct r
 
 	EVP_MD_CTX_init(&ctx);
 	switch (rr->algorithm) {
-	case 5:
+	case ALG_DSA:
+	case ALG_RSASHA1:
+	case ALG_DSA_NSEC3_SHA1:
+	case ALG_RSASHA1_NSEC3_SHA1:
 		if (EVP_VerifyInit(&ctx, EVP_sha1()) != 1)
 			return 0;
 		break;
-	case 8:
+	case ALG_RSASHA256:
 		if (EVP_VerifyInit(&ctx, EVP_sha256()) != 1)
 			return 0;
 		break;
-	case 10:
+	case ALG_RSASHA512:
 		if (EVP_VerifyInit(&ctx, EVP_sha512()) != 1)
 			return 0;
 		break;

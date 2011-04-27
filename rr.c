@@ -481,3 +481,21 @@ void validate_record(struct rr *rr)
 		rr_methods[rr->rdtype].rr_validate(rr);
 }
 
+int algorithm_type(int alg)
+{
+	switch (alg) {
+	case ALG_DSA:
+		return ALG_DSA_FAMILY;
+	case ALG_RSASHA1:
+		return ALG_RSA_FAMILY;
+	case ALG_DSA_NSEC3_SHA1:
+		return ALG_DSA_FAMILY;
+	case ALG_RSASHA1_NSEC3_SHA1:
+		return ALG_RSA_FAMILY;
+	case ALG_RSASHA256:
+		return ALG_RSA_FAMILY;
+	case ALG_RSASHA512:
+		return ALG_RSA_FAMILY;
+	}
+	return ALG_UNSUPPORTED;
+}

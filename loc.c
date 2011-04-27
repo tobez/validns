@@ -7,6 +7,7 @@
  *
  */
 #include <sys/types.h>
+#include <ctype.h>
 #include <string.h>
 #include <stdio.h>
 #include <netinet/in.h>
@@ -22,8 +23,30 @@ static struct rr *loc_parse(char *name, long ttl, int type, char *s)
 {
 	struct rr_loc *rr = getmem(sizeof(*rr));
 	long long i;
+	int deg;
+	int min;
+	double sec;
 
 	i = extract_integer(&s, "degrees latitude");
+	if (i < 0)
+		return NULL;
+	if (i > 90)
+		return bitch("degrees latitude not in the range 0..90");
+	deg = i;
+
+	min = 0;
+	sec = 0;
+	if (isdigit(*s)) {
+		i = extract_integer(&s, "minutes latitude");
+		if (i < 0)
+			return NULL;
+		if (i > 59)
+			return bitch("minutes latitude not in the range 0..59");
+		deg = i;
+
+		if (isdigit(*s)) {
+		}
+	}
 
 	if (*s) {
 		return bitch("garbage after valid LOC data");

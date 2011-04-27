@@ -46,9 +46,7 @@ static struct rr* dnskey_parse(char *name, long ttl, int type, char *s)
 
 	algorithm = extract_integer(&s, "algorithm");
 	if (algorithm < 0)	return NULL;
-	if (algorithm != 3 && algorithm != 5 &&
-		algorithm != 8 && algorithm != 10)
-	{
+	if (algorithm_type(algorithm) == ALG_UNSUPPORTED) {
 		return bitch("bad or unsupported algorithm %d", algorithm);
 	}
 	rr->algorithm = algorithm;
@@ -105,7 +103,7 @@ int dnskey_build_pkey(struct rr_dnskey *rr)
 
 	rr->pkey_built = 1;
 
-	if (rr->algorithm == 5 || rr->algorithm == 8 || rr->algorithm == 10) {
+	if (algorithm_type(rr->algorithm) == ALG_RSA_FAMILY) {
 		RSA *rsa;
 		EVP_PKEY *pkey;
 		unsigned int e_bytes;

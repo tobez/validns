@@ -28,6 +28,17 @@
 #define T_NSEC3PARAM	51
 #define T_MAX	51
 
+#define ALG_DSA                3
+#define ALG_RSASHA1            5
+#define ALG_DSA_NSEC3_SHA1     6
+#define ALG_RSASHA1_NSEC3_SHA1 7
+#define ALG_RSASHA256          8
+#define ALG_RSASHA512          10
+
+#define ALG_UNSUPPORTED 0
+#define ALG_DSA_FAMILY  1
+#define ALG_RSA_FAMILY  2
+
 extern char *zone_name;
 extern int zone_name_l;
 
@@ -61,6 +72,7 @@ struct rr_set *find_rr_set(int rdtype, char *name);
 struct rr_set *find_rr_set_in_named_rr(struct named_rr *named_rr, int rdtype);
 uint32_t get_rr_set_count(struct named_rr *named_rr);
 struct binary_data name2wire_name(char *s);
+int algorithm_type(int alg);
 
 struct named_rr
 {
