@@ -37,15 +37,36 @@ static struct rr* ds_parse(char *name, long ttl, int type, char *s)
 
 	digest_type = extract_integer(&s, "digest type");
 	if (digest_type < 0)	return NULL;
-	if (digest_type != 1) {
-		return bitch("bad or unsupported digest type %d", digest_type);
-	}
 	rr->digest_type = digest_type;
 
 	rr->digest = extract_hex_binary_data(&s, "digest", EXTRACT_EAT_WHITESPACE);
 	if (rr->digest.length < 0)	return NULL;
-	if (rr->digest.length != 20) {
-		return bitch("wrong digest length: %d bytes found, %d bytes expected", rr->digest.length, 20);
+
+	/* See http://www.iana.org/assignments/ds-rr-types/ds-rr-types.xml
+	 * for valid digest types. */
+	/*
+		SHA-1 20 bytes
+		SHA-256 32 bytes
+		GOST R 34.11-94 32 bytes
+	*/
+	switch (digest_type) {
+	case 1:
+		if (rr->digest.length != 20) {
+			return bitch("wrong SHA-1 digest length: %d bytes found, %d bytes expected", rr->digest.length, 20);
+		}
+		break;
+	case 2:
+		if (rr->digest.length != 32) {
+			return bitch("wrong SHA-256 digest length: %d bytes found, %d bytes expected", rr->digest.length, 32);
+		}
+		break;
+	case 3:
+		if (rr->digest.length != 32) {
+			return bitch("wrong GOST R 34.11-94 digest length: %d bytes found, %d bytes expected", rr->digest.length, 32);
+		}
+		break;
+	default:
+		return bitch("bad or unsupported digest type %d", digest_type);
 	}
 
 	if (*s) {
