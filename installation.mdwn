@@ -8,6 +8,7 @@ Known to compile and work on:
 - FreeBSD 8.2 i386
 - Ubuntu 10.10 1 i386
 - Debian 5.0.3 "lenny" x86_64
+- MacOS X 10.6.7 (10.7.0 Darwin) i386
 
 Is likely to compile and work on any modern Unix-like OS.
 
@@ -17,6 +18,7 @@ Is likely to compile and work on any modern Unix-like OS.
 	- http://judy.sourceforge.net/
 	- FreeBSD: ports/devel/judy
 	- Debian/Ubuntu: libjudy-dev
+	- MacOS X: macports judy
 - Test::Command::Simple perl module (for tests only)
 	- FreeBSD: ports/devel/p5-Test-Command-Simple
 	- anywhere: cpanm Test::Command::Simple
