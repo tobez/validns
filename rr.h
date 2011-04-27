@@ -247,4 +247,17 @@ struct rr_hinfo
 };
 extern struct rr_methods hinfo_methods;
 
+struct rr_loc
+{
+	struct rr rr;
+	uint8_t version;
+	uint8_t size;
+	uint8_t horiz_pre;
+	uint8_t vert_pre;
+	uint32_t latitude;
+	uint32_t longitude;
+	uint32_t altitude;
+};
+extern struct rr_methods loc_methods;
+
 #endif
