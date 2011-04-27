@@ -44,11 +44,8 @@ static struct rr* dnskey_parse(char *name, long ttl, int type, char *s)
 		return bitch("bad protocol value");
 	rr->protocol = proto;
 
-	algorithm = extract_integer(&s, "algorithm");
-	if (algorithm < 0)	return NULL;
-	if (algorithm_type(algorithm) == ALG_UNSUPPORTED) {
-		return bitch("bad or unsupported algorithm %d", algorithm);
-	}
+	algorithm = extract_algorithm(&s, "algorithm");
+	if (algorithm == ALG_UNSUPPORTED)	return NULL;
 	rr->algorithm = algorithm;
 
 	key = extract_base64_binary_data(&s, "public key");

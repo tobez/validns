@@ -37,11 +37,8 @@ static struct rr* rrsig_parse(char *name, long ttl, int type, char *s)
 	if (type_covered <= 0 || type_covered > T_MAX) return NULL;
 	rr->type_covered = type_covered;
 
-	rr->algorithm = extract_integer(&s, "algorithm");
-	if (rr->algorithm < 0)	return NULL;
-	if (algorithm_type(rr->algorithm) == ALG_UNSUPPORTED) {
-		return bitch("bad or unsupported algorithm %d", rr->algorithm);
-	}
+	rr->algorithm = extract_algorithm(&s, "algorithm");
+	if (rr->algorithm == ALG_UNSUPPORTED)	return NULL;
 
 	rr->labels = extract_integer(&s, "labels");
 	if (rr->labels < 0)	return NULL;

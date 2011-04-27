@@ -7,7 +7,7 @@ example.sec.		300	IN SOA	ns1.example.sec. hostmaster.example.sec. (
 					604800     ; expire (1 week)
 					300        ; minimum (5 minutes)
 					)
-			300	RRSIG	SOA 5 2 300 20121212121212 (
+			300	RRSIG	SOA RSASHA1 2 300 20121212121212 (
 					20110427075240 516 example.sec.
 					YRg+k4iiGPl1QtN9yr636JFyJRVRDg7pC/5C
 					Sh+NCuSdjopCZXvCnp22PF4BzxE9437akZnh

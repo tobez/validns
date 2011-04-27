@@ -6,6 +6,7 @@
  * (See LICENSE file in the distribution.)
  *
  */
+#include <ctype.h>
 #include <string.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
@@ -479,6 +480,38 @@ void validate_record(struct rr *rr)
 	freeall_temp();
 	if (rr_methods[rr->rdtype].rr_validate)
 		rr_methods[rr->rdtype].rr_validate(rr);
+}
+
+int extract_algorithm(char **s, char *what)
+{
+	int alg;
+	char *str_alg;
+
+	if (isdigit(**s)) {
+		alg = extract_integer(s, what);
+		if (algorithm_type(alg) == ALG_UNSUPPORTED) {
+			bitch("bad or unsupported algorithm %d", alg);
+			return ALG_UNSUPPORTED;
+		}
+		return alg;
+	} else {
+		str_alg = extract_label(s, what, "temporary");
+		if (!str_alg) return ALG_UNSUPPORTED;
+		if (strcmp(str_alg, "dsa") == 0)
+			return ALG_DSA;
+		if (strcmp(str_alg, "rsasha1") == 0)
+			return ALG_RSASHA1;
+		if (strcmp(str_alg, "dsa-nsec3-sha1") == 0)
+			return ALG_DSA_NSEC3_SHA1;
+		if (strcmp(str_alg, "rsasha1-nsec3-sha1") == 0)
+			return ALG_RSASHA1_NSEC3_SHA1;
+		if (strcmp(str_alg, "rsasha256") == 0)
+			return ALG_RSASHA256;
+		if (strcmp(str_alg, "rsasha512") == 0)
+			return ALG_RSASHA512;
+		bitch("bad or unsupported algorithm %s", str_alg);
+		return ALG_UNSUPPORTED;
+	}
 }
 
 int algorithm_type(int alg)

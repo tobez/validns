@@ -73,6 +73,7 @@ struct rr_set *find_rr_set_in_named_rr(struct named_rr *named_rr, int rdtype);
 uint32_t get_rr_set_count(struct named_rr *named_rr);
 struct binary_data name2wire_name(char *s);
 int algorithm_type(int alg);
+int extract_algorithm(char **s, char *what);
 
 struct named_rr
 {

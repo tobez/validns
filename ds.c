@@ -26,11 +26,8 @@ static struct rr* ds_parse(char *name, long ttl, int type, char *s)
 	if (key_tag < 0)	return NULL;
 	rr->key_tag = key_tag;
 
-	algorithm = extract_integer(&s, "algorithm");
-	if (algorithm < 0)	return NULL;
-	if (algorithm_type(algorithm) == ALG_UNSUPPORTED) {
-		return bitch("bad or unsupported algorithm %d", algorithm);
-	}
+	algorithm = extract_algorithm(&s, "algorithm");
+	if (algorithm == ALG_UNSUPPORTED)	return NULL;
 	rr->algorithm = algorithm;
 
 	digest_type = extract_integer(&s, "digest type");
