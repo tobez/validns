@@ -1,6 +1,6 @@
 OPTIMIZE=-O2 -g
 CFLAGS=-Wall -Werror
-INCPATH=-I/usr/local/include
+INCPATH=-I/usr/local/include -I/opt/local/include
 
 validns: main.o carp.o mempool.o textparse.o base64.o base32hex.o \
 	rr.o soa.o a.o cname.o mx.o ns.o \
@@ -13,7 +13,7 @@ validns: main.o carp.o mempool.o textparse.o base64.o base32hex.o \
 	    rrsig.o nsec.o dnskey.o txt.o aaaa.o \
 	    naptr.o srv.o nsec3param.o nsec3.o ds.o \
 	    hinfo.o loc.o \
-	    -L/usr/local/lib -lJudy -lcrypto
+	    -L/usr/local/lib -L/opt/local/lib -lJudy -lcrypto
 
 clean:
 	-rm validns main.o carp.o mempool.o textparse.o

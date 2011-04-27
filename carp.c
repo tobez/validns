@@ -122,6 +122,8 @@ const char *thisprogname(void)
 {
 #if defined(__FreeBSD__)
 	return getprogname();
+#elif defined(__APPLE__)
+	return getprogname();
 #elif defined(__sun__)
 	return getexecname();
 #elif defined(__linux__)
