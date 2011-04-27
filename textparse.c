@@ -38,13 +38,14 @@ char *skip_white_space(char *s)
 	if (*s == ';') {
 		while (*s) s++;
 	}
-	if (*s == ')') {
+	if (*s == 0) {
 		if (file_info->paren_mode) {
-			file_info->paren_mode = 0;
-			s++;
-			return skip_white_space(s);
-		} else {
-			return bitch("unexpected closing parenthesis");
+			if (fgets(file_info->buf, 2048, file_info->file)) {
+				file_info->line++;
+				return skip_white_space(file_info->buf);
+			} else {
+				return bitch("unexpected end of file");
+			}
 		}
 	}
 	if (*s == '(') {
@@ -56,14 +57,13 @@ char *skip_white_space(char *s)
 			return skip_white_space(s);
 		}
 	}
-	if (*s == 0) {
+	if (*s == ')') {
 		if (file_info->paren_mode) {
-			if (fgets(file_info->buf, 2048, file_info->file)) {
-				file_info->line++;
-				return skip_white_space(file_info->buf);
-			} else {
-				return bitch("unexpected end of file");
-			}
+			file_info->paren_mode = 0;
+			s++;
+			return skip_white_space(s);
+		} else {
+			return bitch("unexpected closing parenthesis");
 		}
 	}
 	return s;
@@ -132,8 +132,7 @@ char *extract_name(char **input, char *what)
 	}
 	if (wildcard && r[1] != '.') {
 		return bitch("%s: bad wildcard", what);
-	}
-	if (r[0] == '.' && r[1] != '\0') {
+	} else if (r[0] == '.' && r[1] != '\0') {
 		return bitch("%s: name cannot start with a dot", what);
 	}
 	return r;
