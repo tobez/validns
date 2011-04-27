@@ -1,0 +1,56 @@
+.TH VALIDNS 1 "April 2011" 
+.SH NAME
+.PP
+validns - DNS and DSNSEC zone file validator
+.SH SYNOPSIS
+.PP
+validns \f[I]-h\f[] validns [\f[I]options\f[]] \f[I]zone-file\f[]
+.SH DESCRIPTION
+.PP
+Coming soon.
+.SH OPTIONS
+.TP
+.B -h
+Produce usage text and quit.
+.RS
+.RE
+.TP
+.B -f
+Quit on first validation error.
+Normally, \f[C]validns\f[] continues working on a zone after
+encountering a parsing or validation error.
+.RS
+.RE
+.TP
+.B -q
+quiet - do not produce any output
+.RS
+.RE
+.TP
+.B -s
+print validation summary/stats
+.RS
+.RE
+.TP
+.B -v
+be extra verbose
+.RS
+.RE
+.TP
+.B -I \f[I]path\f[]
+use this path for $INCLUDE files
+.RS
+.RE
+.TP
+.B -z \f[I]origin\f[]
+use this origin as initial $ORIGIN
+.RS
+.RE
+.TP
+.B -t \f[I]epoch-time\f[]
+Use specified time instead of the current time when verifying
+validity of the signatures.
+.RS
+.RE
+.SH AUTHORS
+Anton Berezin.

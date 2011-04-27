@@ -1,1 +1,45 @@
-# validns usage
+% VALIDNS(1)
+% Anton Berezin
+% April 2011
+
+# NAME
+
+validns - DNS and DSNSEC zone file validator
+
+# SYNOPSIS
+
+validns *-h*
+validns [*options*] *zone-file*
+
+# DESCRIPTION
+
+Coming soon.
+
+# OPTIONS
+
+-h
+:   Produce usage text and quit.
+
+-f
+:   Quit on first validation error.  Normally,
+    `validns` continues working on a zone after encountering
+    a parsing or validation error.
+
+-q
+:   quiet - do not produce any output
+
+-s
+:   print validation summary/stats
+
+-v
+:   be extra verbose
+
+-I *path*
+:    use this path for $INCLUDE files
+
+-z *origin*
+:    use this origin as initial $ORIGIN
+
+-t *epoch-time*
+:    Use specified time instead of the current time
+     when verifying validity of the signatures.
