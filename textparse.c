@@ -87,7 +87,7 @@ char *extract_name(char **input, char *what)
 		}
 		r = quickstrdup(G.opt.current_origin);
 	} else {
-		if (!(isalnum(*s) || *s == '_')) {
+		if (!(isalnum(*s) || *s == '_' || *s == '.')) {
 			if (*s == '*') {
 				wildcard = 1;
 			} else {
@@ -110,7 +110,11 @@ char *extract_name(char **input, char *what)
 				return bitch("do not know origin to determine %s", what);
 			}
 			r = getmem(strlen(*input) + 1 + strlen(G.opt.current_origin) + 1);
-			strcpy(stpcpy(stpcpy(r, *input), "."), G.opt.current_origin);
+			if (G.opt.current_origin[0] == '.') {
+				strcpy(stpcpy(r, *input), G.opt.current_origin);
+			} else {
+				strcpy(stpcpy(stpcpy(r, *input), "."), G.opt.current_origin);
+			}
 		}
 		*s = c;
 	}
@@ -128,6 +132,9 @@ char *extract_name(char **input, char *what)
 	}
 	if (wildcard && r[1] != '.') {
 		return bitch("%s: bad wildcard", what);
+	}
+	if (r[0] == '.' && r[1] != '\0') {
+		return bitch("%s: name cannot start with a dot", what);
 	}
 	return r;
 }

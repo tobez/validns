@@ -12,7 +12,9 @@ $TTL    5M
         A   194.28.255.11
         MX  5 horch.tobez.org.
 
-www     A 194.28.255.11
+$ORIGIN .
+www.galaxyplus.org     A 194.28.255.11
+$ORIGIN galaxyplus.org.
 cvs     A 194.28.255.11
 v6		AAAA 2001:2010:1::feef
 text	TXT	"text1" "Another text" "One more"

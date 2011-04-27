@@ -74,6 +74,8 @@ zzz     SOA ns1.catpipe.net. hostmaster.catpipe.net. ( ; this will be an error
             5M )    ; Minimum TTL
 xy*z	A 12.13.14.15	; name is not valid
 *z	A 12.13.14.15	; name: bad wildcard
+.xyz A 34.45.56.78  ; name cannot start with a dot
+.. A 34.45.56.78  ; name cannot start with a dot
 @       SOA ns1.catpipe.net. hostmaster.catpipe.net. ( ; skipped again
             2011011400  ; Serial
             1H  ; Refresh

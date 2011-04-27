@@ -73,6 +73,8 @@ like(shift @e, qr/outsidegalaxyplus.org. does not belong to zone galaxyplus.org.
 like(shift @e, qr/there could only be one SOA in a zone/, "another SOA at the end");
 like(shift @e, qr/record name is not valid/, "wildcard is the middle");
 like(shift @e, qr/record name: bad wildcard/, "bad wildcard");
+like(shift @e, qr/name cannot start with a dot/, "dot-something");
+like(shift @e, qr/name cannot start with a dot/, "dot-dot");
 
 ## actual validations done after parsing
 like(shift @e, qr/there should be at least two NS records/, "NS limit");
