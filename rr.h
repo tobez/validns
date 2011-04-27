@@ -132,7 +132,8 @@ extern struct rr_methods ns_methods;
 struct rr_txt
 {
     struct rr rr;
-    struct binary_data txt;
+	int count;
+    struct binary_data txt[1];
 };
 extern struct rr_methods txt_methods;
 
