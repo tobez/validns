@@ -54,7 +54,7 @@ like(shift @e, qr/the first record in the zone must be an SOA record/, "non-SOA 
 like(shift @e, qr/the first record in the zone must be an SOA record/, "non-SOA 2");
 like(shift @e, qr/serial is out of range/, "out of range serial");
 like(shift @e, qr/there could only be one SOA in a zone/, "another SOA");
-like(shift @e, qr/nsdname expected/, "empty NS");
+like(shift @e, qr/name server domain name expected/, "empty NS");
 like(shift @e, qr/garbage after valid NS/, "bad NS");
 like(shift @e, qr/IPv4 address is not valid/, "empty A");
 like(shift @e, qr/garbage after valid A data/, "bad A");

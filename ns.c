@@ -21,7 +21,7 @@ static struct rr *ns_parse(char *name, long ttl, int type, char *s)
 {
 	struct rr_ns *rr = getmem(sizeof(*rr));
 
-	rr->nsdname = extract_name(&s, "nsdname");
+	rr->nsdname = extract_name(&s, "name server domain name");
 	if (!rr->nsdname)
 		return NULL;
 	if (*s) {
