@@ -50,7 +50,7 @@ static void* cname_validate_set(struct rr_set *rr_set)
 	struct named_rr *named_rr;
 	int count;
 
-	if (G.opt.policy_checks) {
+	if (G.opt.policy_checks[POLICY_CNAME_OTHER_DATA]) {
 		if (rr_set->count > 1) {
 			rr = rr_set->tail;
 			return moan(rr->file_name, rr->line, "CNAME and other data");

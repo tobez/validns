@@ -212,7 +212,10 @@ void usage(char *err)
 	fprintf(stderr, "Usage parameters:\n");
 	fprintf(stderr, "\t-h\t\tproduce usage text and quit\n");
 	fprintf(stderr, "\t-f\t\tquit on first validation error\n");
-	fprintf(stderr, "\t-p\t\tperform built-in policy checks\n");
+	fprintf(stderr, "\t-p name\tperform policy check <name>\n");
+	fprintf(stderr, "\t\t\tsingle-ns\n");
+	fprintf(stderr, "\t\t\tcname-other-data\n");
+	fprintf(stderr, "\t\t\tall\n");
 	fprintf(stderr, "\t-q\t\tquiet - do not produce any output\n");
 	fprintf(stderr, "\t-s\t\tprint validation summary/stats\n");
 	fprintf(stderr, "\t-v\t\tbe extra verbose\n");
@@ -262,7 +265,7 @@ main(int argc, char **argv)
 	int o;
 	initialize_globals();
 
-	while ((o = getopt(argc, argv, "fhpqsvI:z:t:")) != -1) {
+	while ((o = getopt(argc, argv, "fhqsvI:z:t:p:")) != -1) {
 		switch(o) {
 		case 'h':
 			usage(NULL);
@@ -280,7 +283,18 @@ main(int argc, char **argv)
 			G.opt.verbose = 1;
 			break;
 		case 'p':
-			G.opt.policy_checks = 1;
+			if (strcmp(optarg, "all") == 0) {
+				int i;
+				for (i = 0; i < N_POLICY_CHECKS; i++) {
+					G.opt.policy_checks[i] = 1;
+				}
+			} else if (strcmp(optarg, "single-ns") == 0) {
+				G.opt.policy_checks[POLICY_SINGLE_NS] = 1;
+			} else if (strcmp(optarg, "cname-other-data") == 0) {
+				G.opt.policy_checks[POLICY_CNAME_OTHER_DATA] = 1;
+			} else {
+				usage("unknown policy name");
+			}
 			break;
 		case 'I':
 			G.opt.include_path = optarg;

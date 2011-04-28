@@ -25,11 +25,17 @@ Coming soon.
     `validns` continues working on a zone after encountering
     a parsing or validation error.
 
--p
-:   Activate standard policy checks.
+-p *name*
+:   Activate policy check *name*.
     By default, only basic checks and DNSSEC
     checks are performed.
+    This option can be specified multiple times.
     See **POLICY CHECKS**, below, for details.
+    The following names are understood:
+
+    - single-ns
+	- cname-other-data
+	- all
 
 -q
 :   quiet - do not produce any output

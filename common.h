@@ -21,6 +21,11 @@ struct file_info
 
 extern struct file_info *file_info;
 
+#define N_POLICY_CHECKS 2
+
+#define POLICY_SINGLE_NS 0
+#define POLICY_CNAME_OTHER_DATA 1
+
 struct globals {
 	struct stats {
 		int names_count;
@@ -39,7 +44,7 @@ struct globals {
 		char *include_path;
 		char *current_origin;
 		uint32_t current_time;
-		int policy_checks;
+		char policy_checks[N_POLICY_CHECKS];
 	} opt;
 	int exit_code;
 	long default_ttl;

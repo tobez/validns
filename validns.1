@@ -22,11 +22,19 @@ encountering a parsing or validation error.
 .RS
 .RE
 .TP
-.B -p
-Activate standard policy checks.
+.B -p \f[I]name\f[]
+Activate policy check \f[I]name\f[].
 By default, only basic checks and DNSSEC checks are performed.
+This option can be specified multiple times.
 See \f[B]POLICY CHECKS\f[], below, for details.
+The following names are understood:
 .RS
+.IP \[bu] 2
+single-ns
+.IP \[bu] 2
+cname-other-data
+.IP \[bu] 2
+all
 .RE
 .TP
 .B -q
