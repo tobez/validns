@@ -94,5 +94,4 @@ Other basic checks include:
 - textual segments in *TXT* and *HINFO* must be enclosed in double quotes;
 - there cannot be more than 20 textual segments in a *TXT* record;
 - *$INCLUDE* directive is not implemented;
-- no backslash escapes in names are supported.
-
+- a dot within a label is not currently supported.

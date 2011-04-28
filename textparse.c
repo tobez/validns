@@ -69,6 +69,99 @@ char *skip_white_space(char *s)
 	return s;
 }
 
+static char *extract_name_slow(char **input, char *what)
+{
+	char buf[1024];
+	char *t = buf;
+	char *s = *input;
+	int d, l, ol;
+
+	while (1) {
+		if (isalnum(*s) || *s == '_' || *s == '.' || *s == '-') {
+			if (t-buf >= 1022)
+				return bitch("name too long");
+			*t++ = *s++;
+		} else if (*s == '\\') {
+			s++;
+			if (isdigit(*s)) {
+				d = *s - '0';
+				s++;
+				if (!isdigit(*s))
+					return bitch("bad escape sequence");
+				d = d*10 + *s - '0';
+				s++;
+				if (!isdigit(*s))
+					return bitch("bad escape sequence");
+				d = d*10 + *s - '0';
+				s++;
+				if (d > 255)
+					return bitch("bad escape sequence");
+				if (d == '.')
+					return bitch("a dot within a label is not currently supported");
+				*((unsigned char *)t) = (unsigned char)d;
+				if (t-buf >= 1022)
+					return bitch("name too long");
+				t++;
+			} else if (*s == '.') {
+				return bitch("a dot within a label is not currently supported");
+			} else if (*s) {
+				if (t-buf >= 1022)
+					return bitch("name too long");
+				*t++ = *s++;
+			} else {
+				return bitch("backslash in the end of the line not parsable");
+			}
+		} else {
+			break;
+		}
+	}
+	if (*s && !isspace(*s) && *s != ';' && *s != ')') {
+		return bitch("%s is not valid", what);
+	}
+	*t = '\0';
+
+	l = strlen(buf);
+	if (!l)
+		return bitch("%s should not be empty", what);
+
+	if (buf[l-1] != '.') {
+		if (!G.opt.current_origin) {
+			return bitch("do not know origin to determine %s", what);
+		}
+		ol = strlen(G.opt.current_origin);
+		if (G.opt.current_origin[0] == '.') {
+			if (l + ol >= 1023)
+				return bitch("name too long");
+			strcat(buf, G.opt.current_origin);
+		} else {
+			if (l + ol >= 1022)
+				return bitch("name too long");
+			strcat(buf, ".");
+			strcat(buf, G.opt.current_origin);
+		}
+	}
+
+	t = index(buf, '*');
+	if (t && (t != buf || t[1] != '.'))
+		return bitch("%s: bad wildcard", what);
+	if (buf[0] == '.' && buf[1] != '\0')
+		return bitch("%s: name cannot start with a dot", what);
+	if (strstr(buf, ".."))
+		return bitch("%s: empty label in a name", what);
+
+	*input = skip_white_space(s);
+	if (!*input)
+		return NULL;  /* bitching's done elsewhere */
+	t = buf;
+	while (*t) {
+		*t = tolower(*t);
+		t++;
+	}
+
+	t = quickstrdup(buf);
+	return t;
+}
+
 char *extract_name(char **input, char *what)
 {
 	char *s = *input;
@@ -91,6 +184,8 @@ char *extract_name(char **input, char *what)
 			if (*s == '*') {
 				wildcard = 1;
 			} else {
+				if (*s == '\\')
+					return extract_name_slow(input, what);
 				return bitch("%s expected", what);
 			}
 		}
@@ -98,6 +193,8 @@ char *extract_name(char **input, char *what)
 		while (isalnum(*s) || *s == '.' || *s == '-' || *s == '_')
 			s++;
 		if (*s && !isspace(*s) && *s != ';' && *s != ')') {
+			if (*s == '\\')
+				return extract_name_slow(input, what);
 			return bitch("%s is not valid", what);
 		}
 		if (!*s)	end = s;
