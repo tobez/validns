@@ -66,6 +66,10 @@ insidegalaxyplus.org.galaxyplus.org. A 194.28.255.11
 www     A 194.28.255.11
 cvs     A 194.28.255.11
 v6		AAAA 2001:2010:1::feef
+otherdata1	CNAME a.b.c.
+otherdata1	CNAME x.y.z.
+otherdata2	CNAME a.b.c.
+otherdata2	A 1.2.3.4
 zzz     SOA ns1.catpipe.net. hostmaster.catpipe.net. ( ; this will be an error
             2011011400  ; Serial
             1H  ; Refresh

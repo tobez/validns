@@ -77,6 +77,8 @@ like(shift @e, qr/name cannot start with a dot/, "dot-something");
 like(shift @e, qr/name cannot start with a dot/, "dot-dot");
 
 ## actual validations done after parsing
+like(shift @e, qr/CNAME and other data/, "CNAME+CNAME");
+like(shift @e, qr/CNAME and other data/, "CNAME+something else");
 like(shift @e, qr/there should be at least two NS records/, "NS limit");
 like(shift @e, qr/TTL values differ within an RR set/, "TTL conflict");
 

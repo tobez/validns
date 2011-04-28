@@ -101,6 +101,8 @@ RRSIG(\f[I]type\f[]): cannot find the right signer key.
 .SH POLICY CHECKS
 .IP \[bu] 2
 there should be at least two NS records per name (or zero);
+.IP \[bu] 2
+CNAME and other data (excluding possible RRSIG and NSEC).
 .SH BUGS
 .IP \[bu] 2
 textual segments in \f[I]TXT\f[] and \f[I]HINFO\f[] must be

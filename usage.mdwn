@@ -81,6 +81,7 @@ Other basic checks include:
 # POLICY CHECKS
 
 - there should be at least two NS records per name (or zero);
+- CNAME and other data (excluding possible RRSIG and NSEC).
 
 # BUGS
 
