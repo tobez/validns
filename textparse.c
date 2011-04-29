@@ -307,6 +307,53 @@ long long extract_integer(char **input, char *what)
 	return r;
 }
 
+int extract_double(char **input, char *what, double *val, int skip_m)
+{
+	char *s = *input;
+	char *end = NULL;
+	char *stop;
+	char c;
+	int saw_m = 0;
+
+	while (isdigit(*s) || *s == '+' || *s == '-' || *s == '.')
+		s++;
+	if (*s && !isspace(*s) && *s != ';' && *s != ')') {
+		if (skip_m && (*s == 'm' || *s == 'M')) {
+			saw_m = 1;
+		} else {
+			bitch("%s is not valid", what);
+			return -1;
+		}
+	}
+	if (!*s)	end = s;
+	c = *s;
+	*s = '\0';
+	*val = strtod(*input, &stop);
+	if (*stop != '\0') {
+		*s = c;
+		bitch("%s is not valid", what);
+		return -1;
+	}
+	*s = c;
+
+	if (saw_m) {
+		s++;
+		if (*s && !isspace(*s) && *s != ';' && *s != ')') {
+			bitch("%s is not valid", what);
+			return -1;
+		}
+	}
+
+	if (end) {
+		*input = end;
+	} else {
+		*input = skip_white_space(s);
+		if (!*input)
+			return -1;  /* bitching's done elsewhere */
+	}
+	return 1;
+}
+
 long extract_timevalue(char **input, char *what)
 {
 	char *s = *input;
