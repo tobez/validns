@@ -34,6 +34,7 @@ struct globals {
 		int error_count;
 		int skipped_dup_rr_count;
 		int soa_rr_count;
+		int signatures_verified;
 	} stats;
 	struct command_line_options
 	{

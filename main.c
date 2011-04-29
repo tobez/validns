@@ -13,6 +13,7 @@
 #include <string.h>
 #include <ctype.h>
 #include <unistd.h>
+#include <sys/time.h>
 #include <time.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
@@ -264,6 +265,7 @@ main(int argc, char **argv)
 {
 	int o;
 	initialize_globals();
+	struct timeval start, stop;
 
 	while ((o = getopt(argc, argv, "fhqsvI:z:t:p:")) != -1) {
 		switch(o) {
@@ -322,15 +324,20 @@ main(int argc, char **argv)
 	argv += optind;
 	if (argc != 1)
 		usage(NULL);
+	gettimeofday(&start, NULL);
 	open_zone_file(argv[0]);
 	read_zone_file();
 	validate_zone();
+	gettimeofday(&stop, NULL);
 	if (G.opt.summary) {
-		printf("records found:      %d\n", G.stats.rr_count);
-		printf("skipped dups:       %d\n", G.stats.skipped_dup_rr_count);
-		printf("record sets found:  %d\n", G.stats.rrset_count);
-		printf("unique names found: %d\n", G.stats.names_count);
-		printf("validation errors:  %d\n", G.stats.error_count);
+		printf("records found:       %d\n", G.stats.rr_count);
+		printf("skipped dups:        %d\n", G.stats.skipped_dup_rr_count);
+		printf("record sets found:   %d\n", G.stats.rrset_count);
+		printf("unique names found:  %d\n", G.stats.names_count);
+		printf("validation errors:   %d\n", G.stats.error_count);
+		printf("signatures verified: %d\n", G.stats.signatures_verified);
+		printf("time taken:          %.3fs\n",
+			   stop.tv_sec - start.tv_sec + (stop.tv_usec - start.tv_usec)/1000000.);
 	}
 	return G.exit_code;
 }

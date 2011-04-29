@@ -198,6 +198,7 @@ static int verify_signature(struct rr_rrsig *rr, struct rr_dnskey *key, struct r
 		EVP_VerifyUpdate(&ctx, set[i].wired.data, set[i].wired.length);
 	}
 
+	G.stats.signatures_verified++;
 	if (EVP_VerifyFinal(&ctx, (unsigned char *)rr->signature.data, rr->signature.length, key->pkey) == 1) {
 		/* fprintf(stderr, "EXCELLENT(%s %s, alg %d)\n", signed_set->named_rr->name, rdtype2str(signed_set->rdtype), rr->algorithm); */
 		return 1;
