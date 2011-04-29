@@ -53,6 +53,8 @@ static struct rr *loc_parse(char *name, long ttl, int type, char *s)
 	int min;
 	double sec, val;
 
+	rr->version = 0;
+
 	/* latitude block */
 	i = extract_integer(&s, "degrees latitude");
 	if (i < 0)
