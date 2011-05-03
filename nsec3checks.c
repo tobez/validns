@@ -14,6 +14,7 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <openssl/evp.h>
+#include <Judy.h>
 
 #include "common.h"
 #include "textparse.h"
@@ -64,8 +65,50 @@ static struct binary_data name2hash(char *name, struct rr *param)
 	return r;
 }
 
+int sorted_hashed_names_count;
+struct binary_data *sorted_hashed_names;
+
 extern void calculate_hashed_names(void)
 {
+	unsigned char sorted_name[512];
+	struct named_rr **named_rr_p;
 	void *x = name2hash;
 	x = name2hash;
+
+	sorted_hashed_names_count = 0;
+	if (G.nsec3_opt_out_present) {
+		uint32_t rrs;
+
+/* Yuck!  Delegated ns.xyz -> A records are also not covered by NSEC3! */
+		sorted_name[0] = 0;
+		JSLF(named_rr_p, zone_data, sorted_name);
+		while (named_rr_p) {
+			if ((*named_rr_p)->rr_sets) {
+				rrs = get_rr_set_count(*named_rr_p);
+				if (rrs == 1) {
+					/* could be opt-out NS delegation, or unsigned NSEC3 (the possibility of which we ignore) */
+					if (!find_rr_set_in_named_rr(*named_rr_p, T_NS)) {
+//fprintf(stderr, "1: %s\n", (*named_rr_p)->name);
+						sorted_hashed_names_count++;
+					}
+				} else if (rrs == 2) {
+					/* could be signed NSEC3 */
+					if (!find_rr_set_in_named_rr(*named_rr_p, T_NSEC3)) {
+//fprintf(stderr, "2: %s\n", (*named_rr_p)->name);
+						sorted_hashed_names_count++;
+					}
+				} else {
+//fprintf(stderr, "%d: %s\n", rrs, (*named_rr_p)->name);
+					sorted_hashed_names_count++;
+				}
+			} else {
+				/* must be empty non-terminal */
+				sorted_hashed_names_count++;
+			}
+			JSLN(named_rr_p, zone_data, sorted_name);
+		}
+//fprintf(stderr, "found sorted_hashed_names_count: %d\n", sorted_hashed_names_count);
+	} else {
+		sorted_hashed_names_count = G.stats.names_count;
+	}
 }

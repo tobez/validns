@@ -19,9 +19,12 @@
 #include "carp.h"
 #include "rr.h"
 
+struct rr *nsec3param = NULL;
+
 static struct rr* nsec3param_parse(char *name, long ttl, int type, char *s)
 {
     struct rr_nsec3param *rr = getmem(sizeof(*rr));
+	struct rr *rrr;
 	int i;
 
 	i = extract_integer(&s, "hash algorithm");
@@ -69,7 +72,10 @@ static struct rr* nsec3param_parse(char *name, long ttl, int type, char *s)
 		return bitch("garbage after valid NSEC3PARAM data");
 	}
 
-    return store_record(type, name, ttl, rr);
+    rrr = store_record(type, name, ttl, rr);
+	if (rrr && !nsec3param)
+		nsec3param = rrr;
+	return rrr;
 }
 
 static char* nsec3param_human(struct rr *rrv)

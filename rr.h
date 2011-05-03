@@ -39,6 +39,7 @@
 #define ALG_DSA_FAMILY  1
 #define ALG_RSA_FAMILY  2
 
+extern void *zone_data;
 extern char *zone_name;
 extern int zone_name_l;
 
@@ -82,6 +83,7 @@ struct named_rr
 
 	int line;
 	char *file_name;
+	char *hashed_name;
 };
 
 struct rr_set
@@ -179,6 +181,7 @@ struct rr_nsec3param
 	struct binary_data salt;
 };
 extern struct rr_methods nsec3param_methods;
+extern struct rr *nsec3param;
 
 struct rr_rrsig
 {

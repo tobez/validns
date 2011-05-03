@@ -72,7 +72,7 @@ static char* rdtype2str_map[T_MAX+1] = {
 	"NSEC3", /* 50 */
 	"NSEC3PARAM"
 };
-void *zone = NULL;
+void *zone_data = NULL;
 char *zone_name = NULL;
 int zone_name_l = 0;
 
@@ -139,20 +139,26 @@ static struct named_rr *find_or_create_named_rr(char *name)
 
 	if (!named_rr) {
 		struct named_rr **named_rr_slot;
+		char *s;
 
 		named_rr = getmem(sizeof(struct named_rr));
 		named_rr->name = quickstrdup(name);
 		named_rr->rr_sets = NULL;
 		named_rr->line = file_info->line;
 		named_rr->file_name = file_info->name;
+		named_rr->hashed_name = NULL;
 
-		JSLI(named_rr_slot, zone, name2findable_name(name));
+		JSLI(named_rr_slot, zone_data, name2findable_name(name));
 		if (named_rr_slot == PJERR)
 			croak(2, "find_or_create_named_rr: JSLI failed");
 		if (*named_rr_slot)
 			croak(3, "find_or_create_named_rr: assertion error, %s should not be there", name);
 		*named_rr_slot = named_rr;
 		G.stats.names_count++;
+
+		s = index(name, '.');
+		if (s && s[1] != '\0')
+			find_or_create_named_rr(s+1);
 	}
 
 	return named_rr;
@@ -284,7 +290,7 @@ struct named_rr *find_named_rr(char *name)
 {
 	struct named_rr **named_rr_slot;
 
-	JSLG(named_rr_slot, zone, name2findable_name(name));
+	JSLG(named_rr_slot, zone_data, name2findable_name(name));
 	if (named_rr_slot)
 		return *named_rr_slot;
 	return NULL;
@@ -296,7 +302,7 @@ struct named_rr *find_next_named_rr(struct named_rr *named_rr)
 	struct named_rr **named_rr_p;
 
 	strcpy((char*)sorted_name, (char*)name2findable_name(named_rr->name));
-	JSLN(named_rr_p, zone, sorted_name);
+	JSLN(named_rr_p, zone_data, sorted_name);
 	if (named_rr_p)
 		return *named_rr_p;
 	return NULL;
@@ -468,10 +474,10 @@ void validate_zone(void)
 	struct named_rr **named_rr_p;
 
 	sorted_name[0] = 0;
-	JSLF(named_rr_p, zone, sorted_name);
+	JSLF(named_rr_p, zone_data, sorted_name);
 	while (named_rr_p) {
 		validate_named_rr(*named_rr_p);
-		JSLN(named_rr_p, zone, sorted_name);
+		JSLN(named_rr_p, zone_data, sorted_name);
 	}
 }
 

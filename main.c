@@ -327,6 +327,8 @@ main(int argc, char **argv)
 	gettimeofday(&start, NULL);
 	open_zone_file(argv[0]);
 	read_zone_file();
+	if (G.nsec3_present)
+		calculate_hashed_names();
 	validate_zone();
 	gettimeofday(&stop, NULL);
 	if (G.opt.summary) {

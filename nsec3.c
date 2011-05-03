@@ -75,6 +75,9 @@ static struct rr* nsec3_parse(char *name, long ttl, int type, char *s)
 	}
 
 	rr->next_hashed_owner = extract_base32hex_binary_data(&s, "next hashed owner");
+	if (rr->next_hashed_owner.length != 20) {
+		return bitch("next hashed owner does not have the right size");
+	}
 
 	bitmap = new_set();
 	while (s && *s) {
@@ -92,6 +95,8 @@ static struct rr* nsec3_parse(char *name, long ttl, int type, char *s)
 		G.nsec3_present = 1;
 		if (opt_out)
 			G.nsec3_opt_out_present = 1;
+		if (ret_rr && !nsec3param)
+			nsec3param = ret_rr;
 	}
 	return ret_rr;
 }
