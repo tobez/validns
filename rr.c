@@ -468,6 +468,8 @@ void validate_named_rr(struct named_rr *named_rr)
 {
 	Word_t rdtype;
 	struct rr_set **rr_set_p;
+	int nsec3_present = 0;
+	int nsec3_only = 1;
 
 	if (named_rr->parent && (named_rr->parent->flags & NAME_FLAG_DELEGATION) != 0) {
 		named_rr->flags |= NAME_FLAG_NOT_AUTHORITATIVE;
@@ -479,7 +481,14 @@ void validate_named_rr(struct named_rr *named_rr)
 	JLF(rr_set_p, named_rr->rr_sets, rdtype);
 	while (rr_set_p) {
 		validate_rrset(*rr_set_p);
+		if (rdtype == T_NSEC3)
+			nsec3_present = 1;
+		else if (rdtype != T_RRSIG)
+			nsec3_only = 0;
 		JLN(rr_set_p, named_rr->rr_sets, rdtype);
+	}
+	if (nsec3_present && nsec3_only) {
+		named_rr->flags |= NAME_FLAG_NSEC3_ONLY;
 	}
 }
 

@@ -80,6 +80,7 @@ int extract_algorithm(char **s, char *what);
 #define NAME_FLAG_HAS_RECORDS         2
 #define NAME_FLAG_DELEGATION          4
 #define NAME_FLAG_NOT_AUTHORITATIVE   8
+#define NAME_FLAG_NSEC3_ONLY          16
 
 struct named_rr
 {
