@@ -469,6 +469,15 @@ void validate_named_rr(struct named_rr *named_rr)
 	Word_t rdtype;
 	struct rr_set **rr_set_p;
 
+	if ((named_rr->flags & NAME_FLAG_DELEGATION) != 0 ||
+		(named_rr->parent &&
+		 (named_rr->parent->flags & NAME_FLAG_DELEGATION) != 0))
+	{
+		named_rr->flags |= NAME_FLAG_NOT_AUTHORITATIVE;
+		if ((named_rr->flags & NAME_FLAG_HAS_RECORDS) != 0) {
+			G.stats.not_authoritative++;
+		}
+	}
 	rdtype = 0;
 	JLF(rr_set_p, named_rr->rr_sets, rdtype);
 	while (rr_set_p) {

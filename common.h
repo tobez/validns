@@ -37,6 +37,7 @@ struct globals {
 		int soa_rr_count;
 		int signatures_verified;
 		int delegations;
+		int not_authoritative;
 	} stats;
 	struct command_line_options
 	{
