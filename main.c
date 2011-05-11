@@ -334,15 +334,18 @@ main(int argc, char **argv)
 	validate_zone();
 	gettimeofday(&stop, NULL);
 	if (G.opt.summary) {
-		printf("records found:           %d\n", G.stats.rr_count);
-		printf("skipped dups:            %d\n", G.stats.skipped_dup_rr_count);
-		printf("record sets found:       %d\n", G.stats.rrset_count);
-		printf("unique names found:      %d\n", G.stats.names_count);
-		printf("delegations found:       %d\n", G.stats.delegations);
-		printf("not authoritative names: %d\n", G.stats.not_authoritative);
-		printf("validation errors:       %d\n", G.stats.error_count);
-		printf("signatures verified:     %d\n", G.stats.signatures_verified);
-		printf("time taken:              %.3fs\n",
+		printf("records found:       %d\n", G.stats.rr_count);
+		printf("skipped dups:        %d\n", G.stats.skipped_dup_rr_count);
+		printf("record sets found:   %d\n", G.stats.rrset_count);
+		printf("unique names found:  %d\n", G.stats.names_count);
+		printf("delegations found:   %d\n", G.stats.delegations);
+		/* "not authoritative names" - non-empty terminals without any authoritative records */
+		/* delegation points count as authoritative, which might or might not be correct */
+		printf("not authoritative names, discounting delegation points:\n"
+			   "                     %d\n", G.stats.not_authoritative);
+		printf("validation errors:   %d\n", G.stats.error_count);
+		printf("signatures verified: %d\n", G.stats.signatures_verified);
+		printf("time taken:          %.3fs\n",
 			   stop.tv_sec - start.tv_sec + (stop.tv_usec - start.tv_usec)/1000000.);
 	}
 	return G.exit_code;
