@@ -33,8 +33,9 @@ Coming soon.
     See **POLICY CHECKS**, below, for details.
     The following names are understood:
 
-    - single-ns
+	- single-ns
 	- cname-other-data
+	- nsec3param-not-apex
 	- all
 
 -q
@@ -60,7 +61,7 @@ Coming soon.
 
 Every record and every supported directive should be parsable,
 which consitutes the most basic check of all.
-The `validns` program will report an exact reason
+The `validns` program will report the exact reason
 why it cannot parse a record or a directive.
 
 Other basic checks include:
@@ -87,7 +88,8 @@ Other basic checks include:
 # POLICY CHECKS
 
 - there should be at least two NS records per name (or zero);
-- CNAME and other data (excluding possible RRSIG and NSEC).
+- CNAME and other data (excluding possible RRSIG and NSEC);
+- NSEC3PARAM, if present, should only be at the zone apex.
 
 # BUGS
 

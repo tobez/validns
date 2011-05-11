@@ -73,8 +73,13 @@ static struct rr* nsec3param_parse(char *name, long ttl, int type, char *s)
 	}
 
     ret_rr = store_record(type, name, ttl, rr);
-	if (ret_rr && !nsec3param)
+	if (ret_rr && !nsec3param && (ret_rr->rr_set->named_rr->flags & NAME_FLAG_APEX))
 		nsec3param = ret_rr;
+	if (G.opt.policy_checks[POLICY_NSEC3PARAM_NOT_APEX] &&
+		(ret_rr->rr_set->named_rr->flags & NAME_FLAG_APEX) == 0)
+	{
+		return bitch("NSEC3PARAM found not at zone apex");
+	}
 	return ret_rr;
 }
 

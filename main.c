@@ -294,6 +294,8 @@ main(int argc, char **argv)
 				G.opt.policy_checks[POLICY_SINGLE_NS] = 1;
 			} else if (strcmp(optarg, "cname-other-data") == 0) {
 				G.opt.policy_checks[POLICY_CNAME_OTHER_DATA] = 1;
+			} else if (strcmp(optarg, "nsec3param-not-apex") == 0) {
+				G.opt.policy_checks[POLICY_NSEC3PARAM_NOT_APEX] = 1;
 			} else {
 				usage("unknown policy name");
 			}

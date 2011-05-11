@@ -34,6 +34,8 @@ single-ns
 .IP \[bu] 2
 cname-other-data
 .IP \[bu] 2
+nsec3param-not-apex
+.IP \[bu] 2
 all
 .RE
 .TP
@@ -63,16 +65,16 @@ use this origin as initial $ORIGIN
 .RE
 .TP
 .B -t \f[I]epoch-time\f[]
-Use specified time instead of the current time when verifying
-validity of the signatures.
+Use specified time instead of the current time when verifying validity
+of the signatures.
 .RS
 .RE
 .SH BASIC CHECKS
 .PP
-Every record and every supported directive should be parsable,
-which consitutes the most basic check of all.
-The \f[C]validns\f[] program will report an exact reason why it
-cannot parse a record or a directive.
+Every record and every supported directive should be parsable, which
+consitutes the most basic check of all.
+The \f[C]validns\f[] program will report the exact reason why it cannot
+parse a record or a directive.
 .PP
 Other basic checks include:
 .IP \[bu] 2
@@ -110,17 +112,18 @@ RRSIG(\f[I]type\f[]): cannot find the right signer key.
 .IP \[bu] 2
 there should be at least two NS records per name (or zero);
 .IP \[bu] 2
-CNAME and other data (excluding possible RRSIG and NSEC).
+CNAME and other data (excluding possible RRSIG and NSEC);
+.IP \[bu] 2
+NSEC3PARAM, if present, should only be at the zone apex.
 .SH BUGS
 .IP \[bu] 2
-textual segments in \f[I]TXT\f[] and \f[I]HINFO\f[] must be
-enclosed in double quotes;
+textual segments in \f[I]TXT\f[] and \f[I]HINFO\f[] must be enclosed in
+double quotes;
 .IP \[bu] 2
-there cannot be more than 20 textual segments in a \f[I]TXT\f[]
-record;
+there cannot be more than 20 textual segments in a \f[I]TXT\f[] record;
 .IP \[bu] 2
 \f[I]$INCLUDE\f[] directive is not implemented;
 .IP \[bu] 2
-no backslash escapes in names are supported.
+a dot within a label is not currently supported.
 .SH AUTHORS
 Anton Berezin.
