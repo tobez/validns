@@ -24,7 +24,7 @@ struct rr *nsec3param = NULL;
 static struct rr* nsec3param_parse(char *name, long ttl, int type, char *s)
 {
     struct rr_nsec3param *rr = getmem(sizeof(*rr));
-	struct rr *rrr;
+	struct rr *ret_rr;
 	int i;
 
 	i = extract_integer(&s, "hash algorithm");
@@ -72,10 +72,10 @@ static struct rr* nsec3param_parse(char *name, long ttl, int type, char *s)
 		return bitch("garbage after valid NSEC3PARAM data");
 	}
 
-    rrr = store_record(type, name, ttl, rr);
-	if (rrr && !nsec3param)
-		nsec3param = rrr;
-	return rrr;
+    ret_rr = store_record(type, name, ttl, rr);
+	if (ret_rr && !nsec3param)
+		nsec3param = ret_rr;
+	return ret_rr;
 }
 
 static char* nsec3param_human(struct rr *rrv)
