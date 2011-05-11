@@ -35,6 +35,7 @@ struct globals {
 		int skipped_dup_rr_count;
 		int soa_rr_count;
 		int signatures_verified;
+		int delegations;
 	} stats;
 	struct command_line_options
 	{

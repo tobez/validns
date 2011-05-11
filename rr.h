@@ -76,8 +76,9 @@ struct binary_data name2wire_name(char *s);
 int algorithm_type(int alg);
 int extract_algorithm(char **s, char *what);
 
-#define NAME_FLAG_APEX 1
-#define NAME_FLAG_HAS_RECORDS 1
+#define NAME_FLAG_APEX			1
+#define NAME_FLAG_HAS_RECORDS	2
+#define NAME_FLAG_DELEGATION	4
 
 struct named_rr
 {

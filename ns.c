@@ -20,6 +20,7 @@
 static struct rr *ns_parse(char *name, long ttl, int type, char *s)
 {
 	struct rr_ns *rr = getmem(sizeof(*rr));
+	struct rr *ret_rr;
 
 	rr->nsdname = extract_name(&s, "name server domain name");
 	if (!rr->nsdname)
@@ -28,7 +29,14 @@ static struct rr *ns_parse(char *name, long ttl, int type, char *s)
 		return bitch("garbage after valid NS data");
 	}
 
-	return store_record(type, name, ttl, rr);
+	ret_rr = store_record(type, name, ttl, rr);
+	if (ret_rr) {
+		if (!(ret_rr->rr_set->named_rr->flags & (NAME_FLAG_APEX|NAME_FLAG_DELEGATION))) {
+			ret_rr->rr_set->named_rr->flags |= NAME_FLAG_DELEGATION;
+			G.stats.delegations++;
+		}
+	}
+	return ret_rr;
 }
 
 static char* ns_human(struct rr *rrv)
