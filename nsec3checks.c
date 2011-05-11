@@ -72,43 +72,45 @@ extern void calculate_hashed_names(void)
 {
 	unsigned char sorted_name[512];
 	struct named_rr **named_rr_p;
+	struct named_rr *named_rr;
 	void *x = name2hash;
 	x = name2hash;
+	uint32_t mask;
 
 	sorted_hashed_names_count = 0;
+	mask = NAME_FLAG_NOT_AUTHORITATIVE|NAME_FLAG_NSEC3_ONLY;
 	if (G.nsec3_opt_out_present) {
-		uint32_t rrs;
-
-/* Yuck!  Delegated ns.xyz -> A records are also not covered by NSEC3! */
-		sorted_name[0] = 0;
-		JSLF(named_rr_p, zone_data, sorted_name);
-		while (named_rr_p) {
-			if ((*named_rr_p)->rr_sets) {
-				rrs = get_rr_set_count(*named_rr_p);
-				if (rrs == 1) {
-					/* could be opt-out NS delegation, or unsigned NSEC3 (the possibility of which we ignore) */
-					if (!find_rr_set_in_named_rr(*named_rr_p, T_NS)) {
-//fprintf(stderr, "1: %s\n", (*named_rr_p)->name);
-						sorted_hashed_names_count++;
-					}
-				} else if (rrs == 2) {
-					/* could be signed NSEC3 */
-					if (!find_rr_set_in_named_rr(*named_rr_p, T_NSEC3)) {
-//fprintf(stderr, "2: %s\n", (*named_rr_p)->name);
-						sorted_hashed_names_count++;
-					}
-				} else {
-//fprintf(stderr, "%d: %s\n", rrs, (*named_rr_p)->name);
-					sorted_hashed_names_count++;
-				}
-			} else {
-				/* must be empty non-terminal */
-				sorted_hashed_names_count++;
-			}
-			JSLN(named_rr_p, zone_data, sorted_name);
-		}
-//fprintf(stderr, "found sorted_hashed_names_count: %d\n", sorted_hashed_names_count);
-	} else {
-		sorted_hashed_names_count = G.stats.names_count;
+		mask |= NAME_FLAG_DELEGATION;
 	}
+
+	sorted_name[0] = 0;
+	JSLF(named_rr_p, zone_data, sorted_name);
+	while (named_rr_p) {
+		named_rr = *named_rr_p;
+		if ((named_rr->flags & mask) == 0) {
+/* debug
+struct binary_data hash;
+int i;
+Word_t rdtype;
+struct rr_set **rr_set_p;
+
+hash = name2hash(named_rr->name, nsec3param);
+for (i = 0; i < hash.length; i++) {
+	fprintf(stderr, "%02x", (unsigned char)hash.data[i]);
+}
+
+rdtype = 0;
+JLF(rr_set_p, named_rr->rr_sets, rdtype);
+while (rr_set_p) {
+	fprintf(stderr, " %s", rdtype2str(rdtype));
+	JLN(rr_set_p, named_rr->rr_sets, rdtype);
+}
+
+fprintf(stderr, " %s\n", named_rr->name);
+*/
+			sorted_hashed_names_count++;
+		}
+		JSLN(named_rr_p, zone_data, sorted_name);
+	}
+/* fprintf(stderr, "found sorted_hashed_names_count: %d\n", sorted_hashed_names_count); */
 }

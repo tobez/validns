@@ -471,7 +471,7 @@ void validate_named_rr(struct named_rr *named_rr)
 	int nsec3_present = 0;
 	int nsec3_only = 1;
 
-	if (named_rr->parent && (named_rr->parent->flags & NAME_FLAG_DELEGATION) != 0) {
+	if (named_rr->parent && (named_rr->parent->flags & (NAME_FLAG_DELEGATION|NAME_FLAG_NOT_AUTHORITATIVE)) != 0) {
 		named_rr->flags |= NAME_FLAG_NOT_AUTHORITATIVE;
 		if ((named_rr->flags & NAME_FLAG_HAS_RECORDS) != 0) {
 			G.stats.not_authoritative++;
