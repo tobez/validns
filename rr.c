@@ -73,8 +73,8 @@ static char* rdtype2str_map[T_MAX+1] = {
 	"NSEC3PARAM"
 };
 void *zone_data = NULL;
-char *zone_name = NULL;
-int zone_name_l = 0;
+char *zone_apex = NULL;
+int zone_apex_l = 0;
 
 char *rdtype2str(int type)
 {
@@ -147,6 +147,8 @@ static struct named_rr *find_or_create_named_rr(char *name)
 		named_rr->line = file_info->line;
 		named_rr->file_name = file_info->name;
 		named_rr->hashed_name = NULL;
+		named_rr->flags = 0;
+		named_rr->parent = NULL;
 
 		JSLI(named_rr_slot, zone_data, name2findable_name(name));
 		if (named_rr_slot == PJERR)
@@ -157,8 +159,9 @@ static struct named_rr *find_or_create_named_rr(char *name)
 		G.stats.names_count++;
 
 		s = index(name, '.');
-		if (s && s[1] != '\0')
-			find_or_create_named_rr(s+1);
+		if (s && s[1] != '\0') {
+			named_rr->parent = find_or_create_named_rr(s+1);
+		}
 	}
 
 	return named_rr;
@@ -195,6 +198,7 @@ struct rr *store_record(int rdtype, char *name, long ttl, void *rrptr)
 	struct named_rr *named_rr;
 	struct rr_set *rr_set;
 	int name_l;
+	int apex_assigned = 0;
 
 	name_l = strlen(name);
 	if (name_l > 511)
@@ -204,25 +208,29 @@ struct rr *store_record(int rdtype, char *name, long ttl, void *rrptr)
 		if (rdtype != T_SOA) {
 			return bitch("the first record in the zone must be an SOA record");
 		} else {
-			zone_name = name;
-			zone_name_l = name_l;
+			zone_apex = name;
+			zone_apex_l = name_l;
+			apex_assigned = 1;
 		}
 	}
-	if (zone_name && name_l >= zone_name_l) {
-		if (strcmp(zone_name, name+name_l-zone_name_l) != 0) {
-			return bitch("%s does not belong to zone %s", name, zone_name);
-		} else if (name_l > zone_name_l && name[name_l-zone_name_l-1] != '.') {
-			return bitch("%s does not belong to zone %s", name, zone_name);
+	if (zone_apex && name_l >= zone_apex_l) {
+		if (strcmp(zone_apex, name+name_l-zone_apex_l) != 0) {
+			return bitch("%s does not belong to zone %s", name, zone_apex);
+		} else if (name_l > zone_apex_l && name[name_l-zone_apex_l-1] != '.') {
+			return bitch("%s does not belong to zone %s", name, zone_apex);
 		}
 	} else {
-		if (zone_name) {
-			return bitch("%s does not belong to zone %s", name, zone_name);
+		if (zone_apex) {
+			return bitch("%s does not belong to zone %s", name, zone_apex);
 		} else {
 			croakx(3, "assertion error: %s does not belong to a zone", name);
 		}
 	}
 
 	named_rr = find_or_create_named_rr(name);
+	if (apex_assigned) {
+		named_rr->flags |= NAME_FLAG_APEX;
+	}
 	rr_set = find_or_create_rr_set(named_rr, rdtype);
 
 	rr->rdtype = rdtype;
@@ -282,6 +290,7 @@ after_dup_check:
 	}
 
 	G.stats.rr_count++;
+	named_rr->flags |= NAME_FLAG_HAS_RECORDS;
 
 	return rr;
 }

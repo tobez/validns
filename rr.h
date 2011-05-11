@@ -40,8 +40,8 @@
 #define ALG_RSA_FAMILY  2
 
 extern void *zone_data;
-extern char *zone_name;
-extern int zone_name_l;
+extern char *zone_apex;
+extern int zone_apex_l;
 
 struct named_rr;
 struct rr_set;
@@ -76,6 +76,9 @@ struct binary_data name2wire_name(char *s);
 int algorithm_type(int alg);
 int extract_algorithm(char **s, char *what);
 
+#define NAME_FLAG_APEX 1
+#define NAME_FLAG_HAS_RECORDS 1
+
 struct named_rr
 {
 	char *name;
@@ -84,6 +87,8 @@ struct named_rr
 	int line;
 	char *file_name;
 	char *hashed_name;
+	uint32_t flags;
+	struct named_rr *parent;
 };
 
 struct rr_set

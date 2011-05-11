@@ -117,7 +117,7 @@ static void* nsec_validate(struct rr *rrv)
 	}
 
 	next_named_rr = find_next_named_rr(named_rr);
-	if (strcmp(rr->next_domain, zone_name) == 0) {
+	if (strcmp(rr->next_domain, zone_apex) == 0) {
 		if (next_named_rr) {
 			return moan(rr->rr.file_name, rr->rr.line, "NSEC says %s is the last name, but %s exists",
 						named_rr->name, next_named_rr->name);
