@@ -81,6 +81,7 @@ int extract_algorithm(char **s, char *what);
 #define NAME_FLAG_DELEGATION          4
 #define NAME_FLAG_NOT_AUTHORITATIVE   8
 #define NAME_FLAG_NSEC3_ONLY          16
+#define NAME_FLAG_KIDS_WITH_RECORDS   32
 
 struct named_rr
 {
@@ -285,6 +286,7 @@ struct rr_loc
 };
 extern struct rr_methods loc_methods;
 
+extern void *remember_nsec3(char *name, struct rr_nsec3 *rr);
 extern void calculate_hashed_names(void);
 
 #endif

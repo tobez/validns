@@ -83,7 +83,8 @@ Other basic checks include:
 - RRSIG's original TTL differs from corresponding record's;
 - RRSIG(*type*): cannot find a signer key;
 - RRSIG(*type*): cannot verify the signature;
-- RRSIG(*type*): cannot find the right signer key.
+- RRSIG(*type*): cannot find the right signer key;
+- NSEC3 record name is not valid;
 
 # POLICY CHECKS
 
@@ -96,4 +97,15 @@ Other basic checks include:
 - textual segments in *TXT* and *HINFO* must be enclosed in double quotes;
 - there cannot be more than 20 textual segments in a *TXT* record;
 - *$INCLUDE* directive is not implemented;
-- a dot within a label is not currently supported.
+- a dot within a label is not currently supported;
+
+If at least one NSEC3 record uses opt-out flag,
+`validns` assumes it is used as much as possible,
+that is, every unsigned delegation does not have
+a corresponding NSEC3 record.
+This is done for reasons of efficiency, to
+avoid calculating cryptographic hashes of
+every unsigned delegation.
+If this assumption is wrong for a zone,
+`validns` will produce spurious validation
+errors.

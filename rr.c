@@ -485,6 +485,22 @@ void validate_named_rr(struct named_rr *named_rr)
 			nsec3_present = 1;
 		else if (rdtype != T_RRSIG)
 			nsec3_only = 0;
+		if ((named_rr->flags & NAME_FLAG_NOT_AUTHORITATIVE) == 0 &&
+			rdtype != T_NS && rdtype != T_NSEC3 && rdtype != T_RRSIG)
+		{
+			struct named_rr *nrr = named_rr;
+			while (nrr && (nrr->flags & NAME_FLAG_KIDS_WITH_RECORDS) == 0) {
+				nrr->flags |= NAME_FLAG_KIDS_WITH_RECORDS;
+				nrr = nrr->parent;
+			}
+		}
+		if (rdtype == T_DS) {
+			struct named_rr *nrr = named_rr;
+			while (nrr && (nrr->flags & (NAME_FLAG_DELEGATION|NAME_FLAG_NOT_AUTHORITATIVE)) != 0) {
+				nrr->flags &= ~(NAME_FLAG_DELEGATION|NAME_FLAG_NOT_AUTHORITATIVE);
+				nrr = nrr->parent;
+			}
+		}
 		JLN(rr_set_p, named_rr->rr_sets, rdtype);
 	}
 	if (nsec3_present && nsec3_only) {

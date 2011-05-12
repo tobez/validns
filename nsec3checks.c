@@ -21,6 +21,7 @@
 #include "mempool.h"
 #include "carp.h"
 #include "rr.h"
+#include "base32hex.h"
 
 static struct binary_data name2hash(char *name, struct rr *param)
 {
@@ -78,7 +79,7 @@ extern void calculate_hashed_names(void)
 	uint32_t mask;
 
 	sorted_hashed_names_count = 0;
-	mask = NAME_FLAG_NOT_AUTHORITATIVE|NAME_FLAG_NSEC3_ONLY;
+	mask = NAME_FLAG_NOT_AUTHORITATIVE|NAME_FLAG_NSEC3_ONLY|NAME_FLAG_KIDS_WITH_RECORDS;
 	if (G.nsec3_opt_out_present) {
 		mask |= NAME_FLAG_DELEGATION;
 	}
@@ -87,7 +88,7 @@ extern void calculate_hashed_names(void)
 	JSLF(named_rr_p, zone_data, sorted_name);
 	while (named_rr_p) {
 		named_rr = *named_rr_p;
-		if ((named_rr->flags & mask) == 0) {
+		if ((named_rr->flags & mask) == NAME_FLAG_KIDS_WITH_RECORDS) {
 /* debug
 struct binary_data hash;
 int i;
@@ -106,11 +107,32 @@ while (rr_set_p) {
 	JLN(rr_set_p, named_rr->rr_sets, rdtype);
 }
 
-fprintf(stderr, " %s\n", named_rr->name);
+fprintf(stderr, " %08x %s\n", named_rr->flags, named_rr->name);
 */
 			sorted_hashed_names_count++;
 		}
 		JSLN(named_rr_p, zone_data, sorted_name);
 	}
-/* fprintf(stderr, "found sorted_hashed_names_count: %d\n", sorted_hashed_names_count); */
+// fprintf(stderr, "found sorted_hashed_names_count: %d\n", sorted_hashed_names_count);
+}
+
+void *remember_nsec3(char *name, struct rr_nsec3 *rr)
+{
+	char hashed_name[33];
+	char binary_hashed_name[20];
+	int l;
+
+	l = strlen(name);
+	if (l < 33 || name[32] != '.')
+		return bitch("NSEC3 record name is not valid");
+	if (l == 33 && zone_apex_l != 1)  /* root zone */
+		return bitch("NSEC3 record name is not valid");
+	if (l > 33 && strcmp(name+33, zone_apex) != 0)
+		return bitch("NSEC3 record name is not valid");
+
+	memcpy(hashed_name, name, 32);  hashed_name[32] = 0;
+	l = decode_base32hex(binary_hashed_name, hashed_name, 20);
+	if (l != 20)
+		return bitch("NSEC3 record name is not valid");
+	return rr;
 }
