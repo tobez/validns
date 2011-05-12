@@ -85,6 +85,8 @@ Other basic checks include:
 - RRSIG(*type*): cannot verify the signature;
 - RRSIG(*type*): cannot find the right signer key;
 - NSEC3 record name is not valid;
+- multiple NSEC3 with the same record name;
+- no corresponding NSEC3 found for *name*;
 
 # POLICY CHECKS
 

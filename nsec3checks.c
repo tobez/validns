@@ -68,6 +68,7 @@ static struct binary_data name2hash(char *name, struct rr *param)
 
 int sorted_hashed_names_count;
 struct binary_data *sorted_hashed_names;
+void *nsec3_hash;
 
 extern void calculate_hashed_names(void)
 {
@@ -89,31 +90,33 @@ extern void calculate_hashed_names(void)
 	while (named_rr_p) {
 		named_rr = *named_rr_p;
 		if ((named_rr->flags & mask) == NAME_FLAG_KIDS_WITH_RECORDS) {
-/* debug
-struct binary_data hash;
-int i;
-Word_t rdtype;
-struct rr_set **rr_set_p;
+			struct binary_data hash;
+			struct rr_nsec3 **nsec3_slot;
+			struct rr_nsec3 *nsec3;
 
-hash = name2hash(named_rr->name, nsec3param);
-for (i = 0; i < hash.length; i++) {
-	fprintf(stderr, "%02x", (unsigned char)hash.data[i]);
-}
-
-rdtype = 0;
-JLF(rr_set_p, named_rr->rr_sets, rdtype);
-while (rr_set_p) {
-	fprintf(stderr, " %s", rdtype2str(rdtype));
-	JLN(rr_set_p, named_rr->rr_sets, rdtype);
-}
-
-fprintf(stderr, " %08x %s\n", named_rr->flags, named_rr->name);
-*/
+			hash = name2hash(named_rr->name, nsec3param);
+			if (hash.length < 0) {
+				moan(named_rr->file_name, named_rr->line, "internal: cannot calculate hashed name");
+				goto next;
+			}
+			if (hash.length != 20)
+				croak(4, "assertion failed: wrong hashed name size %d", hash.length);
+			JHSG(nsec3_slot, nsec3_hash, hash.data, hash.length);
+			if (nsec3_slot == PJERR)
+				croak(5, "calculate_hashed_names: JHSG failed");
+			if (!nsec3_slot) {
+				moan(named_rr->file_name, named_rr->line, "no corresponding NSEC3 found for %s", named_rr->name);
+				goto next;
+			}
+			nsec3 = *nsec3_slot;
+			if (!nsec3)
+				croak(6, "assertion failed: existing nsec3 from hash is empty");
+			nsec3->corresponding_name = named_rr;
 			sorted_hashed_names_count++;
 		}
+next:
 		JSLN(named_rr_p, zone_data, sorted_name);
 	}
-// fprintf(stderr, "found sorted_hashed_names_count: %d\n", sorted_hashed_names_count);
 }
 
 void *remember_nsec3(char *name, struct rr_nsec3 *rr)
@@ -121,6 +124,7 @@ void *remember_nsec3(char *name, struct rr_nsec3 *rr)
 	char hashed_name[33];
 	char binary_hashed_name[20];
 	int l;
+	struct rr_nsec3 **nsec3_slot;
 
 	l = strlen(name);
 	if (l < 33 || name[32] != '.')
@@ -134,5 +138,11 @@ void *remember_nsec3(char *name, struct rr_nsec3 *rr)
 	l = decode_base32hex(binary_hashed_name, hashed_name, 20);
 	if (l != 20)
 		return bitch("NSEC3 record name is not valid");
+	JHSI(nsec3_slot, nsec3_hash, binary_hashed_name, 20);
+	if (nsec3_slot == PJERR)
+		croak(2, "remember_nsec3: JHSI failed");
+	if (*nsec3_slot)
+		return bitch("multiple NSEC3 with the same record name");
+	*nsec3_slot = rr;
 	return rr;
 }

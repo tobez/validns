@@ -178,6 +178,8 @@ struct rr_nsec3
 	struct binary_data salt;
 	struct binary_data next_hashed_owner;
 	struct binary_data type_bitmap;
+	struct named_rr *corresponding_name;
+	struct rr_nsec3 *next_nsec3;
 };
 extern struct rr_methods nsec3_methods;
 

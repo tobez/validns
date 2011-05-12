@@ -90,6 +90,9 @@ static struct rr* nsec3_parse(char *name, long ttl, int type, char *s)
 		return NULL;
 	rr->type_bitmap = compressed_set(&bitmap);
 
+	rr->corresponding_name = NULL;
+	rr->next_nsec3 = NULL;
+
 	if (!remember_nsec3(name, rr))
 		return NULL;
 
