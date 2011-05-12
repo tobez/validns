@@ -70,7 +70,43 @@ int sorted_hashed_names_count;
 struct binary_data *sorted_hashed_names;
 void *nsec3_hash;
 
-extern void calculate_hashed_names(void)
+static void *verify_record_types(struct named_rr *named_rr, struct rr_nsec3 *rr)
+{
+	int type;
+	char *base;
+	int i, k;
+	struct rr_set *set;
+	uint32_t nsec3_distinct_types = 0;
+	uint32_t real_distinct_types;
+
+	base = rr->type_bitmap.data;
+	while (base - rr->type_bitmap.data < rr->type_bitmap.length) {
+		for (i = 0; i < base[1]; i++) {
+			for (k = 0; k <= 7; k++) {
+				if (base[2+i] & (0x80 >> k)) {
+					type = base[0]*256 + i*8 + k;
+					nsec3_distinct_types++;
+					set = find_rr_set_in_named_rr(named_rr, type);
+					if (!set) {
+						return moan(rr->rr.file_name, rr->rr.line,
+									"NSEC3 mentions %s, but no such record found for %s",
+									rdtype2str(type), named_rr->name);
+					}
+				}
+			}
+		}
+		base += base[1]+2;
+	}
+	real_distinct_types = get_rr_set_count(named_rr);
+	if (real_distinct_types > nsec3_distinct_types) {
+		return moan(rr->rr.file_name, rr->rr.line,
+					"there are more record types than NSEC3 mentions for %s",
+					named_rr->name);
+	}
+	return rr;
+}
+
+void calculate_hashed_names(void)
 {
 	unsigned char sorted_name[512];
 	struct named_rr **named_rr_p;
@@ -105,7 +141,9 @@ extern void calculate_hashed_names(void)
 			if (nsec3_slot == PJERR)
 				croak(5, "calculate_hashed_names: JHSG failed");
 			if (!nsec3_slot) {
-				moan(named_rr->file_name, named_rr->line, "no corresponding NSEC3 found for %s", named_rr->name);
+				moan(named_rr->file_name, named_rr->line,
+					 "no corresponding NSEC3 found for %s",
+					 named_rr->name);
 				goto next;
 			}
 			nsec3 = *nsec3_slot;
@@ -113,6 +151,7 @@ extern void calculate_hashed_names(void)
 				croak(6, "assertion failed: existing nsec3 from hash is empty");
 			nsec3->corresponding_name = named_rr;
 			sorted_hashed_names_count++;
+			verify_record_types(named_rr, nsec3);
 		}
 next:
 		JSLN(named_rr_p, zone_data, sorted_name);

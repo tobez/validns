@@ -341,7 +341,7 @@ main(int argc, char **argv)
 		printf("delegations found:   %d\n", G.stats.delegations);
 		/* "not authoritative names" - non-empty terminals without any authoritative records */
 		/* delegation points count as authoritative, which might or might not be correct */
-		printf("not authoritative names, discounting delegation points:\n"
+		printf("not authoritative names, not counting delegation points:\n"
 			   "                     %d\n", G.stats.not_authoritative);
 		printf("validation errors:   %d\n", G.stats.error_count);
 		printf("signatures verified: %d\n", G.stats.signatures_verified);
