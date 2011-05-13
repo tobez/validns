@@ -73,7 +73,8 @@ Other basic checks include:
 
 # DNSSEC CHECKS
 
-- there are more record types than NSEC mentions;
+- *type* exists, but NSEC does not mention it for *name*;
+- NSEC mentions *type*, but no such record found for *name*;
 - NSEC says *x* is the last name, but *z* exists;
 - NSEC says *z* comes after *x*, but nothing does;
 - NSEC says *z* comes after *x*, but *y* does;
@@ -87,6 +88,7 @@ Other basic checks include:
 - NSEC3 record name is not valid;
 - multiple NSEC3 with the same record name;
 - no corresponding NSEC3 found for *name*;
+- *type* exists, but NSEC3 does not mention it for *name*;
 - NSEC3 mentions *type*, but no such record found for *name*;
 - there are more record types than NSEC3 mentions for *name*;
 

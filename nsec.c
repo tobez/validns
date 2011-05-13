@@ -86,35 +86,11 @@ static struct binary_data nsec_wirerdata(struct rr *rrv)
 static void* nsec_validate(struct rr *rrv)
 {
     struct rr_nsec *rr = (struct rr_nsec *)rrv;
-	int type;
-	char *base;
-	int i, k;
 	struct named_rr *named_rr, *next_named_rr;
-	struct rr_set *set;
-	uint32_t nsec_distinct_types = 0;
-	uint32_t real_distinct_types;
 
 	named_rr = rr->rr.rr_set->named_rr;
-	base = rr->type_bitmap.data;
-	while (base - rr->type_bitmap.data < rr->type_bitmap.length) {
-		for (i = 0; i < base[1]; i++) {
-			for (k = 0; k <= 7; k++) {
-				if (base[2+i] & (0x80 >> k)) {
-					type = base[0]*256 + i*8 + k;
-					nsec_distinct_types++;
-					set = find_rr_set_in_named_rr(named_rr, type);
-					if (!set) {
-						return moan(rr->rr.file_name, rr->rr.line, "NSEC mentions %s, but no such record found", rdtype2str(type));
-					}
-				}
-			}
-		}
-		base += base[1]+2;
-	}
-	real_distinct_types = get_rr_set_count(named_rr);
-	if (real_distinct_types > nsec_distinct_types) {
-		return moan(rr->rr.file_name, rr->rr.line, "there are more record types than NSEC mentions");
-	}
+	if (!check_typemap(rr->type_bitmap, named_rr, rrv))
+		return NULL;
 
 	next_named_rr = find_next_named_rr(named_rr);
 	if (strcmp(rr->next_domain, zone_apex) == 0) {

@@ -290,5 +290,6 @@ extern struct rr_methods loc_methods;
 
 extern void *remember_nsec3(char *name, struct rr_nsec3 *rr);
 extern void calculate_hashed_names(void);
+extern void *check_typemap(struct binary_data type_bitmap, struct named_rr *named_rr, struct rr *reference_rr);
 
 #endif
