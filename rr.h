@@ -90,7 +90,6 @@ struct named_rr
 
 	int line;
 	char *file_name;
-	char *hashed_name;
 	uint32_t flags;
 	struct named_rr *parent;
 };
@@ -178,6 +177,7 @@ struct rr_nsec3
 	struct binary_data salt;
 	struct binary_data next_hashed_owner;
 	struct binary_data type_bitmap;
+	struct binary_data this_hashed_name;
 	struct named_rr *corresponding_name;
 	struct rr_nsec3 *next_nsec3;
 };
@@ -287,6 +287,9 @@ struct rr_loc
 	uint32_t altitude;
 };
 extern struct rr_methods loc_methods;
+
+extern struct rr_nsec3 *first_nsec3;
+extern struct rr_nsec3 *latest_nsec3;
 
 extern void *remember_nsec3(char *name, struct rr_nsec3 *rr);
 extern void calculate_hashed_names(void);

@@ -146,7 +146,6 @@ static struct named_rr *find_or_create_named_rr(char *name)
 		named_rr->rr_sets = NULL;
 		named_rr->line = file_info->line;
 		named_rr->file_name = file_info->name;
-		named_rr->hashed_name = NULL;
 		named_rr->flags = 0;
 		named_rr->parent = NULL;
 

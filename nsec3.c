@@ -9,6 +9,7 @@
 
 #include <ctype.h>
 #include <sys/types.h>
+#include <string.h>
 #include <stdio.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
@@ -138,4 +139,30 @@ static struct binary_data nsec3_wirerdata(struct rr *rrv)
 		rr->next_hashed_owner, rr->type_bitmap);
 }
 
-struct rr_methods nsec3_methods = { nsec3_parse, nsec3_human, nsec3_wirerdata, NULL, NULL };
+struct rr_nsec3 *first_nsec3 = NULL;
+struct rr_nsec3 *latest_nsec3 = NULL;
+
+static void* nsec3_validate(struct rr *rrv)
+{
+    struct rr_nsec3 *rr = (struct rr_nsec3 *)rrv;
+
+	if (!first_nsec3) {
+		first_nsec3 = rr;
+	}
+	if (latest_nsec3) {
+		if (memcmp(latest_nsec3->next_hashed_owner.data, rr->this_hashed_name.data, 20) != 0) {
+			moan(latest_nsec3->rr.file_name, latest_nsec3->rr.line,
+				 "broken NSEC3 chain, expected %s, but found %s",
+				 latest_nsec3->rr.rr_set->named_rr->name, /* wrong */
+				 rr->rr.rr_set->named_rr->name);
+			latest_nsec3->next_nsec3 = rr;
+			latest_nsec3 = rr;
+			return NULL;
+		}
+		latest_nsec3->next_nsec3 = rr;
+	}
+	latest_nsec3 = rr;
+	return rr;
+}
+
+struct rr_methods nsec3_methods = { nsec3_parse, nsec3_human, nsec3_wirerdata, NULL, nsec3_validate };

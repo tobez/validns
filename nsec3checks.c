@@ -147,6 +147,9 @@ void *remember_nsec3(char *name, struct rr_nsec3 *rr)
 	if (*nsec3_slot)
 		return bitch("multiple NSEC3 with the same record name");
 	*nsec3_slot = rr;
+	rr->this_hashed_name.length = 20;
+	rr->this_hashed_name.data = getmem(20);
+	memcpy(rr->this_hashed_name.data, binary_hashed_name, 20);
 	return rr;
 }
 
