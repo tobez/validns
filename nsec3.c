@@ -19,6 +19,7 @@
 #include "mempool.h"
 #include "carp.h"
 #include "rr.h"
+#include "base32hex.h"
 
 static struct rr* nsec3_parse(char *name, long ttl, int type, char *s)
 {
@@ -151,9 +152,12 @@ static void* nsec3_validate(struct rr *rrv)
 	}
 	if (latest_nsec3) {
 		if (memcmp(latest_nsec3->next_hashed_owner.data, rr->this_hashed_name.data, 20) != 0) {
+			char *expected_name = quickstrdup_temp(rr->rr.rr_set->named_rr->name);
+			/* guaranteed to have same length, I think */
+			encode_base32hex(expected_name, 32, latest_nsec3->next_hashed_owner.data, 20);
 			moan(latest_nsec3->rr.file_name, latest_nsec3->rr.line,
 				 "broken NSEC3 chain, expected %s, but found %s",
-				 latest_nsec3->rr.rr_set->named_rr->name, /* wrong */
+				 expected_name,
 				 rr->rr.rr_set->named_rr->name);
 			latest_nsec3->next_nsec3 = rr;
 			latest_nsec3 = rr;

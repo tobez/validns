@@ -11,5 +11,7 @@
 
 int
 decode_base32hex(void *dst, char *src, size_t dstsize);
+int
+encode_base32hex(void *dest, size_t dstsize, void *source, size_t srclength);
 
 #endif

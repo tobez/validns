@@ -149,13 +149,83 @@ decode_base32hex(void *dest, char *src, size_t dstsize)
 	return full_bytes;
 }
 
+int
+encode_base32hex(void *dest, size_t dstsize, void *source, size_t srclength)
+{
+	size_t need_dstsize;
+	int byte = 0;
+	unsigned char *dst = dest;
+	unsigned char *src = source;
+	int i;
+
+	need_dstsize = 8*(srclength / 5);
+	switch (srclength % 5) {
+	case 1: need_dstsize += 2; break;
+	case 2: need_dstsize += 4; break;
+	case 3: need_dstsize += 5; break;
+	case 4: need_dstsize += 7; break;
+	}
+	if (dstsize < need_dstsize) {
+		errno = EINVAL;
+		return -1;
+	}
+	while (srclength) {
+		switch (byte) {
+		case 0:
+			dst[0] = *src >> 3;
+			dst[1] = (*src & 0x07) << 2;
+			break;
+		case 1:
+			dst[1] |= (*src >> 6) & 0x03;
+			dst[2] = (*src >> 1) & 0x1f;
+			dst[3] = (*src & 0x01) << 4;
+			break;
+		case 2:
+			dst[3] |= (*src >> 4) & 0x0f;
+			dst[4] = (*src & 0x0f) << 1;
+			break;
+		case 3:
+			dst[4] |= (*src >> 7) & 0x01;
+			dst[5] = (*src >> 2) & 0x1f;
+			dst[6] = (*src & 0x03) << 3;
+			break;
+		case 4:
+			dst[6] |= (*src >> 5) & 0x07;
+			dst[7] = *src & 0x1f;
+			break;
+		}
+
+		srclength--;
+		src++;
+		byte++;
+		if (byte == 5) {
+			dst += 8;
+			byte = 0;
+		}
+	}
+	dst = dest;
+	for (i = 0; i < need_dstsize; i++) {
+		if (*dst < 10)
+			*dst = *dst +'0';
+		else if (*dst < 32)
+			*dst = *dst - 10 + 'a';
+		else
+			*dst = '?';
+		dst++;
+	}
+	return need_dstsize;
+}
+
 #ifdef TEST_PROGRAM
 
 static int ok_string_test(int testnum, char *src, char *expect)
 {
 	unsigned char dstbuf[512];
+	unsigned char reverse_buf[1024];
 	int r, r0, i;
 	int expect_sz = strlen(expect);
+	int expect_reverse;
+	char *s, *d;
 
 	if (expect_sz >= 512) {
 		printf("test %d: NOT OK: internal *test* error, buffer too small for proper testing, FIXME\n", testnum);
@@ -172,6 +242,23 @@ static int ok_string_test(int testnum, char *src, char *expect)
 	}
 	if (dstbuf[expect_sz] != 0xAA) {
 		printf("test %d: NOT OK: corrupts memory with \"just enough\" bufsize\n", testnum);
+		return 1;
+	}
+	r = encode_base32hex(reverse_buf, 1024, dstbuf, expect_sz);
+	s = src;  d = (char*)dstbuf;
+	expect_reverse = 0;
+	while (*s) {
+		if (*s != ' ' && *s != '=') {
+			*d++ = tolower(*s);
+			expect_reverse++;
+		}
+		s++;
+	}
+	if (r != expect_reverse) {
+		printf("test %d: NOT OK: REVERSE: expect size %d, got %d\n", testnum, expect_reverse, r);
+		return 1;
+	} else if (memcmp(reverse_buf, dstbuf, r) != 0) {
+		printf("test %d: NOT OK: REVERSE: unexpected buffer content\n", testnum);
 		return 1;
 	}
 	memset(dstbuf, 0xAA, 512);
