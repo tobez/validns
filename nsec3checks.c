@@ -70,11 +70,12 @@ int sorted_hashed_names_count;
 struct binary_data *sorted_hashed_names;
 void *nsec3_hash;
 
-void calculate_hashed_names(void)
+void perform_remaining_nsec3checks(void)
 {
 	unsigned char sorted_name[512];
 	struct named_rr **named_rr_p;
 	struct named_rr *named_rr;
+	struct rr_nsec3 *nsec3;
 	void *x = name2hash;
 	x = name2hash;
 	uint32_t mask;
@@ -92,7 +93,6 @@ void calculate_hashed_names(void)
 		if ((named_rr->flags & mask) == NAME_FLAG_KIDS_WITH_RECORDS) {
 			struct binary_data hash;
 			struct rr_nsec3 **nsec3_slot;
-			struct rr_nsec3 *nsec3;
 
 			hash = name2hash(named_rr->name, nsec3param);
 			if (hash.length < 0) {
@@ -103,7 +103,7 @@ void calculate_hashed_names(void)
 				croak(4, "assertion failed: wrong hashed name size %d", hash.length);
 			JHSG(nsec3_slot, nsec3_hash, hash.data, hash.length);
 			if (nsec3_slot == PJERR)
-				croak(5, "calculate_hashed_names: JHSG failed");
+				croak(5, "perform_remaining_nsec3checks: JHSG failed");
 			if (!nsec3_slot) {
 				moan(named_rr->file_name, named_rr->line,
 					 "no corresponding NSEC3 found for %s",
@@ -119,6 +119,15 @@ void calculate_hashed_names(void)
 		}
 next:
 		JSLN(named_rr_p, zone_data, sorted_name);
+	}
+
+	nsec3 = first_nsec3;
+	while (nsec3) {
+		if (!nsec3->corresponding_name) {
+			moan(nsec3->rr.file_name, nsec3->rr.line,
+				 "NSEC3 without a corresponding record (or empty non-terminal)");
+		}
+		nsec3 = nsec3->next_nsec3;
 	}
 }
 

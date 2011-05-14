@@ -330,8 +330,10 @@ main(int argc, char **argv)
 	open_zone_file(argv[0]);
 	read_zone_file();
 	validate_zone();
-	if (G.nsec3_present)
-		calculate_hashed_names();
+	if (G.nsec3_present) {
+		if (first_nsec3) nsec3_validate(&first_nsec3->rr);
+		perform_remaining_nsec3checks();
+	}
 	gettimeofday(&stop, NULL);
 	if (G.opt.summary) {
 		printf("records found:       %d\n", G.stats.rr_count);

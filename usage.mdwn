@@ -91,6 +91,9 @@ Other basic checks include:
 - *type* exists, but NSEC3 does not mention it for *name*;
 - NSEC3 mentions *type*, but no such record found for *name*;
 - there are more record types than NSEC3 mentions for *name*;
+- broken NSEC3 chain, expected *name*, but nothing found;
+- broken NSEC3 chain, expected *name1*, but found *name2*;
+- NSEC3 without a corresponding record (or empty non-terminal).
 
 # POLICY CHECKS
 

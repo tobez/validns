@@ -143,7 +143,7 @@ static struct binary_data nsec3_wirerdata(struct rr *rrv)
 struct rr_nsec3 *first_nsec3 = NULL;
 struct rr_nsec3 *latest_nsec3 = NULL;
 
-static void* nsec3_validate(struct rr *rrv)
+void* nsec3_validate(struct rr *rrv)
 {
     struct rr_nsec3 *rr = (struct rr_nsec3 *)rrv;
 
@@ -155,15 +155,23 @@ static void* nsec3_validate(struct rr *rrv)
 			char *expected_name = quickstrdup_temp(rr->rr.rr_set->named_rr->name);
 			/* guaranteed to have same length, I think */
 			encode_base32hex(expected_name, 32, latest_nsec3->next_hashed_owner.data, 20);
-			moan(latest_nsec3->rr.file_name, latest_nsec3->rr.line,
-				 "broken NSEC3 chain, expected %s, but found %s",
-				 expected_name,
-				 rr->rr.rr_set->named_rr->name);
-			latest_nsec3->next_nsec3 = rr;
+			if (rr == first_nsec3) {
+				moan(latest_nsec3->rr.file_name, latest_nsec3->rr.line,
+					 "broken NSEC3 chain, expected %s, but nothing found",
+					 expected_name);
+			} else {
+				moan(latest_nsec3->rr.file_name, latest_nsec3->rr.line,
+					 "broken NSEC3 chain, expected %s, but found %s",
+					 expected_name,
+					 rr->rr.rr_set->named_rr->name);
+			}
+			if (rr != first_nsec3)
+				latest_nsec3->next_nsec3 = rr;
 			latest_nsec3 = rr;
 			return NULL;
 		}
-		latest_nsec3->next_nsec3 = rr;
+		if (rr != first_nsec3)
+			latest_nsec3->next_nsec3 = rr;
 	}
 	latest_nsec3 = rr;
 	return rr;
