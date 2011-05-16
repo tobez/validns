@@ -25,3 +25,4 @@ delegation DS 60485 5 1 ( 2BB183AF5F22588179A53B0A
 public  HINFO "i386" "FreeBSD"
 		LOC 55 40 15.258 N 12 41 56.378 E 9.57m 10.00m 10000.00m 10.00m
 
+lets.introduce.some.empty.terminals CNAME example.sec.
