@@ -7,8 +7,7 @@ Task/feature/functionality          % done  Descr
 - understand all standard rdtypes   80      - currently missing:
                                               AFSDB, APL, CERT, DHCID,
                                               DLV, DNAME, HIP, IPSECKEY,
-                                              KEY, KX, SIG, SPF,
-                                              SSHFP, TA, TKEY
+                                              KEY, KX, SIG, SPF, TA, TKEY
 
 - initial user documentation        30
 

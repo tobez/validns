@@ -22,6 +22,7 @@
 #define T_SRV	33
 #define T_NAPTR	35
 #define T_DS	43
+#define T_SSHFP	44
 #define T_RRSIG	46
 #define T_NSEC	47
 #define T_DNSKEY	48
@@ -306,6 +307,15 @@ struct rr_ptr
     char *ptrdname;
 };
 extern struct rr_methods ptr_methods;
+
+struct rr_sshfp
+{
+    struct rr rr;
+    uint8_t algorithm;
+	uint8_t fp_type;
+	struct binary_data fingerprint;
+};
+extern struct rr_methods sshfp_methods;
 
 extern struct rr_nsec3 *first_nsec3;
 extern struct rr_nsec3 *latest_nsec3;

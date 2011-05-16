@@ -261,6 +261,7 @@ static void initialize_globals(void)
 	rr_methods[T_RRSIG]        =      rrsig_methods;
 	rr_methods[T_SOA]          =        soa_methods;
 	rr_methods[T_SRV]          =        srv_methods;
+	rr_methods[T_SSHFP]        =      sshfp_methods;
 	rr_methods[T_TXT]          =        txt_methods;
 }
 

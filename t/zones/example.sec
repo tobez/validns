@@ -26,3 +26,5 @@ public  HINFO "i386" "FreeBSD"
 		LOC 55 40 15.258 N 12 41 56.378 E 9.57m 10.00m 10000.00m 10.00m
 
 lets.introduce.some.empty.terminals CNAME example.sec.
+jumphost SSHFP 2 1 123456789abcdef67890123456789abcdef67890
+

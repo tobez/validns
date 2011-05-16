@@ -489,6 +489,8 @@ int str2rdtype(char *rdtype)
 			return T_SOA;
 		} else if (strcmp(rdtype, "srv") == 0) {
 			return T_SRV;
+		} else if (strcmp(rdtype, "sshfp") == 0) {
+			return T_SSHFP;
 		}
 		break;
 	case 't':
