@@ -101,6 +101,7 @@ static struct rr* nsec3_parse(char *name, long ttl, int type, char *s)
     ret_rr = store_record(type, name, ttl, rr);
 	if (ret_rr) {
 		G.nsec3_present = 1;
+		G.stats.nsec3_count++;
 		if (opt_out)
 			G.nsec3_opt_out_present = 1;
 		if (ret_rr && !nsec3param)

@@ -341,6 +341,7 @@ main(int argc, char **argv)
 		printf("record sets found:   %d\n", G.stats.rrset_count);
 		printf("unique names found:  %d\n", G.stats.names_count);
 		printf("delegations found:   %d\n", G.stats.delegations);
+		printf("    nsec3 records:   %d\n", G.stats.nsec3_count);
 		/* "not authoritative names" - non-empty terminals without any authoritative records */
 		/* delegation points count as authoritative, which might or might not be correct */
 		printf("not authoritative names, not counting delegation points:\n"

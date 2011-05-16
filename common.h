@@ -38,6 +38,7 @@ struct globals {
 		int signatures_verified;
 		int delegations;
 		int not_authoritative;
+		int nsec3_count;
 	} stats;
 	struct command_line_options
 	{
