@@ -94,6 +94,7 @@ void perform_remaining_nsec3checks(void)
 			struct binary_data hash;
 			struct rr_nsec3 **nsec3_slot;
 
+			freeall_temp();
 			hash = name2hash(named_rr->name, nsec3param);
 			if (hash.length < 0) {
 				moan(named_rr->file_name, named_rr->line, "internal: cannot calculate hashed name");
