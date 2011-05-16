@@ -93,9 +93,20 @@ static void* nsec_validate(struct rr *rrv)
 		return NULL;
 
 	next_named_rr = find_next_named_rr(named_rr);
-	/* Skip empty non-terminals from consideration */
-	while (next_named_rr && (next_named_rr->flags & NAME_FLAG_HAS_RECORDS) == 0) {
-		next_named_rr = find_next_named_rr(next_named_rr);
+	/* Skip empty non-terminals and not authoritative records from consideration */
+	while (next_named_rr) {
+		if ((next_named_rr->flags & NAME_FLAG_HAS_RECORDS) == 0) {
+			next_named_rr = find_next_named_rr(next_named_rr);
+			continue;
+		}
+		if (next_named_rr->parent &&
+			(next_named_rr->parent->flags & (NAME_FLAG_DELEGATION|NAME_FLAG_NOT_AUTHORITATIVE)) != 0)
+		{
+			named_rr->flags |= NAME_FLAG_NOT_AUTHORITATIVE;
+			next_named_rr = find_next_named_rr(next_named_rr);
+			continue;
+		}
+		break;
 	}
 
 	if (strcmp(rr->next_domain, zone_apex) == 0) {
