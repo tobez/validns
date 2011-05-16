@@ -474,6 +474,11 @@ int str2rdtype(char *rdtype)
 			return T_NSEC3PARAM;
 		}
 		break;
+	case 'p':
+		if (strcmp(rdtype, "ptr") == 0) {
+			return T_PTR;
+		}
+		break;
 	case 'r':
 		if (strcmp(rdtype, "rrsig") == 0) {
 			return T_RRSIG;

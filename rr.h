@@ -13,6 +13,7 @@
 #define T_NS	2
 #define T_CNAME	5
 #define T_SOA	6
+#define T_PTR	12
 #define T_HINFO	13
 #define T_MX	15
 #define T_TXT	16
@@ -298,6 +299,13 @@ struct rr_loc
 	uint32_t altitude;
 };
 extern struct rr_methods loc_methods;
+
+struct rr_ptr
+{
+    struct rr rr;
+    char *ptrdname;
+};
+extern struct rr_methods ptr_methods;
 
 extern struct rr_nsec3 *first_nsec3;
 extern struct rr_nsec3 *latest_nsec3;

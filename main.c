@@ -257,6 +257,7 @@ static void initialize_globals(void)
 	rr_methods[T_NSEC]         =       nsec_methods;
 	rr_methods[T_NSEC3]        =      nsec3_methods;
 	rr_methods[T_NSEC3PARAM]   = nsec3param_methods;
+	rr_methods[T_PTR]          =        ptr_methods;
 	rr_methods[T_RRSIG]        =      rrsig_methods;
 	rr_methods[T_SOA]          =        soa_methods;
 	rr_methods[T_SRV]          =        srv_methods;
