@@ -4,16 +4,13 @@ Goals / development milestones / features for validns:
 
 Task/feature/functionality          % done  Descr
 -----------------------------------------------------------------------------
-- validation NSEC3 chains           20      - handle requirements
-                                              of RFC5155 and RFC4034
 - understand all standard rdtypes   80      - currently missing:
                                               AFSDB, APL, CERT, DHCID,
                                               DLV, DNAME, HIP, IPSECKEY,
-                                              KEY, KX, PTR,  SIG, SPF,
+                                              KEY, KX, SIG, SPF,
                                               SSHFP, TA, TKEY
-- support non-standard rdtypes      0       - requires experimentation
 
-- initial user documentation        30      
+- initial user documentation        30
 
 
 2. Performance and other non-critical enhancements
