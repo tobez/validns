@@ -78,8 +78,14 @@ int zone_apex_l = 0;
 
 char *rdtype2str(int type)
 {
-	if (type < 0 || type > T_MAX)
+	char s[10];
+	if (type < 0 || type > 65535) {
 		return "???";
+	}
+	if (type > T_MAX) {
+		sprintf(s, "TYPE%d", type);
+		return quickstrdup_temp(s);
+	}
 	return rdtype2str_map[type];
 }
 
@@ -242,7 +248,10 @@ struct rr *store_record(int rdtype, char *name, long ttl, void *rrptr)
 		struct binary_data new_d, old_d;
 		struct rr *old_rr;
 
-		get_wired = rr_methods[rdtype].rr_wire;
+		if (rdtype > T_MAX)
+			get_wired = any_wirerdata;
+		else
+			get_wired = rr_methods[rdtype].rr_wire;
 		if (!get_wired) goto after_dup_check;
 		new_d = get_wired(rr);
 		if (new_d.length < 0) goto after_dup_check;
@@ -277,7 +286,11 @@ after_dup_check:
 	rr_set->count++;
 
 	if (G.opt.verbose) {
-		char *rdata = rr_methods[rdtype].rr_human(rr);
+		char *rdata;
+		if (rdtype > T_MAX)
+			rdata = any_human(rr);
+		else
+			rdata = rr_methods[rdtype].rr_human(rr);
 		fprintf(stderr, "-> %s:%d: %s IN %ld %s",
 				file_info->name, file_info->line,
 				name, ttl, rdtype2str(rdtype));
@@ -347,6 +360,54 @@ uint32_t get_rr_set_count(struct named_rr *named_rr)
 static struct rr *unknown_parse(char *name, long ttl, int type, char *s)
 {
 	return bitch("unsupported resource record type %s", rdtype2str(type));
+}
+
+struct rr *rr_parse_any(char *name, long ttl, int type, char *s)
+{
+	struct rr_any *rr = getmem(sizeof(*rr));
+	long long len;
+
+	if (*s++ != '\\') {
+invalid:
+		return bitch("invalid custom type rdata");
+	}
+	if (*s++ != '#')
+		goto invalid;
+	if (*s && !isspace(*s) && *s != ';' && *s != ')')
+		goto invalid;
+	s = skip_white_space(s);
+	if (!s)	return NULL;
+
+	len = extract_integer(&s, "custom data size");
+	if (len < 0) return NULL;
+	if (len > 65535) goto invalid;
+
+	rr->data = extract_hex_binary_data(&s, "custom data", EXTRACT_EAT_WHITESPACE);
+	if (rr->data.length < 0)	return NULL;
+	if (rr->data.length != len)
+		return bitch("custom data is longer than specified");
+
+	if (*s) {
+		return bitch("garbage after valid %s data", rdtype2str(type));
+	}
+
+	return store_record(type, name, ttl, rr);
+}
+
+char* any_human(struct rr *rrv)
+{
+    struct rr_any *rr = (struct rr_any *)rrv;
+	char buf[80];
+
+	sprintf(buf, "\\# %d ...", rr->data.length);
+	return quickstrdup_temp(buf);
+}
+
+struct binary_data any_wirerdata(struct rr *rrv)
+{
+    struct rr_any *rr = (struct rr_any *)rrv;
+
+	return compose_binary_data("d", 1, rr->data);
 }
 
 static char* unknown_human(struct rr *rr)
@@ -428,6 +489,11 @@ int str2rdtype(char *rdtype)
 	case 't':
 		if (strcmp(rdtype, "txt") == 0) {
 			return T_TXT;
+		} else if (strncmp(rdtype, "type", 4) == 0) {
+			long type = strtol(rdtype+4, NULL, 10);
+			if (type <= 0 || type > 65535)
+				bitch("invalid rdtype %s", rdtype);
+			return type;
 		}
 		break;
 	}
@@ -449,7 +515,7 @@ void validate_rrset(struct rr_set *rr_set)
 			   rdtype2str(rr_set->rdtype), rr_set->named_rr->name,
 			   rr_set->count);
 	}
-	if (rr_methods[rr_set->rdtype].rr_validate_set)
+	if (rr_set->rdtype < T_MAX && rr_methods[rr_set->rdtype].rr_validate_set)
 		rr_methods[rr_set->rdtype].rr_validate_set(rr_set);
 	ttl = rr->ttl;
 
@@ -524,7 +590,7 @@ void validate_zone(void)
 void validate_record(struct rr *rr)
 {
 	freeall_temp();
-	if (rr_methods[rr->rdtype].rr_validate)
+	if (rr->rdtype < T_MAX && rr_methods[rr->rdtype].rr_validate)
 		rr_methods[rr->rdtype].rr_validate(rr);
 }
 

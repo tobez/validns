@@ -34,7 +34,7 @@ static struct rr* rrsig_parse(char *name, long ttl, int type, char *s)
 	str_type_covered = extract_label(&s, "type covered", "temporary");
 	if (!str_type_covered) return NULL;
 	type_covered = str2rdtype(str_type_covered);
-	if (type_covered <= 0 || type_covered > T_MAX) return NULL;
+	if (type_covered <= 0 || type_covered > 65535) return NULL;
 	rr->type_covered = type_covered;
 
 	rr->algorithm = extract_algorithm(&s, "algorithm");
@@ -142,7 +142,7 @@ static int verify_signature(struct rr_rrsig *rr, struct rr_dnskey *key, struct r
 	int i;
 	rr_wire_func get_wired;
 
-	get_wired = rr_methods[signed_set->rdtype].rr_wire;
+	get_wired = signed_set->rdtype > T_MAX ? any_wirerdata : rr_methods[signed_set->rdtype].rr_wire;
 	if (!get_wired)
 		return 0;
 

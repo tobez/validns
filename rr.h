@@ -62,6 +62,10 @@ struct rr_methods {
 extern struct rr_methods rr_methods[T_MAX+1];
 extern struct rr_methods unknown_methods;
 
+struct rr *rr_parse_any(char *name, long ttl, int type, char *s);
+char* any_human(struct rr *rrv);
+struct binary_data any_wirerdata(struct rr *rrv);
+
 void validate_record(struct rr *rr);
 void validate_zone(void);
 struct rr *store_record(int rdtype, char *name, long ttl, void *rrptr);
@@ -115,6 +119,12 @@ struct rr
 
 	int line;
 	char *file_name;
+};
+
+struct rr_any
+{
+	struct rr rr;
+	struct binary_data data;
 };
 
 struct rr_a

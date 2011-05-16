@@ -182,7 +182,7 @@ void *check_typemap(struct binary_data type_bitmap, struct named_rr *named_rr, s
 		for (i = 0; i < base[1]; i++) {
 			for (k = 0; k <= 7; k++) {
 				if (base[2+i] & (0x80 >> k)) {
-					type = base[0]*256 + i*8 + k;
+					type = ((unsigned char)base[0])*256 + i*8 + k;
 					nsec_distinct_types++;
 					set = find_rr_set_in_named_rr(named_rr, type);
 					if (!set) {
@@ -208,7 +208,7 @@ void *check_typemap(struct binary_data type_bitmap, struct named_rr *named_rr, s
 			for (i = 0; i < base[1]; i++) {
 				for (k = 0; k <= 7; k++) {
 					if (base[2+i] & (0x80 >> k)) {
-						type = base[0]*256 + i*8 + k;
+						type = ((unsigned char)base[0])*256 + i*8 + k;
 						J1S(rc, bitmap, type);
 					}
 				}

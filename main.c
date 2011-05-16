@@ -176,8 +176,11 @@ read_zone_file(void)
 
 			{
 				int type = str2rdtype(rdtype);
-				if (type <= 0 || type > T_MAX) continue;
-				rr_methods[type].rr_parse(name, ttl, type, s);
+				if (type <= 0) continue;
+				if (type > T_MAX)
+					rr_parse_any(name, ttl, type, s);
+				else
+					rr_methods[type].rr_parse(name, ttl, type, s);
 			}
 		}
 		if (ferror(file_info->file))

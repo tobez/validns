@@ -63,7 +63,7 @@ static char* nsec_human(struct rr *rrv)
 		for (i = 0; i < base[1]; i++) {
 			for (k = 0; k <= 7; k++) {
 				if (base[2+i] & (0x80 >> k)) {
-					type = base[0]*256 + i*8 + k;
+					type = ((unsigned char)base[0])*256 + i*8 + k;
 					type_name = rdtype2str(type);
 					l = snprintf(s, 1024-(s-ss), " %s", type_name);
 					s += l;
