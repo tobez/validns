@@ -79,6 +79,8 @@ void perform_remaining_nsec3checks(void)
 	void *x = name2hash;
 	x = name2hash;
 	uint32_t mask;
+	struct binary_data hash;
+	struct rr_nsec3 **nsec3_slot;
 
 	sorted_hashed_names_count = 0;
 	mask = NAME_FLAG_NOT_AUTHORITATIVE|NAME_FLAG_NSEC3_ONLY|NAME_FLAG_KIDS_WITH_RECORDS;
@@ -91,9 +93,7 @@ void perform_remaining_nsec3checks(void)
 	while (named_rr_p) {
 		named_rr = *named_rr_p;
 		if ((named_rr->flags & mask) == NAME_FLAG_KIDS_WITH_RECORDS) {
-			struct binary_data hash;
-			struct rr_nsec3 **nsec3_slot;
-
+needs_nsec3:
 			freeall_temp();
 			hash = name2hash(named_rr->name, nsec3param);
 			if (hash.length < 0) {
@@ -117,6 +117,11 @@ void perform_remaining_nsec3checks(void)
 			nsec3->corresponding_name = named_rr;
 			sorted_hashed_names_count++;
 			check_typemap(nsec3->type_bitmap, named_rr, &nsec3->rr);
+		} else if ((named_rr->flags &
+					(NAME_FLAG_NOT_AUTHORITATIVE|NAME_FLAG_SIGNED_DELEGATION)) ==
+				   NAME_FLAG_SIGNED_DELEGATION)
+		{
+			goto needs_nsec3;
 		}
 next:
 		JSLN(named_rr_p, zone_data, sorted_name);

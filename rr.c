@@ -496,7 +496,8 @@ void validate_named_rr(struct named_rr *named_rr)
 		if (rdtype == T_DS) {
 			struct named_rr *nrr = named_rr;
 			while (nrr && (nrr->flags & (NAME_FLAG_DELEGATION|NAME_FLAG_NOT_AUTHORITATIVE)) != 0) {
-				nrr->flags &= ~(NAME_FLAG_DELEGATION|NAME_FLAG_NOT_AUTHORITATIVE);
+				// nrr->flags &= ~(NAME_FLAG_DELEGATION|NAME_FLAG_NOT_AUTHORITATIVE);
+				nrr->flags |= NAME_FLAG_SIGNED_DELEGATION;
 				nrr = nrr->parent;
 			}
 		}
