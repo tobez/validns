@@ -18,13 +18,13 @@ validns: main.o carp.o mempool.o textparse.o base64.o base32hex.o \
 	    -L/usr/local/lib -L/opt/local/lib -lJudy -lcrypto
 
 clean:
-	-rm validns main.o carp.o mempool.o textparse.o
-	-rm rr.o soa.o a.o cname.o mx.o ns.o
-	-rm rrsig.o nsec.o dnskey.o txt.o aaaa.o
-	-rm naptr.o srv.o nsec3param.o nsec3.o ds.o
-	-rm hinfo.o loc.o nsec3checks.o ptr.o
-	-rm sshfp.o
-	-rm validns.core core
+	-rm -f validns main.o carp.o mempool.o textparse.o
+	-rm -f rr.o soa.o a.o cname.o mx.o ns.o
+	-rm -f rrsig.o nsec.o dnskey.o txt.o aaaa.o
+	-rm -f naptr.o srv.o nsec3param.o nsec3.o ds.o
+	-rm -f hinfo.o loc.o nsec3checks.o ptr.o
+	-rm -f sshfp.o
+	-rm -f validns.core core
 	@echo ':-)'
 
 main.o: main.c common.h carp.h mempool.h textparse.h rr.h
