@@ -1,0 +1,43 @@
+Goals / development milestones / features for validns:
+
+1. Requirements for an initial public release (missing functionality/doc)
+
+Task/feature/functionality          % done  Descr
+-----------------------------------------------------------------------------
+- validation NSEC3 chains           20      - handle requirements
+                                              of RFC5155 and RFC4034
+- understand all standard rdtypes   80      - currently missing:
+                                              AFSDB, APL, CERT, DHCID,
+                                              DLV, DNAME, HIP, IPSECKEY,
+                                              KEY, KX, PTR,  SIG, SPF,
+                                              SSHFP, TA, TKEY
+- support non-standard rdtypes      0       - requires experimentation
+
+- initial user documentation        30      
+
+
+2. Performance and other non-critical enhancements
+
+- speed up signature verification   0       - the initial parsing cannot
+  (and possibly other operations)             be easily parallelized,
+  via using multiple threads                  but signature checks can
+
+- add an incremental checks mode    0       - store hashes of succesfully
+  (do not do expensive                        verified records
+  verifications which were done
+  previously, provided the records
+  did not change)
+
+
+3. Nice to have features, for post-release
+
+- user-defined policy checks via    0       - lua API shall provide
+  lua embedding (split out                    convenient means to access
+  syntactical and policy validation)          and search records, so that
+                                              policy checks involving
+                                              relationships between
+                                              records can be implemented
+                                              by the user
+
+- speed up signature verification   0       - requires significan
+  via GPU crypto offload                      amount of experimentation
