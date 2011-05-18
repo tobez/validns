@@ -23,7 +23,7 @@ clean:
 	-rm -f rrsig.o nsec.o dnskey.o txt.o aaaa.o
 	-rm -f naptr.o srv.o nsec3param.o nsec3.o ds.o
 	-rm -f hinfo.o loc.o nsec3checks.o ptr.o
-	-rm -f sshfp.o
+	-rm -f sshfp.o base32hex.o base64.o
 	-rm -f validns.core core
 	@echo ':-)'
 
