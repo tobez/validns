@@ -1,6 +1,7 @@
 OPTIMIZE=-O2 -g
 CFLAGS=-Wall -Werror
 INCPATH=-I/usr/local/include -I/opt/local/include
+CC?=cc
 
 validns: main.o carp.o mempool.o textparse.o base64.o base32hex.o \
 	rr.o soa.o a.o cname.o mx.o ns.o \
@@ -8,7 +9,7 @@ validns: main.o carp.o mempool.o textparse.o base64.o base32hex.o \
 	naptr.o srv.o nsec3param.o nsec3.o ds.o \
 	hinfo.o loc.o nsec3checks.o ptr.o \
 	sshfp.o
-	cc $(CFLAGS) $(OPTIMIZE) -o validns \
+	$(CC) $(CFLAGS) $(OPTIMIZE) -o validns \
 	    main.o carp.o mempool.o textparse.o base64.o base32hex.o \
 	    rr.o soa.o a.o cname.o mx.o ns.o \
 	    rrsig.o nsec.o dnskey.o txt.o aaaa.o \
@@ -28,85 +29,85 @@ clean:
 	@echo ':-)'
 
 main.o: main.c common.h carp.h mempool.h textparse.h rr.h
-	cc $(CFLAGS) $(OPTIMIZE) -c -o main.o main.c $(INCPATH)
+	$(CC) $(CFLAGS) $(OPTIMIZE) -c -o main.o main.c $(INCPATH)
 
 carp.o: carp.c carp.h common.h
-	cc $(CFLAGS) $(OPTIMIZE) -c -o carp.o carp.c $(INCPATH)
+	$(CC) $(CFLAGS) $(OPTIMIZE) -c -o carp.o carp.c $(INCPATH)
 
 mempool.o: mempool.c mempool.h carp.h
-	cc $(CFLAGS) $(OPTIMIZE) -c -o mempool.o mempool.c $(INCPATH)
+	$(CC) $(CFLAGS) $(OPTIMIZE) -c -o mempool.o mempool.c $(INCPATH)
 
 textparse.o: textparse.c common.h carp.h mempool.h textparse.h base64.h
-	cc $(CFLAGS) $(OPTIMIZE) -c -o textparse.o textparse.c $(INCPATH)
+	$(CC) $(CFLAGS) $(OPTIMIZE) -c -o textparse.o textparse.c $(INCPATH)
 
 base64.o: base64.c base64.h
-	cc $(CFLAGS) $(OPTIMIZE) -c -o base64.o base64.c $(INCPATH)
+	$(CC) $(CFLAGS) $(OPTIMIZE) -c -o base64.o base64.c $(INCPATH)
 
 base32hex.o: base32hex.c base32hex.h
-	cc $(CFLAGS) $(OPTIMIZE) -c -o base32hex.o base32hex.c $(INCPATH)
+	$(CC) $(CFLAGS) $(OPTIMIZE) -c -o base32hex.o base32hex.c $(INCPATH)
 
 rr.o: rr.c common.h mempool.h carp.h textparse.h rr.h
-	cc $(CFLAGS) $(OPTIMIZE) -c -o rr.o rr.c $(INCPATH)
+	$(CC) $(CFLAGS) $(OPTIMIZE) -c -o rr.o rr.c $(INCPATH)
 
 soa.o: soa.c common.h textparse.h mempool.h carp.h rr.h
-	cc $(CFLAGS) $(OPTIMIZE) -c -o soa.o soa.c $(INCPATH)
+	$(CC) $(CFLAGS) $(OPTIMIZE) -c -o soa.o soa.c $(INCPATH)
 
 a.o: a.c common.h textparse.h mempool.h carp.h rr.h
-	cc $(CFLAGS) $(OPTIMIZE) -c -o a.o a.c $(INCPATH)
+	$(CC) $(CFLAGS) $(OPTIMIZE) -c -o a.o a.c $(INCPATH)
 
 cname.o: cname.c common.h textparse.h mempool.h carp.h rr.h
-	cc $(CFLAGS) $(OPTIMIZE) -c -o cname.o cname.c $(INCPATH)
+	$(CC) $(CFLAGS) $(OPTIMIZE) -c -o cname.o cname.c $(INCPATH)
 
 mx.o: mx.c common.h textparse.h mempool.h carp.h rr.h
-	cc $(CFLAGS) $(OPTIMIZE) -c -o mx.o mx.c $(INCPATH)
+	$(CC) $(CFLAGS) $(OPTIMIZE) -c -o mx.o mx.c $(INCPATH)
 
 ns.o: ns.c common.h textparse.h mempool.h carp.h rr.h
-	cc $(CFLAGS) $(OPTIMIZE) -c -o ns.o ns.c $(INCPATH)
+	$(CC) $(CFLAGS) $(OPTIMIZE) -c -o ns.o ns.c $(INCPATH)
 
 rrsig.o: rrsig.c common.h textparse.h mempool.h carp.h rr.h
-	cc $(CFLAGS) $(OPTIMIZE) -c -o rrsig.o rrsig.c $(INCPATH)
+	$(CC) $(CFLAGS) $(OPTIMIZE) -c -o rrsig.o rrsig.c $(INCPATH)
 
 nsec.o: nsec.c common.h textparse.h mempool.h carp.h rr.h
-	cc $(CFLAGS) $(OPTIMIZE) -c -o nsec.o nsec.c $(INCPATH)
+	$(CC) $(CFLAGS) $(OPTIMIZE) -c -o nsec.o nsec.c $(INCPATH)
 
 dnskey.o: dnskey.c common.h textparse.h mempool.h carp.h rr.h
-	cc $(CFLAGS) $(OPTIMIZE) -c -o dnskey.o dnskey.c $(INCPATH)
+	$(CC) $(CFLAGS) $(OPTIMIZE) -c -o dnskey.o dnskey.c $(INCPATH)
 
 txt.o: txt.c common.h textparse.h mempool.h carp.h rr.h
-	cc $(CFLAGS) $(OPTIMIZE) -c -o txt.o txt.c $(INCPATH)
+	$(CC) $(CFLAGS) $(OPTIMIZE) -c -o txt.o txt.c $(INCPATH)
 
 aaaa.o: aaaa.c common.h textparse.h mempool.h carp.h rr.h
-	cc $(CFLAGS) $(OPTIMIZE) -c -o aaaa.o aaaa.c $(INCPATH)
+	$(CC) $(CFLAGS) $(OPTIMIZE) -c -o aaaa.o aaaa.c $(INCPATH)
 
 naptr.o: naptr.c common.h textparse.h mempool.h carp.h rr.h
-	cc $(CFLAGS) $(OPTIMIZE) -c -o naptr.o naptr.c $(INCPATH)
+	$(CC) $(CFLAGS) $(OPTIMIZE) -c -o naptr.o naptr.c $(INCPATH)
 
 srv.o: srv.c common.h textparse.h mempool.h carp.h rr.h
-	cc $(CFLAGS) $(OPTIMIZE) -c -o srv.o srv.c $(INCPATH)
+	$(CC) $(CFLAGS) $(OPTIMIZE) -c -o srv.o srv.c $(INCPATH)
 
 nsec3param.o: nsec3param.c common.h textparse.h mempool.h carp.h rr.h
-	cc $(CFLAGS) $(OPTIMIZE) -c -o nsec3param.o nsec3param.c $(INCPATH)
+	$(CC) $(CFLAGS) $(OPTIMIZE) -c -o nsec3param.o nsec3param.c $(INCPATH)
 
 nsec3.o: nsec3.c common.h textparse.h mempool.h carp.h rr.h
-	cc $(CFLAGS) $(OPTIMIZE) -c -o nsec3.o nsec3.c $(INCPATH)
+	$(CC) $(CFLAGS) $(OPTIMIZE) -c -o nsec3.o nsec3.c $(INCPATH)
 
 ds.o: ds.c common.h textparse.h mempool.h carp.h rr.h
-	cc $(CFLAGS) $(OPTIMIZE) -c -o ds.o ds.c $(INCPATH)
+	$(CC) $(CFLAGS) $(OPTIMIZE) -c -o ds.o ds.c $(INCPATH)
 
 hinfo.o: hinfo.c common.h textparse.h mempool.h carp.h rr.h
-	cc $(CFLAGS) $(OPTIMIZE) -c -o hinfo.o hinfo.c $(INCPATH)
+	$(CC) $(CFLAGS) $(OPTIMIZE) -c -o hinfo.o hinfo.c $(INCPATH)
 
 loc.o: loc.c common.h textparse.h mempool.h carp.h rr.h
-	cc $(CFLAGS) $(OPTIMIZE) -c -o loc.o loc.c $(INCPATH)
+	$(CC) $(CFLAGS) $(OPTIMIZE) -c -o loc.o loc.c $(INCPATH)
 
 nsec3checks.o: nsec3checks.c common.h textparse.h mempool.h carp.h rr.h
-	cc $(CFLAGS) $(OPTIMIZE) -c -o nsec3checks.o nsec3checks.c $(INCPATH)
+	$(CC) $(CFLAGS) $(OPTIMIZE) -c -o nsec3checks.o nsec3checks.c $(INCPATH)
 
 ptr.o: ptr.c common.h textparse.h mempool.h carp.h rr.h
-	cc $(CFLAGS) $(OPTIMIZE) -c -o ptr.o ptr.c $(INCPATH)
+	$(CC) $(CFLAGS) $(OPTIMIZE) -c -o ptr.o ptr.c $(INCPATH)
 
 sshfp.o: sshfp.c common.h textparse.h mempool.h carp.h rr.h
-	cc $(CFLAGS) $(OPTIMIZE) -c -o sshfp.o sshfp.c $(INCPATH)
+	$(CC) $(CFLAGS) $(OPTIMIZE) -c -o sshfp.o sshfp.c $(INCPATH)
 
 test: validns
 	perl -MTest::Harness -e 'runtests("t/test.pl")'
@@ -115,9 +116,9 @@ test-details: validns
 	perl t/test.pl
 
 test64:
-	cc -Wall -O2 -o base64-test base64.c -DTEST_PROGRAM
+	$(CC) -Wall -O2 -o base64-test base64.c -DTEST_PROGRAM
 	./base64-test
 
 test32hex:
-	cc -Wall -O2 -o base32hex-test base32hex.c -DTEST_PROGRAM
+	$(CC) -Wall -O2 -o base32hex-test base32hex.c -DTEST_PROGRAM
 	./base32hex-test
