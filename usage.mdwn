@@ -11,6 +11,8 @@ validns - DNS and DSNSEC zone file validator
 validns *-h*
 validns [*options*] *zone-file*
 
+For validating stdin, specify "-" in place of *zone-file*.
+
 # DESCRIPTION
 
 Coming soon.

@@ -193,9 +193,15 @@ read_zone_file(void)
 void
 open_zone_file(char *fname)
 {
-	FILE *f = fopen(fname, "r");
+	FILE *f;
 	struct file_info *new_file_info;
 
+	if (strcmp(fname, "-") == 0) {
+		f = stdin;
+		fname = "stdin";
+	} else {
+		f = fopen(fname, "r");
+	}
 	if (!f)
 		croak(1, "open %s", fname);
 	new_file_info = malloc(sizeof(*new_file_info) + strlen(fname) + 1);
