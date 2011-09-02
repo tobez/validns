@@ -64,4 +64,16 @@ static void* ns_validate_set(struct rr_set *rr_set)
 	return NULL;
 }
 
-struct rr_methods ns_methods = { ns_parse, ns_human, ns_wirerdata, ns_validate_set, NULL };
+static void *ns_validate(struct rr *rrv)
+{
+	struct rr_ns *rr = (struct rr_ns *)rrv;
+
+	if (G.opt.policy_checks[POLICY_NS_ALIAS]) {
+		if (find_rr_set(T_CNAME, rr->nsdname)) {
+			return moan(rr->rr.file_name, rr->rr.line, "NS data is an alias");
+		}
+	}
+	return NULL;
+}
+
+struct rr_methods ns_methods = { ns_parse, ns_human, ns_wirerdata, ns_validate_set, ns_validate };

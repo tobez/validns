@@ -1,0 +1,13 @@
+$TTL 1d                                                                                                                              
+@       IN      SOA     ns1.example.jp. hostmaster.example.jp. (                                                                     
+                1                                                                                                                    
+                20m                                                                                                                  
+                15m                                                                                                                  
+                4w                                                                                                                   
+                15m )                                                                                                                
+                NS      ns1.example.jp.                                                                                              
+                NS      ns2.example.jp.                                                                                              
+                MX      10 mail.example.jp.                                                                                          
+ns1     A       192.0.2.53                                                                                                           
+ns2     CNAME   ns1.example.jp.                                                                                                      
+mail    CNAME   ns1.example.jp.                                                                                                      

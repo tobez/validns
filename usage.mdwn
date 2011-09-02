@@ -38,6 +38,8 @@ Coming soon.
 	- single-ns
 	- cname-other-data
 	- nsec3param-not-apex
+	- mx-alias
+	- ns-alias
 	- all
 
 -q
@@ -102,6 +104,8 @@ Other basic checks include:
 - there should be at least two NS records per name (or zero);
 - CNAME and other data (excluding possible RRSIG and NSEC);
 - NSEC3PARAM, if present, should only be at the zone apex.
+- MX exchange should not be an alias
+- NS nsdname should not be an alias
 
 # BUGS
 

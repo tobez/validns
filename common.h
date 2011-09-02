@@ -21,11 +21,13 @@ struct file_info
 
 extern struct file_info *file_info;
 
-#define N_POLICY_CHECKS 3
+#define N_POLICY_CHECKS 5
 
 #define POLICY_SINGLE_NS 0
 #define POLICY_CNAME_OTHER_DATA 1
 #define POLICY_NSEC3PARAM_NOT_APEX 2
+#define POLICY_MX_ALIAS 3
+#define POLICY_NS_ALIAS 4
 
 struct globals {
 	struct stats {

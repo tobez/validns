@@ -53,4 +53,16 @@ static struct binary_data mx_wirerdata(struct rr *rrv)
 		rr->preference, name2wire_name(rr->exchange));
 }
 
-struct rr_methods mx_methods = { mx_parse, mx_human, mx_wirerdata, NULL, NULL };
+static void *mx_validate(struct rr *rrv)
+{
+	struct rr_mx *rr = (struct rr_mx *)rrv;
+
+	if (G.opt.policy_checks[POLICY_MX_ALIAS]) {
+		if (find_rr_set(T_CNAME, rr->exchange)) {
+			return moan(rr->rr.file_name, rr->rr.line, "MX exchange is an alias");
+		}
+	}
+	return NULL;
+}
+
+struct rr_methods mx_methods = { mx_parse, mx_human, mx_wirerdata, NULL, mx_validate };

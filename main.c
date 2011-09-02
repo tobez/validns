@@ -307,6 +307,10 @@ main(int argc, char **argv)
 				G.opt.policy_checks[POLICY_CNAME_OTHER_DATA] = 1;
 			} else if (strcmp(optarg, "nsec3param-not-apex") == 0) {
 				G.opt.policy_checks[POLICY_NSEC3PARAM_NOT_APEX] = 1;
+			} else if (strcmp(optarg, "mx-alias") == 0) {
+				G.opt.policy_checks[POLICY_MX_ALIAS] = 1;
+			} else if (strcmp(optarg, "ns-alias") == 0) {
+				G.opt.policy_checks[POLICY_NS_ALIAS] = 1;
 			} else {
 				usage("unknown policy name");
 			}

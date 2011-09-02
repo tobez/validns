@@ -103,4 +103,14 @@ like(shift @e, qr/NSEC says zzzz.example.sec. comes after zzz.example.sec., but 
 
 is(+@e, 0, "no unaccounted errors");
 
+# RFC 2181 policy checks
+run('./validns', '-p', 'all', '-z', 'example1.jp', 't/zones/mx-ns-alias');
+is(rc, 0, 'parses OK if we cannot determine the fact of aliasing');
+run('./validns', '-p', 'all', '-z', 'example.jp', 't/zones/mx-ns-alias');
+isnt(rc, 0, 'RFC 2181 policy checks are active');
+@e = split /\n/, stderr;
+like(shift @e, qr/NS data is an alias/, "NS data is an alias");
+like(shift @e, qr/MX exchange is an alias/, "MX exchange is an alias");
+is(+@e, 0, "no unaccounted errors");
+
 done_testing;
