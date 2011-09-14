@@ -58,7 +58,7 @@ static struct rr *srv_parse(char *name, long ttl, int type, char *s)
 
 static char* srv_human(struct rr *rrv)
 {
-    struct rr_srv *rr = (struct rr_srv *)rrv;
+	RRCAST(srv);
     char s[1024];
 
 	snprintf(s, 1024, "%hu %hu %hu %s",
@@ -69,7 +69,7 @@ static char* srv_human(struct rr *rrv)
 
 static struct binary_data srv_wirerdata(struct rr *rrv)
 {
-    struct rr_srv *rr = (struct rr_srv *)rrv;
+	RRCAST(srv);
     return compose_binary_data("222d", 1,
 		rr->priority, rr->weight, rr->port,
 		name2wire_name(rr->target));

@@ -72,7 +72,7 @@ static struct rr* ds_parse(char *name, long ttl, int type, char *s)
 
 static char* ds_human(struct rr *rrv)
 {
-    struct rr_ds *rr = (struct rr_ds *)rrv;
+	RRCAST(ds);
     char ss[4096];
 	char *s = ss;
 	int l;
@@ -89,7 +89,7 @@ static char* ds_human(struct rr *rrv)
 
 static struct binary_data ds_wirerdata(struct rr *rrv)
 {
-    struct rr_ds *rr = (struct rr_ds *)rrv;
+	RRCAST(ds);
 
 	return compose_binary_data("211d", 1,
 		rr->key_tag, rr->algorithm, rr->digest_type,

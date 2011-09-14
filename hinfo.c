@@ -43,7 +43,7 @@ static struct rr *hinfo_parse(char *name, long ttl, int type, char *s)
 
 static char* hinfo_human(struct rr *rrv)
 {
-    struct rr_hinfo *rr = (struct rr_hinfo *)rrv;
+	RRCAST(hinfo);
     char s[1024];
 
     snprintf(s, 1024, "\"%s\" \"%s\"", rr->cpu.data, rr->os.data);
@@ -52,7 +52,7 @@ static char* hinfo_human(struct rr *rrv)
 
 static struct binary_data hinfo_wirerdata(struct rr *rrv)
 {
-    struct rr_hinfo *rr = (struct rr_hinfo *)rrv;
+	RRCAST(hinfo);
 
     return compose_binary_data("bb", 1, rr->cpu, rr->os);
 }

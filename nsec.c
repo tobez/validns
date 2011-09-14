@@ -47,7 +47,7 @@ static struct rr* nsec_parse(char *name, long ttl, int type, char *s)
 
 static char* nsec_human(struct rr *rrv)
 {
-    struct rr_nsec *rr = (struct rr_nsec *)rrv;
+	RRCAST(nsec);
     char ss[1024];
 	char *s = ss;
 	int l;
@@ -77,7 +77,7 @@ static char* nsec_human(struct rr *rrv)
 
 static struct binary_data nsec_wirerdata(struct rr *rrv)
 {
-    struct rr_nsec *rr = (struct rr_nsec *)rrv;
+	RRCAST(nsec);
 
 	return compose_binary_data("dd", 1,
 		name2wire_name(rr->next_domain), rr->type_bitmap);
@@ -85,7 +85,7 @@ static struct binary_data nsec_wirerdata(struct rr *rrv)
 
 static void* nsec_validate(struct rr *rrv)
 {
-    struct rr_nsec *rr = (struct rr_nsec *)rrv;
+	RRCAST(nsec);
 	struct named_rr *named_rr, *next_named_rr;
 
 	named_rr = rr->rr.rr_set->named_rr;

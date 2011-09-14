@@ -396,7 +396,7 @@ invalid:
 
 char* any_human(struct rr *rrv)
 {
-    struct rr_any *rr = (struct rr_any *)rrv;
+	RRCAST(any);
 	char buf[80];
 
 	sprintf(buf, "\\# %d ...", rr->data.length);
@@ -405,7 +405,7 @@ char* any_human(struct rr *rrv)
 
 struct binary_data any_wirerdata(struct rr *rrv)
 {
-    struct rr_any *rr = (struct rr_any *)rrv;
+	RRCAST(any);
 
 	return compose_binary_data("d", 1, rr->data);
 }

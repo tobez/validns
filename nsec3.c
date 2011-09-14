@@ -112,7 +112,7 @@ static struct rr* nsec3_parse(char *name, long ttl, int type, char *s)
 
 static char* nsec3_human(struct rr *rrv)
 {
-    struct rr_nsec3 *rr = (struct rr_nsec3 *)rrv;
+	RRCAST(nsec3);
     char ss[1024];
 	char *s = ss;
 	int l;
@@ -133,7 +133,7 @@ static char* nsec3_human(struct rr *rrv)
 
 static struct binary_data nsec3_wirerdata(struct rr *rrv)
 {
-    struct rr_nsec3 *rr = (struct rr_nsec3 *)rrv;
+	RRCAST(nsec3);
 
 	return compose_binary_data("112bbd", 1,
 		rr->hash_algorithm, rr->flags,
@@ -146,7 +146,7 @@ struct rr_nsec3 *latest_nsec3 = NULL;
 
 void* nsec3_validate(struct rr *rrv)
 {
-    struct rr_nsec3 *rr = (struct rr_nsec3 *)rrv;
+	RRCAST(nsec3);
 
 	if (!first_nsec3) {
 		first_nsec3 = rr;

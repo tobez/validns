@@ -33,7 +33,7 @@ static struct rr *aaaa_parse(char *name, long ttl, int type, char *s)
 
 static char* aaaa_human(struct rr *rrv)
 {
-    struct rr_aaaa *rr = (struct rr_aaaa *)rrv;
+	RRCAST(aaaa);
     char s[1024];
 
 	if (inet_ntop(AF_INET6, &rr->address, s, 1024))
@@ -43,7 +43,7 @@ static char* aaaa_human(struct rr *rrv)
 
 static struct binary_data aaaa_wirerdata(struct rr *rrv)
 {
-	struct rr_aaaa *rr = (struct rr_aaaa *)rrv;
+	RRCAST(aaaa);
 	struct binary_data r;
 
 	r.length = sizeof(rr->address);

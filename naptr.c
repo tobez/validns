@@ -71,7 +71,7 @@ static struct rr *naptr_parse(char *name, long ttl, int type, char *s)
 
 static char* naptr_human(struct rr *rrv)
 {
-    struct rr_naptr *rr = (struct rr_naptr *)rrv;
+	RRCAST(naptr);
     char s[1024];
 
 	snprintf(s, 1024, "%hu %hu \"%s\" ...",
@@ -82,7 +82,7 @@ static char* naptr_human(struct rr *rrv)
 
 static struct binary_data naptr_wirerdata(struct rr *rrv)
 {
-    struct rr_naptr *rr = (struct rr_naptr *)rrv;
+	RRCAST(naptr);
 
     return compose_binary_data("22bbbd", 1,
 		rr->order, rr->preference,

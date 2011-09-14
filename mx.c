@@ -37,7 +37,7 @@ static struct rr *mx_parse(char *name, long ttl, int type, char *s)
 
 static char* mx_human(struct rr *rrv)
 {
-    struct rr_mx *rr = (struct rr_mx *)rrv;
+	RRCAST(mx);
     char s[1024];
 
     snprintf(s, 1024, "%d %s",
@@ -47,7 +47,7 @@ static char* mx_human(struct rr *rrv)
 
 static struct binary_data mx_wirerdata(struct rr *rrv)
 {
-    struct rr_mx *rr = (struct rr_mx *)rrv;
+	RRCAST(mx);
 
     return compose_binary_data("2d", 1,
 		rr->preference, name2wire_name(rr->exchange));
@@ -55,7 +55,7 @@ static struct binary_data mx_wirerdata(struct rr *rrv)
 
 static void *mx_validate(struct rr *rrv)
 {
-	struct rr_mx *rr = (struct rr_mx *)rrv;
+	RRCAST(mx);
 
 	if (G.opt.policy_checks[POLICY_MX_ALIAS]) {
 		if (find_rr_set(T_CNAME, rr->exchange)) {

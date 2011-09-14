@@ -33,13 +33,13 @@ static struct rr *cname_parse(char *name, long ttl, int type, char *s)
 
 static char* cname_human(struct rr *rrv)
 {
-    struct rr_cname *rr = (struct rr_cname *)rrv;
+	RRCAST(cname);
     return rr->cname;
 }
 
 static struct binary_data cname_wirerdata(struct rr *rrv)
 {
-	struct rr_cname *rr = (struct rr_cname *)rrv;
+	RRCAST(cname);
 	return name2wire_name(rr->cname);
 }
 

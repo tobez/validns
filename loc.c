@@ -190,7 +190,7 @@ static char* loc_human(struct rr *rrv)
 
 static struct binary_data loc_wirerdata(struct rr *rrv)
 {
-    struct rr_loc *rr = (struct rr_loc *)rrv;
+	RRCAST(loc);
 
     return compose_binary_data("1111444", 1,
 		rr->version, rr->size,

@@ -74,7 +74,7 @@ static struct rr* dnskey_parse(char *name, long ttl, int type, char *s)
 
 static char* dnskey_human(struct rr *rrv)
 {
-    struct rr_dnskey *rr = (struct rr_dnskey *)rrv;
+	RRCAST(dnskey);
     char s[1024];
 
     snprintf(s, 1024, "%hu %d %d XXX ; key id = %hu",
@@ -84,7 +84,7 @@ static char* dnskey_human(struct rr *rrv)
 
 static struct binary_data dnskey_wirerdata(struct rr *rrv)
 {
-    struct rr_dnskey *rr = (struct rr_dnskey *)rrv;
+	RRCAST(dnskey);
 
 	return compose_binary_data("211d", 1,
 		rr->flags, rr->protocol, rr->algorithm,

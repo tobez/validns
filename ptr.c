@@ -33,14 +33,14 @@ static struct rr *ptr_parse(char *name, long ttl, int type, char *s)
 
 static char* ptr_human(struct rr *rrv)
 {
-    struct rr_ptr *rr = (struct rr_ptr *)rrv;
+	RRCAST(ptr);
 
     return rr->ptrdname;
 }
 
 static struct binary_data ptr_wirerdata(struct rr *rrv)
 {
-    struct rr_ptr *rr = (struct rr_ptr *)rrv;
+	RRCAST(ptr);
 	return name2wire_name(rr->ptrdname);
 }
 

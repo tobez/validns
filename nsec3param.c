@@ -85,7 +85,7 @@ static struct rr* nsec3param_parse(char *name, long ttl, int type, char *s)
 
 static char* nsec3param_human(struct rr *rrv)
 {
-    struct rr_nsec3param *rr = (struct rr_nsec3param *)rrv;
+	RRCAST(nsec3param);
     char ss[1024];
 	char *s = ss;
 	int l;
@@ -106,7 +106,7 @@ static char* nsec3param_human(struct rr *rrv)
 
 static struct binary_data nsec3param_wirerdata(struct rr *rrv)
 {
-    struct rr_nsec3param *rr = (struct rr_nsec3param *)rrv;
+	RRCAST(nsec3param);
 
 	return compose_binary_data("112b", 1,
 		rr->hash_algorithm, rr->flags,

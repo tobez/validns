@@ -76,7 +76,7 @@ static struct rr* rrsig_parse(char *name, long ttl, int type, char *s)
 
 static char* rrsig_human(struct rr *rrv)
 {
-    // struct rr_rrsig *rr = (struct rr_rrsig *)rrv;
+	// RRCAST(rrsig);
     // char s[1024];
 
     //snprintf(s, 1024, "SOA %s %s %d %d %d %d %d",
@@ -88,7 +88,7 @@ static char* rrsig_human(struct rr *rrv)
 
 static struct binary_data rrsig_wirerdata_ex(struct rr *rrv, int with_signature)
 {
-    struct rr_rrsig *rr = (struct rr_rrsig *)rrv;
+	RRCAST(rrsig);
 	struct binary_data bd;
 
 	bd = compose_binary_data("2114442d", 1,
@@ -208,7 +208,7 @@ static int verify_signature(struct rr_rrsig *rr, struct rr_dnskey *key, struct r
 
 static void *rrsig_validate(struct rr *rrv)
 {
-	struct rr_rrsig *rr = (struct rr_rrsig *)rrv;
+	RRCAST(rrsig);
 	struct named_rr *named_rr;
 	struct rr_set *signed_set;
 	struct rr_dnskey *key = NULL;

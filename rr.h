@@ -41,6 +41,8 @@
 #define ALG_DSA_FAMILY  1
 #define ALG_RSA_FAMILY  2
 
+#define RRCAST(t) struct rr_ ## t *rr = (struct rr_ ## t *)rrv
+
 extern void *zone_data;
 extern char *zone_apex;
 extern int zone_apex_l;

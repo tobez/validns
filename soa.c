@@ -46,7 +46,7 @@ static struct rr* soa_parse(char *name, long ttl, int type, char *s)
 
 static char* soa_human(struct rr *rrv)
 {
-    struct rr_soa *rr = (struct rr_soa *)rrv;
+	RRCAST(soa);
     char s[1024];
 
     snprintf(s, 1024, "%s %s %u %d %d %d %d",
@@ -57,7 +57,7 @@ static char* soa_human(struct rr *rrv)
 
 static struct binary_data soa_wirerdata(struct rr *rrv)
 {
-    struct rr_soa *rr = (struct rr_soa *)rrv;
+	RRCAST(soa);
 
 	return compose_binary_data("dd44444", 1,
 		name2wire_name(rr->mname), name2wire_name(rr->rname),

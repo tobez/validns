@@ -51,7 +51,7 @@ static struct rr *txt_parse(char *name, long ttl, int type, char *s)
 
 static char* txt_human(struct rr *rrv)
 {
-    struct rr_txt *rr = (struct rr_txt *)rrv;
+	RRCAST(txt);
     char ss[1024];
 	int i;
 	char *s = ss;
@@ -66,7 +66,7 @@ static char* txt_human(struct rr *rrv)
 
 static struct binary_data txt_wirerdata(struct rr *rrv)
 {
-    struct rr_txt *rr = (struct rr_txt *)rrv;
+	RRCAST(txt);
 	struct binary_data r, t;
 	int i;
 

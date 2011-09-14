@@ -41,14 +41,14 @@ static struct rr *ns_parse(char *name, long ttl, int type, char *s)
 
 static char* ns_human(struct rr *rrv)
 {
-    struct rr_ns *rr = (struct rr_ns *)rrv;
+	RRCAST(ns);
 
     return rr->nsdname;
 }
 
 static struct binary_data ns_wirerdata(struct rr *rrv)
 {
-    struct rr_ns *rr = (struct rr_ns *)rrv;
+	RRCAST(ns);
 	return name2wire_name(rr->nsdname);
 }
 
@@ -66,7 +66,7 @@ static void* ns_validate_set(struct rr_set *rr_set)
 
 static void *ns_validate(struct rr *rrv)
 {
-	struct rr_ns *rr = (struct rr_ns *)rrv;
+	RRCAST(ns);
 
 	if (G.opt.policy_checks[POLICY_NS_ALIAS]) {
 		if (find_rr_set(T_CNAME, rr->nsdname)) {

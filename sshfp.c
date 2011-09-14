@@ -49,7 +49,7 @@ static struct rr* sshfp_parse(char *name, long ttl, int type, char *s)
 
 static char* sshfp_human(struct rr *rrv)
 {
-    struct rr_sshfp *rr = (struct rr_sshfp *)rrv;
+	RRCAST(sshfp);
     char ss[4096];
 	char *s = ss;
 	int l;
@@ -66,7 +66,7 @@ static char* sshfp_human(struct rr *rrv)
 
 static struct binary_data sshfp_wirerdata(struct rr *rrv)
 {
-    struct rr_sshfp *rr = (struct rr_sshfp *)rrv;
+	RRCAST(sshfp);
 
 	return compose_binary_data("11d", 1,
 		rr->algorithm, rr->fp_type,
