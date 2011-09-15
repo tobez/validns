@@ -6,8 +6,8 @@ $TTL 1d
                 4w                                                                                                                   
                 15m )                                                                                                                
                 NS      ns1.example.jp.                                                                                              
-                NS      ns2.example.jp.                                                                                              
-                MX      10 mail.example.jp.                                                                                          
+                NS      ns2.examPle.jp.                                                                                              
+                MX      10 maIl.example.jp.                                                                                          
 ns1     A       192.0.2.53                                                                                                           
-ns2     CNAME   ns1.example.jp.                                                                                                      
-mail    CNAME   ns1.example.jp.                                                                                                      
+Ns2     CNAME   ns1.example.jp.                                                                                                      
+maiL    CNAME   ns1.example.jp.                                                                                                      

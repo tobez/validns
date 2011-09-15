@@ -111,6 +111,25 @@ isnt(rc, 0, 'RFC 2181 policy checks are active');
 @e = split /\n/, stderr;
 like(shift @e, qr/NS data is an alias/, "NS data is an alias");
 like(shift @e, qr/MX exchange is an alias/, "MX exchange is an alias");
-is(+@e, 0, "no unaccounted errors");
+is(+@e, 0, "no unaccounted errors for 2181 policy checks");
+
+run('./validns', '-p', 'mx-alias', '-p', 'ns-alias', '-z', 'example.jp', 't/zones/mx-ns-alias');
+isnt(rc, 0, 'RFC 2181 policy checks are active (individually activated)');
+@e = split /\n/, stderr;
+like(shift @e, qr/NS data is an alias/, "NS data is an alias");
+like(shift @e, qr/MX exchange is an alias/, "MX exchange is an alias");
+is(+@e, 0, "no unaccounted errors for individually activated checks");
+
+run('./validns', '-p', 'mx-alias', '-z', 'example.jp', 't/zones/mx-ns-alias');
+isnt(rc, 0, 'mx-alias policy check');
+@e = split /\n/, stderr;
+like(shift @e, qr/MX exchange is an alias/, "MX exchange is an alias");
+is(+@e, 0, "no unaccounted errors for mx-alias check");
+
+run('./validns', '-p', 'ns-alias', '-z', 'example.jp', 't/zones/mx-ns-alias');
+isnt(rc, 0, 'ns-alias policy check');
+@e = split /\n/, stderr;
+like(shift @e, qr/NS data is an alias/, "NS data is an alias");
+is(+@e, 0, "no unaccounted errors for ns-alias check");
 
 done_testing;
