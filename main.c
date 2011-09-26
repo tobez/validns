@@ -117,7 +117,8 @@ read_zone_file(void)
 				bitch("cannot assume previous name for it is not known");
 				continue;
 			}
-			ttl = -1;
+			if (G.default_ttl >= 0)
+				ttl = G.default_ttl;
 			if (isdigit(*s)) {
 				ttl = extract_timevalue(&s, "TTL");
 				if (ttl < 0)
@@ -245,7 +246,7 @@ static void initialize_globals(void)
 	bzero(&G, sizeof(G));
 	bzero(&G.opt, sizeof(G.opt));
 	bzero(&G.stats, sizeof(G.stats));
-	G.default_ttl = 3600; /* XXX orly? */
+	G.default_ttl = -1; /* XXX orly? */
 	G.opt.current_time = time(NULL);
 
 	for (i = 0; i <= T_MAX; i++) {

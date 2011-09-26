@@ -137,4 +137,11 @@ is(rc, 0, 'ttl regression parses OK');
 like(stderr, qr/ns\.example\.com\.\s+IN\s+600\s+A\s+192\.0\.2\.1/,
 	"Default TTL changes correctly");
 
+run('./validns', '-v', 't/zones/ttl.zone');
+is(rc, 0, 'ttl test parses OK');
+like(stderr, qr/ns\.example\.com\.\s+IN\s+600\s+A\s+192\.0\.2\.1/,
+	"Default TTL changes correctly");
+like(stderr, qr/\s+example\.com\.\s+IN\s+200\s+NS\s+ns\.example\.com\./,
+	"TTL without default picked up correctly");
+
 done_testing;
