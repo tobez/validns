@@ -117,6 +117,7 @@ read_zone_file(void)
 				bitch("cannot assume previous name for it is not known");
 				continue;
 			}
+			ttl = -1;
 			if (isdigit(*s)) {
 				ttl = extract_timevalue(&s, "TTL");
 				if (ttl < 0)

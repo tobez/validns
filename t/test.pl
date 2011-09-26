@@ -132,4 +132,9 @@ isnt(rc, 0, 'ns-alias policy check');
 like(shift @e, qr/NS data is an alias/, "NS data is an alias");
 is(+@e, 0, "no unaccounted errors for ns-alias check");
 
+run('./validns', '-v', 't/zones/ttl-regression.zone');
+is(rc, 0, 'ttl regression parses OK');
+like(stderr, qr/ns\.example\.com\.\s+IN\s+600\s+A\s+192\.0\.2\.1/,
+	"Default TTL changes correctly");
+
 done_testing;
