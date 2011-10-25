@@ -32,10 +32,12 @@ read_zone_file(void);
 
 static char *process_directive(char *s)
 {
+	char *d = s+1;
 	if (*(s+1) == 'O' && strncmp(s, "$ORIGIN", 7) == 0) {
 		char *o;
 		s += 7;
 		if (!isspace(*s)) {
+			if (isalnum(*s)) goto unrecognized_directive;
 			return bitch("bad $ORIGIN format");
 		}
 		s = skip_white_space(s);
@@ -54,6 +56,7 @@ static char *process_directive(char *s)
 	} else if (*(s+1) == 'T' && strncmp(s, "$TTL", 4) == 0) {
 		s += 4;
 		if (!isspace(*s)) {
+			if (isalnum(*s)) goto unrecognized_directive;
 			return bitch("bad $TTL format");
 		}
 		s = skip_white_space(s);
@@ -71,12 +74,17 @@ static char *process_directive(char *s)
 	} else if (*(s+1) == 'I' && strncmp(s, "$INCLUDE", 8) == 0) {
 		s += 8;
 		if (!isspace(*s)) {
+			if (isalnum(*s)) goto unrecognized_directive;
 			return bitch("bad $INCLUDE format");
 		}
 		s = skip_white_space(s);
 		return bitch("XXX include support is not implemented");
 	} else {
-		return bitch("unrecognized directive");
+unrecognized_directive:
+		s = d-1;
+		while (isalnum(*d))	d++;
+		*d = '\0';
+		return bitch("unrecognized directive: %s", s);
 	}
 	return s;
 }

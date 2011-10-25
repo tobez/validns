@@ -1,16 +1,21 @@
 $FUNNYDIRECTIVE
 $ORIGIN galaxyplus.org.
 $ORIGINBUTNOTREALLY
+$ORIGIN?BUTNOTREALLY
 $ORIGIN ; no origin
 $ORIGIN galaxyplus.org. muhaha.
 $TTL    5M
 $TTLAST
+$TTL.AST
 $TTL ; no ttl
 $TTL not a number
 $TTL 1z
 $TTL 1mz
 $TTL 1m z
 $INCLUDESSIMO x.yz
+$INCLUDE\SSIMO x.yz
+$
+$%^&$#
 something
 @	A 1.2.3.4	; SOA must be the first
 @	NS some.ns.ws.	; SOA must be the first

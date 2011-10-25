@@ -35,17 +35,22 @@ isnt(rc, 0, 'bad zone returns an error');
 @e = split /\n/, stderr;
 
 # main.c
-like(shift @e, qr/unrecognized directive/, "unrecognized directive");
+like(shift @e, qr/unrecognized directive: \$FUNNYDIRECTIVE/, "unrecognized directive 1");
+like(shift @e, qr/unrecognized directive: \$ORIGINBUTNOTREALLY/, "unrecognized directive 2");
 like(shift @e, qr/bad \$ORIGIN format/, "not really an origin");
 like(shift @e, qr/\$ORIGIN value expected/, "empty origin");
 like(shift @e, qr/garbage after valid \$ORIGIN/, "bad origin");
+like(shift @e, qr/unrecognized directive: \$TTLAST/, "unrecognized directive 3");
 like(shift @e, qr/bad \$TTL format/, "not really a TTL");
 like(shift @e, qr/\$TTL value expected/, "empty TTL");
 like(shift @e, qr/\$TTL value expected/, "funny TTL");
 like(shift @e, qr/\$TTL value is not valid/, "bad TTL");
 like(shift @e, qr/\$TTL value is not valid/, "bad TTL take 2");
 like(shift @e, qr/garbage after valid \$TTL/, "bad TTL take 3");
+like(shift @e, qr/unrecognized directive: \$INCLUDESSIMO/, "unrecognized directive 4");
 like(shift @e, qr/bad \$INCLUDE format/, "not really an include");
+like(shift @e, qr/unrecognized directive: \$/, "unrecognized directive 5");
+like(shift @e, qr/unrecognized directive: \$/, "unrecognized directive 6");
 # TODO once INCLUDE is implemented, add more tests
 ## TODO continue main.c at "cannot assume previous name"
 
