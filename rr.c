@@ -562,6 +562,10 @@ void validate_named_rr(struct named_rr *named_rr)
 		{
 			struct named_rr *nrr = named_rr;
 			while (nrr && (nrr->flags & NAME_FLAG_KIDS_WITH_RECORDS) == 0) {
+				if ((nrr->flags & NAME_FLAG_APEX_PARENT) || strlen(nrr->name) < zone_apex_l) {
+					nrr->flags |= NAME_FLAG_APEX_PARENT;
+					break;
+				}
 				nrr->flags |= NAME_FLAG_KIDS_WITH_RECORDS;
 				nrr = nrr->parent;
 			}
