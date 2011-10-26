@@ -323,6 +323,7 @@ extern struct rr_methods sshfp_methods;
 extern struct rr_nsec3 *first_nsec3;
 extern struct rr_nsec3 *latest_nsec3;
 
+extern void verify_all_keys(void);
 extern void* nsec3_validate(struct rr *rrv);
 extern void *remember_nsec3(char *name, struct rr_nsec3 *rr);
 extern void perform_remaining_nsec3checks(void);

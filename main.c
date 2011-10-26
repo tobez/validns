@@ -355,6 +355,7 @@ main(int argc, char **argv)
 	open_zone_file(argv[0]);
 	read_zone_file();
 	validate_zone();
+	verify_all_keys();
 	if (G.nsec3_present) {
 		if (first_nsec3) nsec3_validate(&first_nsec3->rr);
 		perform_remaining_nsec3checks();

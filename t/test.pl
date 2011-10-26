@@ -94,9 +94,7 @@ run('./validns', '-s', 't/zones/example.sec.signed.with-errors');
 isnt(rc, 0, 'bad signed zone returns an error');
 @e = split /\n/, stderr;
 
-like(shift @e, qr/RRSIG\(NSEC\): cannot verify the signature/, "NSEC incomplete fallout") for 1..4;
 like(shift @e, qr/MX exists, but NSEC does not mention it/, "NSEC incomplete");
-like(shift @e, qr/RRSIG\(NSEC\): cannot verify the signature/, "NSEC lists too much fallout") for 1..4;
 like(shift @e, qr/NSEC mentions SRV, but no such record found/, "NSEC lists too much");
 
 like(shift @e, qr/RRSIG exists for non-existing type NAPTR/, "RRSIG for absent");
@@ -105,6 +103,9 @@ like(shift @e, qr/RRSIG's original TTL differs from corresponding record's/, "RR
 like(shift @e, qr/RRSIG\(NSEC\): cannot find a signer key/, "unknown signer");
 like(shift @e, qr/NSEC says www.example.sec. is the last name, but zzz.example.sec. exists/, "NSEC chain not the last");
 like(shift @e, qr/NSEC says zzzz.example.sec. comes after zzz.example.sec., but nothing does/, "NSEC chain unexpected last");
+
+like(shift @e, qr/RRSIG\(NSEC\): cannot verify the signature/, "NSEC incomplete fallout") for 1..4;
+like(shift @e, qr/RRSIG\(NSEC\): cannot verify the signature/, "NSEC lists too much fallout") for 1..4;
 
 is(+@e, 0, "no unaccounted errors");
 

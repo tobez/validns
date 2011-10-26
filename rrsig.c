@@ -23,6 +23,17 @@
 #include "carp.h"
 #include "rr.h"
 
+struct keys_to_verify
+{
+	struct keys_to_verify *next;
+	struct rr_rrsig *rr;
+	struct rr_set *signed_set;
+	int n_keys;
+	struct rr_dnskey *keys[1];
+};
+
+static struct keys_to_verify *all_keys_to_verify = NULL;
+
 static struct rr* rrsig_parse(char *name, long ttl, int type, char *s)
 {
 	struct rr_rrsig *rr = getmem(sizeof(*rr));
@@ -213,7 +224,9 @@ static void *rrsig_validate(struct rr *rrv)
 	struct rr_set *signed_set;
 	struct rr_dnskey *key = NULL;
 	struct rr_set *dnskey_rr_set;
-	int found_key;
+	int candidate_keys = 0;
+	struct keys_to_verify *candidates;
+	int i = 0;
 
 	named_rr = rr->rr.rr_set->named_rr;
 	if (G.opt.current_time < rr->sig_inception) {
@@ -236,20 +249,52 @@ static void *rrsig_validate(struct rr *rrv)
 	key = (struct rr_dnskey *)dnskey_rr_set->tail;
 	while (key) {
 		if (key->algorithm == rr->algorithm && key->key_tag == rr->key_tag) {
-			found_key = 1;
-			if (dnskey_build_pkey(key) && verify_signature(rr, key, signed_set))
-				break;
+			candidate_keys++;
+			dnskey_build_pkey(key);
 		}
 		key = (struct rr_dnskey *)key->rr.next;
 	}
-	if (!key) {
-		if (found_key) {
-			return moan(rr->rr.file_name, rr->rr.line, "%s RRSIG(%s): cannot verify the signature", named_rr->name, rdtype2str(rr->type_covered), rr->signer);
-		} else {
-			return moan(rr->rr.file_name, rr->rr.line, "%s RRSIG(%s): cannot find the right signer key (%s)", named_rr->name, rdtype2str(rr->type_covered), rr->signer);
+	if (candidate_keys == 0)
+		return moan(rr->rr.file_name, rr->rr.line, "%s RRSIG(%s): cannot find the right signer key (%s)", named_rr->name, rdtype2str(rr->type_covered), rr->signer);
+
+	candidates = getmem(sizeof(struct keys_to_verify) + (candidate_keys-1) * sizeof(struct rr_dnskey *));
+	candidates->next = all_keys_to_verify;
+	candidates->rr = rr;
+	candidates->signed_set = signed_set;
+	candidates->n_keys = candidate_keys;
+	all_keys_to_verify = candidates;
+	key = (struct rr_dnskey *)dnskey_rr_set->tail;
+	while (key) {
+		if (key->algorithm == rr->algorithm && key->key_tag == rr->key_tag) {
+			candidates->keys[i++] = key;
 		}
+		key = (struct rr_dnskey *)key->rr.next;
 	}
+
 	return rr;
+}
+
+void verify_all_keys(void)
+{
+	struct keys_to_verify *k = all_keys_to_verify;
+	int i;
+
+	while (k) {
+		int ok = 0;
+		freeall_temp();
+		for (i = 0; i < k->n_keys; i++) {
+			if (dnskey_build_pkey(k->keys[i]) && verify_signature(k->rr, k->keys[i], k->signed_set)) {
+				ok = 1;
+				break;
+			}
+		}
+		if (!ok) {
+			struct named_rr *named_rr;
+			named_rr = k->rr->rr.rr_set->named_rr;
+			moan(k->rr->rr.file_name, k->rr->rr.line, "%s RRSIG(%s): cannot verify the signature", named_rr->name, rdtype2str(k->rr->type_covered), k->rr->signer);
+		}
+		k = k->next;
+	}
 }
 
 struct rr_methods rrsig_methods = { rrsig_parse, rrsig_human, rrsig_wirerdata, NULL, rrsig_validate };
