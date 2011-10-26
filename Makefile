@@ -1,5 +1,5 @@
 OPTIMIZE=-O2 -g
-CFLAGS=-Wall -Werror
+CFLAGS=-Wall -Werror -pthread
 INCPATH=-I/usr/local/include -I/opt/local/include
 CC?=cc
 
@@ -8,14 +8,14 @@ validns: main.o carp.o mempool.o textparse.o base64.o base32hex.o \
 	rrsig.o nsec.o dnskey.o txt.o aaaa.o \
 	naptr.o srv.o nsec3param.o nsec3.o ds.o \
 	hinfo.o loc.o nsec3checks.o ptr.o \
-	sshfp.o
+	sshfp.o threads.o
 	$(CC) $(CFLAGS) $(OPTIMIZE) -o validns \
 	    main.o carp.o mempool.o textparse.o base64.o base32hex.o \
 	    rr.o soa.o a.o cname.o mx.o ns.o \
 	    rrsig.o nsec.o dnskey.o txt.o aaaa.o \
 	    naptr.o srv.o nsec3param.o nsec3.o ds.o \
 	    hinfo.o loc.o nsec3checks.o ptr.o \
-	    sshfp.o \
+	    sshfp.o threads.o \
 	    -L/usr/local/lib -L/opt/local/lib -lJudy -lcrypto
 
 clean:
@@ -24,7 +24,7 @@ clean:
 	-rm -f rrsig.o nsec.o dnskey.o txt.o aaaa.o
 	-rm -f naptr.o srv.o nsec3param.o nsec3.o ds.o
 	-rm -f hinfo.o loc.o nsec3checks.o ptr.o
-	-rm -f sshfp.o base32hex.o base64.o
+	-rm -f sshfp.o base32hex.o base64.o threads.o
 	-rm -f validns.core core
 	@echo ':-)'
 
@@ -108,6 +108,9 @@ ptr.o: ptr.c common.h textparse.h mempool.h carp.h rr.h
 
 sshfp.o: sshfp.c common.h textparse.h mempool.h carp.h rr.h
 	$(CC) $(CFLAGS) $(OPTIMIZE) -c -o sshfp.o sshfp.c $(INCPATH)
+
+threads.o: threads.c
+	$(CC) $(CFLAGS) $(OPTIMIZE) -c -o threads.o threads.c $(INCPATH)
 
 test: validns
 	perl -MTest::Harness -e 'runtests("t/test.pl")'
