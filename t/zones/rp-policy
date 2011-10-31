@@ -1,0 +1,12 @@
+$TTL 1d                                                                                                                              
+@       IN      SOA     ns1.example.jp. hostmaster.example.jp. (                                                                     
+                1                                                                                                                    
+                20m                                                                                                                  
+                15m                                                                                                                  
+                4w                                                                                                                   
+                15m )                                                                                                                
+                NS      ns1.example.jp.                                                                                              
+                NS      ns2.examPle.jp.                                                                                              
+ns1     A       192.0.2.53                                                                                                           
+Ns2     A   192.168.1.1
+x	RP	mail.box y

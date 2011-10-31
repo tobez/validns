@@ -138,6 +138,16 @@ isnt(rc, 0, 'ns-alias policy check');
 like(shift @e, qr/NS data is an alias/, "NS data is an alias");
 is(+@e, 0, "no unaccounted errors for ns-alias check");
 
+# RP policy
+run('./validns', '-p', 'all', '-z', 'example.jp', 't/zones/rp-policy');
+isnt(rc, 0, 'RP policy check is active');
+@e = split /\n/, stderr;
+like(shift @e, qr/RP TXT.*?does not exist/, "RP TXT is not there");
+is(+@e, 0, "no unaccounted errors for RP policy checks");
+
+run('./validns', '-z', 'example.jp', 't/zones/rp-policy');
+is(rc, 0, 'RP policy check is inactive');
+
 run('./validns', '-v', 't/zones/ttl-regression.zone');
 is(rc, 0, 'ttl regression parses OK');
 like(stderr, qr/ns\.example\.com\.\s+IN\s+600\s+A\s+192\.0\.2\.1/,

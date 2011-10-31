@@ -17,6 +17,7 @@
 #define T_HINFO	13
 #define T_MX	15
 #define T_TXT	16
+#define T_RP	17
 #define T_AAAA	28
 #define T_LOC	29
 #define T_SRV	33
@@ -70,6 +71,7 @@ struct rr *rr_parse_any(char *name, long ttl, int type, char *s);
 char* any_human(struct rr *rrv);
 struct binary_data any_wirerdata(struct rr *rrv);
 
+int name_belongs_to_zone(const char *name);
 void validate_record(struct rr *rr);
 void validate_zone(void);
 struct rr *store_record(int rdtype, char *name, long ttl, void *rrptr);
@@ -290,6 +292,14 @@ struct rr_hinfo
     struct binary_data os;
 };
 extern struct rr_methods hinfo_methods;
+
+struct rr_rp
+{
+	struct rr rr;
+    char *mbox_dname;
+    char *txt_dname;
+};
+extern struct rr_methods rp_methods;
 
 struct rr_loc
 {

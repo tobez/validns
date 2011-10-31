@@ -274,6 +274,7 @@ static void initialize_globals(void)
 	rr_methods[T_NSEC3]        =      nsec3_methods;
 	rr_methods[T_NSEC3PARAM]   = nsec3param_methods;
 	rr_methods[T_PTR]          =        ptr_methods;
+	rr_methods[T_RP]           =         rp_methods;
 	rr_methods[T_RRSIG]        =      rrsig_methods;
 	rr_methods[T_SOA]          =        soa_methods;
 	rr_methods[T_SRV]          =        srv_methods;
@@ -321,6 +322,8 @@ main(int argc, char **argv)
 				G.opt.policy_checks[POLICY_MX_ALIAS] = 1;
 			} else if (strcmp(optarg, "ns-alias") == 0) {
 				G.opt.policy_checks[POLICY_NS_ALIAS] = 1;
+			} else if (strcmp(optarg, "rp-txt-exists") == 0) {
+				G.opt.policy_checks[POLICY_RP_TXT_EXISTS] = 1;
 			} else {
 				usage("unknown policy name");
 			}

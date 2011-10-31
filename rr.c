@@ -197,6 +197,28 @@ static struct rr_set *find_or_create_rr_set(struct named_rr *named_rr, int rdtyp
 	return rr_set;
 }
 
+int name_belongs_to_zone(const char *name)
+{
+	int name_l;
+
+	name_l = strlen(name);
+	if (zone_apex && name_l >= zone_apex_l) {
+		if (strcmp(zone_apex, name+name_l-zone_apex_l) != 0) {
+			return 0;
+		} else if (name_l > zone_apex_l && name[name_l-zone_apex_l-1] != '.') {
+			return 0;
+		}
+	} else {
+		if (zone_apex) {
+			return 0;
+		} else {
+			// XXX this is actually very bad, zone apex is not know
+			return 0;
+		}
+	}
+	return 1;
+}
+
 struct rr *store_record(int rdtype, char *name, long ttl, void *rrptr)
 {
 	struct rr *rr = rrptr;
@@ -482,6 +504,8 @@ int str2rdtype(char *rdtype)
 	case 'r':
 		if (strcmp(rdtype, "rrsig") == 0) {
 			return T_RRSIG;
+		} else if (strcmp(rdtype, "rp") == 0) {
+			return T_RP;
 		}
 		break;
 	case 's':

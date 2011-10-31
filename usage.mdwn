@@ -40,6 +40,7 @@ Coming soon.
 	- nsec3param-not-apex
 	- mx-alias
 	- ns-alias
+	- rp-txt-exists
 	- all
 
 -q
@@ -106,6 +107,8 @@ Other basic checks include:
 - NSEC3PARAM, if present, should only be at the zone apex.
 - MX exchange should not be an alias
 - NS nsdname should not be an alias
+- TXT domain name mentioned in RP record must have
+  a corresponding TXT record if it is within the zone
 
 # BUGS
 
