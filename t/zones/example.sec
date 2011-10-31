@@ -25,8 +25,8 @@ delegation DS 60485 5 1 ( 2BB183AF5F22588179A53B0A
 		98631FAD1A292118 )
 
 ; and let's have some glue - there is a bug now
-;delegation2 NS a.ns.delegation2.example.sec.
-;a.ns.delegation2.example.sec. A 8.8.1.1
+delegation2 NS a.ns.delegation2.example.sec.
+a.ns.delegation2.example.sec. A 8.8.1.1
 
 public  HINFO "i386" "FreeBSD"
 		LOC 55 40 15.258 N 12 41 56.378 E 9.57m 10.00m 10000.00m 10.00m

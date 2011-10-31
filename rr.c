@@ -609,6 +609,69 @@ void validate_named_rr(struct named_rr *named_rr)
 	}
 }
 
+
+static void* nsec_validate_pass2(struct rr *rrv)
+{
+	RRCAST(nsec);
+	struct named_rr *named_rr, *next_named_rr;
+
+	named_rr = rr->rr.rr_set->named_rr;
+	next_named_rr = find_next_named_rr(named_rr);
+	/* Skip empty non-terminals and not authoritative records from consideration */
+	while (next_named_rr) {
+		if ((next_named_rr->flags & NAME_FLAG_HAS_RECORDS) == 0) {
+			next_named_rr = find_next_named_rr(next_named_rr);
+			continue;
+		}
+		if (next_named_rr->parent &&
+			(next_named_rr->parent->flags & (NAME_FLAG_DELEGATION|NAME_FLAG_NOT_AUTHORITATIVE)) != 0)
+		{
+			named_rr->flags |= NAME_FLAG_NOT_AUTHORITATIVE;
+			next_named_rr = find_next_named_rr(next_named_rr);
+			continue;
+		}
+		break;
+	}
+
+	if (strcmp(rr->next_domain, zone_apex) == 0) {
+		if (next_named_rr) {
+			return moan(rr->rr.file_name, rr->rr.line, "NSEC says %s is the last name, but %s exists",
+						named_rr->name, next_named_rr->name);
+		}
+	} else {
+		if (!next_named_rr) {
+			return moan(rr->rr.file_name, rr->rr.line, "NSEC says %s comes after %s, but nothing does",
+						rr->next_domain, named_rr->name);
+		} else if (strcmp(rr->next_domain, next_named_rr->name) != 0) {
+			return moan(rr->rr.file_name, rr->rr.line, "NSEC says %s comes after %s, but %s does",
+						rr->next_domain, named_rr->name, next_named_rr->name);
+		}
+	}
+
+	/* TODO: more checks */
+	return rr;
+}
+
+void second_validation_pass()
+{
+	unsigned char sorted_name[512];
+	struct named_rr **named_rr_p;
+
+	sorted_name[0] = 0;
+	JSLF(named_rr_p, zone_data, sorted_name);
+	while (named_rr_p) {
+		struct rr_set **rr_set_p;
+
+		freeall_temp();
+		JLG(rr_set_p, (*named_rr_p)->rr_sets, T_NSEC);
+		if (rr_set_p && (*rr_set_p)->tail) {
+			nsec_validate_pass2((*rr_set_p)->tail);
+		} else {
+		}
+		JSLN(named_rr_p, zone_data, sorted_name);
+	}
+}
+
 void validate_zone(void)
 {
 	unsigned char sorted_name[512];
@@ -620,6 +683,7 @@ void validate_zone(void)
 		validate_named_rr(*named_rr_p);
 		JSLN(named_rr_p, zone_data, sorted_name);
 	}
+	second_validation_pass();
 }
 
 void validate_record(struct rr *rr)
