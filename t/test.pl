@@ -17,7 +17,7 @@ my @e;
 run('./validns', 't/zones/galaxyplus.org');
 is(rc, 0, 'valid zone parses ok');
 
-run('./validns', '-t1315566931', 't/zones/example.sec.signed');
+run('./validns', '-t1320094109', 't/zones/example.sec.signed');
 is(rc, 0, 'valid signed zone parses ok');
 
 run('./validns', '-t1303720010', 't/zones/example.sec.signed');
