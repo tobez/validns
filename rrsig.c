@@ -50,6 +50,9 @@ static struct rr* rrsig_parse(char *name, long ttl, int type, char *s)
 
 	rr->algorithm = extract_algorithm(&s, "algorithm");
 	if (rr->algorithm == ALG_UNSUPPORTED)	return NULL;
+	if (rr->algorithm == ALG_PRIVATEDNS || rr->algorithm == ALG_PRIVATEOID) {
+		return bitch("private algorithms are not supported in RRSIG");
+	}
 
 	rr->labels = extract_integer(&s, "labels");
 	if (rr->labels < 0)	return NULL;

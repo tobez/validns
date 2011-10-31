@@ -46,6 +46,9 @@ static struct rr* dnskey_parse(char *name, long ttl, int type, char *s)
 
 	algorithm = extract_algorithm(&s, "algorithm");
 	if (algorithm == ALG_UNSUPPORTED)	return NULL;
+	if (algorithm == ALG_PRIVATEDNS || algorithm == ALG_PRIVATEOID) {
+		return bitch("private algorithms are not supported in DNSKEY");
+	}
 	rr->algorithm = algorithm;
 
 	key = extract_base64_binary_data(&s, "public key");

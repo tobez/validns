@@ -656,6 +656,10 @@ int extract_algorithm(char **s, char *what)
 			return ALG_RSASHA256;
 		if (strcmp(str_alg, "rsasha512") == 0)
 			return ALG_RSASHA512;
+		if (strcmp(str_alg, "privatedns") == 0)
+			return ALG_PRIVATEDNS;
+		if (strcmp(str_alg, "privateoid") == 0)
+			return ALG_PRIVATEOID;
 		bitch("bad or unsupported algorithm %s", str_alg);
 		return ALG_UNSUPPORTED;
 	}
@@ -676,6 +680,10 @@ int algorithm_type(int alg)
 		return ALG_RSA_FAMILY;
 	case ALG_RSASHA512:
 		return ALG_RSA_FAMILY;
+	case ALG_PRIVATEDNS:
+		return ALG_PRIVATE_FAMILY;
+	case ALG_PRIVATEOID:
+		return ALG_PRIVATE_FAMILY;
 	}
 	return ALG_UNSUPPORTED;
 }

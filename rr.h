@@ -31,16 +31,19 @@
 #define T_NSEC3PARAM	51
 #define T_MAX	51
 
-#define ALG_DSA                3
-#define ALG_RSASHA1            5
-#define ALG_DSA_NSEC3_SHA1     6
-#define ALG_RSASHA1_NSEC3_SHA1 7
-#define ALG_RSASHA256          8
-#define ALG_RSASHA512          10
+#define ALG_DSA                  3
+#define ALG_RSASHA1              5
+#define ALG_DSA_NSEC3_SHA1       6
+#define ALG_RSASHA1_NSEC3_SHA1   7
+#define ALG_RSASHA256            8
+#define ALG_RSASHA512           10
+#define ALG_PRIVATEDNS         253
+#define ALG_PRIVATEOID         254
 
-#define ALG_UNSUPPORTED 0
-#define ALG_DSA_FAMILY  1
-#define ALG_RSA_FAMILY  2
+#define ALG_UNSUPPORTED     0
+#define ALG_DSA_FAMILY      1
+#define ALG_RSA_FAMILY      2
+#define ALG_PRIVATE_FAMILY  3
 
 #define RRCAST(t) struct rr_ ## t *rr = (struct rr_ ## t *)rrv
 
