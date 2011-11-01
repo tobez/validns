@@ -202,6 +202,7 @@ void *check_typemap(struct binary_data type_bitmap, struct named_rr *named_rr, s
 		int rc;
 		Word_t rcw;
 		Word_t rdtype;
+		int skipped = 0;
 
 		base = type_bitmap.data;
 		while (base - type_bitmap.data < type_bitmap.length) {
@@ -220,20 +221,28 @@ void *check_typemap(struct binary_data type_bitmap, struct named_rr *named_rr, s
 		while (rr_set_slot) {
 			J1T(rc, bitmap, (*rr_set_slot)->rdtype);
 			if (!rc) {
-				moan(reference_rr->file_name, reference_rr->line,
-					 "%s exists, but %s does not mention it for %s",
-					 rdtype2str((*rr_set_slot)->rdtype),
-					 rdtype2str(reference_rr->rdtype),
-					 named_rr->name);
-				J1FA(rcw, bitmap);
-				return NULL;
+				if ((named_rr->flags & NAME_FLAG_DELEGATION) &&
+					(*rr_set_slot)->rdtype == T_A)
+				{
+					skipped++;
+				} else {
+					moan(reference_rr->file_name, reference_rr->line,
+						 "%s exists, but %s does not mention it for %s",
+						 rdtype2str((*rr_set_slot)->rdtype),
+						 rdtype2str(reference_rr->rdtype),
+						 named_rr->name);
+					J1FA(rcw, bitmap);
+					return NULL;
+				}
 			}
 			JLN(rr_set_slot, named_rr->rr_sets, rdtype);
 		}
 		J1FA(rcw, bitmap);
-		return moan(reference_rr->file_name, reference_rr->line,
-					"internal: we know %s typemap is wrong, but don't know any details",
-					rdtype2str(reference_rr->rdtype));
+		if (real_distinct_types - skipped > nsec_distinct_types) {
+			return moan(reference_rr->file_name, reference_rr->line,
+						"internal: we know %s typemap is wrong, but don't know any details",
+						rdtype2str(reference_rr->rdtype));
+		}
 	}
 	return reference_rr;
 }

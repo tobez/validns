@@ -1,5 +1,5 @@
-; File written on Mon Oct 31 22:43:08 2011
-; dnssec_signzone version 9.8.0-P4
+; File written on Tue Nov  1 10:43:28 2011
+; dnssec_signzone version 9.8.1
 example.sec.		300	IN SOA	ns1.example.sec. hostmaster.example.sec. (
 					42         ; serial
 					3600       ; refresh (1 hour)
@@ -8,313 +8,313 @@ example.sec.		300	IN SOA	ns1.example.sec. hostmaster.example.sec. (
 					300        ; minimum (5 minutes)
 					)
 			300	RRSIG	SOA 5 2 300 20121212121212 (
-					20111031204308 516 example.sec.
-					Fq/FXF1BXRMDhwJtYKflyqRUJDbGI8433UZM
-					SvGOtQLgmGLCS+9sREKM7QhSqTgVfsehTSod
-					HRQfGXIHW0wOvFD3aEqCHTGFG72HLNWfhIT+
-					6XoAj9kaqgc0KdZzuhOWMVfNXKpoC/FZma8T
-					Z4yJQ9V/Jwi3yr+mQIJ5u98Foso= )
+					20111010101010 516 example.sec.
+					NUuJguPQAElmj4Yh4OBzjRPGqUVC15mH37IV
+					bPWCKz4ZmXqDrYt3gmI6Gv3Akly+mR5VBFP6
+					PLJWMx4wEHbIlmeuOxlVJmvg6T/9/nJku4FO
+					r7Ln4ssXH5y6/ytVO81in16nkxww7h9mI9Zd
+					XMmDcopNFVSrpEIqosHoEu8Lk/o= )
 			300	RRSIG	SOA 5 2 300 20121212121212 (
-					20111031204308 44427 example.sec.
-					E7zRaks1Z8YNZ0eIj1kVxHx0LyEIIgK6sEv6
-					H3Rq6FT6ga7anDYqMt1aMA/bTlh9Uz32BWGT
-					2Bk7wPxIxgveD7m0WcAJu2n4sim1wOsryx7W
-					oZOptjstHXCABKnXyeDsPqI9tjET6P6lChVm
-					SyEkY41L2S5uJNG8zuk57KHAJuCInPgKkXz0
-					XEX5v0ETwrMuJBdB5Wnhc62PJnzD3MJAbMy3
-					6daNq4x/gpkJE9kqDyEs/1TwD05ceYp/B7Eq
-					Zw3qkIt7naKEWvqAzABBM6mFcj9ItcLgswmM
-					YI9hzay+ObZsM2aMbdMGpYC0TIyg8hk9deT3
-					vGEaXiXmrlonY4kyXA== )
+					20111010101010 44427 example.sec.
+					TyUTnHQ2NUiOLMASPg4f37jwLP8UlcTzFv46
+					m58YlaqpGbNk3RgPjVFSgxVAiE5VHDy7XKXV
+					fji+UPuXdWQOmXNkcou1jOOQd0o4kUnpgNg/
+					lyr0Ab2YG8r0GmyK7STQWC2d8nB4UPY6CTdQ
+					631m6OJJ2wyp/y82B6zhK8BdkLC4AxVsfzEk
+					nyOFwcKJGH6Ia9NCuES11Tm6s9LqEmhqiLGs
+					iVKe5rHgk9O8vlurWyWTMZFsN8vJ9ygBksTz
+					B6ELpsC4p+vsba95SggAe5gSbvf3Qti9nH5Q
+					Hm8HbmcGRjEM4m5aCGg79jGn0hXWUwBQGmrh
+					KPruMC9eENkyoFOuSg== )
 			300	RRSIG	SOA 8 2 300 20121212121212 (
-					20111031204308 48381 example.sec.
-					rvPr1l8Psq8m3+zBE61yibR6ASH+5ZyUICJz
-					h4/SOcj7/A9+t57JM9XJQsPYkyFrKx4OZhzf
-					iTogtdX4nbuJxZBL/B37hru1Hb/FzyVjUFa5
-					CoeivLRE4094HwN3EtbA8Tjd5O18YloioRu6
-					fEiD4L4Rlfn0+cmmjrpqTozuD3ZkshH6ugNu
-					Ukqbh5ah+DqNv/OsRAH4llblJoNGh+hflrCK
-					hiPiW01nAJlqe/C6htM32u7dRIdXaHuJ943P
-					CUu0Tea8AdcuwICkpsyg1X6NK5CAjUGFdClf
-					24/PRikN6BE55LJ+gkjqPdVcKYsjNQI4R6eO
-					pKHJPHF1pc3gJgmmhw== )
+					20111010101010 48381 example.sec.
+					jTkhZxU/+8wlGJGnV7lvDi2gMbIvsB65VFKT
+					yUMDREOXslQrjwLv3LEjqmr2vdPIKVnuY4LG
+					868GIGE0LqURb+SLv5SgqNf87/HtQ4e57gle
+					7tE2ud61KWMOYffujBAMehKJyjNg3qePLDcc
+					qxVO2L0QFseTtMrdoVDKo029OGx1m1SLF1Fj
+					IY0FvcZ1Pf69lxlSR5SehSfaaikHxUSLylzU
+					jLInilWqAhWhprJ2CcN5Bfgjhba2q05KPPpV
+					XXkUnlfZmNEGTbU5gr+dnS/FEpn1GjwbvrrD
+					O/SoTN1oq5lZjIfeIEyIQswhPco5yq6uhJqx
+					t9dvRyWbOtSu1TcYAg== )
 			300	RRSIG	SOA 10 2 300 20121212121212 (
-					20111031204308 1862 example.sec.
-					odiokj2DezBg4jSCepegYVKBwsdKShfNij/k
-					xytuZ7oaSN8D/dEshB6QYApZlqBYowkzho3a
-					yq/lOU/7QQJEF+k2FwU6L5OBqlABLNRoNq8/
-					WKCKv+SYJkohCu0EP8KY7lQ7hJ42NSoJIl0L
-					KLwnJGb27ivgHPP1EgdwG3Hunybo48a2IhXm
-					M2eVLOdVUaSWWs0vseh2I+8iSN6bZA8D/vOr
-					oRUdwt7CT5f5HMGfvftB/8FpInmIZL6QfzAm
-					MH0+NZfqB+zm79gOZkB9OUhktSsR1E8eO/Bx
-					oS5eJVlfqD++jOtfGGzqlQKfHAEY2zx4GRec
-					3kCUv+WU5PRw2E20JQ== )
+					20111010101010 1862 example.sec.
+					on14wOmEy43DMrHGg+V4rnEoAmcGnUwQcwzZ
+					zBUMKqu5RwwreisEGYcjf+sa2BmJ0dfzGHuc
+					alm2l5vzh/MLVAeGfIrvLH3FkOC7sAlyZRya
+					zIEHlIdy8WvlwrIqUsX0f+OFlkNg49J/90qw
+					IoNogpC9dtlGDWVYKlCal7fAgeftoh3EjHDq
+					1ENZkIppWK0jfEAq5SQxIWKhRVKjrFqxAXuN
+					M+LA4YxtEgi5h4zUKw51aFiGAZ3Gi/PW1ljf
+					j+t7+aCzIsZXXMOPC4VLCp/IaQ0rRp7Ksc7X
+					+LNjSU/N75BWsPYXF3t+eNQ2zP5Xu2dXJQ3Z
+					mQugEtHVNfGfTIDt0Q== )
 			300	NS	ns1.example.sec.
 			300	NS	ns2.example.sec.
 			300	RRSIG	NS 5 2 300 20121212121212 (
-					20111031204308 516 example.sec.
-					DdOy5cnduqXQCR8EC+Z6WDH4FTxOt05SvrM5
-					bVn8ef/ZjvasBn/i0KLkveD3CfypILUZNG9C
-					6lx34qA/Yj4feQJLub2u8kcT/QgN7l8W6PMx
-					LRyVtRwE8/SMAkEjYadPjlkOh6WasYoXweuz
-					tMZjPxy6rlM2RwsTty5G/En7rk0= )
+					20111010101010 516 example.sec.
+					tbGKLB/dvM06qi7J/5rAK0sJUPejfbPq8GOI
+					N0NV+jDtg44DXFamt+Pj/FFGriz/OdPneYFf
+					mVw7q61n2dPgeCO0h01ISHrQxVk4tOcGoGp7
+					/6p7W6SUaRgQBGgv3K77e+ZKlHfO9lQxEGly
+					Pa3ylOvppYs8AatGP4Crj2A9yko= )
 			300	RRSIG	NS 5 2 300 20121212121212 (
-					20111031204308 44427 example.sec.
-					HZgiYOerjns28QFkn/wSTbrZHUCXjQ2O2HhP
-					1AGT4n+QC7GkO5ZWnerPp8i7TuPEdP9oi3/T
-					X2CpQz95+nh/s3aSpD8yccdBZ9Y0iejMiH8C
-					N4hMbZCnpFCaajDXShM9u23xddtgEXxcNLtO
-					w6I0Di4l5ULibvmI7O+qrRJU59iCfbh23IUW
-					jRp3iABEgBxzlE7lShPJSc/FCWWeGD3ntmYb
-					7LpOzDSu54AGOulnUoYaiiHzX5ySeylKwoFH
-					rZsx3VVdMg9jpdJkI35/k65jFH5OhPGwf5ZI
-					mLH7E47U3yrxCprPhzsUaY3zI//aghPMFCFZ
-					iSBjy8vEzHYQPUrwqQ== )
+					20111010101010 44427 example.sec.
+					TxS/Hp2jn5b0GfAek04U+G85st932KW0Czkd
+					1EFR18/hJY4Ob/9JWZ82pydm01fU7QMWydF7
+					YdfmtfGXTSCZOG6QXUNKIy8EtU6EeEVk7paa
+					L7LUrSkKfZp3BZxEnsydz4/eWxmnk0NT2PJJ
+					KsNI6bm+HUizlIjz6kuldfZjNC2ySzhPFuSl
+					lcBqz3wnxg/P9MQYKMQcMHvLv+maobSd/Cv7
+					KEKoFt8oyuT7+FdDXHWNEOgpaq3e1I+InOVY
+					lOHC2PZ/XB2GOmPubF7gkOK2ojBU7T2dcJ98
+					aiwd0h7nSfzciDD7NbjLZqKRdwMOrqsbxVyp
+					zH80NFyFkuPOAFyb8g== )
 			300	RRSIG	NS 8 2 300 20121212121212 (
-					20111031204308 48381 example.sec.
-					b6Fx3Hs/ER0eau3Ryf7PFKO8UEHHnpoAv5Lw
-					CQjUudw9KaitaZjolU6RxZ8aLyig1gNVkFGm
-					IcsFDTS+sVD5roeG3jlwwMqf3Ivi+popf4mt
-					0oFJxJfkeDHTsdG3fF/6qgbx3dBP1ro2MZZH
-					h+mrRoMHJPXVuh/1dml/w6SMqJQK3fvOtrqS
-					oW7aY3Ih6RyJOfO7PVL24UUdC0x4N/ulvvOj
-					VfX+pl4WuVYAo7R7nsqn5rnwLqDMNQqhVsgf
-					V1goOYYir9JKD5Y+aAFE/ltpHYs84XCuW+UP
-					UCjoS5XUA9LgZurPR+1t3TQ4NZMppg2EHTGo
-					563Sjo63rSgS/4qX9Q== )
+					20111010101010 48381 example.sec.
+					W+pR2cikKvXxQdYvN2vBs7Vn7ES4uz5Qdy/r
+					//sYSICyXPY37ygKXZhJ2IvvIvWUp69CJ99n
+					jbiLs8Ca2Bekz+LWPQe3zFlZ6dV1zwU1/iCG
+					ROegOdFzY/8SWsgl+MlVeh737zPm9kuh/aQ9
+					4t0AaplLvd/PwQPsXs3rXEdxXASkADSlu8Zr
+					h9A9sUYgtAMEipOTG/Q1FIxm5h/p2PdI6AwH
+					WnqsYgdO9G7tguwqGe+yalaYaasWUkyoBvgd
+					E0/0l3YOY7/F3ykG06Nl/jn1nc/gSynKC7VT
+					hteWtMD/Zp81oZaUQOwR4CclG2PW8mdII7yY
+					PGbS4eVMY/n9WjPPTQ== )
 			300	RRSIG	NS 10 2 300 20121212121212 (
-					20111031204308 1862 example.sec.
-					xkgM2AljiWhMRnJDtaRmfl5cLCROVXlsbdNX
-					l3nQegG1UV8oOXfspTsfWKloDTunTYYm8Yhk
-					nzhVOJ4hNWLKfupueAfIBafhfh7Q1qleM4co
-					0+q6LoA2SbRb3gmHFI02F1O25Jwm/xZc0u6e
-					ouyHMtWaux4NeGm+Hc8gIkKloVuDVFhvRR1j
-					dzq3vQ8Np4/FNHa+kAkf5Qi/TRy4ZvP9XQ+n
-					barVwd/GR6GHaEx9Uqjebc2hMFPj1t4tC7EJ
-					4nqNUvawT1hT9u3dDf6mQ0dPTGwTsXioTuZV
-					JFUFXWBlF7Gonbkyybu1LzDSjDQ+3uJg7BK9
-					hcFk16sOoCFn5HKaUA== )
+					20111010101010 1862 example.sec.
+					CXrxjEBFQM8e/yKiiU9rxo4cn+mthExUuPs0
+					V8e04+aFYpVizMLbhYHEdZH7j/HrnZJU+4Rm
+					W/N3/B181I5/kg2dHx+DDImFrGhUr6IiMJRK
+					sI84OWt4j+KVS+sWDRmhTBn1mRo3Ii89ZoHr
+					AZco+3cUTWYJCwq2e3OwQITrl+3KMwB6cS0d
+					s74SU+C5DiyyPz2gbg/Yp3U+Z9LEQRqEV5XP
+					XPapYQiO7lXgOtLeMXqgKVvSEe2iaP6P+7/Y
+					WrSvTCZSSLNZiXNUNgH0n30xCGTibssa4nMc
+					wmaAy6ZVb+gAX6FE1ofT7Y6FvzZu0KhhMLkV
+					fNrDwWk4e5cqait07w== )
 			300	A	3.4.5.6
 			300	RRSIG	A 5 2 300 20121212121212 (
-					20111031204308 516 example.sec.
-					C3RjKy0B4FMQ10E+DRzKTEw7TRxE40UQLzJr
-					6XBQlT0HklaD3A0gGmwRpWlCKUa57zX85idZ
-					WNuN6yMQeWZZk9TUs8JWT8hfFev4aAGcDHMu
-					2VMQrnqi2ztB/ewd09BZ/saNho9wjZbNp0rF
-					I4qoGpUu2OJxz78XLeKlGSWGLTU= )
+					20111010101010 516 example.sec.
+					ciqxveS6rH1xOdh3M0yVupUlc4UgObP8qTw9
+					88zHNvGjRWnp1MJv2GY5b/upcNRap+UwCppW
+					geDZ2CU+/5QoI8nQTbZKuSco7ZfFLkI60JuV
+					3W2NRTf6pVeMLxY4NbmL+mlyfpVFL0iG5U4G
+					JguqeZEEaY9g5vSgTbZtrEUEAyg= )
 			300	RRSIG	A 5 2 300 20121212121212 (
-					20111031204308 44427 example.sec.
-					QiQpNCUMhtUhBl/oF0KDcNVJqaGiYURgXTVK
-					ZFrcJ+tU7e8u/aMWhaXlX9Top7krwKY5iEe2
-					ar5Bkf7GBrNd6KdksZfJJsJHkzPJo50lGGYo
-					t+rFPF03+IllH300HV6ayPGi8zt5CIqbGF6L
-					MnRvEEAnNARN0yMMBEIMRuWPOMACYk17/EMP
-					bD2Xvld2NB4mVkvOInTfHePLf3Q+2/UZtoGJ
-					nnSC/Eh0vz4kh/FMzE6RrFNHfQyob20PFsBk
-					a6oeXPwrB1yzQLKQa5y+7xsrETpDYmIujTP3
-					b7kZm82g5FacBa9IpYjOB2/YFFlH8SAygHUs
-					6MAaqp9nHbBxgO5llQ== )
+					20111010101010 44427 example.sec.
+					lQA/yq1tYbRRoDbrhLK8SyXC97+pUiwQCj40
+					lZUa2AG0c77+fwDi7H4g0VrVVkJAimI+gUxM
+					ckRr6nc1VUh7+YJEr8pcHCrixJSmr4e3p/ID
+					yVZUHMSnukT6G4pTdrLVpQb789CqsPq2fQeU
+					79mM2M6GFW6kwDB8S7PqcZWWwhZGJu44d5yu
+					Zea7wUR+xFY3qOy6tHBMBMXyeeK0Oqtx7RG3
+					jK46eWC7i+HVvs4UWmtBvO+r1xFSsJf5NXIN
+					qh/NkrHQTpU40mSRq6VU/7tWEMFSDUCH9lVx
+					yF/HXSO9K7DoV77a9ijfVmV8rckUmeV/J5Gv
+					RgoPd42oik0uYqHb6A== )
 			300	RRSIG	A 8 2 300 20121212121212 (
-					20111031204308 48381 example.sec.
-					IDrUzM0grk/Y4AI0E7667hB8vzTb/uNyMqQJ
-					9P03cFKJ1aIIxxumoJUQYCT1HK4xm07XYwG9
-					9aAlPxCvqTCK2R1VprKULjHK0+jzOlzWoU1A
-					HNunEMY01OHymY7UPEAUrrr8vNMvIqLXnHqs
-					ZKNezSKtkyyBlMFc05AiW+K9DUlszMMk+rw+
-					XuxJAmmK3Pmmcp6LJ2SbAUvwge2joyuExAAN
-					aK+AQdOgeTH4iJ6UGBz381hzE0sBeYKx1ZN8
-					AgtNCieHo9LdJKI+xvoyBYXD/7kX/+TYmvtW
-					c5McnS6ZXcDTdcSd96Qsfkv0CRsfImNUNUAj
-					F0cQ0pAtKsKcuevyBA== )
+					20111010101010 48381 example.sec.
+					Xx7KrepPnQay8a0k0zgqZeHSGRVQ5YR3rTqy
+					adRouZ0B5nSqirqO8sfi5Do6yMIEC1A1dGJf
+					Jg9/YcSv/K1BI5iyzu7/JMJUQTr2KV9A8NiN
+					oPnM4JkXPtLrSJckAbCzUWvWYITWCEHzBY5X
+					svAoIYXX8XwlKlvRuhi5STdSafiyh7Ijgjf0
+					gBrwD5OboR64zxj1xEzPRl5m2wobJaDbDP8j
+					QrN0zeX7dStftb+1iefUP/T+gxMUXVjqgAlJ
+					Vzzst9YGlVZZh8K6WBirbGlASLdvkk85dmJ/
+					ycxTMnmhPvQUkH/a8KKjnNakJrwNGonrfW7m
+					kbkr/2phhqcnfTjFkw== )
 			300	RRSIG	A 10 2 300 20121212121212 (
-					20111031204308 1862 example.sec.
-					dYOxbN1W2fqssoLsRa7W7H3QIhNc9uzDywHH
-					6QKo8egp8upKVlXTrsWvQtbIijRqswOtjlqF
-					rB9vSOxrxKeLlWfP6a8HRIn6nnP+FmP6+RnT
-					8dG8VXIP2TavY1kTUp9NA8PBBzfGL2Wz6X5p
-					guPbzzQcmMYAmRj3Tl7BtvV97APYZxhwXwTL
-					4PzwzWU6Q1ry9mMbLQEAnE80JvxSlOR8iopp
-					6xCQarxD7W9unZuhPChOpVDZj0XMEM/xXKZA
-					ujm6ZQwlJC5Eh6IWE7AVBb6x/b+EJDIaNMD1
-					GbsaIJM37Omqwj2nKvHjtcZZjFFPWRweoKoG
-					HRY7gWG/gn+w4rCjjQ== )
+					20111010101010 1862 example.sec.
+					uJA5WUkI2zrlbHBzyT1RotbPHvX8IU+qNUTS
+					OxLvBIzpFjGC4g+4A/vf/qlNIF0dVSlMs37/
+					sNC83c8QbfDuqcBkz61/qf//C+FnslrzrUoB
+					htHRA5WkSQ0VkCBxMB6lHrQiVPazrU+52DWk
+					HOi0V4c7vMZ7AVlWr6eMgTdKbjf/Vuf1qJNe
+					OP9E2plfxSrdcGLWpUQMJb4dZd5LslxK+wGj
+					32Gbda+cOhtOCq+jVlBezU9EMTMfxQPgZhnS
+					oOXgG6R2OhSicZ0lNGIb4ssO8fxNp+MnTDqe
+					Qas8HWtI0RvZLqqJxXTaOFMGMFjnI2u46Fge
+					Oko8zLK+eTIaS+0tIg== )
 			300	MX	5 mail.example.sec.
 			300	RRSIG	MX 5 2 300 20121212121212 (
-					20111031204308 516 example.sec.
-					NJ9o//aqmxBNJX5TgMAg132RDeIYHifBD4C5
-					X2s9oz0yzKMZZ6jSpvHY9OpaJPUVvgGmoWRe
-					jAu/Tx01V6hwTTyAAmeih+g57CcPGz1dIYKS
-					536mLaculvXQliSrps0qwwTbNGuJfxc7W4zM
-					JZl6dWxHQ8iKhY7hFMHSOIzJRHQ= )
+					20111010101010 516 example.sec.
+					Y1bxF+yL2bXPMomimAPRY8OM4ISDjDt1Rpov
+					83q/rZm+7yiVgzZmsW9f4AdqR+g/D7gNXY25
+					Aq+HlEf+4ZLuZo0Z9C1Bn/j95Fru7wiVT9ay
+					pgVfqtR4UnToUpLWYf3KOiypIUfUatceCGUD
+					75Fr3G1WZ0ExwrGi1NyIIfaXOK4= )
 			300	RRSIG	MX 5 2 300 20121212121212 (
-					20111031204308 44427 example.sec.
-					eXJY1EheQVZV+i69FeHS4CNnBihsphKERh3T
-					6MNriv2e3CVEAiShEb7dYRKyqNBB5OnBtYuk
-					bc+gutYsXrrxR7J/7hDUsjRViLVpBz0Ib+YW
-					zIx5L9mKuLg17nz8E6fDDzRsi0Dj1xVS3VGt
-					mTcTfFIPCjPQSP0jBs3oxDQFY8/YrP41p+0T
-					QxNfhHeJLIsyxBhT2WSSmoJr5qq2p08Vd01n
-					oza++BLBbTA/BQ6h6Ic1iNMa86A3qi+uy79N
-					vxm/hM3FKQhOSMk+pgLgzLKT7INembnJPjMH
-					Tg4lvK/uDp9o5mGew466co9f4HT5km6VLuyA
-					Po80KexJvZa2T/U1vw== )
+					20111010101010 44427 example.sec.
+					SLO21+EsANXLiO2l0UqFq1WxuKVXf2f5wqaY
+					ha++s91Boz61TyChEIxtN4cAmcyLCAb37kGq
+					v90xcffSrhQ0caJYELlzS59nie3MOBdEvVOr
+					jSO8EtYQO16Y/I4j1o3jNZ1cN5UtaXAcmZdt
+					kExZ9YP0+mlJUCjIt6C8+CYFisbLlFhOFXTk
+					Fv9ALlp3uXgTr4ulBr9mvkr0MJL7t2uVITdu
+					tYtUi57MtOBEnsSI6tf4ENROBbpCZVvX01t8
+					U8eLPP06g6SSE5d/MHk/PulILApE+/4TjL4K
+					i+pome8qMSNR4DAQC7NA9TFbCuFS4jv8Xc3f
+					VCYlzDDRMkS7Sx9vQA== )
 			300	RRSIG	MX 8 2 300 20121212121212 (
-					20111031204308 48381 example.sec.
-					zUvINFLxw7t7kg6L+1gbzfOqMjvNpE/idahw
-					H1f+ohmbSzgngJKmDYSznkLAJI4PzfQYbmMS
-					1G2CogAZvMbEmSTXwzG64SC4QlwTFZMy1Jo4
-					j+CFTTmhyDDkvmeu8g62CyvamPKvdPubGTPk
-					9IqBPXmR0qxR7qIqkCW1cFaDSd8QweHl4YDV
-					idDJRpIY3Xq4ttLZUchvzznlGbnx5Vkzvvdz
-					ZAtjXOR0hbCv8/GbQxOj025DGrpjjz9Dpy/t
-					1uO33MIqHepf6wi/LNUFLNbq0cBSrfcJuq/T
-					Q9+pJUeyrE8c4KGzBCbbUwOPuN2tyZw0YVG3
-					C3CYZhRqMd+HgaRcGw== )
+					20111010101010 48381 example.sec.
+					cYv5rlqvsWWxEmLqE3ksF6FGe2AuituURscd
+					A7tSueg5gWIz0jiqs2nqJ3GVecrjgmjHlGHz
+					2f3U/xHJLgbqIIbN16aW0pDyHLwXhK981ZS/
+					v56vkaQbQgOa6UCFUNUGoJas3J9dUYg2Ux91
+					Sp7qTopPWTGy76OjeGGbbU9ZJazEYAjf5jO+
+					ydHzLNuWm2jaVYfB+KXRV6dO8pFkK6Q5u/bU
+					ERDod4QG3RLcoDC2MUM+tQ9+DVikq3njVEmX
+					j/EsWrPpvh0YAnTIcXxP5ZUiRXLyWeIMm01+
+					9exRsw5jQNyxW3vWW5P5AA9gwGB8LpwxXvBu
+					LT2pQOa7P7pJ9WGEcg== )
 			300	RRSIG	MX 10 2 300 20121212121212 (
-					20111031204308 1862 example.sec.
-					DVwV0oUZ5EFYgAY3MFTF+LSd3x0DQepksMDp
-					N4Nd6+vwJYaTZ2UOXwBDXvcQR5COW7ykn+xJ
-					iDaW32jIUdCh97fpHKvJAxgA0ToV5wHc7MI7
-					yd49H7ZClh+eXtkAId7iQ8UdduH7Kzz2piw5
-					wGGRves/hMbsOhaMc49sk36Ao2BonNg8lN31
-					7OUo+f7PTZZTzyxF9SB67RLTD/0/MIlxcUds
-					Cq6ysjgMpaSlcWJbL+I9jTzBBhLp0xGmjX5e
-					Hk/vQD504zY4TcdCX/FbfP+XMN5moQ6n1fcW
-					3LGEhraQqJQ/EUQRQ+Lq+NgzhSKijbiND/eA
-					wXqWrLTIuDVSZv50JQ== )
+					20111010101010 1862 example.sec.
+					VBB9WddppR4LVUyyAuXR7nTV7pt9IQeh6qg2
+					4kAg3PgyG04r6gaKDDBUQynevvO2EBBTcNga
+					aM+M8/1QKTltF8Hlq14xl2u+m0OVM5oObzdT
+					pmmjGDxeOAvMclf8A6+z2aatQCGNXl/M4E3d
+					qAkShKXDVWpDPuCTg6BesIX7prt55BDaAiiv
+					coRW/CJSVl7u93oEWSob532n2HvIqZ4M2kNi
+					g8KqjbC6mrE+CzEQWXtmkUf1egqW0NC6zNjx
+					3vb54y+HLenJBrMF2ad06Cguw1dYmUT1GNCI
+					md7R4Qwe6i/QEHvWBqL051VovPjJJn7Tmd5c
+					RJxmT1H5m1rqO4mQEw== )
 			300	TXT	"Responsible person"
 			300	RRSIG	TXT 5 2 300 20121212121212 (
-					20111031204308 516 example.sec.
-					rdYGc8gzEuqvM81xquCTokjg5ObgBDsDP4FB
-					aNSogqUeEAWYU/GkIpZ1kR+EtZT+i7SfBD6N
-					OjY7SEj3T8LGkMcOCOp3FgStjs5F5WrodvVc
-					XvSHr0jS3wEppXMYRgQa6aKsPZ+/t51LnlDM
-					hdv7QdrZb08TKpFJnLxb3z5fUbA= )
+					20111010101010 516 example.sec.
+					aVs163QT2SSpEYx2MB5b4phedMra/4djLfFw
+					FsR2Uv3MlfeNcD4wmLHNVdV9lcJEFPRkzPn7
+					721ZAuYfYDUEMjhAjxQZGqETEmla3+SUonle
+					C+nsJ9zJRmatGJFZQFmlSKkEuTaXotl5/6BC
+					p1FJEtjOxxN5VV5J05rqfdCs0Tw= )
 			300	RRSIG	TXT 5 2 300 20121212121212 (
-					20111031204308 44427 example.sec.
-					W6wPNdCiu+RxhBXkhuFONXaGUZ0+mgaZKYjd
-					JXM/nSk3rF8x4CBzj1b2B6AI7jPrEmdFs2Rc
-					mOijEuvITjGPvHd3hvfAMfGA0v2Zn65rRcOD
-					/NAYiv8nXrHHC9XN7rSVu7iFDgzEhP1KlCQM
-					tsbxti4rTbHmpDIWCWv63KMIJh+dzLmlRE3z
-					dktgpc51IixXr6xTZJ6y6m60lsqPclLqFiUF
-					+UHoMVktmHSSOamSeBTAZzmGec7UQTQVGuhK
-					qkTx1GNQsh/vzpO7147oATFcgXiEi/HYcwlP
-					/IalIe7htMceCuNtHxeE0JSvUekDmePjquxB
-					/7RYnepSeJbRD7D4VA== )
+					20111010101010 44427 example.sec.
+					20AjiMLaWQcjfBM23qFAaw1DhNRWTkBl6ZIn
+					sZE4ymJERV883UWlkGosGPMPE6AvIp86Vq3P
+					RUZb3F87f5HweEfP8wCsGjpN/VecfmGq/1ow
+					msX8SqM6tXvcdDuSjBlb4mBgkyqKIK/x5jiQ
+					imJtDULe8/EsAATkURnWKjA9gMlC/dqN3POO
+					s8oR90zplfyKsOAin04Gtt/40KDotDspnZmb
+					THFpt40cWv2OvCKpiv7FVLOYL7OACVnoQ2Wt
+					OaqqSDEWHA9EMZRGykubIYBiAjV+3vSs0aq8
+					cMmmuaMK9sUKfby1yt6JlRuTRvGwwbrAP5MC
+					n9VSsTRnyiuSy8f+Vw== )
 			300	RRSIG	TXT 8 2 300 20121212121212 (
-					20111031204308 48381 example.sec.
-					JaS9pWa73kLTbyvMJADk26Hwy2eOamMVmKIV
-					nEW0H+Cp71lUDKa5DlYfeG7tagZYRKxJnBgU
-					GJairwVeh8/5xS3CiHr3UTmrMpGUm4znDFje
-					ySQ8c3nytKsyvzWsu1O5GY0+8Nhzv5xkaq37
-					00qtY1EhbaE182lQzAYdQNddg72+k0lCure0
-					RUqCaL85azAm2kVRdtC+/5TVgCXbwjbWZMoS
-					s0jmki6lcFIT1tEhGrCH91tiHjW+wHLsYJGS
-					CjWbc8HpCC8FP93e4Esp7kmPCe5a9JUybob1
-					rDtRECVl4WYBv03gqWuIbnTV5iLfybatKGj1
-					hD2pZ/7pl63q8C2lCg== )
+					20111010101010 48381 example.sec.
+					u59DqK/27bloeTiMk6M1+24JhWO9FHdvHsLh
+					90/Jm8aaz69pkRXISnzHV78sGqGj3wzaOduG
+					+RXi+374A6DvweRwBzbFkrJHiKgMGLoa8CWZ
+					X3z2X+PCcEefou/3A+5/E271f0QJ8aR51VED
+					SU5A27apztJIifZeIlPPchSBKTN8oYfcmers
+					yp3DHxt7KYmMU+S3qjDHcJovUeO1AyF9jnBo
+					ffRZQTr7o+h4OoK28JjZzDLezKB0qoecmpn0
+					gRYpEiWEUXzMkvjIcvO4l9Vh3QBBzOQoA4Yn
+					fvviZW3RjS/dE0M0PUif9NX8xttzJlg5jJFY
+					fYYNkrIz+72um/QwAg== )
 			300	RRSIG	TXT 10 2 300 20121212121212 (
-					20111031204308 1862 example.sec.
-					AQToRZvt0QMvwXQvBVY96mwZEKpmlTYRdlDg
-					7rGY0K/cyw/zM7yZB+aCAvITfdY80Mu0qmZn
-					4Gi4QUMt0CRP9W49NReoNJRbSTW0b2sdPhjH
-					h7SnDaB3wtD/e6ADvmdFlSsIFFbGxDdWxFvu
-					uGUI4MnvkwYzhtFs9dcjNemp30uOxB4d00QE
-					9KgA9GCFcIHsArrMvBqEMxaDvrdJamygusUS
-					jesvOABApcyYrsrEuukvxD7E+6+6S0cDXJmi
-					aBSq5JIpQx1aT572V0asy36SbRp6V6pwIg7g
-					Z3fqSr32MHpHQgghSZwaixsLlBw2hU9TEIl0
-					wKBSR80wutOTQQUTng== )
+					20111010101010 1862 example.sec.
+					oWHsUqV5a8mvrbAYTr0IzWab4mpMJLdkdS8u
+					zNcV5/XurLpJLHcgzL/nMdtGW8nsUMHByW/F
+					587+3FXaz3CT/N3T27/zFqyxWlEx4dzTrL/o
+					c0RlnFSaFr0EMD/I+v4x8SrvaPe3LBvtDBbw
+					jxxwR+daSqtzhvKuDJWrKh61LahKKxj2IKNZ
+					ca5NRbaSpMqELsGqUWpqXbhlcalDJ7z3q9SN
+					Jyy2kF9Qag0szDlKDuuyZNU9Hgk9i6iFAps1
+					L6ornY0H+8lMc0ij/eCPnPgrL+qxL/UMtjPv
+					Xwm9rVQJIxwCBr3WqM5R+s7FQJZZM/VN6Kzj
+					imWSE9rnfwD4u3U7dg== )
 			300	RP	some.mail.box.example.sec. example.sec.
 			300	RRSIG	RP 5 2 300 20121212121212 (
-					20111031204308 516 example.sec.
-					h/CK4wHnscVGhjKY8XSmARerb1wE9bmGeOmI
-					SiOeLCcXZx4vuHX4GJEjO3BWQzX8hiPIk5fF
-					sI9FBN3iEkr78sKI1uJXqsLrpq/oUYLL/tKJ
-					cGpmMqJeKx+nEcfYdpuQlDvevRCkEvZ8nq2K
-					F34qAedDE5YcPeTBy1kpIv558qI= )
+					20111010101010 516 example.sec.
+					bbbRztwswG+xIJkvJgN6suQNq1IXJ4rH19e8
+					LMkhw6N640IRgYCeFBAY7px97G+yBp+qkVUj
+					Tee6XWOJq6kMM+LyX/eRTtT2ht4YipUKb4i/
+					Kv7yZDYuomoad/JUPjwFfXdJLmrlqHN3jnDw
+					zM2GCLe6mWA3lpuDMrQNLUMAM40= )
 			300	RRSIG	RP 5 2 300 20121212121212 (
-					20111031204308 44427 example.sec.
-					ZEh6xkQzes6RTz7D/J+oyTNesumnEALdXuZh
-					blYSkuWqXUYPrKi7S6Xf/mEkq7MPwmnhD3kN
-					t8A9xUaEnVCx10Kq45w6pfUB072E7MqWiGb4
-					JZf4KqtJzU3GqUqMD78yfAT5uAplisdqA8l0
-					VxsPbXnaAdP3Ui3WZZ9AeTZhFzOOxiDViNgQ
-					q7ovHhqN948KTPRMCj6tbTmFiEOVHWYC9Ts7
-					capP1Zq6BPaagoJkzozIxhdmH7ziG3JiyZQC
-					EcfI4v/+qEhCuoPsdJrDeRc/97v4H/qhsPrJ
-					poPA13qowKKhitDVaY0mZz9iW4RdeIPuWYfi
-					vburugSP2TTUNWoyaw== )
+					20111010101010 44427 example.sec.
+					zhURB5x4D20g5GTh5Tvop9EaS7l31bRIeu2i
+					C9cEpaaOnYAT220XZsjJR17G9wqMcNbr2Rtd
+					ya0l61rLnnRGYKYbApLpS42AWG2dV9NCegVv
+					d3YX9ZHdh0X//NihATbaJAZdU4grgyb5035l
+					C5kQFSrMlTvB/jC1efs2IgqUk6FyCy9v3RZc
+					+PD40WWVW5PvmBqHT0u/fYzlg0agAxapka6B
+					XR1PLQduPfEskzzYJtTbun9dUySCSpNVaufT
+					b6RwUMCjK9N7zgDMDtKknwQSCmVDTnREM8Vr
+					JfxVfoVIu/+8I9CCd1RkwtLYK69LVoF7h6JQ
+					moxwrPlF729ZQQQO/w== )
 			300	RRSIG	RP 8 2 300 20121212121212 (
-					20111031204308 48381 example.sec.
-					W27dtTUFyFBsNLUo/we2sTXSOB1Ao5jzMjKa
-					RA+HgRTiORz+0hXB81cbDncNl//KsPZ114i+
-					cZHPVYv3EfrqL/zdBqCQktwQ8z/TdTtFFKxe
-					MifwFm8TW6I1TR9oJvQFoy2+O03Ti9zL4Zne
-					GJsPExn3ayW/gEp7YYWdbIngDjCHcLaYJY8T
-					aDK6y7r+P2Xbv+gqa8/iwaPtUfsCBjF9GtFE
-					joPEgOeVEl1odir4CPUqqjgPd+qSOh7fWpqf
-					wpSe/pc2o4NQmSLCa6/5s/Mk9ebNCRfTh9Q8
-					KnatNRHq3Yi2+Zv6aBEE+mJCK9ouk9jEfHaA
-					sXw0P5HIb1P83KsGCw== )
+					20111010101010 48381 example.sec.
+					uYEOHrrOZFKDKwADefk1b1aapfuWaS0VrCEu
+					SMUAPHJlmIqU334E4BQk9nYUAvldPvi9i5Xz
+					n8mYKX6F+e3VfKW/PTVsjW/udXj/y+hYkIak
+					HwzX7Y66/BAv9B1XCd/oKpzYcFTfHOflC6jD
+					BJOGbjMvuveNMPtYXAXy1LuAGvp7wohGaeaA
+					JsH8ZrdBzxq9npeS8d6Lj9RgAxhZZcsQ/WhI
+					gEU884cpHQh11+4iMg32gTzRCX4bqbNAV1Z2
+					56Z367ZmAAq6mtfbG5cEJm8AgVfF7JZdRAJc
+					usyCoaFirTvAmF82Bs6sGJvZs1qvoI2v8XiO
+					NUzGHsIBIDhMqmndCw== )
 			300	RRSIG	RP 10 2 300 20121212121212 (
-					20111031204308 1862 example.sec.
-					CxCwyVPRIhq+nbo+7E9zDaPrWbQv748QxtXx
-					Xb5GkCL1w0naIUP3+2I5gX/I0bNVMtFa9tX/
-					WNSEgL7LrCUM5mNfeA14ijAMN1yuRA1wixXG
-					ql+f80Yu/U1J7vSCoDY8OFEpSpDOeJUzoKy6
-					x6EOK+O0q++jitaFmKszDrRA78itIBJfyQYn
-					qGMUCa/GLNdDPiCSV0NdqkSLH79KMlHvtD4l
-					OvfBJwGOODyexpU1H/2dFTl9wxHP5Catcc6/
-					6JibJARyIgg69UXZ78Ns7F4t5moS0yDHZP0H
-					iOGL28R+2YrtTXE6ibNXlOcpPemW/h8YU06H
-					asiz4DYzsmqZGLjtoA== )
+					20111010101010 1862 example.sec.
+					D9Qq3OM1hbAFR13RGCSPocw41zqUbXRxTv1F
+					uZA5YZBrYSdxjwPH/+SvbD+G1AVlslazjgig
+					Oy0GrKglz2dtp3tUo1E8fG4rj5qquLSc+R06
+					a/6OwOeSTPIsAqMgUjNDQOi9pdWq+Yp0jB44
+					DJ5mKaPrvfM2CBca1DqQtDXHemttk9z1pk4B
+					5F3wH4drR4ls8OWtEIuqfyfc2FN74aLRUMpP
+					6x94lte526oZ2hMar+uuhVZqNopE+InFrGqi
+					DeNvEoliWGefojIGLXvPM5eB5ZZvD+WunjZ3
+					qVJ0snA/dRsZ26/p8SNw1Cq9ot9lArb7i+y6
+					RKhx4GT1MfwaYCLH7A== )
 			300	NSEC	delegation.example.sec. A NS SOA MX TXT RP RRSIG NSEC DNSKEY
 			300	RRSIG	NSEC 5 2 300 20121212121212 (
-					20111031204308 516 example.sec.
-					DxNtzno3bXvCQwHrit2cVk4Yt+gsJyeHfzHB
-					/a+MVRjQ3jMFH+I2a7fywHGOAojounIm0XPu
-					7qsqZXnvZEy0j2qzbtO88UF0pf5EozY2UOE9
-					+z9j81kjCkeYS+jYv3onmPz2+kq0VooDIWJt
-					PFYV9e4G+qcMw+B5ZRZjbSdo5lg= )
+					20111010101010 516 example.sec.
+					MtAoJhsEVDO1SOaptZwshSd/wEGM8GFe2pT9
+					EBhLEiuAMKrR02N9y4tkZyfB/4xblQwFNZ+b
+					Hwd6WVasJ+KRKBMbeI3064EAaLCkoW8j5h5x
+					d9YEXvpAeYoO0iwo0+P5A4js0qfJf630TQkr
+					3ILeRtt1k4+Sr6LEfWlphhd82ZQ= )
 			300	RRSIG	NSEC 5 2 300 20121212121212 (
-					20111031204308 44427 example.sec.
-					H7PrMg05PMa4dq6ayeKSro77zBe5D+NH125i
-					U/MN//4GpQ1tiTg2bGWBviACkrpwDJ/sP9h8
-					4wgL8e7NxXK2lxCqRKlwLGvv6TbQ4OLqei3S
-					TqMXs9e9qdYCYskLnPbfpaEXb8+rSpzKMOev
-					lCF+p8Q9rCOWsztQasBAnFKgkizXff+7BEdX
-					A+L8edmGQLX6gQHmZfMewMsCpwQumFWRLvvE
-					lom9NuE8eUVRmHRdt5SmfxQIsTsOielpGUEC
-					m5wARqOq6xnWuK+dHPH1C2RH0qEPzrMXWU90
-					I5+ZFleTMzW6paejsuu9GRa0sL0wmM1er0Hk
-					ECbDTYI6/dQmujndYg== )
+					20111010101010 44427 example.sec.
+					BhXa+0N0qarvtlsEk/bJMCWPrdkVjYlpd/K7
+					EnwzNJRRU9C+RPRrfjPPIMdWGJLGCOsPKr2h
+					0ukx7Os6lCvr9dCrDUcwDDKBJXemX3CjkCZe
+					vhQ9khp9t3HHlCXO6t7hCYgHmbW0VKfP8uip
+					HnNmVbPeE0nYhUriO3IMg9C52fWA3ZbptFKf
+					BGpAFTpNKt0sZiDzxno7TfXUuJ6jEnhE94qZ
+					hNwBjCyFHBhfzFcGfkN0mQfo+emORpOAGK8u
+					FbffptSSeZEHTroAq0BjxUP5m3wrDrEz8a6P
+					iu/59+d+l8PMfukrd+RUAyv08ifgv+vfkL6S
+					9lDlAvvQ4V2KNpnO9A== )
 			300	RRSIG	NSEC 8 2 300 20121212121212 (
-					20111031204308 48381 example.sec.
-					xnBGltcbi2lI9trjHCLxyh2dlMa2mwKa++/J
-					QKyT3n0BG63E4c8pBiU4WQ9whS1iJzHD2NtD
-					PF1/N/MP4dEaL20yk/emkiMC+sTvb8aggQfm
-					0fKuNSE0o0feqiKbnhbIhjL4vAeKXBOdfPo6
-					JopbiNX3vLJ6NYDpVeJydUPR4NeojyD/qClY
-					WuaNpZWJ9Brl9Lx0l7RCIiHaTLIWao2Vsx2k
-					6dRAdrEpu4uSXtNWoExG3BsbJ7K9xvTtlXfP
-					CEjFs8wX6WslyyNQpk2j3/s3Yq7elYglUeUf
-					TNZeD6YpRA7t4Kz7eBNLL0ZFJ13kk92rBvWJ
-					UUYmFE8040BXxppefw== )
+					20111010101010 48381 example.sec.
+					aQHI9+4PPNqKCcQo/vtRvMvVAl7rShFU/oc3
+					GI63rjdSVgjyWlAK0HRWemwoYlmr6ulikc3/
+					wVEwTUm7lJRuZy7IoTYRvucKmTE20HJXrpNE
+					meS8n2PCJHa5IDPhKgQxg1WEixmeBRMl+2BF
+					OU+poG1sZT03Kd3ifO6HcK11TmszhwCT0CTg
+					O9zG+lH036MorXCrhrfKZ7vwDeZrG1SrlTwI
+					5P7C3cKMkGgqE4OH7nYo71yOFQ5C0bb5rwAM
+					8h3fFWZPbv4KL/Njpk6vMa3YSe3UraoydCxM
+					CgG/OrwWTKFcuf30MKV20pKWd/5/VEQLdvOD
+					VO/mKh2orl2P9q/kzw== )
 			300	RRSIG	NSEC 10 2 300 20121212121212 (
-					20111031204308 1862 example.sec.
-					EV96FLYuBNJTaV2odrTn0AP9yNrtnvh8YDzN
-					wAdv+kZsc/8BznpE2WxtBKUv8IVHeNVjsoyK
-					QSqyZ2dlOfUA39Jz05LcrqtB0rwabnzpG1SE
-					WK29ouDX/P/6DA2v/Rv/vPpqp0TBJ7vx7pyz
-					RzcAUSnsO8J1Jj6Nmnau1VuMDbRVnQD7P25u
-					0Ovl8sc83/Zf66rxuj78gPyz+RPcTgX0YKDy
-					V1MCeUAhcDQmzAJfoXJH4EDFeSmh6k4TlysK
-					K5zoatYw6Th3LpyYjHBtuZrvQr67gffmLKO2
-					a9HDdXouEMjzDTkU8crGExNocKiGM+foDa1y
-					hhAATlBKQEruKd/v8A== )
+					20111010101010 1862 example.sec.
+					bNaUCQspiPWoSy9/9BeM1yGsx2aSr5epiByA
+					lJj00Gt0s9aSF407KLsHKQOWbXGDkIy8SeRk
+					IOmQdvlwG+aSRdlItPJzwnIKSBmxJJi9bH1o
+					y8W62iDGyZQvzwFboifJXRXB/qC3SZKy5cJx
+					wMx0o+TRHzxs4sb96rs2g1cix1Qnhm+/Q6Hf
+					t1ODxNfHqCu0x6+U6Afgpy0FRPVizWkHz63q
+					bQDfgFJu/2iVDWGTueX6ziJNFUZI4dLkxGxH
+					YpLgkOv68UAIjgVPl+QFXQDyC6PcWCHuu74r
+					C/uk7+N2d1x0mWdxherqk96V2oQQlB428MP7
+					0hSxwm6kuJKblPNQIQ== )
 			300	DNSKEY	256 3 5 (
 					AwEAAbqjCxtmin71unORku1IrrQx2S49KTmw
 					45jnlNdreCH40YmhDZo26CMiVXbq29rvUDW+
@@ -359,845 +359,891 @@ example.sec.		300	IN SOA	ns1.example.sec. hostmaster.example.sec. (
 					W1eausJhOgE2wBJgl6V0XbM=
 					) ; key id = 1862
 			300	RRSIG	DNSKEY 5 2 300 20121212121212 (
-					20111031204308 516 example.sec.
-					nu62TEAdw9ZNfa5keNQw9q3UyV51whckRbwx
-					97AuDn8zwl7JTuNPzOdwRySt5SeQ29mRNx8D
-					b4/A8pnSxNrCkwsBeK75P6D864+Kl+D6i4xl
-					VVA0iS27/Jd863kxwsQGzGyXDv+c0ys4eQ2g
-					IesXk+BlF2IW22rsmAK0LVz8a+0= )
+					20111010101010 516 example.sec.
+					ISxEuOcW9E2tSribrQUMLaSMh5Zdu8KcPHmW
+					9C4sRM+8pii/r51weJ25gT6DjdatdkuI6zjQ
+					WI0voPoMzcJWNglWPm2cvY5iRjM7+k5bm5Vs
+					6fUA41e/SmADF8NNpWDmev2+w9ppWNjF3N2H
+					LZl6v5dzoFLyQS++0Sg2+wCfEQI= )
 			300	RRSIG	DNSKEY 5 2 300 20121212121212 (
-					20111031204308 44427 example.sec.
-					Mj9mHue8cBE1w9H19rWfiLSheuuyHKR7YEob
-					HNrYTSBuvxvmdfEFg53sEZrcHsJ9GHdSArGY
-					jIZtGI69VH6RiH3FJMBdypzZ9aUkkANa0fuV
-					ScuYJD39UoJnlVPPLGeO7GzoxRGZCCduTUn0
-					Jb5OUFWm77ME9s3aJNHuEDeD/WBJZWrE3CNK
-					dmdztBY/9hHdEBBW9VWk2iENndrujVEd1j9m
-					22uWtb9SiecPHC/GHqHEB3Hnoim+HOEswR1K
-					l9SiilLhrSkBd/fMhS2k0sGcw1wJkam7LYMz
-					ZVWeMy+Zl9hQHu7IPqcVF66nI75uXJEzfcj8
-					Rj2oEHsdHN3CPhi35g== )
+					20111010101010 44427 example.sec.
+					vPdcql6Mpi+xqaOTRM5EAji21eOe2DophlFk
+					zvqq2SgapPEo9KemPbzmk0bXafKot5nGkySC
+					DavquLufYTAX9txBfHC7ajHYDoUNb5IMbaI0
+					YarNWa2/kFAqwYmHdgU9pa/lKf8AcGtsY5wi
+					au+MQY1xWSWYKgpCOwMh/eaBQTAaYYUN301n
+					hDFCLxBx0BR8QiHwFtmvcu7PdJtZytpwULzH
+					TftPxqQwitOnPM2L19GRMjTL/5VLYg0TA5To
+					TlU5sAmus4IjsNnYlGaJoKNGxtyE5N1tmbKq
+					eXZdJWSiZoVwVh+W3oaAIf9WtPU/8BoOYBvM
+					Vg3Abr3aUO+1awT1pw== )
 			300	RRSIG	DNSKEY 8 2 300 20121212121212 (
-					20111031204308 48381 example.sec.
-					tGY12YG4WA3r3j4NUgmuUYStYV/G5Ip8EAu8
-					Q3R4C7Yxa9RcXAbVVHZ1sbIQKeRhXSdNtDUu
-					qkd886jgpg+1HKyeZYNWBTFa3Mk/UBikXhRA
-					gR/476z8rlTohOR+DgQlfDiMHwX3Llnfbarg
-					osL6gww4rSZ+LYmSqNXOorgjWaA7VjBQe+IA
-					U+IVr8X5FB7xT4s6ZkhIt+zgBZgi/SMMqqEm
-					RNwvyXtgu2EdJ9y4BSfXMIXrxSP+56bkM3H2
-					nhiTcM1FswkwxNDvPMjNcgS/y9HEcjgeTZot
-					HaL6s6n4XFtZUkJRtCL2n44QvZqRDV48umCt
-					9rftZGQPiiPR4eqodw== )
+					20111010101010 48381 example.sec.
+					SsFCEBFUbjOP7PIzn3SmPs2IjDBGNgEZWJZm
+					XjBr14FZC0BNKQaGCEyRFYWByrFwG+XklPLd
+					cUNfVove3avLwFXGfgczHlDNOZiXsu4BW/QD
+					rQz0BYoz/d+wcDKsgP12tbJZiGGQ0n6lW5G/
+					olGM5FfoLrGHjzbbKG6l0ZOc2F+SsGUaIQg5
+					VwHS8eHgx8WkLUE1xkyPTepQ4qXUrdciE7Fq
+					WQ46xDStFRUw9A0UAKrFVPOCshVTsdVqncx0
+					gmwXtiX6N1leIBk4BL6wqG5n3hKMQO6WqOE4
+					2lAzwK4BbCknMucRD441IXktDcd0EEFXHyUA
+					6I8Mf/4xxz2WkQjbWw== )
 			300	RRSIG	DNSKEY 10 2 300 20121212121212 (
-					20111031204308 1862 example.sec.
-					fZ4YdrrJ3euyaE9ZdZ5h16SNIP5Tnf0ZBFrb
-					ZhfyQE0qf9qxPFJoxEP57fjn88FP7iYbCA2n
-					AKWPgDXegwrFNuDzPGkORFclPz/Lh/MlS5Fj
-					ivyRY0gOQvSuWcpWwknnuvh1kxzzYTcNWygV
-					mA7BL/6vnHR9kaklq7EGa7QU8UtN1TeHfwR0
-					iODkDxRD5Kx6Xy8Cd8PmXdsO7iRy5lNBGxkf
-					uo8t4ZBJQM8vSeWLBh79HJwgk0GYv6OHfst/
-					0T36dToOdFGUHRFLtcrfxgR4JaFL8fh6/dae
-					j0lWJE6qARC4CPfW6XG2hk3M14jTqucm2lPy
-					DjWNOJLz1wssoPQpqA== )
+					20111010101010 1862 example.sec.
+					LUvZpOxkLkOYtLm5a6jyodYk2z7fzltVaOro
+					AbezuHFu5H2onBxZJqt41Gp2AQFXltJu7XXx
+					1BlFJFuOOm3lixy8MLV/jPsXAttl88yHQMe2
+					2DCziV9Cqp6QeCkaROAj7yqa08R3eP7Vzw5Z
+					qRDWs8grnnaCf+9Kpb84Vg9mz9dm+R5cP2t+
+					+fycSOL1O/Vjl+egrwBq8o+SBn2N5sKX/4pZ
+					cySd+QgsohFDGAVszY08YLtXyc0PGxvEbS2/
+					F69GJPDhDTRldRY1S42grauXUoiQw/taKJwZ
+					07U6Y5XBpHCiHXkfmgFe6/6VkZtXCnHHxPpJ
+					qLM9VLMoRl32Vgs5Qw== )
 a.ns.delegation2.example.sec. 300 IN A	8.8.1.1
+delegation2.example.sec. 300	IN NS	a.ns.delegation2.example.sec.
+			300	NSEC	delegation3.example.sec. NS RRSIG NSEC
+			300	RRSIG	NSEC 5 3 300 20121212121212 (
+					20111010101010 516 example.sec.
+					alXox/n3U8q3S7BezOkumPPVxQekZSPZ34nY
+					w9JL0qX5h1NOuAR7SG0B/sKz8XKe1gpoTpZ6
+					oCYSZ/4LAw1oWryRe1W4+K63fNHy1BpZJMGn
+					0toviZnfH8DrmTnwcDAXkPd6IhdX2Ok7ztef
+					M3yeP8heSWCvyBukpa4EBvwv5mA= )
+			300	RRSIG	NSEC 5 3 300 20121212121212 (
+					20111010101010 44427 example.sec.
+					5e7KvcXLAy5uVdD/hAZuNl7mC+qITTiihlmU
+					dh/KIachaEFMMqRoDsY61kjY+cSpkn/n2dp9
+					OozcWUFfhfXY2D5EFaRmkWKtP4N37ryVWZUw
+					maJ5ZDCLcRa/vWfJGWlTrG108ijGkfUPE3lE
+					euYkc0d00yjmbcz72uAW8NUmixRUU+3Payly
+					GZSDVcG7vZ/qaf1dXG6cToY2n0DDIf/526eC
+					xH5NhhDJgq6O1ZCEtS9r6Hb9vpR9Ed9wJvgt
+					a7VZltV0TlLaiFGSGZA+OgZV9l0HerOCh8uW
+					nn3L8d+jMAOmrk8/Jn47uTpZub1/j8eZo5pA
+					jFyHUZ1b0h957vC6XQ== )
+			300	RRSIG	NSEC 8 3 300 20121212121212 (
+					20111010101010 48381 example.sec.
+					rQwfcCjBLlYDpe6DC2d1w2qVYAUYFqcfbwHy
+					gbjXT4RI2nV4E5q34jwEgi3TFb5OmYZviGwF
+					cJvyii25oYSt2qcKPlTGGnrD3vAMb9lgX9L2
+					hyeHWcmOfB397CySJKMXNbWtZz2YLu4YLrc9
+					K1e+2eQD9MZbVIBrn2f5Krf306FMNd9L4n/p
+					yNrW/6EUfHmRtFsD5vGYytoRRBKoPv5Rxfoj
+					pbhhuyC8MlntVH0IhDe1zvKAmzlBj6E6oB93
+					zG8SqT/gNIuTUpa/qw37tcOw3fCRh7uG3TBk
+					+ylUmRz+hcTUxjSqoQKxVT61hXcrKAogspaY
+					QZ3Mctyg3Se9NhUd6A== )
+			300	RRSIG	NSEC 10 3 300 20121212121212 (
+					20111010101010 1862 example.sec.
+					B2pJZfn231dbcALhteLtwr866/2xkoyqRx9L
+					8tluu315wk0HVheq2FdtldPPf6MtQwi3wVVA
+					hVglk61T6cqYaBy9LOzXYFphmWTYsMgSZvRi
+					FN1LmwOYiMrI+al72O2vlm3/ZrRTla6LRlxl
+					QFoWBovsYhSvj8iNfqAJ6iEgZ0jyRKchV74g
+					dp2kBn0VEWq56R4BSg1f9IqNoUD+VMoRKEUd
+					nnwHdxFC4jO3+rKAhR8f6UgsWEk47h4mPbBn
+					wfUSl4jEhF/qwNuoyMZTKDdJATFYOVCKT/sM
+					Mp6hfnU9rlmfsE7F69QJm3ld4oSdvQ6mRB0q
+					3tx5TCfeU0/A1bdvUg== )
+mail.example.sec.	300	IN A	2.3.4.5
+			300	RRSIG	A 5 3 300 20121212121212 (
+					20111010101010 516 example.sec.
+					LxovxXszIrJ0WqC4lryebK8Png85a1l62jvj
+					JHLNs25OP3I/CpsfLXmE2o+bGXdCoppA6k+u
+					+d0BmWG32UmOXQOkcu3haT5J8rJWPV1xynhJ
+					IsBCmF/UbEXp6PoAniCcytS4ZsHqrm31KBNI
+					i/ZXtU93D2CGrTDMpwX13xT4scE= )
+			300	RRSIG	A 5 3 300 20121212121212 (
+					20111010101010 44427 example.sec.
+					LNe6/SJmAkohBYlRtofW0wYMPDVJ2ZTCmOwe
+					hwZBKvNrcxc8uYlzqSBqjD6Vtq4GpJSl+MV0
+					KY0GpsE2jz49l4ayUi5QIC8wRaJ1NeTDiwBp
+					EbA5ycNdzSpGtLFNs0qzDQntdrZdtvoaFCcV
+					WDPNGP4rvhvTMXfriPJuYJ2W5ZxmXp3DYNDZ
+					E+1xgJ3hvr6pdAy7UdROrhsOp3ohP15sE8/H
+					+sU/hmZ9hfBeodpGHhWYIc6FSMOca3pEBwQL
+					ifVL2Q06ijnqbh6iuJqJnqI++ZadCHIqEYNT
+					Tn96mylS3XQ4S3FZPPrXXhuM9HvKKxnDvvWX
+					ALsm728QZQi2keAKkg== )
+			300	RRSIG	A 8 3 300 20121212121212 (
+					20111010101010 48381 example.sec.
+					tyz/WG3TB1pdIqpToluADGocPccrMuT7v/a5
+					sQ9RY6QKAzdf9YU/ikEH2SeEPkC4EwD2pPp8
+					RmURKjzSvSc3D8Q6b1KbC6IHEy7+MDUouZCX
+					xbQSqRPxLvUQLc2WvK+M6CzpnoqVpOTNqouU
+					XbwrNA9FyXsHGKOURAGQ9Viu97VNaWUyAkzV
+					9RoC2T5Y7C2T+Vd/pkhCdi8nvHWOvUxixyXA
+					mYekLx+TeEx1Ntr+Z7aT9kN1Hv0NsR19o5F7
+					JAwRTWZvYk/HpRavqbHTw76f1d0jOPq3WOKp
+					VtvqrklUy9GgPranPH8j7lplg6c1c0H5/7BQ
+					nFp6xgW2OVH137Hdwg== )
+			300	RRSIG	A 10 3 300 20121212121212 (
+					20111010101010 1862 example.sec.
+					eWJ+p8k8inkafKJ0KydYOBA2DZA3Metwzpa7
+					a+fD5SUn9Mhe2mgQHUl96576yBPPsM1EhVXE
+					EWNSTWdDuxBAgHBrqmn7R2ZAuygkBYJ3pGBY
+					kBWk9JChQ6dD2X4o/im9WVlKkq2rsIDATerx
+					+No2WE58/PkRkI83eXObVWhQT0yRE/TWTKPx
+					Dh3NDtfgGrRTX7cRTCSPJ4RotFd6FCOth8zP
+					DGNV7ZWByBgm1yWHGFdxCmAyYTNUVchgs4Zw
+					HLoYXhl6GR3oLgTJY6icxiStB0HrSaJOB1Jp
+					NPJyZnFcG6JtcktJG+SCj0yFFXeJZ9aI2oyj
+					SzwWXO7D3vlZr+/yxg== )
+			300	NSEC	ns1.example.sec. A RRSIG NSEC
+			300	RRSIG	NSEC 5 3 300 20121212121212 (
+					20111010101010 516 example.sec.
+					CQt3t9eRRTC5mv5c46WsRDX6aZk4jW4RqsEg
+					LWY5zSxShOBKsek/RiUzpcN+N+fu46NGKzpb
+					Gmgu8Q6LfO49hIWv8Ng4VvAqPqTO6wXC+kIY
+					p7VuVydrdHNI4lrz1Vb4Kb8B9x9bqopd7SDq
+					w05X4E3NEnuEZpO4IBx0dq6WVtA= )
+			300	RRSIG	NSEC 5 3 300 20121212121212 (
+					20111010101010 44427 example.sec.
+					yg7PqCc01WBqcyCjmsdoeaThprboseA5DA5u
+					N++BVVcX9fqLHRe3gEdPQjrhaSIcOD3mK1xi
+					l5v7g+33R483h6yliN6u8SCYxao7o0sBNIub
+					ZFyneOyaJYkL83I72sTkARovPIymfJ9n4gZu
+					SGl2opcJunj1eQAa+vKuhc3RUvZrgOpH1dMr
+					TXYHUpxMl7IO+o5x90rVbSSU2QImuxwitQ5b
+					Mt6wrM5uAdFtsRC/wequhP1uARE52ZEh7u22
+					zUqd8xyjfIdKFmSCIMLBCzIimuNuXaAqT4Hw
+					gYtrTcinj1GPo0OcaBHcGc0DI99pwatUv6ds
+					CqJNUumYaNeGf85jWg== )
+			300	RRSIG	NSEC 8 3 300 20121212121212 (
+					20111010101010 48381 example.sec.
+					acXn4lWozO7QD3vfPy+OV+WDFBUJXf1WGAl2
+					FCWDf2IsOCHhlUNHEAwiHkORMY2AVlfZS9hG
+					Z+RRW7b0uelYsmLPmfwZtN+9IsehcCjYg5F7
+					ZfqiTXNGs9Er8IjV6Ogic9CiOYwWRHn+X2DP
+					haE6UP4LYEqP2eFPTMVN/E5smm6SI4HVNrZW
+					W9MgzvHdUl4RurWQYl8KyOTve1ElyJt+a2tw
+					ydanT1Ncbi/limS5f61U4WckBMfyZ5vH+SfK
+					fxMyIwpz9mWLGzy9wyBMYBLfSdNX0vI+wvR+
+					/b0D0SDz11F1le+cERJhO4CBxEFEiVqQHpKG
+					sR8RStNy8Bq0o6mpmw== )
+			300	RRSIG	NSEC 10 3 300 20121212121212 (
+					20111010101010 1862 example.sec.
+					Zh4FgubGEBEDC8xpa8eijqwZZNvPjw5yVjiz
+					w9SLopS3SLnLf9uyMU8W5gC8TQ25qO+ZyvcC
+					JPsxqFIA8qDnRIVvsEp7Cs9P3Ex+vhAEEe92
+					m+OkraNn1DLj121flCArlsPpyGh8TdYJDh8D
+					B04KGmyAt40yPfDLw5jWsWVJ94/lZLEmaaK7
+					VcqHIXUfgPdleb/h/9Zz4YN3bBRMWj3nkjfn
+					bPZwLiZTEbd3fNZ74BEBTHbE/YzibD117kx5
+					6uLL8iIT1uSesP/F0GRIDTEInuFE3d8oeUuo
+					pGQDlEDITKSZhpojUKtch/izCccujp/EekTr
+					Q9PMiXlD4IcZ5i9CUw== )
+ns1.example.sec.	300	IN A	1.2.3.4
+			300	RRSIG	A 5 3 300 20121212121212 (
+					20111010101010 516 example.sec.
+					Jz66qNND9eWmodjPcTD9VNb4G5BIqd1MPcMb
+					9g+J69b1T21cNqAuIom5Y4cECyz/zNJOno89
+					b7KKcpItUnsdyBHb5WuDeJapT1s4FyEYDEms
+					diPzaEDEJCTmjyOx/5ADZ5L6I8EN8a3V+iWh
+					A2YMtWWWjZykqXHeVLPZwqbMJS8= )
+			300	RRSIG	A 5 3 300 20121212121212 (
+					20111010101010 44427 example.sec.
+					RzfNZ0Pu4Vxk5xpCycv3ZSDDMViw+h6nR1uY
+					Jls1+oSygJfeQn0xeTcVzaZQvvZc0gtnecHT
+					5UopyFB36R/qeNkPp5fFHGb+ZpMAaNmjrxGI
+					/1OhxvES4jwTaihetjVWEQyN0M0+Pgw0BNsN
+					tbz92zBczpUFTbe8FxldePwLcJFZ5CAvp8NC
+					VuzqAHVMGAt7DYvr9qTknrW/X8wszxwUuL0H
+					mwitcRF397E6H9SA06uDNum/s8RST9lsV1A2
+					GsssmglqqKICY8+g89SDqkSuxk1bsFJ+dvFx
+					kfXRlzBBvpuFt8sORt6LPJXSlFy/tgtRI1lq
+					oJi9S51V6XElb0vu1Q== )
+			300	RRSIG	A 8 3 300 20121212121212 (
+					20111010101010 48381 example.sec.
+					Q2LBOCx0Ol+UX8yBrpWvoZEPu4bGDJfznS6d
+					uYWDHZc70kjSBipMO+vmzHTPXiax4LTXXznm
+					u6gtzSh05FTmQUx2QPctCwwLW3Lfa4xRBnQw
+					KV+HH0AyXUlKy8gNRBNgJmcQyvyKLr5T8UhP
+					PYQI60UZxU+vCa8Z38Wffy3X0+AraXFwMc3M
+					YClGU7HFn7cCKeIrdWl50PEYpa8qUj4ec5XS
+					1QYZu2v8LE6GmChCCFIJsdkU+JzUJ9mOGYrr
+					l/aI8G+DPa17NxKwihgzQ6fQIS/AXOx0rUNq
+					ObP7mpqqn76X6BnfJFTGs9BUCms4W/sVNvra
+					hbAKFCLCNJAz9EO9Xw== )
+			300	RRSIG	A 10 3 300 20121212121212 (
+					20111010101010 1862 example.sec.
+					Yq4b4NZpDrZY2qXZ/Z4nmsNT6MDnrI7O4V7h
+					uCXdgf3+/wo9mFHfX1sMjdG1YdptsqNA1eeD
+					0Ri8KZfSvIOnfdRaVfVKmKfouffvIqOEw81v
+					5NEZyNzuitk55wfqx011/GPfr0j+YmVus3dX
+					0GOnDG5O+HoeCFGUeg3hvHlnfDGd4rZD9pPc
+					Kn8/PT5EwuP/iooeEyUTorsooen0prEnbiRr
+					oSUm7iSkyl9G4khKPdMO3poqbD2KMFgINrrb
+					2p/vqfjo2khpK/2XQowQW0h2R8WJfuhYTbRi
+					I3xFQHkR8VH6BrrBasnuSp7nbecIpgFtLTpW
+					RXhaN/IqW+jtTHTAFQ== )
+			300	NSEC	ns2.example.sec. A RRSIG NSEC
+			300	RRSIG	NSEC 5 3 300 20121212121212 (
+					20111010101010 516 example.sec.
+					MPFeioCIJDe03C9RD6Kux0g08JgJYH7xtyFF
+					4OOOZVHD1mrI+BmjxtWwhb1c7Uqd8+/J9NLF
+					qywR/OzLW58FsNjznhl3Btr6HsfIfLrEOrTf
+					kbFlOOSP7gA5ngsC4nMqrWDPjSJwjJ5b3XIT
+					12C2Efq87MFneqOEzUzIpqDeSdM= )
+			300	RRSIG	NSEC 5 3 300 20121212121212 (
+					20111010101010 44427 example.sec.
+					kUQ26M/bdHkAbREgxC8kBkgxEpnXkQldxwki
+					0S9mvnmJToiGjnvBIkDixX9BWrx2s8Nzt5tc
+					xfWqmzlbdbea+BitXMN2o9hnAWNJ0uFmQFaN
+					M2li2EH5FlCFPpN40w9hazRY25cBvciUJzNE
+					CaMTtDPRB9GUmZKjE/ZP0N4QnrxvrOqIMJlu
+					dCsLQ3of+NyBWYpsQQfQvbAvx2WNpolOjqMt
+					woCsfZhjvedlAAszdaNKCm2qcxYuSKvkw9hl
+					n9RuZkgYCf+4o0k/DRP6zSwacMo1Rcb6S1D3
+					b/AXMhBxwtytfaKPh0gAFB2fWck0TLpc/5EG
+					AuCcy6aJR66j0frDBg== )
+			300	RRSIG	NSEC 8 3 300 20121212121212 (
+					20111010101010 48381 example.sec.
+					Rktfcj5WkoW+7lt1iMFsQXr70zjRdHCUBDf5
+					zqet9JtQU6r9HSdto4gJAXwwH+gYVWU1zMAo
+					ZrurdsYhkCrUnUYdO/g6Q+xDIdvPQY4UeUaq
+					1lZbumzCGAQD21l+nrjxwkD3kvyDtfnAnxU0
+					eL+/8TqZ/Oo/2cEf2hkuQbOfQqpXImig0n88
+					e1+xBTJV+fPeORGxnAVL0QMRRabTyOqCPiwj
+					rcuXpIxRjKWOAEseoFHJbdvFc3MNGwfBC/BR
+					qI5xzREGVG3yUpY6o1EVkJTNMHdtahZsMOWl
+					hb1dFARcQSFHUdEEwZwc1gtIa4snPxpplgCd
+					ZetiK9mOJTMhVhGQSA== )
+			300	RRSIG	NSEC 10 3 300 20121212121212 (
+					20111010101010 1862 example.sec.
+					UVd7QvqsAZ9JRYDUlOwiwhmoSoQCmr2rpJyq
+					SJmYJ4ku4pQ1cleVIc5GNkSP/e5oZ9yPCgnu
+					VOErtW+VM6DWeJXZVJZoNvwILWdAiewjJf/V
+					WD3aXUYTeOniRWxpHCJREIsQS4YsLG7pHg3D
+					b9IemjsSkmooKlgNK3NariWWmybnvP8Y01wg
+					BES7nTb39Y/9yb70nDGU6XyWRglSL31p0jhT
+					9/hSQFElnwNubQ3pTgRK5Cm+FiizHkyQbfhx
+					t95NmoORtOMF48CzVmRsPn9xSM5DMVuOBi4h
+					DhV8sDtQcd+pw4C058ai7yiYrdHMLXrD0Km/
+					6lcyfudeuEMfj6z0KQ== )
+www.example.sec.	300	IN CNAME example.sec.
+			300	RRSIG	CNAME 5 3 300 20121212121212 (
+					20111010101010 516 example.sec.
+					GdcWi1nRf2v5zoWQ5v10uQwFDKacJYgdCJIp
+					ntwjsF4aZUZBqXHJB1i5XmT8rjrpum2PSsUj
+					XrowGiBQm9Eb93+4jebw5XiK8rP1JLhhSGo6
+					BTohf2RuSbfmQcdOO1IYokKah2ySIWn10o9E
+					0CVoBkVK1mfv/Zp/M65f8z27ces= )
+			300	RRSIG	CNAME 5 3 300 20121212121212 (
+					20111010101010 44427 example.sec.
+					sqgTpuktXFznXpYUNvRhbPYKXInD00BitSyZ
+					DAFGvUkAKGAPNSUGeoiC/AjyWRACVCSp5T4B
+					qYCmDVGrq8MaWXPAtRT2I3K81nIrK0qO7dvE
+					rka205eSCNslfcKZD/KWRHTTtBfme3t/qJ87
+					tlotpbh7X4oiRNyPv2bHDevbwgV56XLgUdFJ
+					/RZ51bUPM6ATV6vMwjzyTWOtuopfA/2GWahA
+					iApnkWc310Pox2xnsDAwPvmXH7NZt3aIg6qA
+					lW0ENyjIL8q4Hq+8G0heD6q7v5JYBC6x0kOv
+					74kKVWvBLvgqz4nUTmp1T1OX3myHanBK2U+g
+					7j2Sn2k/SWK6ceXilA== )
+			300	RRSIG	CNAME 8 3 300 20121212121212 (
+					20111010101010 48381 example.sec.
+					FlRBpSwkUeDfw1RX6qiiTOfc/smaW0NBifC2
+					qmk6qun2T5RTYGLAqoqMkkDJ4NSs2joqkAbz
+					AUncZy0TAdM+9a64Vsj6byPIkm4WJxvYRwJY
+					RYYipc+tFlpj3kFBJOeArj15OyjuGZbr6M5A
+					5S0w8D8lTb7SBYKsFsAV3hjLzaYGilxWU64O
+					41d5MoVLtzlLM7PIWR2PDbq5Z0PtDCuSZjwr
+					UfvPTODyf2Fn5aFXbP4nb+HrX5UDY2zhcoqt
+					8v9ej2F+rRBiwmJX5Td100sttLkHbQT+ltZr
+					Kp/IDck6EptYFdrTSiB9fnz4wiRWgMULdF8Y
+					Xo4310RHDB0R58Axew== )
+			300	RRSIG	CNAME 10 3 300 20121212121212 (
+					20111010101010 1862 example.sec.
+					bphqT4fM0WzAj1VU4KHT0ZinmDmjlK6ODwNK
+					kt9A6ddvNWw+yHqZdcA9c045ZFLTUWT5m0I6
+					SwNgDMBNh3NRLDfVMghUeQXQWYePcZf8cgQv
+					CQuRWmctSO6bpfA7r1k0ky4bKFQyFj/xtpyu
+					V1RSPC9vtOlwlRw9EAjMumvbp8ltZDIzJbWn
+					5patwUxAdW2o38iSJ2SrgCnYiib6PayVHUDS
+					6fep5XIXuSp9v2rcVCz/qjnQ/5eWbivSserg
+					9OwH1OlOOZGWkD+6ORji13xxE4oJ5E0MBByE
+					iA5AZxgPuwDc/NNlc8XgpR1cSKcTwpWLufAX
+					MNgGvlJnjl9+/XoAaw== )
+			300	NSEC	example.sec. CNAME RRSIG NSEC
+			300	RRSIG	NSEC 5 3 300 20121212121212 (
+					20111010101010 516 example.sec.
+					EIvFwBTbyqOgIVQNRFVpEiDCdOO9yB1Kw8li
+					7arpp2EC38D3cZh7fjf20cwrLNGjCL7s8UDH
+					v5v5uE8iLm/nCTIBHjuKVlsAtuC8+cbBThhh
+					S1ZO+lDraBcwBSjvZIClmzi9mcCy47z2jeEv
+					xpmD8piD7LPObFZkocxp7x9wdYc= )
+			300	RRSIG	NSEC 5 3 300 20121212121212 (
+					20111010101010 44427 example.sec.
+					bsb5tRHbvH1amKiZvpbSjglaqY+5mOS1mA2z
+					eeauX7TgvgS+mXys3ywGxTtT9V5zG78luWL5
+					ux4TtBabLhOOcr+qXqWLcMDa8XcIYDwGeBHb
+					nAbaHfG6yvudd5syQh3B87m7/IATqB5kwr1X
+					S/37XceeD4NGZtPkryakR6t3pEQMIaKAEO8H
+					Y5K2p+uXAJGLUdRqS43UBz6E5YfHUdQQiM4x
+					BWJDG5lyQlAiAFQb3UWfarFFVh0eFXCFxHRK
+					k55VMk/b8R4DsbAiXlhtmmz3s346UTOjV0Ae
+					Fn03PRMsCm7sI7OAXef9lzA5zjwxY1+a/Vzw
+					VREjp174PHtOcpAY+Q== )
+			300	RRSIG	NSEC 8 3 300 20121212121212 (
+					20111010101010 48381 example.sec.
+					p3+B5Ye7vtdxqVC5WgxrSC5sRb3/4vLLpVcT
+					SDKcHtT7TA30Xp2zO113pDiknKzUZMhQj0dY
+					ZfmsMnqH7YEKR6auvZ1gkgsIAetk7D20rbgM
+					yogDZaueIIS5PVqcrzw49P4XeIAPGevyq3Cp
+					kB03H/oLvFYh50qIk7+CvP+G2uaUkv1AUwwJ
+					vYjQVh13JK0lWvqUDoJbtpFGcEixH/Gr0A2y
+					rkkv0B6kDUNYuZ8UGywrzOBVHS+2oGMKFKoS
+					nzrIEt6gDdPxVwITa0mFHwBvEtmKjXSPS+gO
+					z5dS/fmdVn0IjvZWZsHviaXB2cCJesJTxZZg
+					OtZaIgJVIwQlKosFRA== )
+			300	RRSIG	NSEC 10 3 300 20121212121212 (
+					20111010101010 1862 example.sec.
+					rIMy4rIZR//46cCfDRgu7fhV8jdB0F5lO3P+
+					Wla+34AatF6VWATBp3mhrrWFkU2+xwXpXaCW
+					XmAhs8VBE2uwssYNUtPDKcrqKlBG4kdZ3SwN
+					3aeAZYo0AAdBxDRo8WOZmCVPl1jkNOqbzGom
+					qsmv2TNcCwU3kvcKdhfD4MS11ZK26Cgh7NLo
+					GCkUYDjJB+m/hAUYOFrs+18qbvfY8VEUsYPU
+					8gPHJ0Jq5gV05hAFxx1wKf5mA6EnhmP4Ujf5
+					xz2840KEo14Jv57cn36Bu4hhLSUa9sITdL0f
+					vdfmiS8m0KnFnuRKO/LizodLTbN4gj1jWeB4
+					R+cow2tkUKL/vtDSsw== )
+jumphost.example.sec.	300	IN SSHFP 2 1 (
+					123456789ABCDEF67890123456789ABCDEF6
+					7890 )
+			300	RRSIG	SSHFP 5 3 300 20121212121212 (
+					20111010101010 516 example.sec.
+					Gc1haglEg9HbrDPdIaoiG+PEwGvRULvuiOVO
+					MPMuC2j1AT21cr/LczKuLPduPH7UttR1dmBX
+					4PO4mTOyxaCDbkZPUt5VERFc1W6ZoCilM/7K
+					BwP+qMemmoFxIuQzIhFi4rBVX1av34suWuFM
+					aXNCO3K9//W/5sMC9zLkrgPR1kY= )
+			300	RRSIG	SSHFP 5 3 300 20121212121212 (
+					20111010101010 44427 example.sec.
+					c5dbw35BL+17/MF5qxzxiZ/GZKKQKrMxzuOY
+					uM3mPMXrbEIgSyz7vQ0ioBJXsuI6Kak0w116
+					DM3U8mMeBCL7KUjZcZ70Owwsa/X4C07qyefB
+					EqBsRr6Z1SidCEO0gT+CxD536J+PMFZOCBWC
+					nm0NHSl0CfI1qgXNDnJMCHNuMr3UiXwBB0Z9
+					j4CErtBTsVOKdifG0YwN1cVmSTMBtPokdkSO
+					vsDY0MJ/EKPsebvwM2fu6yQCR/JU7NEEZovJ
+					4zC6GJ0Xdnzl9iBCGfbXjpfrswsP7ekzLZMw
+					eJu1Ub8U+xtRhkp0MWXig1G5yrDF0eDCXr5+
+					zuVTp9MkHf0TH8ubKw== )
+			300	RRSIG	SSHFP 8 3 300 20121212121212 (
+					20111010101010 48381 example.sec.
+					PWTdMJn2y2Dz/GivlNev3djybliV1BSwsItX
+					j0L5ze73HQt4zV9fMyA6C3I3ST9mFs/JsOHv
+					EiQKM5MT5+dJ0+ogAJBTOQ+H7pcoxfvSdGLX
+					jNJ2yiyOKnrwi3YtixVQYGm/VZL/RcobSMs/
+					ytK2u/n3pzj4ndZkwGdoUy+9pziN4AMbPl6Y
+					ddDY7Mwn/7YL60oXO0iK3tpFTn9yYp04TWgB
+					K+A4nyAoAeTMg9xhMyjknINc3ZnZ1RfrOjCH
+					YgkmJO7eReuYyHkKUl3k9phwiIXGwy/Ntz6d
+					GQX2+qu0bAITY834jK70hS5b66LEugbDrOOW
+					8inaAX/yx32yomZcRg== )
+			300	RRSIG	SSHFP 10 3 300 20121212121212 (
+					20111010101010 1862 example.sec.
+					Xy85V5my38tefNFDamqimSTwEvnZAQ+gO0bS
+					8QEVcdoCit+IImTVfNw7th8qkeCZX8oeNsBN
+					EW2CXrc5zMjU/l4cDTTAgNTQq8fqSx1ub6WY
+					WnCROq1yIGcUjzEOtFajpry/HmOzwdhdUMgD
+					hpVbeBL2mQbZRJZEBtccfJ60Vv9T/JE4hPFQ
+					5LvskHYSRCrnWiZbPVAThgOEHlK/J0k7bJot
+					+XUysUIjBOC3H6Qsz4LERMtW+FZGRkHQWnuK
+					HDnOxHkQjfk+r6gDGLbl7rn+Pdh50j2R5C5m
+					1tWIHOC5AmAl++1XyopvyCeaYdA5DCGJBLD6
+					i4/fBR2ZQM1W1CyVdQ== )
+			300	NSEC	mail.example.sec. SSHFP RRSIG NSEC
+			300	RRSIG	NSEC 5 3 300 20121212121212 (
+					20111010101010 516 example.sec.
+					f+mGKHroiUBoUQlj3tDzaTpQLDP3C20hrVSk
+					Qo3Kx5E4AGWzOljLcianbo13k9DHYHYZj9EU
+					QEgzxC8UM7bFptFtX9e7kmzn2UqzqJZCIqlt
+					nz7CA8Nb9ywivVMC7ghyGo+L7aSlTCE5kZiX
+					xKKkyuqTBcewRoev0OZYtoBoZkY= )
+			300	RRSIG	NSEC 5 3 300 20121212121212 (
+					20111010101010 44427 example.sec.
+					vVHIWbzaQR0ATkAG/+9XJ34lO6JfDPulZM9v
+					qbTpaYcnfxoh8DwouAUH2b46aEzIm18P0dYt
+					8lNK3zkQjqVTP57c8eoXeFbRb4PVCqH3dg8I
+					Hnqba5waEmuB5ztLwwMHku09F/seC2Plowon
+					JVf9oPYjy+JoBoQNqfPrKNawoSucBZUd8gLI
+					0a0nf4zePjLv9ynxYPjK6re3XEhZ1TEAI0/c
+					oIubt3CnlT2IqCpNEaSDdMn44w1uXaRZwzbv
+					z2zLaqG1N2ZHC9WSrxoKpTTIkdloI5lWf0Zb
+					hmAHtRYTCRlkLVlkvf/xk/iA8oKG9Ae0LU+j
+					SX6ShGAcEjFCPoOHKQ== )
+			300	RRSIG	NSEC 8 3 300 20121212121212 (
+					20111010101010 48381 example.sec.
+					X2GgDqCwiVdhqxZjySDoAuLxWzQ9j4jY+w6I
+					yuPQBVbzUp4ci17zOmnzvNbA4IQxeySEirpL
+					wYjku0fbtxSsay3g9Ksy0GYHRc0WaSeSY3t7
+					0W2zDiRgfQm2sKVgVaFqyeHmCVZP6zO+P4W1
+					aDdiweQmLJHnAhHQ0WiiCrgbOi9jX6c0Q1cD
+					sgEzATzoeHarD/Yc9ItGrrYY/5S8kaPMQk5I
+					d1vCxFJ8OtM5oP8o+7oQnoAjauvhBCa0Tr/R
+					8ijIr6Y/6vXt3/VjdLHI27nqtl5OIoB6ULtA
+					/GlkqlibigOI/isMnNhHRzb1IxmpvuhziqpC
+					m5cVXQkmoD9ubPphkA== )
+			300	RRSIG	NSEC 10 3 300 20121212121212 (
+					20111010101010 1862 example.sec.
+					alcanJXSt02PXNI1pUZ0KYofGwzpWgbpIa/5
+					/9nt82m6ICRIzz2/skkK96HgRL0O4yWC+1+c
+					08F8GLSknv+MADQp40dXOM9wjpt1Vdijd5GR
+					sRbMfqVlRFVdlBL2NGLvMzyxe5Vtur0xD9Ae
+					Kjgq3mU0weDszCvKMRADdMBimmSsFtyxYM04
+					45VBFzk6Lidi0osII+nSxxDe5QM19WRkYXJj
+					ZlEcmWkchSn10+kca4vrrTCUdlNZ1HZxTAS9
+					QWfBtFqX991IPlUkP72Pg12U4DoYZJIfhYB1
+					7DMtiCcff0opLyGHu0Ba26Y1SiPCrsJ7sPNm
+					WAP/+RTzFBcwudeNRg== )
+ns2.example.sec.	300	IN A	5.6.7.8
+			300	RRSIG	A 5 3 300 20121212121212 (
+					20111010101010 516 example.sec.
+					kDQQNP+l0TqJq8Kfn8VU7HqED4wX+CVswCEH
+					TCSo+ByoaMhG7cWfIzV9d7euMtDWbLvnp/5p
+					qmmDkhlWjmh8/jDH0eoM5LsYJG+hQfoDGBmt
+					L/2eEBHcdwahbr5zzgE/z1Kvk4cLInp8iveq
+					Nlh1br2rMpLuIWZtYYjkOziqKC0= )
+			300	RRSIG	A 5 3 300 20121212121212 (
+					20111010101010 44427 example.sec.
+					G3ZnC5ZXkcqBbBXM7jDtZ3zLggKW8P++ryWA
+					McqvywLUWXNGqu1VB+/mcyaEoi66T74hQV4+
+					bsWhQRNU1zXmPyoKYVoDeLgtnNymQEUi7TFB
+					mp0iBGGdW/tcZKP+UxrKmtR9nQoo/wuz/RKD
+					cWGHVAEjnK9DCPIhNwHG3frFimVoc+eoBG/r
+					okHgI9IWQMJ4z+GGxKwHZ+qIvPTaIXJpBWl0
+					tiJhj15B+QeShvGK0Au8KvafqXgUEB7o0oh5
+					KiHTeTx00i7lP+ieneccJNGONhi1grVuarum
+					cqNrVR1ddGLjz5yvkmzxXtRBCZmcqgRaCzkD
+					Yr0pMzvhxNzSfQ03pw== )
+			300	RRSIG	A 8 3 300 20121212121212 (
+					20111010101010 48381 example.sec.
+					WY7f+CDmncZvjqYEGlrgeRGuf06NZNc4vQ5h
+					1j3Ux1yjTY22CTCaQafETI8+e8W35l0FPTgm
+					sTKVnTMD9nloIgghiwMBhbuTgQZjAmatj5TV
+					ymcNkz1vIWOB7J7eYA1eLdNQ9NARk1N9NrSE
+					X6pfGzjWydsAhRSQVig779Mz/PPAxG/7rBXM
+					j3g6+GZwFvbaMJata9HuKP9zgIbf19CG5MLe
+					nGSzquzAJEIvPXvwvddSQCGg6ADuHppYwOJq
+					rkqsKga2T73Nrn5k9KrCrt+1iC1LJvbws2R8
+					jkB/N+49IlkzZOZXtI/KgL9riaOnbFCyI3iI
+					lJB/LXjunEB1h1Nr2A== )
+			300	RRSIG	A 10 3 300 20121212121212 (
+					20111010101010 1862 example.sec.
+					Wcpv55iVI8UfDBlVrr6XXN+MhhaR+lQECr9X
+					QNDlAAHXosWxbbVfbb9NX0LO11xrvqGe1Lkf
+					Zqs2GKW1F6VK3fOZOyUMvjNrKm8KB2kFKy96
+					usJJuzAQQ+fK8IDNz91WAwinwYlhEbRQNRYs
+					ZToBnWWVyqJ4e5eBwk37lIlp2XKFjx33ziPa
+					oJExCx0vnoFKGm9DAjL4AQkKUGqKadrhgm31
+					PtGhxU+k3RUiwdrd5cRGAFhDpl8multfJljL
+					AjfT5BNtDeHo8md5QWuNYGxFYBnYOE/5nrtR
+					GNdrUeGMckbASfjm/PlA4QLrkQxML/Cee42T
+					tFLKl9wGhD+YMjLEDg== )
+			300	NSEC	public.example.sec. A RRSIG NSEC
+			300	RRSIG	NSEC 5 3 300 20121212121212 (
+					20111010101010 516 example.sec.
+					RLH4xaCk4HFnbQOEGFM8xTBllDyNolLE6u6W
+					5loi7NdPv+6F80w12oYENwVYRXC4cXa4x47l
+					aTAOTXEEf1LJeP6GT5hRUhRj3oTMC6InVlHq
+					ZfPONJgzsyaX958ha91Z2VkP8t1eliUA1mSc
+					PxbVOMzAsUkPbkHp8D2CRzHwMCo= )
+			300	RRSIG	NSEC 5 3 300 20121212121212 (
+					20111010101010 44427 example.sec.
+					zl2+IlLPn/ab3nK68sCXibCB+lu8EES0wgzd
+					Vs9FyyP62V4sqjCrPaiGHHeoq/wS+gQwwBQo
+					6mRZ/gT0Y45RoQER4XgDi/HQWX7zaCeMJ4aH
+					P0qs9YfJ2odYPAYJbcV4uSRB25zxx+xPUtGQ
+					gIRKdyUTeXxjBujcraFxdDGMi4HGqFKS/qDg
+					9x3YnQW4DeA8VQuSCdIoH0zWARyJLfaN01Yc
+					iAvRGt4QLzvE6Wb3YqxbOMinsLkrnMPTaUjq
+					gSiM3pvopj6HVI9ElQVQFb0SFmc4IOusc/1u
+					F1nYngdhGjS+8LVcCPdXJajqiozkGTGN5ISJ
+					KgWWmA7G51peHjXXzg== )
+			300	RRSIG	NSEC 8 3 300 20121212121212 (
+					20111010101010 48381 example.sec.
+					F9HM6TzOjWpVtiDblqGvcDDcpU5/flAM8OLR
+					YEIVoAqTiMGwGKMQ5Mqs0Fvnlk6+fTnQu75c
+					OYvGM4JGucdyWNmzyIQ03L9qonEbBFm3FewR
+					fL/0COs1GJGeglcHFW9dBIK2Elo4Q9q5mtxY
+					JCseGHbmjZIs1busGdm/W+JyaCYiHBPJi8xf
+					ijfk06miRoGaLS7/CraajQmGQLF3iF94DzEU
+					OuOdWZX2z81VrbI2DbCVRYlokjKz7cc3mm+d
+					zhJAKHcMXN4PTqcWg5mgdulkGvqL2qFgi5e2
+					WJxUFZxEDn1Zbqte40CZHVqMdv4I76f8mSns
+					dFXZVw7n478EjuVj2Q== )
+			300	RRSIG	NSEC 10 3 300 20121212121212 (
+					20111010101010 1862 example.sec.
+					MdxARJrVol52I0HwQCMSG5dKbatdChleG4/M
+					Di4B4H+r4odFZ2mWP/UINyRmOoLVi1LrPEYV
+					fAlqi3UpPgHNn8zZG7uY21WjIT8ITAkD9P6y
+					omtVTCK7aV4LsxmzzVP8kzm3/nlNJtltLowP
+					nwXSnZnlpPCwHfvMXLkG9QHgIbHlynIe54oF
+					wlsRMFrU/rtkA/ygyKGrXzkU1IxnKKl0f2fj
+					qk40ki1LbdOPchQemSC9A3eCjOo+yvZ12468
+					4QbwHtJt7oSrZxSdKg+C+wHIR4MEmJjIx/W+
+					iB8zzM3SI0HKVmHa6K+uoj3+AsGvRjoRjtt1
+					B409OHrDF6JamfF1WA== )
+delegation3.example.sec. 300	IN NS	delegation3.example.sec.
+			300	A	1.2.9.253
+			300	NSEC	jumphost.example.sec. NS RRSIG NSEC
+			300	RRSIG	NSEC 5 3 300 20121212121212 (
+					20111010101010 516 example.sec.
+					aDuwflouJZAMUXbNt6A0ypMpUq8na4f9d6QP
+					ju+0dRYVq6PUQsxxjuyY5IIwlsQjwEDYEADw
+					mCAOOfQBBQyL9ce3Wa8x7FrcYluKfe9WvCzY
+					fehCTvgveWofKly6gUW688tAM7x/yLldXX92
+					3RK8RWowMU6MKUr+uT0KnWw0+gY= )
+			300	RRSIG	NSEC 5 3 300 20121212121212 (
+					20111010101010 44427 example.sec.
+					lF/9uqO3LqvzQ9BFyWigXLWySEgiZM237tr6
+					uei89YIFd8QI7ohvTLcq8cYKFFuNmzn63Fp7
+					J3ON2Jhwuac0pb0nzJOWfQ2C+ER5floHjbI9
+					NUYl5CjVVeXvmlOAQ/sfGbYm5FyHc78k9/tQ
+					DTFhG0lRQ6HcPGRGIx4guNQnB2dg+KhlI3vP
+					YEx2WJ+DzT8X3IezAvXNK35Uq7oTKbQ44kOb
+					WjIhSi1ZYRnyym0blw7jkRCuEd5eYWgTKwZ0
+					J8obAWKpT49KS1ecKsXqiD0e2AiXhTzpbM6n
+					KJNCdCxnfPY1DzwcCMWDtWgRHbQ9M7yHC64u
+					4SWXa2+xDRg9U0Dg8g== )
+			300	RRSIG	NSEC 8 3 300 20121212121212 (
+					20111010101010 48381 example.sec.
+					PgFvEOrMiHt3lnh4EZLm1Hk7k5CnjiVVt5rf
+					/0011+MDDybqukDTxECTKhYa2TyuGHWAy42h
+					EG7jBaHspu14qw/JZxeWohXaH5lepKS0EdDt
+					nxEWviArgn3OTYRazod+gzSAu5ZbxODXNzMX
+					N0Pzs9sV1NVVZAJ5kHUWjDwDsQH247RpgyTi
+					csaO0QIHB7tx35AncW0269aRLGtAvsQOAnZQ
+					1jJb79zTZQ0JkbXIvwjD2H7slTLmjkm7b/uQ
+					x4YK2v1HAtCgA5/b0USyD0gpaRaD70rbgjvb
+					OCr8bC/qB8xWkOLODNJGibJi+F3esNqV5PGf
+					NU4KLhuVtPWgQKaNwQ== )
+			300	RRSIG	NSEC 10 3 300 20121212121212 (
+					20111010101010 1862 example.sec.
+					DjcIDCqnLHUiDti2sDAHfoxUtDdfUaS4b1ym
+					Z9DkEFX1JtLYx3upD5JAuAfkdw/Ky7MPEao+
+					NtAmKAm+UAeRk2+Z0JQ4nrLVNOhopKGZLjkw
+					OI3piLmRj6iBsVHcEJpCz+6I48o8RKeFuety
+					gCXxatSIMRv+ivS7iWUYF/xldgEtl0YNGB8z
+					yzjC//Ps+/hUH0odD6sVQgqgncUaW5kIaKWK
+					VNIha/V6ID7TKjJP7MbmIwW/SaL/r2l7dZiE
+					iRXlauazzjARptPZO9Cmg/5wCEeUjGCgCgEM
+					x8iLFa/L2Fqwra+gAm0lNmf4HAmCMhMg+Icq
+					zyi/cpSnOVzPcjm/mA== )
+lets.introduce.some.empty.terminals.example.sec. 300 IN	CNAME example.sec.
+			300	RRSIG	CNAME 5 7 300 20121212121212 (
+					20111010101010 516 example.sec.
+					AL+YJlyA0isocjsgGOqNIXvpZT7uKCH1zopf
+					MD/sSoP1mRUFrUSfYmr4zt0hsh8MgFTl+1wf
+					KjG6L+kKfZOAyMYPmBgu7qCllw+ZPpBpya92
+					DfcTq75oa9A3VoTUUeY+9dm8PtuRWau71ykC
+					imVU8cOFwO0YFe0aUUcvMgm3Lf0= )
+			300	RRSIG	CNAME 5 7 300 20121212121212 (
+					20111010101010 44427 example.sec.
+					uGRciWzwdYTeS6fZb4xmW3iD+ggS3aJb9Kz4
+					TxBHUt6ZPhlDJXo1VKzyS2ZiiGAp0n2TGdJl
+					NLNrQfLD18i4tWG6i97yyqLu/xHAtiUf2V1B
+					RT7EBpPrHqYQhdAaPTIZIHU9wVMePffQpCYW
+					Xj6Z98vWWRkxfrvfLbU1SOolyM664CVKEKcJ
+					hCF0IwmW+s8F2d27mTEmlJWR9r19pdLAHX0H
+					kpZFfq7nENeHfgIH71Q5xTSXK4nkO13Y5ofb
+					Fp2EO9/eYNbMfM0ZI0snAeux31ZfGuBSZj/4
+					pV3sC1S9+2lcuD5asTYlRr1BKtD5GEDMh8yV
+					+sXrlLImeXaMLt9IGQ== )
+			300	RRSIG	CNAME 8 7 300 20121212121212 (
+					20111010101010 48381 example.sec.
+					bIzIYL4aeYLJMBZ6o1uDNRHr6amdfSFssdb2
+					F06evMN21dqajRHl72pAVjl1pSh4vcamMI4o
+					GjYbxxc68eJNlU+EsXu360yv/s4EUSivQ2+H
+					wI9F0xU99qnt5auxUXZtaQ2X6TJVdFWJ1MKy
+					kl1bBXHirkOgk4w+nmNbOT96aamrgOGWAWH3
+					dYui0D7GQcTAbmS65a32sri0L1D9Mi8CdbwC
+					XsvpCg9CPtMnHdpZ+jhlvlUbYZPoOGpBvhht
+					4sA4+G/iObnyK8mxCLORAEfIk6np8CaokcTW
+					XVPGoUayoJpu+Yn1W8q/un3ojDZsHcrFn6vJ
+					ZRalj3K9jV5AbvbFOQ== )
+			300	RRSIG	CNAME 10 7 300 20121212121212 (
+					20111010101010 1862 example.sec.
+					blkP2cngt+UCVBKvBHSZI+ZhnhV3I7Ar69Gv
+					CSS0ClH6nfchM0E8pMig84pEKhqqOyW1t0cs
+					7TuAfFsmwFd69doJsnEcYzGbGjAsmLggHbxp
+					spvMGSMvZAOhQdcAzI3XPbii78+QMZTIheMl
+					QOlVSAJ0+AzLfwIyKCe+XoP8FdH0yiLqm41G
+					qUrDiM5jjzJuH5X4iIF800Q3KjZn2iytqR0o
+					B/Ff3ma4XIy9bYB00CVsGxh3tSX9TL3T8a9l
+					p7wV5D2CTMlHACtdJwmXe/Gy8VL0kQNQYIzB
+					umIStFS86Hm4A5GhCTxjsp5OrUAW9e8Bjv1B
+					o/R+YW5UPnVVag2EWw== )
+			300	NSEC	www.example.sec. CNAME RRSIG NSEC
+			300	RRSIG	NSEC 5 7 300 20121212121212 (
+					20111010101010 516 example.sec.
+					ak6/mJb3f/v7tKwBdX5Hku5uQGfJRGDGhuAV
+					kLQ8Zrq+ml3H3nYphYsAxiEn5pvzbmnfp602
+					yXhLfAH99X9rFgj4vMlQnClKn+wgKV6k6xAS
+					eU+RkINaH0mTR3zIT2tG55IkysVvXGcGM9CU
+					NXbebm2s0UX4gHvE9TuQ77n2Mzk= )
+			300	RRSIG	NSEC 5 7 300 20121212121212 (
+					20111010101010 44427 example.sec.
+					FqI9wAxTDVnuW+XBWZRB2wR3t77T2TSYy63E
+					DIxo9L0IMZDxf6N6t+KpCP8gT1XZIkT69bD3
+					VcT7VAj8NgJBwNK2eQzC6kfwUMtqynd6pP6n
+					1mWBHDAUrO6NWZP982suh0da0bBbTJFE5Ftc
+					nBoS43YzNSk1BsBznD5maVCkPr4a4eHNmzCn
+					ro8tKxPfyXHfjyS9wLw0e/rt4OB3kdGmhqEy
+					k/WXBiq2fvzt/f50WHvQWonAdQFHf7o24UIX
+					qiv1qs3MZE4V6ibZPf7iRTzoNUO+bmBSxZD0
+					bo6294fpuSjBd6se0sfMGw+awEcEWLzUtvfr
+					tj4opt2IJ/Cl+4Gr+g== )
+			300	RRSIG	NSEC 8 7 300 20121212121212 (
+					20111010101010 48381 example.sec.
+					S8TIynsr77CjTHTDAqH4YoTK4kN0NdvVXA7r
+					Dp7dQiBdyNpMToFBZZePyDFohpJy3iB05F1Z
+					WgDJV1T1GpWWX++iIvrMU4xzZqQt/KTGFrta
+					WY7HN8V5lXixemLf0oFm6ILYOjoG5SrpkDcf
+					p6Ej13OonZnar/DXYBXZ/mufr8LADAxY8uEV
+					xs5++Ro+esupd5HFL/4yQmHe0Mt5P/Jya29q
+					CL5f8F1dIu0fWhvnCRXRDC/KIrnCroz7Oo4n
+					+EFtzyZVGt0DrFpEQHKmq8L5cjjleMsfJRPx
+					2+K170ejOuPI7bCWmdZ1uyqxrUCNEu4UlR3z
+					9anMEzjdb2UGUcCRCg== )
+			300	RRSIG	NSEC 10 7 300 20121212121212 (
+					20111010101010 1862 example.sec.
+					pmCD4JbSMynLnRsEuyA28GfATCmN580eG0a5
+					TklT/vSUvN1PCGQOFqy5lxqZ3dFLWi1XcjEp
+					/338ixg72AWanMWXnX0LzhUOywwK5GLQ77Qd
+					FuxgUW9S6FvANmdjKsKFtXCFlECJrU2bWEgY
+					nORtZLifAQA2wkIEqdAHFixxWQqxoYTPl5wH
+					VK+gGhVRsBclpglFrCwPVAG7GxiaUSCKbnk/
+					Qgj03K0pVvzCpQcMxKmRF3rt7FZdYbPQTUo8
+					euPTfR+ciLOEfJvwpZO6BhBoNhra1nOu92wQ
+					/HP/BeuzbT7d3Y8thd7dAy4neI90EkivASHS
+					A/3U3bxRVPiggf6Hmw== )
+public.example.sec.	300	IN HINFO "i386" "FreeBSD"
+			300	RRSIG	HINFO 5 3 300 20121212121212 (
+					20111010101010 516 example.sec.
+					q0GYkKtJBmqV4KGaGlk5qrN2YYjnJeV0OzX/
+					/eYyodGjDsUY0vZJVMSAGJLXN0PEGuIteEuv
+					L2G7+nnndGdwhUPMmCAHfOUPmct2NOntwTmZ
+					luh/POVUP01hODM/ACJLz7+IV9Mi+h0hGMdg
+					OZWvD/SgjYx9TB2hM0BnVjralck= )
+			300	RRSIG	HINFO 5 3 300 20121212121212 (
+					20111010101010 44427 example.sec.
+					R6doi+6gl1DiZeVNeIBKDuzrynjJjynjZZkQ
+					yDzAHSLVTJfb1GCcdpq0osr9Vli1/LAZa8OW
+					Cuv7FK+9dnSaWOJK/X/UGr9ZVZE/2MGVlJoY
+					h9gEwqTV3IwPnBekK8N0IYqBLXmPYcgWIvHe
+					6PWK/CwbADONmKW5VHyFwCbLfRF56ntYF5nJ
+					lR+wTBSZOcBiE7g+XlmSIpCjEN2+fDdZpRlu
+					3Z4ylD9Lyj9TpCfGXn8bWUd0Ulfx967PDb50
+					onj8EACUHMFdTFrjmtTCnscxv8HaUhEP4khj
+					eKkvXUuPFzlyfIFkomxYJQuU7hL5Vl7dNgjy
+					kA+2IW3ANl1a8qkc3Q== )
+			300	RRSIG	HINFO 8 3 300 20121212121212 (
+					20111010101010 48381 example.sec.
+					SI5LPKhJ8YA7Dy4ckGfU3oJ2URQglZC+YQsT
+					qzAadvFZS7unzGyQ6Gw9khzpxFMHX+guJtfe
+					Hi8iWL2iAIRyyLFZnwE3nokOkKd4VXqoQKla
+					kB37jYG79EiVgFkUv25Ox3nXOdfHPLPW29W3
+					njZ4a8chQ95cd7+dKqSeC2kb8HDaD/MrsRHV
+					TGOFwGxLKf1WqwErty+jEvC2myE5ddgz7iys
+					Vzzaud6ZoTWdX7OmeG6YuJ+Zxd0T+H+q0Ggm
+					ABtRK17taRmco9aJ545Q0vTyWJeMjhpFiGxj
+					EojDeYK5piEPzakkPlUVJS08zZf7LjW7zU+c
+					4xy0+clVX6mLHjdu8w== )
+			300	RRSIG	HINFO 10 3 300 20121212121212 (
+					20111010101010 1862 example.sec.
+					DNOn10txehqPHCLd5FhZJs1EaPoRXEhfr2jq
+					grNwaSgdvIz1f8wBoz2GX91zI3mJTCHGL9W7
+					dUCoauwgFjtDaLpORgsJ3a1csoRxD3gF10rf
+					Xr8/iT1sMvwB4r1ocRCrMHi22AJqW4XYlaIO
+					wONDNVIRBFscE/18MuBY9hRwcZzs0EgSShaR
+					FmDhKFnn9uzlBkPERxJ6DH4DYWh/SYiyBJAH
+					Ud3wj6D9E0Ts0gIMqQlaVOjyYno/6hIm1e6x
+					e257YXt0IGqTp7Z+hVUYJ0FnyriWicxKK/j8
+					Nu6zrj9UNTLTl0YqTWUWq2QR50ZwN6w1zYty
+					bLf82kW+aWx0nsZvNg== )
+			300	LOC	55 40 15.258 N 12 41 56.378 E 9.57m 10m 10000m 10m
+			300	RRSIG	LOC 5 3 300 20121212121212 (
+					20111010101010 516 example.sec.
+					FA3aGjmFcCbEBZmJE8clkKZ9q60pI8U4j/SS
+					Qy7csPJd7zo5UP2Y6j2ZFTkusFQpDEWXX1SR
+					3Ss6iWrCJNchoO7DEHrjnp1FVt5vsarHqrbb
+					AC8iXKf0qF7ho1VVaZMOF4EFnznv+Fh6easK
+					LAY2DIsBl7+0+P6x3tn1DqI8VP8= )
+			300	RRSIG	LOC 5 3 300 20121212121212 (
+					20111010101010 44427 example.sec.
+					0Fmm5Rrle2+XFC17cJwmJ6Kb/RMZ0HJ1O8K8
+					pzwJ7vl3Bg+/hmogvZEg4bwk78GZy9TVE1eV
+					yeJV3cNYxJcoeGN9+HzoFA7AGuEXPnNwIpp1
+					pw3BRDJjpTKI0WaIxoRHZD84GCR/gcLyo/bF
+					5xpfzBHvhqbXsCPdmXEG5srREFT5om5e616p
+					bH1qWmqJB5cHM5V1aJlAroOLV3GvGzEb54/1
+					/oOxaiaT1xiXHo9f2phfn7HhqwsoFrnmBU1F
+					gypSEnJt4hIQGxChwTDmCULpG7tJgezUN7ml
+					3EgboXwJrVmjAsVx7or6T+RIqCLpd7/qBEmF
+					P9POXMq7KGUeErYlaQ== )
+			300	RRSIG	LOC 8 3 300 20121212121212 (
+					20111010101010 48381 example.sec.
+					yoYdKIwfxctaR1kPkpNFuiBIx8rKaRfEyXpQ
+					uiW5Q6D0myjXcIWTphV+fLpbGRDgjH7jFY/C
+					wGR86aShr0M8yCRie9m41WsBaMy//lcgd/8Z
+					FuBOBf8HMDb5LNMtW3NpqTF6o9RWMZswg93A
+					dVS3Ip49y9v1yOO4MRIrJFBLMLTdd6SeHbwk
+					0EyEHz7RlT4G7Lb17heSwOkGRE+BP3zkQs0R
+					U45g29lH/SjmzvJ+EdAkkVeJ6jbLsAhVIjbf
+					3/dVclmdRxvydbDn3+CIcd5RCzbvA/TC/K0n
+					28iaFvafbAtq4tfEl52VU/15i31gTyX3PuRU
+					D/3QqqHv6/pQ5VA9pA== )
+			300	RRSIG	LOC 10 3 300 20121212121212 (
+					20111010101010 1862 example.sec.
+					PSEm32TYZj2vI6IjeApAueStO9XKis10HU7d
+					/dHR4LV8xYJZFwxAF1sK33XscT4D89qSFmEI
+					HtTcz9yY8MdizBgaGUDdA3tqENoy+5XHCQ/j
+					5mcT6jn0HFQ8BUHQ2SYAPWbCqJZT1PZGyQrP
+					5vCawPnhsnUQmRg/Na/imGkgT5mPzxEulF/W
+					Qj5Yqz/IWMIQFC0pVx7rNzg+GzO15qiO2WDw
+					du7+esTK/kbz17LvYzvFLoUoXffaptkUX1D0
+					UW8wLtP9qMx3GwEK7CPDUexaNnowwWHAWPCV
+					2CsT7SUgoJwkEOVAXR05WKAnCTIBqDQFkIzj
+					VxhLLDqz8ewMZG82Pw== )
+			300	NSEC	lets.introduce.some.empty.terminals.example.sec. HINFO LOC RRSIG NSEC
+			300	RRSIG	NSEC 5 3 300 20121212121212 (
+					20111010101010 516 example.sec.
+					YXqyK9kbTY2oKWr8BnBN6espTWK3s39erCRd
+					pt+iB06Oer6WmT1XgfgWlrkcMQTurd6Gbd7M
+					nMwVGf7Fn4O/3H9EfSDsTMyNBCno9dIbj5lj
+					kgciMmeAVv/jeTAdU3KnuG5AKbphGMeFGlAF
+					d1K5BhX7tQFIKVrnSTuBw0EyqC0= )
+			300	RRSIG	NSEC 5 3 300 20121212121212 (
+					20111010101010 44427 example.sec.
+					vXxm9d1xWfzUWBWEy83iPoQr+emswzgkj5H6
+					F+BtH5Sy9O56M8RVt8npXQqFrETl3CIWgiGP
+					ZOkwgvFFQxoeVE0RdLmhjOItJyZn639TtdDt
+					JeaEm6I5GciD3ysBnk3ejgAICTVHEOGUqLYr
+					+KWJxX+FCnCBBvU4/kHo17TrhXJNICvnYdmk
+					mCAJTv50Eu/P0+RQ4WhnFgMzhBywL8j+wXnv
+					IAVUjhKQVnPudlWGs+K2SnguBawB90NQ5GAJ
+					KoHkiQcKDH5uAnkJtUeWJijrCQXifF0Kcq0y
+					q7+PqFSgHm3QvTqiFTlAIFcvrOj100qh35vM
+					SFWQDEK5A+cht/8fkA== )
+			300	RRSIG	NSEC 8 3 300 20121212121212 (
+					20111010101010 48381 example.sec.
+					x7657c2bXuj0HJOKG4KlMr2zNYSkHonE8cx8
+					drbsfGMw2/dfsYwbmelIEHOgKCOsRTuqPMot
+					G8RsaY/jgVfeVyRzrN+xcykOpP+jVquEvf+P
+					rzRHX5DwSWU2uYF8d6aWGL5t2frRhlJQW5ro
+					JQa4CxnXMS9f8IOIPQXrVF7xpJ2twLWYTEb0
+					oWYw3n+nYTTVjIUhg3eeIVk/Zan5UnyrSCAh
+					yZqHoTOW4Hz7qeOceFAAQKCUzVI8t//NdjON
+					DLIOZ1682IAviJ+htzGmCYTl6iZMlt8wJ5LO
+					Yfkzvd9UUt4w0OlOe26Kc/mBoVy2Lk3mn9BW
+					Ba3V48bTYWHHbIgOTQ== )
+			300	RRSIG	NSEC 10 3 300 20121212121212 (
+					20111010101010 1862 example.sec.
+					dSZVt5PRHBSTIL3fsQBU/Ny22+uPKvfmHPM5
+					vx0XfzI6IHIQ/UqlZcBZhDtfSL/TEI4SrpTt
+					qzUvmif5764d3crO8l0iUc8Hdg9+njXa6HQe
+					v8Dzkc3+aSBGj2by5xyMHAbIFxzeIIFmWsxe
+					VONzeFdBFUSU3hvzAiLyGQMG/KgbiIj3CODa
+					hlv6sxYzzkG80Spmm0l0Y4WIt2UL5bi9TxNB
+					a+0/aLKi94TEDaxPABkUwrffGNFMyOJfvkWw
+					v45ryT2v4W4RuNO3yCz16S1LFJZ5JQ0Dj36J
+					7Ud0twaNLyiKpB4kIqbpVdbtNudn5T1dpxzb
+					cZi3E78UR7i0ps5Zqg== )
 delegation.example.sec.	300	IN NS	ns1.example.sec.
 			300	IN NS	ns2.example.sec.
 			300	DS	60485 5 1 (
 					2BB183AF5F22588179A53B0A98631FAD1A29
 					2118 )
 			300	RRSIG	DS 5 3 300 20121212121212 (
-					20111031204308 516 example.sec.
-					DUJ6KrB1rYuuVhbN617G+l3LvIkkKf9Yg9xG
-					IIVvoaIWYGxs40hdQifQW4fHjQBHJN+pHlzG
-					IRiaKDsEwcV1mP4rEk32vgoK1h87j+cv29u7
-					3liq9MCV97JkQc4CGdC8PzYFOMbfp+H5KTT9
-					R0QVzMTyfk+Ic284XXFT21fEhJQ= )
+					20111010101010 516 example.sec.
+					uEf2xsca1/OJwovwMVGyFB4/6OUmutAWlWvG
+					qM9JDtvUPMhUV8dzRRiwpWfz3YkPU60Hqn8n
+					QX981RtNc23oiwjmo1ehp1DW7R9dqcqxH4KM
+					5gYrdJT+lJAoN3ii43rQNl0N7OfObYxlZj+N
+					K7aMVBHESqQd5ZaRfkiut8XW49M= )
 			300	RRSIG	DS 5 3 300 20121212121212 (
-					20111031204308 44427 example.sec.
-					4p5XjpmC+af/vGWTZ8NvvGiWKriPuBkq9CwH
-					z/S535VgoUXcMkFlX98wx6/miXQQ7nsYXHBc
-					gIBGblWJDnKnQfIha02RAJGTpPfokUjkH3GH
-					RdrCCx6ymbt/c9QMkShmMt3PZEspyTn2n/LQ
-					CPL7+VZznHrrcc7Q3yLf2cHGCmiM7lsMwTWJ
-					VhextsieGgcqQVzuVLP265vBbRaKkyzw3BFN
-					WfFas4eUOPlhMjoZn5Fh78qdm0hHpRb/oR4k
-					zweXPEZFiwmpMA786W2bptSLz7O6ud7Nd6cA
-					NlZ/EyGT38QksJARo4iInkbEt20EQ5mCWcE+
-					DmeTAoaKMvWWmtHbOg== )
+					20111010101010 44427 example.sec.
+					GIx0C0s5HJdizOCjIFnqf3BvhIwKaJZW9id0
+					vcQAyd3qzbiiuWecM5pdyiJahFpnKmGxTdLM
+					ZCEwNczhZZf+RE6SlOu8j/VcFujTlaq47JMZ
+					uaU2KETUVZzOhFP6Vrddax35icNcO1Qfu2US
+					B501hzVzyAjr4QL9j0KKlYBe3n3/349dHIiT
+					trruNmkB0c/M8KOkApnUbO8/42Xaz5QCBvXT
+					nyx3jp2WHTCCLLC2o0LTD++w6LkqhTXvWcbo
+					oIMBUXD9hXm/NnYjPxR5+8IhIzPjgjL1vzw7
+					RZrtCBVuI6PIsCRhyXxJ2XoxB293M0GxOmnh
+					VBZ0feqy7wVmo+hklw== )
 			300	RRSIG	DS 8 3 300 20121212121212 (
-					20111031204308 48381 example.sec.
-					M8+FGHmjau1Rag7jwBWpXC2vap8jQ8VWLxQx
-					d7yPY3JjY2inOQL68z2sIFSYqyWWf2T0VLs5
-					p0mt03iaB0P6MEvtU9fXlgYXU5b65E++Awn9
-					Rx3vMMV/qxQrbGH6cVDIphwFYM9BEkZDWIei
-					YG96zy2hu4BxHiSZpTwf0ErFnRQhW0Jo/wSm
-					yTpL1REPfz3Fm0UjYKXlc8FDOiz5yQrLW2/a
-					SwG0fS+bzV6ZOZFNvP6RbgamiurmkhplR53N
-					xLhLaGJ94kkoN2yuoc7+XKnBa7lgjOQFFgnQ
-					UvsqSUXOsFlzqc5ZEPqeXV75Vcd0tnPOne/Y
-					8neKhV/OxJIdTRjkcA== )
+					20111010101010 48381 example.sec.
+					D6eEY7RttRgccoDGLh1/JJ2Q8Xt8fbnNVzXG
+					WhLlMMeEc1S1FzJG8/SKUrvYVKtrU8wPZpLq
+					qV/2jEjHk81vOqj4S+NZh3hV94h5p27Pngqf
+					3fNzd0aO940zkFC30aAiz0BBd7MX28AOowLL
+					1UWoiTCuERpPAQTuRQRbAR2zf+205PJLjbU2
+					764FVJYEzp6Kal66lWOYlB2EqGWdrv3irPpJ
+					lyTYMaFpNvh4qOkRaBgmT06lzGQuG6E/tUmF
+					nR6tQA4oFaGMs4QGWv05iMYYKleBBNlC6OYM
+					0At5mmxZIfiC1viIGDTGvHaKDS3YjWO2YLIq
+					4EQZCBQJAnbb3rHmWA== )
 			300	RRSIG	DS 10 3 300 20121212121212 (
-					20111031204308 1862 example.sec.
-					JyeW0LEkOV6hWxbK2/sF56LRA/uxvzNriU3G
-					b26lD36nSpfMNkDUg2Ruez/O+q73Jm513hho
-					1mmX8f/DY6nw2iqI8eLdRug7pXhvCuKHgfm7
-					kPvGR831AfuZss6mndu1K9sb/WjOFJm2FTTz
-					ysN8fRf+WK3NrDlYMzMs77nYWvk8aUpaSlH4
-					u8ObudQXdSn9DlMDUir2V58Z8mokE3MhJSFK
-					eRzB8TLYStEBGWtVaGgdCRxuDDkJvhacYatZ
-					UqeHBVQF8DYCZ/dcyfrCQV/s7/HtjplPy5pn
-					CUXbOXv2KHCW2IzAnvH1Qv1vAtDnDWfappQ+
-					YK2rLTJCLqdzoDvjBw== )
+					20111010101010 1862 example.sec.
+					A9R0aK4RQqiQx4KIhLVDQEW75XhIPMBWitIB
+					YQ2DC30r9cttPPyWpCNS8XeUriTlo7r1B/cU
+					fQbu9r/7yLLpCjRhhObFC/95XrnlY1EQDwI3
+					BfOIHtKMJFIqFMnIKxTD5cvOET9u0VLitYe8
+					mycburwr782YqIUwZKGMVcV3kNWcdZ1trrDM
+					DQ1/REgY2e/YqUpBMIXTqqXV18deFFuhvPzQ
+					VFa0YZtW6hKKAMmNVyorHYMrQTGP3FTZC7ax
+					9pYwc5qOZBqZKwuEEumu+cZDNqAUCl9FztVo
+					I3qmP0bNitu3SRwJJqzqlVFI8wGan4RgLXER
+					Q1dLlM49A0Z5zs5JeQ== )
 			300	NSEC	delegation2.example.sec. NS DS RRSIG NSEC
 			300	RRSIG	NSEC 5 3 300 20121212121212 (
-					20111031204308 516 example.sec.
-					Rtb/rxsgEq4TUxvHa/4fo0dmWBIk68LpJvdp
-					CVm4SZpQezopRvTsSt4BmpRHfQyKZpGQRn5J
-					zuo19QAsH8StacblRRrX8ami9PlYwNAOyqJ2
-					Zg9ujU4LIe62WBsZGd5WY6eVEltylIf7FM11
-					oyFZv+5rWI9ONthCpqylYkg5zyQ= )
+					20111010101010 516 example.sec.
+					iG8wud8jrvX0STdk/BPdIHUCMgeIExOklQEO
+					Ah+K6e4LJakFKjuI+G1tTLdHOP2GauWkb3GQ
+					0Ozj8r7+jQEz886ZQmCR8RigqW5/CsnwPc9V
+					oc7TbNntOs+M4NyOiqC9NfmafrpqIrmbLMBW
+					THN6XGPUMdc5riMr8miTKtLDMF0= )
 			300	RRSIG	NSEC 5 3 300 20121212121212 (
-					20111031204308 44427 example.sec.
-					G17yoS/Qd0h63rgamia0l3TAkezfWaAKYX9e
-					tm86DEt6nfA93Wnqkv6KDXbTUq3510Pvh7pE
-					IYMCheIrLDdfLthyHfnL2AhkPclaLuWpZNBa
-					eLKOEdN5JqK5beXo2c0VbdxWWsAXn1eCnBJI
-					LKUNQG6eXMkfhtxqqY0lCbTuZTEHSVxv8eSu
-					/VwaltJukRPCIQTCn/AI76MG4h3VkGETewVC
-					/V6def9/mglwstGoHQVUBuY6yXSFHG2T6XHX
-					W1S80jbUu1c6v0Uu6D0ypdPwO86R0Yi1mr9r
-					S3i4/oeTtePfuj8aXmJMaqhl90yL8xKPtZml
-					5f+PfjBKVLRIB+xDSA== )
+					20111010101010 44427 example.sec.
+					Hw2H90l/QMOJYJPO+B1eCpGQXJGXOd5MoUfR
+					Fc4budW2eesImgWQ6TR8Bvwjz95niA8lpGyq
+					QEXjJ6cEf5JEKYw/4xOVlmFNDHyG//iQ1kpf
+					2+aT8IuiM0evbBgiej/VhYZFScUQ4Ibslna/
+					BFMyoJ7ugLmLelYiolB9g30a3q/3ULYwfn1j
+					OKUbYUeWClKQ+l+i37wRuBIPX6aT6//CetOX
+					uCecmaDTXl94NKi2pw+fZKs504Ed7xT6FtJF
+					9FYJAlsFloV7T6epZ/d5pl82QYaEshZpMePa
+					nqah+amBETh/kd3vokG1lzzFzSbwrWjxgtq8
+					XYCG9CbCOcJz1N0bXg== )
 			300	RRSIG	NSEC 8 3 300 20121212121212 (
-					20111031204308 48381 example.sec.
-					sM3pAvv1j7x4ovnxu3UngEDIyI0HsUKjY7hh
-					X1IZfwGRenhve817vufaMw5Ol559W/uY1V56
-					TKPzb/nu4WBHSb2L7c4dpLT6u8cieC5a719/
-					Awoi1EolFM4OaqqM05AMHN4P8HvBF9SiUlsD
-					PF+LwiIX2xwBrWEeYBvMQSyfJ8ncbEy0yZba
-					B60RYVRMwAoFoTbBm2TPNCxBGKs9/QQPq5J2
-					oxgqadSFRmBitJn09IoqAxrBP/ifVGwMlbAU
-					lCsX0a/LCHWbqTxdUudlTwr8kYOvvSd7SNfg
-					1gDsXnr3FT33yu+WjVf1WLoGNo+2NVnwlAxB
-					WhMRlqg82jZ3pz2r9Q== )
+					20111010101010 48381 example.sec.
+					yc2VoV4VVT+Wo/rVo6brdb7LfxMOslatW8Lo
+					ldBOGkVuiz21DskK5LUMGkH/4+NZ2L/aaDCt
+					JyiARZXabIqeMMY47QbNB1DouT1yKvR1Bc4D
+					Hgo7vK3eL4nf+3x0AXxTOdmdq6ZifxBkI5V/
+					fFKADNX1Mj1Xh1yVelJnXPLU/ZkAvtakWmJ5
+					Dj2I2EETshpkC19lqOP8i97jMR0OWfTCjbzT
+					SL8t0AcbDEWo/TFRXkMP0MaC8NMXmWtkSMH0
+					96nYIS3YA35OeV+gr6LtEb0VJd6E0c+FnM2s
+					T3Up4g+99W8Fs+FIYxYisan296LXff0eNCgQ
+					fNw1Tj+4tWl4lh333w== )
 			300	RRSIG	NSEC 10 3 300 20121212121212 (
-					20111031204308 1862 example.sec.
-					gjMtm5zlXAgoMA2jsqlfbrvfZMby+yEarduy
-					1mdLRCV2gc5aufNwtTz7160UI06kqmfSoTpS
-					XuDwAJq2xbczp85EVjBh7TpQcvuRJ96BIiPi
-					s/0i//FKHT3sV/Onm+vLUdRKK+A+4UDLTpj7
-					ZuEoohIAcY6yZH1ghDPtBLOZbU7qvGgdU6pp
-					AMeFR4KgzffDDIKgI/2VeCbE9Vig7ghq2HLf
-					YdnuD9sz4LLV3EHD9+4uWPfLaCyp/R67dXbb
-					PI//oOMGOb56z7NsZgi6A52ELqb1yr4wghez
-					OwlSEjXgBunkuzPG3L50O3nyypwzNScnfeP9
-					/Qcifc/OIqVuvYcP4w== )
-jumphost.example.sec.	300	IN SSHFP 2 1 (
-					123456789ABCDEF67890123456789ABCDEF6
-					7890 )
-			300	RRSIG	SSHFP 5 3 300 20121212121212 (
-					20111031204308 516 example.sec.
-					TJbAAzKGlBf4gKMmmZU0olcqPJ1snCtqkWH1
-					3cjDY2ou9OhIVoAXl3xv8FI0N8rei/UVCGi+
-					r2jGQGwHCIXTym9d5aS5Z2LtuGMJpYOuINrr
-					r49L8KbHnM4aqf5isf6fOtTGvzzodSvaaClP
-					ZGKJ9YVbugnS7093VKRZXTbjOoU= )
-			300	RRSIG	SSHFP 5 3 300 20121212121212 (
-					20111031204308 44427 example.sec.
-					2F33SzulU+jTkhF2UjIx+wcQ9pF7NlQSqCiy
-					fP3pkuulKa8lQxga/V40Y8Pr26Y39WhGhf4i
-					+t5vKDQjPwAyNEWLZSx83epnECdDia3AIkM/
-					3kl9Aoh56NwFiqmaf8nNxbY8NlHYpSu/Kduy
-					cwmteEkW0MgbA0FP65C1xOmplMwK+x+W6Dws
-					FUz9GUbrOY4rabPIrwej8J54P+xYC3Jr3x3M
-					VcainYWk1xKGDom0QaE6pcE810IcQcMe8S2R
-					yD/dV8+q2bNFsk73S0SNnsdEaU+UTqspoiHz
-					2yYr4+t8zUqXBfTnKM39ZLomxnMUTQrMTlfj
-					+NTtETxdAMnVPcHaNg== )
-			300	RRSIG	SSHFP 8 3 300 20121212121212 (
-					20111031204308 48381 example.sec.
-					nVKER/7omWehSJb059Zo9AOdJ2SBUWnBpb5y
-					tiNhiEdntIaYK0lJ57i3g779wtf8vt9i0/2T
-					mz9WalxNZapsus4j85Ru9ev9Qrtl+PItf15c
-					4CzgfoGFv9b9uBYH1lVVcsdHtUlID8PvtdM9
-					rTUeG3h6BL/kCLTWb3yRQvIL5W6VNuXX+m/M
-					HBeelYc6BEZAnFZWJFB2LD59FZg6sLgJ5tKE
-					6xvp7o83viS8JS1oJ027UcOYthRKMGlkMt2y
-					bx5oMYkPdWZkWy8/qOhyeJbODM/4w6QgaOv7
-					j81ry8thgjMhpXaWtieLLkNFbzzBr4sYlw45
-					fcuw4CTW2ypqTrMoNw== )
-			300	RRSIG	SSHFP 10 3 300 20121212121212 (
-					20111031204308 1862 example.sec.
-					vu6UA9//DK0fGCiAHRezPzJekKgmvIqU/1kW
-					BIJf9yjVwvBBQIOFn7GsLoYhYAahg5u5SnlJ
-					iGg4HYvPwIXpXvdmR3iPDdtOoFDnAYvBSDt9
-					WRFayQB00iDSAXr6lJB8nmh87E2/PRmrbM6/
-					B1BLDD10AqsMqtnzrZKF33jqL4SJBGjbkDxv
-					WKevjzD3M2HxGGzKOyC5CghW8ePXd2l+Df/x
-					HTY0J/ib3BlJktUwsr5+hC7IK+NQJpH+PS4g
-					aD07XJKu1/qi7o+D4Gxc52fr40SwUf56RWck
-					KGF1ojW4ZfcPUu0ogYN+KbedfCILdWMqLbZm
-					lEyCdvdtu1xMBJPQJg== )
-			300	NSEC	mail.example.sec. SSHFP RRSIG NSEC
-			300	RRSIG	NSEC 5 3 300 20121212121212 (
-					20111031204308 516 example.sec.
-					eI8sP7Ae94FjFqmhfoP8fQXEC85PChlU7qfU
-					uR5M5jfuiXh6TbK7p15cO4mZ0QmZ7uKgbQSU
-					XxfEaAIy0Y4GWpAmpSddiemdpKyh6b5mKa5M
-					74LM4ATZ4qYLGrB8E7/CMdpeLdM3/N3QbSEE
-					0lc1yOyQazyyqFcuqdbQmm2GO34= )
-			300	RRSIG	NSEC 5 3 300 20121212121212 (
-					20111031204308 44427 example.sec.
-					ALm4R4+zC2L2Uf5erfDm59aUojYJOJfQm/JP
-					VQ37jClL6Uhdzsapy0MSZx0NVUKQjFkxbgzP
-					DiRPRNhCIb5e07xoUvS27ZPTKeEyf5frHkZI
-					qxgTAbnxTaVnpV+n90iRy+LyP6JVs6DR5scV
-					ZBFCXqFgVp340nTnK6FzSTMfEHbkIgUNDvpb
-					2pXOO0kqY8kWrxxwrxoFvL5YgrLUlDLEvFjh
-					wCgGAvsdRqSa4vYa+NEb31BPRiiC0l1Aukyj
-					Lt8B1lV40zBos05sbQ19BfQC72lh2TlnXSAE
-					2vfuEYmFt0+70El8w5brHDVdhwv6uQ7Gcp8T
-					VD8koRtuxOAaGPBLdQ== )
-			300	RRSIG	NSEC 8 3 300 20121212121212 (
-					20111031204308 48381 example.sec.
-					jAadgx5bOQ7Uc9eGkRQkykYIDUgiCh4a+9ca
-					RGqlXIcEt2PJ3hk0pew4vXzbC3Py16m3ZC84
-					ffoM06PibnXctyLj4SwxZKid4GracTLytTuo
-					kse0XNzX1nQt1MedoKgt0CBK7tIQJA5hAY6W
-					wJiha/LRCcX/lVSLcPtKAy/gS+CNkXZwWO1P
-					WXt/V1MPeQdBVhlJidKsH3Q/yLtDpGTpYH1r
-					61edjBX7Vwn40w+D+APw5b7rohBeNnd8eaBk
-					SmuIA9ioLboeEUKoCZ/RFNQwCiJFKR/K2uSi
-					r3IH+u/RxYBWTgKSjsiRd7yYNsyMFbl7974I
-					kjbF4QT7UqYZLR2Y2g== )
-			300	RRSIG	NSEC 10 3 300 20121212121212 (
-					20111031204308 1862 example.sec.
-					dyggNLmRh+Ho0PFYSB20dhYXYdGpi0VzD2Ii
-					fVFBgbkyYb7ysDZPIInN3aticvrK9nv8G6qe
-					Mvo/Kjc5vHANA5mH7GmargnBEZEDfNktB1h5
-					6CWDfoLLOyLEohaUb7mkERtHku8iiBz+NT9M
-					Y+Mi2ZQ9QOsMx4psO8x7aDaIx1XBJqT//Rvf
-					kIhXzXm4AgpKBPc1kZzPsgvKPZW0tfsUFGZ3
-					bAWan/ecFHMCIBpyFhhUJFdO4GzBY0y6vm2k
-					3LdQdY4YsT5dEuMhwDfLsLbIWQ4nSCJgqbwR
-					2hMRDvv9mlbeETgbzWmO1Wz3TYbXN92/5FTe
-					DGHaLmDqmEaQ05wLOg== )
-delegation2.example.sec. 300	IN NS	a.ns.delegation2.example.sec.
-			300	NSEC	jumphost.example.sec. NS RRSIG NSEC
-			300	RRSIG	NSEC 5 3 300 20121212121212 (
-					20111031204308 516 example.sec.
-					XlijJvhVCklrCKLQRj2ptGIvx2vqZvDJg9NB
-					3WX7oE0UUVfIjpk5ot6czWJDVCcrfOJ/L6Rq
-					uWR3nr9xF2cwtHxSDr34WTZmJaZhtCG6kvrE
-					t6WNzMYP+gnDEVBiJBzeBVrOU2Vk45q06Vmy
-					lxLZ0CGswC5OE1jkJETwQnEiYXM= )
-			300	RRSIG	NSEC 5 3 300 20121212121212 (
-					20111031204308 44427 example.sec.
-					AGAPdflFjxD0kpT7VIMbHR2xVReDhFDUWu9I
-					6GtauMF0lMXrnKdoT9UXqcU7Ihscupow7sPH
-					MJmDt1znCn0sd/fjALw2VwZIn1TBCSpFmM27
-					Z9geP5odALbJknoJBesZqjn8ta0Gx/Ob97Dz
-					5t90zB9BYVKnYZgIU6xjR2RkaOqcVGvyLr2J
-					J1A1dhHdReDWX5tE3uSpBnQJcWFQ1qV6jGVo
-					Rm7JfyBosWTRy5mT/OyYcMOOAb0y6rgr2esu
-					XCl08IjMqK+HZNuoq5Y3T7qvQEyY328y2XSV
-					sKlr3lXcuKPWmXTAHIOtKyAknPArsOAXpySs
-					u5FAOzYsM1+dzxgwKQ== )
-			300	RRSIG	NSEC 8 3 300 20121212121212 (
-					20111031204308 48381 example.sec.
-					S/wIoSZraMQsj68AyzOrks4v2FQziiVzXHoL
-					blk41jfglEwYhA7gD3Tq8xwRee3iS2DDmYJt
-					dE4i4Ya+GkZEXyzQJuEj2F2J7BciE2ilAlFZ
-					xWToLPANWuuHODeYlKPvh8eAKeGlXfbPzNiu
-					Yn4m0cQDPJ6W4XJejEGJKOT3npIoLJYZTAe7
-					Qw1WU8tOYDhdtaNDP518S0g8tNAJuSABGiWp
-					F5OttSq+pW/ZQUyKjR0JY8urkLw3p8XY7Kv/
-					9LXopqQ0NKlJsuWUzcO6GDyQ+gEHjabg1+75
-					O12P4AGQDlYTWPzT94QCtUzU8qXQWTp2yA6S
-					ULVe/zcGB/lqHXdVaA== )
-			300	RRSIG	NSEC 10 3 300 20121212121212 (
-					20111031204308 1862 example.sec.
-					Vi58oZZGBR1mEwkuGrmhLPQdtF3yhOVqBxWB
-					iRaMZnRj4WZ+2HaGDS0BSMQMK59H2iimKEMk
-					R1DZmRXi/aikeK1UmTZJv4snUHpCDoVEYfP/
-					9l3hKr+O/TMgb3ZsJP1lV2hY3WqvIYn+NkHc
-					aGcDRQb8KUrSsiEfW3VcshB+vwk5v8uALiDf
-					sAi4+wXxuSPss2WoIpkSjL1PPQnCS7Q17jZ5
-					G0c0GdZkgYX50NEy2B9UdszmZ6lxQeHg3Pi4
-					J3Fjb2rSkfBLBZE0BZF6E+FTx528nII64ADp
-					ypC0gOPEHWx7hq3B/BIqqz7XZ32KE+AW5wJF
-					Y6UIn75ai3lFGUaEQg== )
-mail.example.sec.	300	IN A	2.3.4.5
-			300	RRSIG	A 5 3 300 20121212121212 (
-					20111031204308 516 example.sec.
-					G7ZY0GTKSUbyqhKGce/LBnyrKqitxnZ1nEy0
-					pKIIaQHHclS1+0sa3gKszG66YA0l7bn4gn5e
-					iArsjQjRwKtKDYVcJGqk2+eLuoW1iZz53IJx
-					O/f6T0djg57ie4KKrBKGn3kOqHoWX5R/1e9l
-					ikxhg0g692INIztBtsDk26fvwpU= )
-			300	RRSIG	A 5 3 300 20121212121212 (
-					20111031204308 44427 example.sec.
-					EHA2myeJhBQ55ocKJE/C+QwUL9B2xVEJx1cW
-					ZYmGOG0qMhYHy1PHXo59jqKbhVh9wTmrjD2k
-					c8Xb3wxj7SWf8rJXQbX0rKuy/03V0pQsSCkV
-					cSWpCQs/WRV06+NQwyail9aDt8fQuaa3ADXX
-					D8guhDOrdLPiNvlRK0zwVobtf+t7dkDaQeTJ
-					OLtgeCQlsuX8Pr8kdB8f5nc/OOfx9lZcbFs6
-					K1Y+0RKr+H0dhPFXtfemrDvbp+75LEkknfIE
-					b98nDpguxiL7DzM5gkFyFMvseUg+pyroW0NJ
-					rm7bkbm59a50UgG1OaGMOlERxsu055fzPUi/
-					Yu8CtGi+JuHJf4eDGw== )
-			300	RRSIG	A 8 3 300 20121212121212 (
-					20111031204308 48381 example.sec.
-					xi4CTQcf9Wd99rK3vuRofOVgt+SuZ1Z1g4ld
-					vQfBpPCYbekKskLW0OJJZjOnw1YMxdh0cPCr
-					HIKF/uuHsdJLadlXK6UplQET5d2iDMWwmrZd
-					b22PAdH3c62wIEvFLymgnhFIthyrFmEGVxu1
-					/w75DXz/M46Qg/tI+Um4pKVyO9nqSKUHqqKa
-					l1t3VNBQ3mD7bey9cPEwBDCQN2eW2gK92I/3
-					4R2h1UTDg+LCQSEsBNQk5DoKfZI+MTStRxJH
-					x0FysmM6ddrGs8qagAHInQu1+deU/iO2bGWy
-					SnqJ4NuPDGIX92r3ZPxwlNAAOLXeHdkZtate
-					F/Wccdnl9+72KMXCaw== )
-			300	RRSIG	A 10 3 300 20121212121212 (
-					20111031204308 1862 example.sec.
-					IDJLD5RjYu1zFGtLe+pJBmlf+NTvHK2Fo3LC
-					0WqLR0Pyd5yfZhFx/nyQW086JOALDz0XOJlE
-					JWUCetUnU8oN/96sumAc/IyYoDueQkde4HfE
-					Jy/C8DyM/hZwtkh76jvUedraWZFJM+og9vDw
-					6QCTzuhxotP2HpKrPGvXdTWNQ51P2VakRW9F
-					B6gBWf+ZaJoyxRAE29wTB1A0KHt0e+HU4BVU
-					fR+lRqFZig5uxdtR3Aw2Cn8blsbp3R+iIuyl
-					iGABymhhVaM4oiswqpaAfW4p5TCnk3qYQkW/
-					jGXPlHfNBsRn3HiLS0SL7Hxt5KIFvdOGt5yH
-					vI6BFL7Guprg5DAaQw== )
-			300	NSEC	ns1.example.sec. A RRSIG NSEC
-			300	RRSIG	NSEC 5 3 300 20121212121212 (
-					20111031204308 516 example.sec.
-					IrkbFQLJc21kcYWkD0jz3jS9DTniGmS6Qt3N
-					GVYmRHkG2Fv7tF4czhMCnvXNKy0OWmPPJex4
-					IMWZzFYuqVYctjOSn8CFPtepPqklOIJzPBps
-					ZIn1hXJKYlyyiPepkZUqpQF/W0jGv3VjZ24x
-					RCVvYmQGj0bJG4mB1jf1E8nNrYE= )
-			300	RRSIG	NSEC 5 3 300 20121212121212 (
-					20111031204308 44427 example.sec.
-					IAYgXUpJBpW/s61CyrJciaSJzBmWs23UzevM
-					ljWDycXwLcB/vetxClE4kBbjfl6XlwPcfRHO
-					4OiGM1tQlyDd9m4sngzeZCig+dKrZU6zAIj3
-					VGLtXtZJw7eZEYY1aVdrUeH6a+X4jNbagTQB
-					rVs8xesB64k4q48I+71ZVDHNLW94sBMYBzUy
-					cRh1N/e4IdDmTpmCrvvbET+9MhxGjn2QXF0X
-					ea0P2MFMKpp7gA/GCdDb4BJA3T4GnVpvweXr
-					Ea6rbsm3K7c8hMPJMlkRb8xopKutIV457C01
-					L+SMhWbEm1b33f/QW0GBBtfkghrwAe5CPhib
-					Ky+ghd6cenpNt7KahA== )
-			300	RRSIG	NSEC 8 3 300 20121212121212 (
-					20111031204308 48381 example.sec.
-					f2E0JslAzCdO0NXKR7ckv6WG1VdGFQfuwL2L
-					Qecyn1kkk4cotbicaDJjPgD5xjpqu1VGfvWq
-					SJUgccYRDMPIvvTjZC+qSKroWIlPazD5zMb8
-					FexdTvvk4+ifKqNsVWek5cPRL7Q0UyfxGT6d
-					v0tqsTdEPJMciwsSjn0ChdoHNinTLw3r52tK
-					WsQqkYKzqO3vS41oUdrztRKgj5v4Tg/HbMje
-					MSSrptrOmsiheB50mQ4DZPXh19I3clrezV/b
-					uV2pxvbxPA8jiEOlFOhMh5+SJ77Jke+KKfZY
-					BIjeS0Y/deEdtz7ujHnTF6KolYBZg7fibt1C
-					gQf3a5tF2k4PXQkzaA== )
-			300	RRSIG	NSEC 10 3 300 20121212121212 (
-					20111031204308 1862 example.sec.
-					rTgvUGqN9FYWp2dDyy2e20YYUTY/3EohNhgj
-					LZCWUGUV378zortO4qrrWFDdPXnzkXLJnM5E
-					CzP4nF+SErynS/yBys7oFv5wwkMIlsrXCeK2
-					fsLN2k3B/n2ez75IBTABNs0xybkmZKw7JGLn
-					8o16UnQeqr8Pc1cOoUZ47o3m22LOF2LgXH7x
-					1Pub8K4XVcy2w92kvu9jPHpLd4pH9m6duUN2
-					E4LFDiC9oQvADNScyUPtKnayxgzafiML69qA
-					UcQ5gFh10Pon1s9abbHoWNOjc5ylWnzIr0Gc
-					0qo4MkWIy6rCgqV88E60Pbq1b4GAuoc4i7dZ
-					f4ghU/OZ4HO4Dlz0Kg== )
-ns1.example.sec.	300	IN A	1.2.3.4
-			300	RRSIG	A 5 3 300 20121212121212 (
-					20111031204308 516 example.sec.
-					XJpvHtRBShonKxL2jr5rbqWl4AcQEzdq7hTN
-					wrHc3tneV7ooLbHna5f6yK9EfZYFJn0sKZiG
-					Q6fLxviS3wOxYmnkpyYLF9+4SrleoFGO8vCK
-					yMs8J537VF2XrwNRyklrZvywLnid6UbrARoh
-					1SdrXl5siwatLYFq6jv6T8HSChQ= )
-			300	RRSIG	A 5 3 300 20121212121212 (
-					20111031204308 44427 example.sec.
-					Zn/cPFt+f9/bZm+CPlLPthNxw0Fo0+YgfCrJ
-					Ls1mBpELBkgOqhim9Eldl6XPyf9egC1vV40q
-					YZsYv7VBAnnMp/G3g0W6pUEUbXEvfWdQ22xP
-					c9HFozbZf91MMCDgW7hAlec7awbKC3P2MwdX
-					V/KbMPawlE5HH16V5ZKaDIva5fhq5GOemQJ8
-					t9rN5nVEemKCb9K2wOVD+NWfax7GhJm2QrA1
-					RWEtY2uNawJfQiA7m7KxBaEGds1s8QBnZJjR
-					zVVO62hTOV4xxegBHlRSMVbioqpoAXiLiWcT
-					X4lszJw+vm32OrHFVBnrwNCVvCHGGCTR03rw
-					EHkfmucSS41Aw9mscg== )
-			300	RRSIG	A 8 3 300 20121212121212 (
-					20111031204308 48381 example.sec.
-					CAmU3srPITVxSuKxggIH4BiLECFyYLPPAiQG
-					0xgB7Ft5JGQXCsmiDrSwc/BDxBEFjREIbZmT
-					7JdR3iI6ExB2esJySNzBz8D70o9S+lre2W1/
-					RJvKRbZAbzds9DQv/GuB8e3wcrpHHmp0LRDs
-					rfIvtYmvfV9LXmFt4hWPRTCboqtX5+ZrDXhT
-					w2E+P2IRkbeJ4qMDM63uwit4lDYpsfszSNMf
-					TSv7fzW1FgutmLaMVq6x/4bD5BDbCfoKlX6O
-					IWKn1QDz0xFuQq1Jk62x95yFmHQruxzB6WFo
-					67+lzjDsLxWGxZLaJyBVATUY9N7cTSqcFOIc
-					YJdAPol7hvcbg73x0Q== )
-			300	RRSIG	A 10 3 300 20121212121212 (
-					20111031204308 1862 example.sec.
-					Sno1lJ9LwDX3L3MLOzU7icJ5zLGy0ePG8Dl0
-					5NK9UUgnywoRu6bgbWbcuYmgm6AUcoZ0lYEK
-					nvfK4NgeHsKQKMJtR2pWk8FBu+fmxMy6lWn2
-					C40ehobj2Q+2Xe/T0NvCjBf+H7JQhlrMbLOk
-					YyXXwoc6frGeeEYeK1I0EvQBRT35vGHUxNU5
-					h14gfiG5jY77GNaoGMliVDw3c/14nL0xzyvy
-					3capDiOEg3MCL5MOlyyiRnv19AnlKZ3uqIZH
-					Cs52Q3SU2HkmaVP9hk0OwSWKXhud0ooCyraB
-					+l0za30lhSzG7DFrOFiU+mte7b5RHqrjQmyb
-					rpIaIb4p9xrX008LKA== )
-			300	NSEC	ns2.example.sec. A RRSIG NSEC
-			300	RRSIG	NSEC 5 3 300 20121212121212 (
-					20111031204308 516 example.sec.
-					RBR9aulaQO3aEyKGdXipov8eYfCMSvany7iM
-					x9yeO1f+ltk+PCGoxvzkxLGWoXTGIxr/BXLK
-					8lrTQ40uMAmc9ROwRpc7RL0/jYYk5eGwQ9KV
-					K8t+lLy7/kPGn0al5lcnP2Lnz7zscwex0wdw
-					/SSHei6udXX6NuP1iZZUTsTyVlo= )
-			300	RRSIG	NSEC 5 3 300 20121212121212 (
-					20111031204308 44427 example.sec.
-					FvNFzhhaBNbt47yNwc7vX7pGHiU3GYFvhYlU
-					UGXpgKV7BdkZ2ELy8Azs7u2Z/0Zdv4TYVMeU
-					FHW4svsatkKSWDS7MHf4RQCn6SBYhYB4/y61
-					dUsTDf+E1BNdEhNMm/84K52Pr98Hd7qTVqJk
-					XA2maxjW2kekE3YRBQ2RwUcLT4gtmO/Z3IfB
-					OIsqDOlauMb8bhKotrBT13uv0a/tnFLpMwi/
-					3LoeDX9OmRdvD18i9jPhzzSfuVJ0yBAgrpOH
-					W8iA9jnmWxN0K2sym2HQTwNwQGE2ggbidcXy
-					0pMHiMmfM0gR+GcxaWuQruGP+Fif0yHVpSPC
-					KKxnYJ87807mAUWVZg== )
-			300	RRSIG	NSEC 8 3 300 20121212121212 (
-					20111031204308 48381 example.sec.
-					Eo7fxJ8KaTQZpHIqYrxcZnrbmXXKYpfAAUqw
-					Nek1BcX5BUzAeLbT1NWFuL0X15upSyU423J6
-					FN21OY1gXfQxPfr1CKe/Ii0fyL/1LdNUXlBi
-					UAbinfeq0TCIzwvoJknoNZvD2GXZrzhUbHTE
-					yHDZCYZO5EVpgX/F/slyFQqTc+1kpwUL87ac
-					o23hhcQLvNVwk0bOE9w1VPDD3+nVHfznUKGV
-					oKyP4JV+LLizZnBUesqr6ARgl9/lRwwp2fUE
-					Rqe3k3tazcm8cL95+e52XlI8r05sf7ysY3Ug
-					wewYKBZjZajvRZL5H3xRoHOQWePg7m1XK3ZX
-					7r1n089cf2NMHS3xHA== )
-			300	RRSIG	NSEC 10 3 300 20121212121212 (
-					20111031204308 1862 example.sec.
-					lP9WxKLEy7YdVkruF2jvQdIs+B88TLOg0rV+
-					Vr6hri9yzWmariKkgCD8MRyJQtDsI2RX9X0D
-					coGBqLbwxSIAmSGAHOT3ZVFzZoJbyvh8V0bJ
-					JN9jdP7oWUhWDBuflkrkS8Lus2/FcRYsFXX0
-					Vug5dlNXO2egMUly57TQaTpeEiwocRHscFex
-					sd8nl5Zc0Cp7R4rJX+gi+mSLS35DnCtvWPRi
-					ubqtoQkMDcrKBRJaZcPToysDP6Zx/4T251n6
-					/RUQKvWwkqMnTZ6S4xvvHeiHBwjett/dzqnk
-					UJ+Zi5knc+9VdsiaR3nI590NUwUKAnz12kNx
-					GCpQ87VHXyiXoNDFHA== )
-lets.introduce.some.empty.terminals.example.sec. 300 IN	CNAME example.sec.
-			300	RRSIG	CNAME 5 7 300 20121212121212 (
-					20111031204308 516 example.sec.
-					rVozXQooImYoMXnGwX3+vekW96BSJ3lXFS7c
-					mdymAV4h6JEPnxUTX8YMahUnTqq6Bhmq47ld
-					OeAUQfT88gcx4BDOtY1wYuBZQPIskLsV716x
-					PgLSc7lNxP45aVYZLNcY0GT8QAq+fVb2SVhi
-					4WJT9+w+U5l+LFD649DwU/bUhdY= )
-			300	RRSIG	CNAME 5 7 300 20121212121212 (
-					20111031204308 44427 example.sec.
-					cgicsrkrVGwq8GwWecz8itIC+7Z7ko+nmVRn
-					KUxI/MAwYm7HWlMDdvSvStq1P/Tg2kunYMQm
-					WAEA4n8SjsrYTu6co2kc8BAd4YaG7SqNk5U0
-					q8UWUzSnAtvi0EAd4j61+xurZM+fso2z58ae
-					54nDbzli5Ugi/eXGtdxMIxPL+IxU/W2h1uui
-					smEK/ZB2PbgTol7G0SFoimMB51vRXd44SA+j
-					vqQuKkDg6ByOxoe3IEinZwlqoWdapQhthnMI
-					SQjm2lFrGjnjNsi8AXhINNyKgTWN/kh4z486
-					jq10oKFdrn2B908Kseyxn1zAKf7LyoZBhBzK
-					rtj0vDzWH6rB/ryVsQ== )
-			300	RRSIG	CNAME 8 7 300 20121212121212 (
-					20111031204308 48381 example.sec.
-					UOUy09nIzu2eAAb5YGR8IMuz5YkjoAQEgAl0
-					rT62ueJZyW/FDwseu6CMb7O9R9Y7f7b0XaRh
-					xXfp81aFudu39d3sDkS+tg46jiAcxwXRSviu
-					CzTpz/0tvc3hQrM+FPco3Uiws8D/qc5VF/04
-					9JSb33DMg7paiZjjfK3xSJ7vW7WiEP6uaPm6
-					Ea2FguhfAu+DdSnDDCzWh711Sr5MGDK+x8Nu
-					Ms+Z8AzKC0DHUlE8SozBqzt3EEUJZxYJu6hc
-					6SmfdAMeXNCFVYieKKSsDOp+g2O1b/QTnHkF
-					z2B+zFSkPEzQgecbxAo+vtAVx/FOsCrATKzr
-					lyLhC6XwdJRwCRT2yg== )
-			300	RRSIG	CNAME 10 7 300 20121212121212 (
-					20111031204308 1862 example.sec.
-					TGnaNW5hNC8roONiY0dMhYdixnieSWXLuMsF
-					lj5lzpRCRCckfgTPlqbsS2nwO38QEY1XCG8t
-					IutnnNLNvPaZBsBWJTeDkxgqP8jvgf/cGfan
-					gLdRkBOjL3jniP73FqAQEdpll70CzVifuwPe
-					FUcUbgEa1Hw4Zq+ZFyMVn7/kqx7FiGbORgDG
-					8UnMURzDzXZHK8E1fBuWmnEUkRsnggdcCL4p
-					ysvbOF1CEmRj4vFzw8JZ4zmSsscueuAqlwDU
-					aX606ClXobIGI7LK/Xe06QjlAhhh8LA3+coy
-					boW2AuWAvZjzUeVWgijoKMc6rjTVxS9sqtiE
-					mdmfXxqBkE3wptv0ZA== )
-			300	NSEC	www.example.sec. CNAME RRSIG NSEC
-			300	RRSIG	NSEC 5 7 300 20121212121212 (
-					20111031204308 516 example.sec.
-					e7/MhTy8Nez4XIcOc/wOp+tTy9SvNHuJLZr9
-					9UF9M7JGUOITbLnBqX/f2I0rQAa4IaLl6RXH
-					1/98hVrlwJ/0E0MM47puypS1xasmWKA18pFE
-					mT5+Xvc0LzUXhkzryb0y6KglKo8IvGuny9ez
-					aq/gbhZaFIkiqxnsFKkeHGLU8GI= )
-			300	RRSIG	NSEC 5 7 300 20121212121212 (
-					20111031204308 44427 example.sec.
-					jjvrANdJTJc9814PruVONBnJTpWfaxhnsYSE
-					SlYCY3p96xnFzFaYJE3lhkFvG4q6EtIM0H6u
-					fbLRUpqSBAjplY695WVafL+Zt5CPFDe1OWaD
-					sPHwCgw1mlrtos4nQGvmGsgnAVFSMXZsQbEE
-					jshkUa26uQoA6VLwMxi/qraZjmcasxozb/s9
-					EmWQlGDbmK+2Wyp6HddRx8z7Z9nibb0GBXqS
-					qrZNSMLcyM7oF0MVAGCIohj7jV74Ggv9gDE9
-					rf1DD/40zuVdnXTJcKBAA8x3EHzJqCQ3r2eu
-					qENjfxSF6P0tN+GmbpQ9FtDm/ZtNz3CikO7W
-					BjaXMq3v1RLuxdB8/A== )
-			300	RRSIG	NSEC 8 7 300 20121212121212 (
-					20111031204308 48381 example.sec.
-					kBc0/CLx8WamPd3+AIswF0G90/Ji6gictLaA
-					B4kEI97TLszlq91lIE1QU2jQH7BcegGyMnpV
-					ASwexQl4VtsHx4Ff1kXMqIrlV4vOJnGuf2TW
-					KQt9hc75B/pSB3JLELGUFGP4nXbu0ULZUIlR
-					xcHUJ4yTkysI9EAjm7K29uQEbfvFISrnP4ex
-					0llk9u4qfp6UcrGFJD5XCcgJ+97p79T7yHEj
-					wJjyk+XAqIFZQpUxYhnV9wBcpnZMT+usCJb6
-					S5z//iZRYlGMNCVkK39qzlQ8s6JYvhgCLz21
-					sTcMuAFN7do/bETg6ymT9PZgs/KQn2bMKgoE
-					zX9PrILOlJw7keXR8A== )
-			300	RRSIG	NSEC 10 7 300 20121212121212 (
-					20111031204308 1862 example.sec.
-					hDGXU5vRzEfy+eOLQS/CRLwDTKIkEK0wJ/+i
-					f5I7vwgbHeT8udW5bidaoaeNxBI+SAihxIXb
-					9erJKKqSYQbCzVubIHq7N0BtMBXkLUQLkLZd
-					N/JX5Iy0v0Z6TSCySKfpkuXcjmndabNrlezl
-					5wc+/dFuEE+7xSsKE8ycoYU9NTddIm98Rmdj
-					PIVZuiuyRWAQYBFmeCIigyGrzKWhdW4JaapX
-					oTqJ1RWT9DvRLkbebP+DdrwadP/6pNfiEC2k
-					uv1FjdsNoN1QXG1UNTZOVUVysG3NoMyv95Zz
-					lLhqS+ZKZWDxWMlIjoknx+NOCTcZdTNfmT0P
-					NHg451nIwA3Srb7ziQ== )
-ns2.example.sec.	300	IN A	5.6.7.8
-			300	RRSIG	A 5 3 300 20121212121212 (
-					20111031204308 516 example.sec.
-					M68Evd6B8iRxhi0fRNxO9pPNB49xgXuRMID2
-					0y7/ixFWLOaWr+Ofcia9Vqbj5QTZYjbcEeCn
-					eZwQYLS1WZw4VjmJ5YMFuLfL4or8bRiaFG1T
-					mkNLCAyg5qOydhUgF+2rJOo5ZnwrUj41RAua
-					xsYvbdxOCMlauYcqIoWpzmoimvg= )
-			300	RRSIG	A 5 3 300 20121212121212 (
-					20111031204308 44427 example.sec.
-					mCY42Zz6sE40AHycOeIw6uqV77d5W3gzGOvJ
-					0qgPaDlvFaSpNnMJsyLket6A9tZs1Ny/wVtf
-					FhERTZuU/pOqLMfB0h2d2AzC7M/2T6fb/lzs
-					k618U37pHNSmYDlrSW1DLQ7ZPqPnnYLkUQbl
-					DbbW2T1gQU/ejaOgCrbzOulHh0I5ojUulsKa
-					3gFLZ9yzTgQIbVNjdEWrTC+mZvIvlHIN/D3v
-					3jzvN4AG53rFX5Q0S+aTfhXcse64CUcQ2v75
-					vIeMLKSdlvs+9PV31rCIjHtkkWtXNoLs23iP
-					akTLfqforVAMmpaMKpFO9x3tioVNWQd6OxAD
-					U67r/uh1UAAzZJEJcQ== )
-			300	RRSIG	A 8 3 300 20121212121212 (
-					20111031204308 48381 example.sec.
-					JJ5be0kn1RFoGRjIq/n2N32o725m+oHtKtpw
-					GKHHgPOHYCakT0uqXqt922U0pzP/IxcePDOb
-					wC9bqgmB3lzlSHRKEDSJhMW2Y9KZlxsuOEcG
-					GIIpJLIruwvTw/9PV0j6AXlomD1MhYV2loK3
-					AVxIZF/0q8W6pRg9pljyGMLhwc3DTyrXvS6Q
-					UtPrS+Prm8h5PfkY5Fh82AFc9/ziVXYIbHcn
-					t2wk6pTP3XBG7OofR3ZMfJ0+X/ahLei/QC0E
-					cwcswAqZz+vIxchrxq7DqZdbQJAtJ3uO77ge
-					TF7AlgpB2qv+AcZdTVk/j/AFjOZWvVhCrxC5
-					z9GxylCQiP3HkirmIg== )
-			300	RRSIG	A 10 3 300 20121212121212 (
-					20111031204308 1862 example.sec.
-					EpWvRTiXEAxotk28QBVuWsbOVbN+leAnjRnE
-					Dwr3n8Ic+okyl33xI8bJYh/gKXbDTpFdtIxM
-					Zz7YSO+YlO8a1DYbd/dNjGsfFMYcDPCEITY9
-					VmB8wGdU4K8fjEdU4XQXaLUW+wcZuoywQTe8
-					+nmV2rK8h79Ky+IyCruLSWVzll1LjkIA90fx
-					SdrtOHuMNiDbSZaEUK7bKPZWXLswGlXshco3
-					S/Rv78DUMDUiWD2IcTOo9Vn+fSvvPx98OsLR
-					VY05zV40yT1I4WXNUBauaBBRxafPHhZphcm4
-					SvNLX1hQBvfGKc+R/NVx2p5v/m1bVlfT8Zon
-					Kf89YV2SmLmZsAtPGA== )
-			300	NSEC	public.example.sec. A RRSIG NSEC
-			300	RRSIG	NSEC 5 3 300 20121212121212 (
-					20111031204308 516 example.sec.
-					klcB+i022DfJlcZtHyhG1YnwTBF/WV0Ze3n9
-					wlcWl1cFP0Hdu2tTK2PuF6nHPVEOZ2tdzTKI
-					wx2lQFzIJuXTrLBe3I4hqWyvcvO6lQ4pWTO9
-					74XqhPAeoG3HXc/f/eN8A909N6n/vjjT1sHG
-					jrlRH6Ea3YUL6CfOpQCfygtkaUc= )
-			300	RRSIG	NSEC 5 3 300 20121212121212 (
-					20111031204308 44427 example.sec.
-					xmCM/ehXsEHyUW6w2BEjY+1rluQI1yNYnF47
-					h+lvNm9YnCRudgF8N+l7C+McivMlxBhNRicK
-					ZsxZFghB6AjY/KPDZyE4DkDyORI3oarhdN+z
-					H3NeR3IbHDzGzOxi9jcqQb5q93yLxHgmxNIl
-					J0cnx/WgdMDJOcDFY4VeN92pznHwjwjDsO7j
-					LErXea1Ah5iRKJm30gHQtLTY76sy/JKYQOOS
-					FwR78rFmHw5XXA1QHFNz7Aa4A/4T67o8Hdy7
-					WltQZ08Ci2kEpeEfkxVYzkOo4S2pPZ01pYll
-					vCfbmZLGtZAU84XMSV3kXV0qe+OLaOhx7Gv0
-					qKb+tMFFcNJg0ypjcg== )
-			300	RRSIG	NSEC 8 3 300 20121212121212 (
-					20111031204308 48381 example.sec.
-					s9mRTsK6LMg5Ugn5FecEfvKHRaRPoEcgNm98
-					yFwezYkDfXKUc1OJdxFJxvnVnfaFsPD1Fgah
-					NCYObMpBF6KVdrKOReOVtEIAvRKNKF/ENlZR
-					TJI22BHQGOZb6SxRyMqJ22Msj7WsEy0BcyQn
-					QNRPixIZTL8W/bUW58sVmpPJRlAaJ434A0o0
-					rtKLGjV9ELyAHf87UOBzf74aA/iyw35EZLnF
-					7NRlSMrGjTdPqt9zaB3rD/Cfhm2xT0Powvv+
-					qNM5k9ah8sILwf8XhBcV+R9UUcEjYjWgPrpl
-					rWi8YQ9ofkhVB4GuaZsTwYB6clW2b+DVannd
-					urgJ8lRRwGK1HvjWjg== )
-			300	RRSIG	NSEC 10 3 300 20121212121212 (
-					20111031204308 1862 example.sec.
-					KqGhDXNJRTwRua/yXDpoLf49bwDDAatg1rsx
-					aC0C4HocoHK7O0sChtbbIaFR+yHz2m+yMDdo
-					TEGOCOTstFUl5MvKnM8GXK6q2e+9C67dv3bY
-					grrmvA5Yaigoix1Rbv78gq3vmQdOiVG82K3+
-					ABkMIfyz6cdF6iGJ9tuInYrNtKRjuIcKfyXs
-					w18xNt4qQ+bWx476/3MRXINA7VVBcEcms12T
-					Eic+oZ55WKZgFzW2zp1tohQsX0KsbTBQhSYv
-					/rF/nYgJ6z4Glirj8rxsjJ/lO3DHjhE4QsND
-					d2inG+0k0ZQmCTSoqZ/bnl+BLdfYpbanIS/G
-					A7aHWLaaW57SxmKRSQ== )
-public.example.sec.	300	IN HINFO "i386" "FreeBSD"
-			300	RRSIG	HINFO 5 3 300 20121212121212 (
-					20111031204308 516 example.sec.
-					Sm3b5VhMuj+JB1boqc5+6xUmg/5/wfIpQpBc
-					6P48KDtKI6MMZMdcN8AQ1iDotEzWhar3Md3F
-					u9wGotCb7C3CkcthxhLRNH77oa+zTweExfAF
-					zS2OWON30CF8LCKBbPoPuWoztA5wuqKm2XWF
-					xm/PhpJBI2vB9eDWSvr+SUlUgCM= )
-			300	RRSIG	HINFO 5 3 300 20121212121212 (
-					20111031204308 44427 example.sec.
-					hL2AYLQy6oSSlD4W6k9jFxX4zUcxiRliHhl6
-					5j4Xfoy0UhPLt2rT4G9zrNzhyrlf7TeoicTB
-					HLZoSk2hy5GiOGueRcjQwhSdHW/WLC0WRnJ5
-					aRYWMf5VhlJ2TzBTtQLQQ6CTZw496w3kN1f/
-					yTxCg5nh3aBHuVmQ5pgw2RU6GfQ2HU56WmSe
-					nwN4LgJg9nCI1JbvzO7JdtQDuZBXzxL/T8zB
-					zrJzGA669DBSu/z2YuqbQU2/yiJvRonc07nO
-					5FqWZovG65ISYg9hmur0sMnrQSMcDzAJen8G
-					8cuBdVG39Z5w1+bhqvBNeYelAn4mjH7uvkQ1
-					FJ90nHVfZoFq4cNJQA== )
-			300	RRSIG	HINFO 8 3 300 20121212121212 (
-					20111031204308 48381 example.sec.
-					PNnZRqfh335nneXACFisJq/siTCLKjd9S+1a
-					JrQpO93/rg5uAeFs6wJ+DXWN2YRDshxYyU4q
-					4L56NOw8J43v8SWXG4SRPIrG4yKMy7Owczef
-					ohkiiYhMCfl8wdY7RevCTnRC+YSlqlfz83KU
-					280toVvPlaXZfaM1aooubb7aF0RlO+4K9oGX
-					1JfZkcozVuGM1iul9DiEj+onhPF8k0Ca7Xl2
-					ZZkGphMTyQO4DP87v0JPP5FeP/H7WelcCZnN
-					qTEKCO1dpoTrD+ebvVfy6hd5Ghq3EHwBR95V
-					eVbV7vU88GBYSvPS1UUUByJssSrPhykRg/NX
-					DeWykcQPR+irt9f2oQ== )
-			300	RRSIG	HINFO 10 3 300 20121212121212 (
-					20111031204308 1862 example.sec.
-					lz6xCOu30aKD/J5tFX6IfJrPEu/Y37PhTSxC
-					ObxMxixnEcZCXOvp55g08bUeHj9F5krRDt5P
-					YhjJ0YRLIewZwdBT9XQ+Bm4VGngodl+79soD
-					F7kxEsk0x4UQxvnCMQy7D61ZbKyBkCtBkwiz
-					Yx4sP8mTfiVMaixr5YhEfq5zcz7Wm8S0i0ps
-					kKE7t/M3gBbzpCnSWhg3slYhefMqa4zHaWWz
-					Y9YYM3+ZJYCsFkN/MIfOgZnRN0o04amvXcNT
-					ksQ3PxIJqWYdkNScrNorp5J4ZW3+lL4CxtBb
-					8YMkg+6uPGsyL89FZcxCro1w8aZEkinMEmIk
-					SWmeArUg8/1zq1QKuw== )
-			300	LOC	55 40 15.258 N 12 41 56.378 E 9.57m 10m 10000m 10m
-			300	RRSIG	LOC 5 3 300 20121212121212 (
-					20111031204308 516 example.sec.
-					qqgYBvdZmjvE//bIOIFBvkRQ3xdj9SQsZZs1
-					ayu40Y21BksUDOMQCz/H6ct7XhvO9kkzOiHp
-					ANE029dOYKBkdul57SRhLYh+XBSPCKd1AvLX
-					VQOyNPLlxQdKKfUY/GiDx9mTqXCBN23HJUXK
-					E4uy7UrkgFdmDNe8b+qL7NV77/8= )
-			300	RRSIG	LOC 5 3 300 20121212121212 (
-					20111031204308 44427 example.sec.
-					roZDJqWp1XOkfyLWVdNpoqU4Sf1US8AD2Ayk
-					gwg87fGx/ihz+jwrJWTKmN5KGJkBNl5g43G5
-					lvLd0PiV9W5riSzPlcXqg3szr5yKOB0IG089
-					BF09uSV/VR31lsgtd1cWmpOk12jZ70Uecb5o
-					MGxMkllDUTdtEH8zOrarVlZNjrOwb7iFASaS
-					mm0FSRS4EI6EYDR5oEpGhZLLx+xQvYkI2JuA
-					WPv7PSNNJBYW3yVYUf9pQ9ELltkil8gY0Nj+
-					wPIPkffNpMmCeanq/0jVcqvabgjjZpYL7ZVc
-					4Kr+EkcvRTiKwmqcoc37tM9YsR7Q73NRiFU2
-					69mPm05tguyWUUpzwA== )
-			300	RRSIG	LOC 8 3 300 20121212121212 (
-					20111031204308 48381 example.sec.
-					lNp2ioqSyg4e/7A5qdvC/WPwsVjrjJcQLclD
-					ves/uWrtItRbr6NzfFh4JAbUeZJApG9uTKy5
-					p+rEHwzrYu3633TwqI40AXQGLNBUJmHPYhTH
-					tE9g8M6wgEW/YXF+yobO8R0gp4UFczkVc9/m
-					pWBkRtr7fuXh72ah1UoeZ4peOttWtswu52+u
-					stopw2lyYOoSK5EAGubRCQ++p/V5+TEAsOTw
-					h1Ffv0XcMmbbDwXjIpUJLvEN+NyxAAkWLO73
-					NuHpqYSAw6WHitguwVYl8+8L2XB1KBBLk4Nv
-					odiDKVPcHwgYcSvOcyRagxweOHYlWO3DlATq
-					a1pPB4rm569aEN5Akw== )
-			300	RRSIG	LOC 10 3 300 20121212121212 (
-					20111031204308 1862 example.sec.
-					paySwivhE3vL5iO/gjl1kgecri+ebkAneKXC
-					1Ag0BOV+vMFBSzcTNUhZEk529U/a6yF5SQtx
-					7hbnmjABzuxYpduksHJFVlwPf9b7Rl+KKnoE
-					XEOJ2bIH2SnGvVYznkxVTq2RivfyVuF3CKQ8
-					x2okMdX5GyYhIycsnkVtSjTQCy7bVuUmlgfu
-					AobhPSD6sfLS98elWOu4+rl7+dffi6Bm6LVd
-					sN053y5s8YTvww4B/8SFjNHJQJq52i0ND+Rr
-					ADa2iLe9xyyxec7hjUdl1+yZIWQ8lMZjmw7V
-					Z6RRPDYUH70j9RDRfKGpsRxexu0RjZyi7NU9
-					sm8j5XQxIELBakDThA== )
-			300	NSEC	lets.introduce.some.empty.terminals.example.sec. HINFO LOC RRSIG NSEC
-			300	RRSIG	NSEC 5 3 300 20121212121212 (
-					20111031204308 516 example.sec.
-					Hly/GTKj1sifPj7R8i4t7EbO0mIC+5i7XAFC
-					7L0PJxSw5NAbKxFbzJN/FiqUDJopPFP0eyGl
-					JLcxm26w7ZCwenNnpYliKwmAoHJf5JZpeBLm
-					oIqMkC307v3aQJwb/dXcTtggciAKWd23Cn8w
-					s5pbwinHn1nS4M3Oftop7L2XnyE= )
-			300	RRSIG	NSEC 5 3 300 20121212121212 (
-					20111031204308 44427 example.sec.
-					UkZ9PhZlM6xv7iQlUUIj+SElxGipHe65jh4w
-					zQvQvbodskJx2xfrVpeBm2S1G2FG8sj5HHjI
-					pLzoH/47hWKkm1szDNS5Ho8XPQ8FbXUHqjSl
-					5iFmp0PbzWx5+NVGlcgq8hBwGBJ4ivnxfohc
-					s6yyyyd50+NDn5AAep+9E+xNR8OGiTDwf910
-					+1kn7NYaTZMoXJ06AeqyihDVI+7azbGnjGdW
-					lfC0KRIOpwDKjs3auwPOc68qwfl1i6t5Puff
-					Ydq11OA9fLddrgWv2gaAciGIjcD49ksiZAfF
-					zTKq5WHgbkkrriNkMj/Oj2cxbunbvQLxFeEh
-					g9cVAMwIoP5hrIkejg== )
-			300	RRSIG	NSEC 8 3 300 20121212121212 (
-					20111031204308 48381 example.sec.
-					lgeFCZwsFoj1vU25Y1lxCLRuE8VuDw351Jm0
-					pDdnXn05LS/kobkn+w3sv3zGS/niB0bRBNOM
-					oAfchaQ+xfyRBnJuFswOoXop83cZ3mwazSjF
-					Apy9KDMUvhQPs19dcRi6lo4Ko7xexavUX3Y7
-					3RpkmfV2A9bL1iPtA+I1l0rWuGMmLkdzvamH
-					AKure9ljKkT/GLQL1z4cXL1Z+dby8+Lu9BxN
-					QqP2KyKKW9B0I9Yux+bAaPcDFG+nLkkbnqCS
-					v4FU0pfy4c+xv6FloTymSmPgx2FOhsfT3+Hu
-					kml2P8M141Ia3CfmcFI1WkCFIdjvkgB9R/cy
-					EpDeBgrHySSiVghIiA== )
-			300	RRSIG	NSEC 10 3 300 20121212121212 (
-					20111031204308 1862 example.sec.
-					Jcvi7UYjs98uSolkifW7EeaH3mdBfz1teBj5
-					k+8vKXmkHqXs1+NctTcrZoRF6GESgd9vvnXT
-					xzgvx5eYMVLDaGRoTQ5eyt6niMc4IR+8gFxl
-					4CaZPVS2NttU7fi689ilhXs6ZlTPhBLBQWTL
-					CVnfhIiUGCzhuycvT1+0p4DqED24UMhwIJB5
-					Bn/f1NVODDfxFy69J9atuv08UDXZjj8ackuU
-					ogdWx/uJwpZX7WKl828uuH83M+6qbaPEAdtB
-					VP/Ymvz7N0Ex+w7fbBaf4cuIzg7Et7hIT7QV
-					T0xpGjX1MiHaI+lGkqemsZUi1GkTUWVM0G4Y
-					27iUIziONSKX1Q+lGg== )
-www.example.sec.	300	IN CNAME example.sec.
-			300	RRSIG	CNAME 5 3 300 20121212121212 (
-					20111031204308 516 example.sec.
-					FCbGIvAcnByhRJ9qz5ySwH0AtYQGvBIZ4CHB
-					2SrSoN0iH3iJXWDx8+f7X5KLDrMPhmTQzQk3
-					50Vy5Ywx6kTzOXSP6+vhQ5/VapSGL17yaBIE
-					4tJ7gaMxU2qCWUCaRBv2R1u0D3PySiYOzFlB
-					aUhjEaFNA3/5h/J/t/BKcZImttA= )
-			300	RRSIG	CNAME 5 3 300 20121212121212 (
-					20111031204308 44427 example.sec.
-					yPWZMYMlWHyWRZHBKrzK6l31/4nWT7UZSOeC
-					BH7eq1gpqYR7oWSnPWJg2Z0zrPPuhCucj0sw
-					MjXdx0y8xXXTgYH/IkDFmgGF1wqc3LRCuYM9
-					EaLqux+B70O5KufRK48LFQt37SAaSTOhjm16
-					yioDA8+WXP+5MFdJ68PWOeNhum10YXwbWaVG
-					TgL36oeGEFJl59pyPmLSSiGWLOIaXgumM8hH
-					/giNRvQzHyuUPcAJ4mZy65XX0RdnrWB/Ion5
-					vC3lsEAa45nzyEl8rZANBg9oaU1dNjny3YmN
-					YoTh8/GT6X0MziKZFWMJPbSTvj/32PcKd5Xc
-					6wC+B3npIBfVRFSgXQ== )
-			300	RRSIG	CNAME 8 3 300 20121212121212 (
-					20111031204308 48381 example.sec.
-					RlZXWRDlXhGCzBcODfd+6qZ6x0MltTv3gvA9
-					si4xuoWGF9iEtxLoF2tixRlmnW9TH4hqSNmo
-					w1oeAR7gAg/h54bK1xQ8eyJUk7PonKM4MZmI
-					z2+VSFTfSIvPuNhcWHGDoTMBhEiKQez3qMqH
-					27q9xb2yraaHrQRMrB1ImTvxyxYXklfnCHJl
-					cJWm72cicuzmt5IrMlr3FzWl2jJNNeIMXZ2L
-					LDyI+f0naKYBqal+Ld1jM5WX6ie3E9VNGi14
-					Vt1S3KPzmQ9XXvzlcYY23KJ+fj8LzhDO10lX
-					R5UTC5w08RPtk/M9zh7mAbIh/7/KEHrL7mIC
-					/+tsl1SZ2bBzYU9eTw== )
-			300	RRSIG	CNAME 10 3 300 20121212121212 (
-					20111031204308 1862 example.sec.
-					rjnK0WXWDdOJVolOSLDTfljusCfsLEOQ8E2L
-					XxM8Ri3K/yEhfrTYz4wKAjSFDlfqA70hAviP
-					J2lpkAvc/QMMsRjwuqwMO/P8SA9zpr1VCYku
-					MSyw6//XctMG8uts0AdaoIwd6k3EvuD+ohYE
-					HZLUDuHPJiwGnyyVR4040VvPALdqq9ba2USV
-					DHKC7120bG8/EH0ZtxDiSUAevE9qqvedjGFf
-					0Jc159Jmi4ySN/VmZ+ow5+4fvQm7N4qLP+iL
-					U6/HK6NM+3j5fdXeTVvrOAGfep9wx1Ax6wNO
-					c+JPcYdNbQk1PWhhTv8UwpCY3/rx7Uz32odq
-					Rw47ZqG6eNo3GBMvxQ== )
-			300	NSEC	example.sec. CNAME RRSIG NSEC
-			300	RRSIG	NSEC 5 3 300 20121212121212 (
-					20111031204308 516 example.sec.
-					EEoFlOGwQqmW8G7Sb3s8oAVL2pRZ5vCNeoly
-					LMOruCwnv9ZenQPI838HW9lgOnXi1/wKs+8v
-					BSAUYZ1UEzl0Ycac7qaRYRerLDVYrd3CFZQQ
-					5u5e0Wq/IGNDsQJsSGhXhKExxRgZD8U56coT
-					eXQGfddJN6WRAbkiy1CPYWfhrgk= )
-			300	RRSIG	NSEC 5 3 300 20121212121212 (
-					20111031204308 44427 example.sec.
-					FVsLpAIwMKeKgDbh3+cedZNuTlDpAF+tqSB0
-					mg3214F5D1/a+dpct1MsAGzF8UlOokY3iyvO
-					N0KYilmLvC+99UX0DSvwQphWfAEscMhFZVph
-					Oq92EfeWvXlhjM/e6br5+kxo1vOWjO6NVrl6
-					SmuRUlRtBzzKuzJpxljJzN8gFKs22BTuGaAo
-					TCfVdLh11auWHsmRC0LdjJ4TfIDoTjhIr8Me
-					KNIhysN60lIYvLxo7AvxTBS2nq5Hmi4ltP3T
-					N8bR6Ut2lgIrS/7LVUtyLx52G7hlkwPJD9PA
-					Rk0PhtdssD0z9LMrmRK9b1rO958E8eInDIWB
-					azTWS6YfOODxHk8sBg== )
-			300	RRSIG	NSEC 8 3 300 20121212121212 (
-					20111031204308 48381 example.sec.
-					lgcuNLaU7Gqfc6hEtGqZUWGfi6HBE4WtG0Sy
-					yK45ZL2jZwM5/TVVJgNXmvXx966z3oiKqbx+
-					1Y5yOkUp+3EsMYDDhw4ECmkPTmeewGQvE1S4
-					wbinj+abq+Ppxrbl0LhoL8KN1EP+7HiUtnw+
-					+LERyu2r2oOZVJnTjJgVWiZDzgLJQx7ePyjF
-					pYsJw6xtIx5QmNm0wRkdI72Kt/mAR5E3b9jQ
-					qYWsGAqu6vD2W+aeGHIOk+SjPU//2uy9CgoQ
-					+9NtWTkvokLSxHXbQJyvaFPBhAl1Skh/ICbO
-					ygfuhi2wRIYL4GV53j+Fu+nHsEjP+nKlQ9/R
-					sIk1jqq9M1zaUqv9KQ== )
-			300	RRSIG	NSEC 10 3 300 20121212121212 (
-					20111031204308 1862 example.sec.
-					cEVkhYFosTjlx5Cyor65tPG+202Mhj3yVRxD
-					xhXOBpe07x5L9OlR7pv4wFxwb1UBycb1w5Fk
-					JFzARdCtcGAlIO7MgtWQrDfOZhVGtrNdo34v
-					LYI6boPRHZfuzBFpSBHshiUTlv6jEu2/JTB6
-					jRcCpQQtSB1mJcTg9bOaGWEbWj/MlMzZyyHP
-					Mw9dL6BcOygAD+R1Sz/fuuzKMOEnlWlcgTV7
-					/UuktgNhPO3blZ9KyNRCt6fo3XRlriVp4ttS
-					rvdfIh7rsgI2LX7xSJRgVa1iYnuTYHSzboLF
-					sKPPfaIqWZcGJcq2PfeVNUW3SgSzXbmwlOYr
-					ZLfVqS4kFLCt8iV02Q== )
+					20111010101010 1862 example.sec.
+					uHCo3VfQ7D+n0gii4f7PvaMjFqKsWNE6tg1X
+					n1IfX35EgaTEhwi2tKdy5Lng0bLYtab1w3S2
+					CorRRFRjDvq+CO4i4TkCPksKRD6Yc8t5QiDQ
+					eiGsl+SQGY16/YagXQaePpcp/nFbx1HYBHmR
+					1t42S2J9SHrPKPJ9hPM4bkJqPezg2QdkGEtG
+					y3xyt7AJNRVTxHiUGMloYHYwQwj5i7fEEici
+					ra8R9paDjWOVvrfP1qoWKuaOCwxsS+Rh8Dr0
+					Je6h3cP8Qm8rT/3XJ2neV2mlWUmyyzHaFS7N
+					czy8EUpYJOftmnRJ4Z/idk34mcpr/fXlKCCJ
+					FRoc32Vt/O/O6SlLoA== )
