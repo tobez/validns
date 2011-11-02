@@ -222,7 +222,8 @@ void *check_typemap(struct binary_data type_bitmap, struct named_rr *named_rr, s
 			J1T(rc, bitmap, (*rr_set_slot)->rdtype);
 			if (!rc) {
 				if ((named_rr->flags & NAME_FLAG_DELEGATION) &&
-					(*rr_set_slot)->rdtype == T_A)
+					((*rr_set_slot)->rdtype == T_A ||
+					(*rr_set_slot)->rdtype == T_AAAA))
 				{
 					skipped++;
 				} else {

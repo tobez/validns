@@ -32,6 +32,10 @@ a.ns.delegation2.example.sec. A 8.8.1.1
 delegation3 NS delegation3
 delegation3 A 1.2.9.253
 
+; more glue bugs to catch
+delegation4 NS delegation4
+delegation4 AAAA 2001:2010:1::feef
+
 public  HINFO "i386" "FreeBSD"
 		LOC 55 40 15.258 N 12 41 56.378 E 9.57m 10.00m 10000.00m 10.00m
 
