@@ -70,7 +70,13 @@ static char* rdtype2str_map[T_MAX+1] = {
 	"DNSKEY",
 	"DHCID",
 	"NSEC3", /* 50 */
-	"NSEC3PARAM"
+	"NSEC3PARAM",
+	0, 0, 0, 0, 0, 0, 0, 0, 0, /* 60 */
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, /* 70 */
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, /* 80 */
+	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, /* 90 */
+	0, 0, 0, 0, 0, 0, 0, 0,
+	"SPF"
 };
 void *zone_data = NULL;
 char *zone_apex = NULL;
@@ -79,6 +85,7 @@ int zone_apex_l = 0;
 char *rdtype2str(int type)
 {
 	char s[10];
+	char *r;
 	if (type < 0 || type > 65535) {
 		return "???";
 	}
@@ -86,7 +93,10 @@ char *rdtype2str(int type)
 		sprintf(s, "TYPE%d", type);
 		return quickstrdup_temp(s);
 	}
-	return rdtype2str_map[type];
+	r = rdtype2str_map[type];
+	if (r)	return r;
+	sprintf(s, "TYPE%d", type);
+	return quickstrdup_temp(s);
 }
 
 static unsigned char *name2findable_name(char *s)
@@ -379,11 +389,6 @@ uint32_t get_rr_set_count(struct named_rr *named_rr)
 	return count;
 }
 
-static struct rr *unknown_parse(char *name, long ttl, int type, char *s)
-{
-	return bitch("unsupported resource record type %s", rdtype2str(type));
-}
-
 struct rr *rr_parse_any(char *name, long ttl, int type, char *s)
 {
 	struct rr_any *rr = getmem(sizeof(*rr));
@@ -432,18 +437,7 @@ struct binary_data any_wirerdata(struct rr *rrv)
 	return compose_binary_data("d", 1, rr->data);
 }
 
-static char* unknown_human(struct rr *rr)
-{
-	return NULL;
-}
-
-static struct binary_data unknown_wirerdata(struct rr *rr)
-{
-	bitch("not implemented wire rdata for rdtype %s", rdtype2str(rr->rdtype));
-	return bad_binary_data();
-}
-
-struct rr_methods unknown_methods = { unknown_parse, unknown_human, unknown_wirerdata, NULL, NULL };
+struct rr_methods unknown_methods = { NULL, any_human, any_wirerdata, NULL, NULL };
 
 int str2rdtype(char *rdtype)
 {
@@ -459,6 +453,8 @@ int str2rdtype(char *rdtype)
 	case 'c':
 		if (strcmp(rdtype, "cname") == 0) {
 			return T_CNAME;
+		} else if (strcmp(rdtype, "cert") == 0) {
+			return T_CERT;
 		}
 		break;
 	case 'd':
@@ -513,6 +509,8 @@ int str2rdtype(char *rdtype)
 			return T_SOA;
 		} else if (strcmp(rdtype, "srv") == 0) {
 			return T_SRV;
+		} else if (strcmp(rdtype, "spf") == 0) {
+			return T_SPF;
 		} else if (strcmp(rdtype, "sshfp") == 0) {
 			return T_SSHFP;
 		}

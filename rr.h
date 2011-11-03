@@ -22,6 +22,7 @@
 #define T_LOC	29
 #define T_SRV	33
 #define T_NAPTR	35
+#define T_CERT	37
 #define T_DS	43
 #define T_SSHFP	44
 #define T_RRSIG	46
@@ -29,7 +30,8 @@
 #define T_DNSKEY	48
 #define T_NSEC3	50
 #define T_NSEC3PARAM	51
-#define T_MAX	51
+#define T_SPF	99
+#define T_MAX	99
 
 #define ALG_DSA                  3
 #define ALG_RSASHA1              5
@@ -332,6 +334,16 @@ struct rr_sshfp
 	struct binary_data fingerprint;
 };
 extern struct rr_methods sshfp_methods;
+
+struct rr_spf
+{
+    struct rr rr;
+	int count;
+    struct binary_data spf[1];
+};
+extern struct rr_methods spf_methods;
+
+extern struct rr_methods cert_methods;
 
 extern struct rr_nsec3 *first_nsec3;
 extern struct rr_nsec3 *latest_nsec3;

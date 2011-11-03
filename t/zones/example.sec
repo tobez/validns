@@ -9,6 +9,7 @@ $INCLUDE Kexample.sec.+010+01862.key
         NS  ns2
 
         MX  5 mail
+		SPF "v=spf1 a:mail.example.sec -all"
 
 		A 3.4.5.6
 		RP some.mail.box @

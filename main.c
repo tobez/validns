@@ -189,8 +189,10 @@ read_zone_file(void)
 				if (type <= 0) continue;
 				if (type > T_MAX)
 					rr_parse_any(name, ttl, type, s);
-				else
+				else if (rr_methods[type].rr_parse)
 					rr_methods[type].rr_parse(name, ttl, type, s);
+				else
+					rr_parse_any(name, ttl, type, s);
 			}
 		}
 		if (ferror(file_info->file))
@@ -262,6 +264,7 @@ static void initialize_globals(void)
 	}
 	rr_methods[T_A]            =          a_methods;
 	rr_methods[T_AAAA]         =       aaaa_methods;
+	rr_methods[T_CERT]         =       cert_methods;
 	rr_methods[T_CNAME]        =      cname_methods;
 	rr_methods[T_DNSKEY]       =     dnskey_methods;
 	rr_methods[T_DS]           =         ds_methods;
@@ -277,6 +280,7 @@ static void initialize_globals(void)
 	rr_methods[T_RP]           =         rp_methods;
 	rr_methods[T_RRSIG]        =      rrsig_methods;
 	rr_methods[T_SOA]          =        soa_methods;
+	rr_methods[T_SPF]          =        spf_methods;
 	rr_methods[T_SRV]          =        srv_methods;
 	rr_methods[T_SSHFP]        =      sshfp_methods;
 	rr_methods[T_TXT]          =        txt_methods;
