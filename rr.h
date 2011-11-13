@@ -343,6 +343,14 @@ struct rr_spf
 };
 extern struct rr_methods spf_methods;
 
+struct rr_cert
+{
+    struct rr rr;
+	uint16_t type;
+	uint16_t key_tag;
+	int algorithm;
+	struct binary_data certificate;
+};
 extern struct rr_methods cert_methods;
 
 extern struct rr_nsec3 *first_nsec3;

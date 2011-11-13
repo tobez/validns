@@ -75,6 +75,17 @@ otherdata1	CNAME a.b.c.
 otherdata1	CNAME x.y.z.
 otherdata2	CNAME a.b.c.
 otherdata2	A 1.2.3.4
+cert	CERT 3 3 177 V2Ugc2hhbGwgbmVlZCBhIG51bWJlciBvZiBtYXRoZW1hdGljYWwgaWRlYXMgYW5kIG5vdGF0aW9ucyBjb25jZXJuaW5nIGZ1bmN0aW9ucyBpbiBnZW5lcmFsLg==
+cert	CERT 3 3 MEOW V2Ugc2hhbGwgbmVlZCBhIG51bWJlciBvZiBtYXRoZW1hdGljYWwgaWRlYXMgYW5kIG5vdGF0aW9ucyBjb25jZXJuaW5nIGZ1bmN0aW9ucyBpbiBnZW5lcmFsLg==
+cert	CERT 100000 3 0 V2Ugc2hhbGwgbmVlZCBhIG51bWJlciBvZiBtYXRoZW1hdGljYWwgaWRlYXMgYW5kIG5vdGF0aW9ucyBjb25jZXJuaW5nIGZ1bmN0aW9ucyBpbiBnZW5lcmFsLg==
+cert	CERT 255 3 0 V2Ugc2hhbGwgbmVlZCBhIG51bWJlciBvZiBtYXRoZW1hdGljYWwgaWRlYXMgYW5kIG5vdGF0aW9ucyBjb25jZXJuaW5nIGZ1bmN0aW9ucyBpbiBnZW5lcmFsLg==
+cert	CERT 700 3 0 V2Ugc2hhbGwgbmVlZCBhIG51bWJlciBvZiBtYXRoZW1hdGljYWwgaWRlYXMgYW5kIG5vdGF0aW9ucyBjb25jZXJuaW5nIGZ1bmN0aW9ucyBpbiBnZW5lcmFsLg==
+cert	CERT MEOW 3 0 V2Ugc2hhbGwgbmVlZCBhIG51bWJlciBvZiBtYXRoZW1hdGljYWwgaWRlYXMgYW5kIG5vdGF0aW9ucyBjb25jZXJuaW5nIGZ1bmN0aW9ucyBpbiBnZW5lcmFsLg==
+cert	CERT pgp 100000 0 V2Ugc2hhbGwgbmVlZCBhIG51bWJlciBvZiBtYXRoZW1hdGljYWwgaWRlYXMgYW5kIG5vdGF0aW9ucyBjb25jZXJuaW5nIGZ1bmN0aW9ucyBpbiBnZW5lcmFsLg==
+cert	CERT pgp 0 0 aha!oho,==
+; but this one and the next are fine
+cert	CERT URI 0 0 V2Ugc2hhbGwgbmVlZCBhIG51bWJlciBvZiBtYXRoZW1hdGljYWwgaWRlYXMgYW5kIG5vdGF0aW9ucyBjb25jZXJuaW5nIGZ1bmN0aW9ucyBpbiBnZW5lcmFsLg==
+cert	CERT 254 1234 dsa V2Ugc2hhbGwgbmVlZCBhIG51bWJlciBvZiBtYXRoZW1hdGljYWwgaWRlYXMgYW5kIG5vdGF0aW9ucyBjb25jZXJuaW5nIGZ1bmN0aW9ucyBpbiBnZW5lcmFsLg==
 zzz     SOA ns1.catpipe.net. hostmaster.catpipe.net. ( ; this will be an error
             2011011400  ; Serial
             1H  ; Refresh
