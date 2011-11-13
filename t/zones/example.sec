@@ -43,3 +43,5 @@ public  HINFO "i386" "FreeBSD"
 lets.introduce.some.empty.terminals CNAME example.sec.
 jumphost SSHFP 2 1 123456789abcdef67890123456789abcdef67890
 
+cert	CERT URI 0 0 V2Ugc2hhbGwgbmVlZCBhIG51bWJlciBvZiBtYXRoZW1hdGljYWwgaWRlYXMgYW5kIG5vdGF0aW9ucyBjb25jZXJuaW5nIGZ1bmN0aW9ucyBpbiBnZW5lcmFsLg==
+
