@@ -96,6 +96,18 @@ xy*z	A 12.13.14.15	; name is not valid
 *z	A 12.13.14.15	; name: bad wildcard
 .xyz A 34.45.56.78  ; name cannot start with a dot
 .. A 34.45.56.78  ; name cannot start with a dot
+
+zzzz1 DNAME x.y.dk. blah  ; garbage after valid DNAME
+zzzz2 DNAME x.y.dk.  ; fine
+zzzz2 DNAME a.b.org. ; multiple DNAMEs
+zzzz3 DNAME a.b.org. ; fine
+something.zzzz3 A 1.2.3.4 ; DNAME must not have any children (but something.zzzz3.galaxyplus.org exists)
+zzzz4 DNAME a.b.org. ; fine
+zzzz4 CNAME zzzz4.a.b.org. ; CNAME and other data
+zzzz5 DNAME a.b.org. ; fine
+x.y.z.zzzz5 A 5.6.7.8 ; DNAME must not have any children (but z.zzzz5.galaxyplus.org exists) - yuck
+zzzz6 DNAME x.y.dk.  ; fine, no induced error
+
 @       SOA ns1.catpipe.net. hostmaster.catpipe.net. ( ; skipped again
             2011011400  ; Serial
             1H  ; Refresh

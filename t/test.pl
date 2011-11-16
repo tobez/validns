@@ -88,12 +88,17 @@ like(shift @e, qr/record name is not valid/, "wildcard is the middle");
 like(shift @e, qr/record name: bad wildcard/, "bad wildcard");
 like(shift @e, qr/name cannot start with a dot/, "dot-something");
 like(shift @e, qr/name cannot start with a dot/, "dot-dot");
+like(shift @e, qr/garbage after valid DNAME data/, "DNAME garbage");
 
 ## actual validations done after parsing
 like(shift @e, qr/CNAME and other data/, "CNAME+CNAME");
 like(shift @e, qr/CNAME and other data/, "CNAME+something else");
 like(shift @e, qr/there should be at least two NS records/, "NS limit");
 like(shift @e, qr/TTL values differ within an RR set/, "TTL conflict");
+like(shift @e, qr/multiple DNAMEs/, "Multiple DNAMEs");
+like(shift @e, qr/DNAME must not have any children \(but something.zzzz3.galaxyplus.org. exists\)/, "DNAME with children");
+like(shift @e, qr/CNAME and other data/, "DNAME+CNAME");
+like(shift @e, qr/DNAME must not have any children \(but z.zzzz5.galaxyplus.org. exists\)/, "DNAME with children 2");
 
 is(+@e, 0, "no unaccounted errors");
 #like(stdout, qr/validation errors: XX/, "error count");

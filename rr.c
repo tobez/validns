@@ -462,6 +462,8 @@ int str2rdtype(char *rdtype)
 			return T_DS;
 		} else if (strcmp(rdtype, "dnskey") == 0) {
 			return T_DNSKEY;
+		} else if (strcmp(rdtype, "dname") == 0) {
+			return T_DNAME;
 		}
 		break;
 	case 'h':

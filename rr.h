@@ -23,6 +23,7 @@
 #define T_SRV	33
 #define T_NAPTR	35
 #define T_CERT	37
+#define T_DNAME	39
 #define T_DS	43
 #define T_SSHFP	44
 #define T_RRSIG	46
@@ -248,6 +249,13 @@ struct rr_cname
 	char *cname;
 };
 extern struct rr_methods cname_methods;
+
+struct rr_dname
+{
+	struct rr rr;
+	char *target;
+};
+extern struct rr_methods dname_methods;
 
 struct rr_aaaa
 {

@@ -37,11 +37,15 @@ single-ns
 .IP \[bu] 2
 cname-other-data
 .IP \[bu] 2
+dname
+.IP \[bu] 2
 nsec3param-not-apex
 .IP \[bu] 2
 mx-alias
 .IP \[bu] 2
 ns-alias
+.IP \[bu] 2
+rp-txt-exists
 .IP \[bu] 2
 all
 .RE
@@ -142,11 +146,18 @@ there should be at least two NS records per name (or zero);
 .IP \[bu] 2
 CNAME and other data (excluding possible RRSIG and NSEC);
 .IP \[bu] 2
+DNAME checks: no multiple DNAMEs, no descendants of a node with a DNAME;
+please note that DNAME/CNAME clash is handled by CNAME and other data
+check already;
+.IP \[bu] 2
 NSEC3PARAM, if present, should only be at the zone apex.
 .IP \[bu] 2
 MX exchange should not be an alias
 .IP \[bu] 2
 NS nsdname should not be an alias
+.IP \[bu] 2
+TXT domain name mentioned in RP record must have a corresponding TXT
+record if it is within the zone
 .SH BUGS
 .IP \[bu] 2
 textual segments in \f[I]TXT\f[] and \f[I]HINFO\f[] must be enclosed in

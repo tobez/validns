@@ -234,10 +234,17 @@ void usage(char *err)
 	fprintf(stderr, "Usage parameters:\n");
 	fprintf(stderr, "\t-h\t\tproduce usage text and quit\n");
 	fprintf(stderr, "\t-f\t\tquit on first validation error\n");
+
 	fprintf(stderr, "\t-p name\tperform policy check <name>\n");
 	fprintf(stderr, "\t\t\tsingle-ns\n");
 	fprintf(stderr, "\t\t\tcname-other-data\n");
+	fprintf(stderr, "\t\t\tdname\n");
+	fprintf(stderr, "\t\t\tnsec3param-not-apex\n");
+	fprintf(stderr, "\t\t\tmx-alias\n");
+	fprintf(stderr, "\t\t\tns-alias\n");
+	fprintf(stderr, "\t\t\trp-txt-exists\n");
 	fprintf(stderr, "\t\t\tall\n");
+
 	fprintf(stderr, "\t-q\t\tquiet - do not produce any output\n");
 	fprintf(stderr, "\t-s\t\tprint validation summary/stats\n");
 	fprintf(stderr, "\t-v\t\tbe extra verbose\n");
@@ -266,6 +273,7 @@ static void initialize_globals(void)
 	rr_methods[T_AAAA]         =       aaaa_methods;
 	rr_methods[T_CERT]         =       cert_methods;
 	rr_methods[T_CNAME]        =      cname_methods;
+	rr_methods[T_DNAME]        =      dname_methods;
 	rr_methods[T_DNSKEY]       =     dnskey_methods;
 	rr_methods[T_DS]           =         ds_methods;
 	rr_methods[T_HINFO]        =      hinfo_methods;
@@ -320,6 +328,8 @@ main(int argc, char **argv)
 				G.opt.policy_checks[POLICY_SINGLE_NS] = 1;
 			} else if (strcmp(optarg, "cname-other-data") == 0) {
 				G.opt.policy_checks[POLICY_CNAME_OTHER_DATA] = 1;
+			} else if (strcmp(optarg, "dname") == 0) {
+				G.opt.policy_checks[POLICY_DNAME] = 1;
 			} else if (strcmp(optarg, "nsec3param-not-apex") == 0) {
 				G.opt.policy_checks[POLICY_NSEC3PARAM_NOT_APEX] = 1;
 			} else if (strcmp(optarg, "mx-alias") == 0) {
