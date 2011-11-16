@@ -48,7 +48,8 @@ static struct binary_data dname_wirerdata(struct rr *rrv)
 static void* dname_validate_set(struct rr_set *rr_set)
 {
 	struct rr *rr;
-	/* struct rr_set *another_set; */
+	struct rr_set *suspect;
+	int count;
 	struct named_rr *named_rr, *next_named_rr;
 
 	if (G.opt.policy_checks[POLICY_DNAME]) {
@@ -62,6 +63,18 @@ static void* dname_validate_set(struct rr_set *rr_set)
 			return moan(rr->file_name, rr->line, "DNAME cannot co-exist with a CNAME");
 		*/
 		next_named_rr = find_next_named_rr(named_rr);
+		/* handle http://tools.ietf.org/html/rfc5155#section-10.2 case */
+		if (next_named_rr && next_named_rr->parent == named_rr && (named_rr->flags & NAME_FLAG_APEX)) {
+			count = get_rr_set_count(next_named_rr);
+			if (count > 0) {
+				suspect = find_rr_set_in_named_rr(next_named_rr, T_RRSIG);
+				if (suspect)	count--;
+				suspect = find_rr_set_in_named_rr(next_named_rr, T_NSEC3);
+				if (suspect)	count--;
+				if (count == 0)
+					next_named_rr = find_next_named_rr(next_named_rr);
+			}
+		}
 		if (next_named_rr && next_named_rr->parent == named_rr)
 			return moan(rr->file_name, rr->line,
 						"DNAME must not have any children (but %s exists)",
