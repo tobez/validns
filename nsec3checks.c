@@ -122,6 +122,9 @@ needs_nsec3:
 				   NAME_FLAG_SIGNED_DELEGATION)
 		{
 			goto needs_nsec3;
+		} else if (!G.nsec3_opt_out_present && (named_rr->flags & NAME_FLAG_DELEGATION))
+		{
+			goto needs_nsec3;
 		}
 next:
 		JSLN(named_rr_p, zone_data, sorted_name);
