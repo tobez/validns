@@ -125,7 +125,7 @@ static struct rr *loc_parse(char *name, long ttl, int type, char *s)
 		rr->longitude = 2147483648u + rr->longitude;
 	} else if (*s == 'w' || *s == 'W') {
 		s++;
-		rr->longitude = 2147483648u - rr->latitude;
+		rr->longitude = 2147483648u - rr->longitude;
 	} else {
 		return bitch("longitude: E or W is expected");
 	}
