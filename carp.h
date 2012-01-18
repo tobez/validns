@@ -13,8 +13,6 @@ const char *thisprogname(void);
 
 void croak(int exit_code, const char *fmt, ...);
 void croakx(int exit_code, const char *fmt, ...);
-void carp(const char *fmt, ...);
-void carpx(const char *fmt, ...);
 
 void *bitch(const char *fmt, ...);
 void *moan(char *file_name, int line, const char *fmt, ...);

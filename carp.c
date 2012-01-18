@@ -38,24 +38,6 @@ croakx(int exit_code, const char *fmt, ...)
 	va_end(ap);
 }
 
-void
-carp(const char *fmt, ...)
-{
-	va_list ap;
-	va_start(ap, fmt);
-	v(0, errno, 0, fmt, ap);
-	va_end(ap);
-}
-
-void
-carpx(const char *fmt, ...)
-{
-	va_list ap;
-	va_start(ap, fmt);
-	v(0, -1, 0, fmt, ap);
-	va_end(ap);
-}
-
 void *
 bitch(const char *fmt, ...)
 {
