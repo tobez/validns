@@ -38,6 +38,7 @@ Coming soon.
 	- single-ns
 	- cname-other-data
 	- dname
+	- dnskey
 	- nsec3param-not-apex
 	- mx-alias
 	- ns-alias
@@ -108,6 +109,8 @@ Other basic checks include:
 - DNAME checks: no multiple DNAMEs, no descendants of a node with a DNAME;
   please note that DNAME/CNAME clash is handled by CNAME and other data
   check already;
+- DNSKEY checks: public key too short, leading zero octets
+  in public key exponent or modulus;
 - NSEC3PARAM, if present, should only be at the zone apex.
 - MX exchange should not be an alias
 - NS nsdname should not be an alias

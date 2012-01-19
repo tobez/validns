@@ -94,7 +94,43 @@ static struct binary_data dnskey_wirerdata(struct rr *rrv)
 		rr->pubkey);
 }
 
-struct rr_methods dnskey_methods = { dnskey_parse, dnskey_human, dnskey_wirerdata, NULL, NULL };
+static void *dnskey_validate(struct rr *rrv)
+{
+	RRCAST(dnskey);
+
+	if (G.opt.policy_checks[POLICY_DNSKEY]) {
+		if (algorithm_type(rr->algorithm) == ALG_RSA_FAMILY) {
+			unsigned int e_bytes;
+			unsigned char *pk;
+			int l;
+
+			pk = (unsigned char *)rr->pubkey.data;
+			l = rr->pubkey.length;
+
+			e_bytes = *pk++;
+			l--;
+			if (e_bytes == 0) {
+				if (l < 2)
+					return moan(rr->rr.file_name, rr->rr.line, "public key is too short");
+				e_bytes = (*pk++)  << 8;
+				e_bytes += *pk++;
+				l -= 2;
+			}
+			if (l < e_bytes)
+				return moan(rr->rr.file_name, rr->rr.line, "public key is too short");
+
+			if (*pk == 0)
+				return moan(rr->rr.file_name, rr->rr.line, "leading zero octets in public key exponent");
+			pk += e_bytes;
+			l -= e_bytes;
+			if (l > 0 && *pk == 0)
+				return moan(rr->rr.file_name, rr->rr.line, "leading zero octets in key modulus");
+		}
+	}
+	return NULL;
+}
+
+struct rr_methods dnskey_methods = { dnskey_parse, dnskey_human, dnskey_wirerdata, NULL, dnskey_validate };
 
 int dnskey_build_pkey(struct rr_dnskey *rr)
 {

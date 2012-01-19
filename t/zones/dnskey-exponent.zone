@@ -1,0 +1,25 @@
+nz.			86400	IN	SOA	loopback.dns.net.nz. soa.nzrs.net.nz. 2012012024 900 300 604800 3600
+nz.			86400	IN	NS	ns3.dns.net.nz.
+nz.			86400	IN	NS	ns4.dns.net.nz.
+nz.			86400	IN	NS	ns7.dns.net.nz.
+nz.			86400	IN	NS	ns6.dns.net.nz.
+nz.			86400	IN	NS	ns2.dns.net.nz.
+nz.			86400	IN	NS	ns5.dns.net.nz.
+nz.			86400	IN	NS	ns1.dns.net.nz.
+nz.         3600 IN DNSKEY 257 3 8 (
+                BAABAAGwfTiEoh71o6S55+Mdy1qqVRnpKY1VHznrv+wx
+                rPfvRGB5VivFFPFN+33fsaTxJQTceOtOna7IKxTffj6p
+                bBG4a9vtk2FqF551IwXomKWJnzRVKqYzuAx+Os/5gLIN
+                BH7+qRWAkJwCdQXIaJGyGmshkO5Ci5Ex5Cm3EZCeVrie
+                0fLI03Ufjuhi6IJ7gLzjEWw84faLIxWHEj8w0UVcXfaI
+                2VL0oUC/R+9RaO7BJKv93ZqoZhTOSg9nH51qfubbK6FM
+                svOWEyVcUNE6NESYEbuCiUByKfxanvzzYUUCzmm+JwV7
+                7Ebj3XZSBnWnA2ylLXQ4+HD84rnqb1SgGXu9HZYn
+                ) ; key id = 2517
+nz.         3600 IN DNSKEY 256 3 8 (
+                BAABAAGD+q3p2XDCb6SvAbACB/NPdljxhpBx2O9ZnvF2
+                OYb6kViMJ5dgxYDcFtvL5RW31Bc7UDvseoQPUK1wora3
+                BtUTylo1xd5PN/lV600mrNGRxfmw77Hen/MXH5GQrjaj
+                O+rFP1xce1/jdyvCciJzrYRcPL9p4c/eGoJK3ZMubiu1
+                OQ==
+                ) ; key id = 27212

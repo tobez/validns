@@ -330,6 +330,8 @@ main(int argc, char **argv)
 				G.opt.policy_checks[POLICY_CNAME_OTHER_DATA] = 1;
 			} else if (strcmp(optarg, "dname") == 0) {
 				G.opt.policy_checks[POLICY_DNAME] = 1;
+			} else if (strcmp(optarg, "dnskey") == 0) {
+				G.opt.policy_checks[POLICY_DNSKEY] = 1;
 			} else if (strcmp(optarg, "nsec3param-not-apex") == 0) {
 				G.opt.policy_checks[POLICY_NSEC3PARAM_NOT_APEX] = 1;
 			} else if (strcmp(optarg, "mx-alias") == 0) {

@@ -172,4 +172,14 @@ like(stderr, qr/ns\.example\.com\.\s+IN\s+600\s+A\s+192\.0\.2\.1/,
 like(stderr, qr/\s+example\.com\.\s+IN\s+200\s+NS\s+ns\.example\.com\./,
 	"TTL without default picked up correctly");
 
+# DNSKEY extra checks
+run('./validns', 't/zones/dnskey-exponent.zone');
+is(rc, 0, 'dnskey parses OK without policy checks');
+run('./validns', '-p', 'all', 't/zones/dnskey-exponent.zone');
+isnt(rc, 0, 'dnskey extra checks fail');
+@e = split /\n/, stderr;
+like(shift @e, qr/leading zero octets in public key exponent/, "leading zeroes in exponent 1");
+like(shift @e, qr/leading zero octets in public key exponent/, "leading zeroes in exponent 2");
+is(+@e, 0, "no unaccounted errors for DNSKEY policy checks");
+
 done_testing;
