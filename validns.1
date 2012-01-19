@@ -39,6 +39,8 @@ cname-other-data
 .IP \[bu] 2
 dname
 .IP \[bu] 2
+dnskey
+.IP \[bu] 2
 nsec3param-not-apex
 .IP \[bu] 2
 mx-alias
@@ -149,6 +151,9 @@ CNAME and other data (excluding possible RRSIG and NSEC);
 DNAME checks: no multiple DNAMEs, no descendants of a node with a DNAME;
 please note that DNAME/CNAME clash is handled by CNAME and other data
 check already;
+.IP \[bu] 2
+DNSKEY checks: public key too short, leading zero octets in public key
+exponent or modulus;
 .IP \[bu] 2
 NSEC3PARAM, if present, should only be at the zone apex.
 .IP \[bu] 2
