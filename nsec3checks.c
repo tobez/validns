@@ -76,8 +76,6 @@ void perform_remaining_nsec3checks(void)
 	struct named_rr **named_rr_p;
 	struct named_rr *named_rr;
 	struct rr_nsec3 *nsec3;
-	void *x = name2hash;
-	x = name2hash;
 	uint32_t mask;
 	struct binary_data hash;
 	struct rr_nsec3 **nsec3_slot;
