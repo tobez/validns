@@ -1,3 +1,5 @@
+validns version 0.3
+
 validns - DNS and DNSSEC zone file validator.
 
 For installation instructions, see installation.mdwn.
@@ -7,6 +9,9 @@ For technical notes, see technical-notes.mdwn.
 
 The most recent version can always be found
 at https://github.com/tobez/validns/
+
+The tarballs of releases can be found
+at http://www.validns.net/download/
 
 Support:
 
