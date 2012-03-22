@@ -107,11 +107,13 @@ run('./validns', '-s', 't/zones/example.sec.signed.with-errors');
 isnt(rc, 0, 'bad signed zone returns an error');
 @e = split /\n/, stderr;
 
+like(shift @e, qr/wrong GOST .* digest length/, "wrong GOST digest length");
 like(shift @e, qr/MX exists, but NSEC does not mention it/, "NSEC incomplete");
 like(shift @e, qr/NSEC mentions SRV, but no such record found/, "NSEC lists too much");
 like(shift @e, qr/RRSIG exists for non-existing type NAPTR/, "RRSIG for absent");
 like(shift @e, qr/RRSIG's original TTL differs from corresponding record's/, "RRSIG orig ttl bad");
 like(shift @e, qr/RRSIG\(NSEC\): cannot find a signer key/, "unknown signer");
+like(shift @e, qr/NSEC says mail.example.sec. comes after example.sec., but ghost.example.sec. does/, "NSEC chain error");
 like(shift @e, qr/NSEC says ns1.example.sec. comes after mail.example.sec., but nosuch.example.sec. does/, "NSEC chain error");
 like(shift @e, qr/NSEC says ns2.example.sec. comes after ns1.example.sec., but ns122.example.sec. does/, "NSEC chain error");
 like(shift @e, qr/NSEC says www.example.sec. is the last name, but zzz.example.sec. exists/, "NSEC chain not the last");

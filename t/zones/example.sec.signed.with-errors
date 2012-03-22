@@ -690,6 +690,11 @@ www.example.sec.	300	IN CNAME example.sec.
 					ukb4JEiS3zkuLTMX59PqJ+sw6y3QBgKOSnbv
 					k18XsducRJhqpwfUGOsmAn6/qGw0HC9XN+rO
 					jE94zVw/whela3Q7vA== )
+ghost.example.sec.	300	IN NS	ns1.example.sec.
+			300	IN NS	ns2.example.sec.
+			300	DS	50458 12 3 (
+					2E40B2A6CCD2760EC70AF69D1C144064C8
+					1E53A6B3EEE78BDB9E0BAFBB9C02 )
 zzz.example.sec.	300	IN CNAME example.sec. ; previous NSEC should bitch about it
 			300	NSEC	zzzz.example.sec. CNAME NSEC  ; this one will also bitch
 nosuch.example.sec.	300	RRSIG	NAPTR 5 2 300 20121212121212 (
