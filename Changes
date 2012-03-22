@@ -1,4 +1,8 @@
 Revision history for validns.
 
+0.4 Thu Mar 22 15:48:25 CET 2012
+	Support ECC algorithms in DS and DNSKEY (by Miek Gieben)
+	Fix a parsing bug for \nnn in text fields (by Göran Bengtson)
+
 0.3   Tue Feb 14 14:09:54 CET 2012
 	First packaged release.

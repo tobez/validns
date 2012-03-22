@@ -4,6 +4,7 @@
 
 Known to compile and work on:
 
+- FreeBSD 10.0 amd64
 - FreeBSD 9.0 amd64
 - FreeBSD 8.2 i386
 - Ubuntu 10.10 1 i386
