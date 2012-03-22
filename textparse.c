@@ -679,7 +679,7 @@ more_text:
 					c = c*10 + *s - '0';
 					s++;
 				}
-				o[l] = (unsigned char)c;
+				o[l++] = (unsigned char)c;
 			} else {
 				o[l] = *s;
 				goto new_char;
