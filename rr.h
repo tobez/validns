@@ -40,6 +40,9 @@
 #define ALG_RSASHA1_NSEC3_SHA1   7
 #define ALG_RSASHA256            8
 #define ALG_RSASHA512           10
+#define ALG_ECCGOST             12
+#define ALG_ECDSAP256SHA256     13
+#define ALG_ECDSAP384SHA384     14
 #define ALG_PRIVATEDNS         253
 #define ALG_PRIVATEOID         254
 
@@ -47,6 +50,7 @@
 #define ALG_DSA_FAMILY      1
 #define ALG_RSA_FAMILY      2
 #define ALG_PRIVATE_FAMILY  3
+#define ALG_ECC_FAMILY      4
 
 #define RRCAST(t) struct rr_ ## t *rr = (struct rr_ ## t *)rrv
 

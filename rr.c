@@ -720,6 +720,14 @@ int extract_algorithm(char **s, char *what)
 			return ALG_RSASHA256;
 		if (strcmp(str_alg, "rsasha512") == 0)
 			return ALG_RSASHA512;
+
+		if (strcmp(str_alg, "ecc-gost") == 0)
+			return ALG_ECCGOST;
+		if (strcmp(str_alg, "ecdsap256sha256") == 0)
+			return ALG_ECDSAP256SHA256;
+		if (strcmp(str_alg, "ecdsap384sha384") == 0)
+			return ALG_ECDSAP384SHA384;
+
 		if (strcmp(str_alg, "privatedns") == 0)
 			return ALG_PRIVATEDNS;
 		if (strcmp(str_alg, "privateoid") == 0)
@@ -744,6 +752,12 @@ int algorithm_type(int alg)
 		return ALG_RSA_FAMILY;
 	case ALG_RSASHA512:
 		return ALG_RSA_FAMILY;
+        case ALG_ECCGOST:
+                return ALG_ECC_FAMILY;
+        case ALG_ECDSAP256SHA256:
+                return ALG_ECC_FAMILY;
+        case ALG_ECDSAP384SHA384:
+                return ALG_ECC_FAMILY;
 	case ALG_PRIVATEDNS:
 		return ALG_PRIVATE_FAMILY;
 	case ALG_PRIVATEOID:
