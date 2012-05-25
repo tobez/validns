@@ -169,7 +169,8 @@ like(stderr, qr/ns\.example\.com\.\s+IN\s+600\s+A\s+192\.0\.2\.1/,
 
 run('./validns', '-v', 't/zones/misc-regression.zone');
 is(rc, 0, 'misc regression parses OK');
-like(stderr, qr/"alias"/, "We parse \\ in text correctly");
+like(stderr, qr/"alias"/, "We parse \\nnn in text correctly");
+like(stderr, qr/"";"/, "We parse \\\" in text correctly");
 
 run('./validns', '-v', 't/zones/ttl.zone');
 is(rc, 0, 'ttl test parses OK');

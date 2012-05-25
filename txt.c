@@ -58,6 +58,7 @@ static char* txt_human(struct rr *rrv)
 	int l;
 
 	for (i = 0; i < rr->count; i++) {
+		/* XXX would be nice to escape " with \ in strings */
 		l = snprintf(s, 1024-(s-ss), "\"%s\" ", rr->txt[i].data);
 		s += l;
 	}

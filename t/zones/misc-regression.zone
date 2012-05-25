@@ -4,3 +4,4 @@ $TTL 86400
         IN      NS      ns
 ns      IN      A       192.0.2.1
 xx IN TXT "a\108ias"
+yy IN TXT "\";"
