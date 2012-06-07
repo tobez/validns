@@ -9,8 +9,7 @@ This document describes validns version 0.4
 .PP
 validns \f[I]-h\f[] validns [\f[I]options\f[]] \f[I]zone-file\f[]
 .PP
-For validating stdin, specify \[lq]-\[rq] in place of
-\f[I]zone-file\f[].
+For validating stdin, specify "-" in place of \f[I]zone-file\f[].
 .SH DESCRIPTION
 .PP
 Coming soon.
@@ -53,6 +52,13 @@ ns-alias
 rp-txt-exists
 .IP \[bu] 2
 all
+.RE
+.TP
+.B -n \f[I]N\f[]
+Use N worker threads for parallelizable operations.
+The default is 0, meaning no parallelization.
+Currently only signature verification is parallelizable.
+.RS
 .RE
 .TP
 .B -q
@@ -119,7 +125,7 @@ signature is too old;
 .IP \[bu] 2
 RRSIG exists for non-existing type \f[I]type\f[];
 .IP \[bu] 2
-RRSIG's original TTL differs from corresponding record's;
+RRSIG\[aq]s original TTL differs from corresponding record\[aq]s;
 .IP \[bu] 2
 RRSIG(\f[I]type\f[]): cannot find a signer key;
 .IP \[bu] 2
