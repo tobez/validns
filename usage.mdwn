@@ -49,6 +49,11 @@ Coming soon.
 	- rp-txt-exists
 	- all
 
+-n *N*
+:   Use N worker threads for parallelizable operations.
+    The default is 0, meaning no parallelization.
+    Currently only signature verification is parallelizable.
+
 -q
 :   quiet - do not produce any output
 
@@ -59,14 +64,14 @@ Coming soon.
 :   be extra verbose
 
 -I *path*
-:    use this path for $INCLUDE files
+:   use this path for $INCLUDE files
 
 -z *origin*
-:    use this origin as initial $ORIGIN
+:   use this origin as initial $ORIGIN
 
 -t *epoch-time*
-:    Use specified time instead of the current time
-     when verifying validity of the signatures.
+:   Use specified time instead of the current time
+    when verifying validity of the signatures.
 
 # BASIC CHECKS
 

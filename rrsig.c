@@ -10,6 +10,8 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <time.h>
+#include <pthread.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <openssl/evp.h>
@@ -23,13 +25,22 @@
 #include "carp.h"
 #include "rr.h"
 
+struct verification_data
+{
+	struct verification_data *next;
+	EVP_MD_CTX ctx;
+	struct rr_dnskey *key;
+	struct rr_rrsig *rr;
+	int ok;
+};
+
 struct keys_to_verify
 {
 	struct keys_to_verify *next;
 	struct rr_rrsig *rr;
 	struct rr_set *signed_set;
 	int n_keys;
-	struct rr_dnskey *keys[1];
+	struct verification_data to_verify[1];
 };
 
 static struct keys_to_verify *all_keys_to_verify = NULL;
@@ -145,9 +156,83 @@ static int compare_rr_with_wired(const void *va, const void *vb)
 	}
 }
 
-static int verify_signature(struct rr_rrsig *rr, struct rr_dnskey *key, struct rr_set *signed_set)
+static struct verification_data *verification_queue = NULL;
+static int verification_queue_size = 0;
+static pthread_mutex_t queue_lock;
+static int workers_started = 0;
+static pthread_t *workers;
+
+void *verification_thread(void *dummy)
 {
-	EVP_MD_CTX ctx;
+	struct verification_data *d;
+	struct timespec sleep_time;
+
+	while (1) {
+		if (pthread_mutex_lock(&queue_lock) != 0)
+			croak(1, "pthread_mutex_lock");
+		d = verification_queue;
+		if (d) {
+			verification_queue = d->next;
+			G.stats.signatures_verified++;
+		}
+		if (pthread_mutex_unlock(&queue_lock) != 0)
+			croak(1, "pthread_mutex_unlock");
+		if (d) {
+			d->next = NULL;
+			if (EVP_VerifyFinal(&d->ctx, (unsigned char *)d->rr->signature.data, d->rr->signature.length, d->key->pkey) == 1)
+				d->ok = 1;
+			if (pthread_mutex_lock(&queue_lock) != 0)
+				croak(1, "pthread_mutex_lock");
+			verification_queue_size--;
+			if (pthread_mutex_unlock(&queue_lock) != 0)
+				croak(1, "pthread_mutex_unlock");
+		} else {
+			sleep_time.tv_sec  = 0;
+			sleep_time.tv_nsec = 10000000;
+			nanosleep(&sleep_time, NULL);
+		}
+	}
+}
+
+static void start_workers(void)
+{
+	int i;
+
+	if (workers_started)
+		return;
+	if (G.opt.verbose)
+		fprintf(stderr, "starting workers for signature verification\n");
+	workers = getmem(sizeof(*workers)*G.opt.n_threads);
+	for (i = 0; i < G.opt.n_threads; i++) {
+		if (pthread_create(&workers[i], NULL, verification_thread, NULL) != 0)
+			croak(1, "pthread_create");
+	}
+	workers_started = 1;
+}
+
+static void schedule_verification(struct verification_data *d)
+{
+	int cur_size;
+	if (G.opt.n_threads > 1) {
+		if (pthread_mutex_lock(&queue_lock) != 0)
+			croak(1, "pthread_mutex_lock");
+		d->next = verification_queue;
+		verification_queue = d;
+		verification_queue_size++;
+		cur_size = verification_queue_size;
+		if (pthread_mutex_unlock(&queue_lock) != 0)
+			croak(1, "pthread_mutex_unlock");
+		if (!workers_started && cur_size >= G.opt.n_threads)
+			start_workers();
+	} else {
+		G.stats.signatures_verified++;
+		if (EVP_VerifyFinal(&d->ctx, (unsigned char *)d->rr->signature.data, d->rr->signature.length, d->key->pkey) == 1)
+			d->ok = 1;
+	}
+}
+
+static int verify_signature(struct verification_data *d, struct rr_set *signed_set)
+{
 	uint16_t b2;
 	uint32_t b4;
 	struct binary_data chunk;
@@ -160,31 +245,31 @@ static int verify_signature(struct rr_rrsig *rr, struct rr_dnskey *key, struct r
 	if (!get_wired)
 		return 0;
 
-	EVP_MD_CTX_init(&ctx);
-	switch (rr->algorithm) {
+	EVP_MD_CTX_init(&d->ctx);
+	switch (d->rr->algorithm) {
 	case ALG_DSA:
 	case ALG_RSASHA1:
 	case ALG_DSA_NSEC3_SHA1:
 	case ALG_RSASHA1_NSEC3_SHA1:
-		if (EVP_VerifyInit(&ctx, EVP_sha1()) != 1)
+		if (EVP_VerifyInit(&d->ctx, EVP_sha1()) != 1)
 			return 0;
 		break;
 	case ALG_RSASHA256:
-		if (EVP_VerifyInit(&ctx, EVP_sha256()) != 1)
+		if (EVP_VerifyInit(&d->ctx, EVP_sha256()) != 1)
 			return 0;
 		break;
 	case ALG_RSASHA512:
-		if (EVP_VerifyInit(&ctx, EVP_sha512()) != 1)
+		if (EVP_VerifyInit(&d->ctx, EVP_sha512()) != 1)
 			return 0;
 		break;
 	default:
 		return 0;
 	}
 
-	chunk = rrsig_wirerdata_ex(&rr->rr, 0);
+	chunk = rrsig_wirerdata_ex(&d->rr->rr, 0);
 	if (chunk.length < 0)
 		return 0;
-	EVP_VerifyUpdate(&ctx, chunk.data, chunk.length);
+	EVP_VerifyUpdate(&d->ctx, chunk.data, chunk.length);
 
 	set = getmem_temp(sizeof(*set) * signed_set->count);
 
@@ -204,20 +289,16 @@ static int verify_signature(struct rr_rrsig *rr, struct rr_dnskey *key, struct r
 		chunk = name2wire_name(signed_set->named_rr->name);
 		if (chunk.length < 0)
 			return 0;
-		EVP_VerifyUpdate(&ctx, chunk.data, chunk.length);
-		b2 = htons(set[i].rr->rdtype);    EVP_VerifyUpdate(&ctx, &b2, 2);
-		b2 = htons(1);  /* class IN */   EVP_VerifyUpdate(&ctx, &b2, 2);
-		b4 = htonl(set[i].rr->ttl);       EVP_VerifyUpdate(&ctx, &b4, 4);
-		b2 = htons(set[i].wired.length); EVP_VerifyUpdate(&ctx, &b2, 2);
-		EVP_VerifyUpdate(&ctx, set[i].wired.data, set[i].wired.length);
+		EVP_VerifyUpdate(&d->ctx, chunk.data, chunk.length);
+		b2 = htons(set[i].rr->rdtype);    EVP_VerifyUpdate(&d->ctx, &b2, 2);
+		b2 = htons(1);  /* class IN */   EVP_VerifyUpdate(&d->ctx, &b2, 2);
+		b4 = htonl(set[i].rr->ttl);       EVP_VerifyUpdate(&d->ctx, &b4, 4);
+		b2 = htons(set[i].wired.length); EVP_VerifyUpdate(&d->ctx, &b2, 2);
+		EVP_VerifyUpdate(&d->ctx, set[i].wired.data, set[i].wired.length);
 	}
 
-	G.stats.signatures_verified++;
-	if (EVP_VerifyFinal(&ctx, (unsigned char *)rr->signature.data, rr->signature.length, key->pkey) == 1) {
-		/* fprintf(stderr, "EXCELLENT(%s %s, alg %d)\n", signed_set->named_rr->name, rdtype2str(signed_set->rdtype), rr->algorithm); */
-		return 1;
-	}
-	return 0;
+	schedule_verification(d);
+	return 1;
 }
 
 static void *rrsig_validate(struct rr *rrv)
@@ -260,7 +341,7 @@ static void *rrsig_validate(struct rr *rrv)
 	if (candidate_keys == 0)
 		return moan(rr->rr.file_name, rr->rr.line, "%s RRSIG(%s): cannot find the right signer key (%s)", named_rr->name, rdtype2str(rr->type_covered), rr->signer);
 
-	candidates = getmem(sizeof(struct keys_to_verify) + (candidate_keys-1) * sizeof(struct rr_dnskey *));
+	candidates = getmem(sizeof(struct keys_to_verify) + (candidate_keys-1) * sizeof(struct verification_data));
 	candidates->next = all_keys_to_verify;
 	candidates->rr = rr;
 	candidates->signed_set = signed_set;
@@ -269,7 +350,11 @@ static void *rrsig_validate(struct rr *rrv)
 	key = (struct rr_dnskey *)dnskey_rr_set->tail;
 	while (key) {
 		if (key->algorithm == rr->algorithm && key->key_tag == rr->key_tag) {
-			candidates->keys[i++] = key;
+			candidates->to_verify[i].key = key;
+			candidates->to_verify[i].rr = rr;
+			candidates->to_verify[i].ok = 0;
+			candidates->to_verify[i].next = NULL;
+			i++;
 		}
 		key = (struct rr_dnskey *)key->rr.next;
 	}
@@ -277,16 +362,67 @@ static void *rrsig_validate(struct rr *rrv)
 	return rr;
 }
 
+static pthread_mutex_t *lock_cs;
+static long *lock_count;
+
+static unsigned long pthreads_thread_id(void)
+{
+	unsigned long ret;
+
+	ret=(unsigned long)pthread_self();
+	return(ret);
+}
+
+static void pthreads_locking_callback(int mode, int type, char *file, int line)
+{
+	if (mode & CRYPTO_LOCK) {
+		pthread_mutex_lock(&(lock_cs[type]));
+		lock_count[type]++;
+	} else {
+		pthread_mutex_unlock(&(lock_cs[type]));
+	}
+}
+
 void verify_all_keys(void)
 {
 	struct keys_to_verify *k = all_keys_to_verify;
 	int i;
+	struct timespec sleep_time;
+
+	if (G.opt.n_threads > 1) {
+		lock_cs = OPENSSL_malloc(CRYPTO_num_locks() * sizeof(pthread_mutex_t));
+		lock_count = OPENSSL_malloc(CRYPTO_num_locks() * sizeof(long));
+		for (i = 0; i < CRYPTO_num_locks(); i++) {
+			lock_count[i] = 0;
+			pthread_mutex_init(&lock_cs[i],NULL);
+		}
+
+		CRYPTO_set_id_callback((unsigned long (*)())pthreads_thread_id);
+		CRYPTO_set_locking_callback((void (*)())pthreads_locking_callback);
+
+		if (pthread_mutex_init(&queue_lock, NULL) != 0)
+			croak(1, "pthread_mutex_init");
+	}
 
 	while (k) {
-		int ok = 0;
 		freeall_temp();
 		for (i = 0; i < k->n_keys; i++) {
-			if (dnskey_build_pkey(k->keys[i]) && verify_signature(k->rr, k->keys[i], k->signed_set)) {
+			if (dnskey_build_pkey(k->to_verify[i].key))
+				verify_signature(&k->to_verify[i], k->signed_set);
+		}
+		k = k->next;
+	}
+	start_workers(); /* this is needed in case n_threads is greater than the number of signatures to verify */
+	while (verification_queue_size > 0) {
+		sleep_time.tv_sec  = 0;
+		sleep_time.tv_nsec = 10000000;
+		nanosleep(&sleep_time, NULL);
+	}
+	k = all_keys_to_verify;
+	while (k) {
+		int ok = 0;
+		for (i = 0; i < k->n_keys; i++) {
+			if (k->to_verify[i].ok) {
 				ok = 1;
 				break;
 			}

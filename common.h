@@ -55,6 +55,7 @@ struct globals {
 		char *current_origin;
 		uint32_t current_time;
 		char policy_checks[N_POLICY_CHECKS];
+		int n_threads;
 	} opt;
 	int exit_code;
 	long default_ttl;

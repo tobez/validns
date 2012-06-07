@@ -245,6 +245,7 @@ void usage(char *err)
 	fprintf(stderr, "\t\t\trp-txt-exists\n");
 	fprintf(stderr, "\t\t\tall\n");
 
+	fprintf(stderr, "\t-n N\t\tuse N worker threads\n");
 	fprintf(stderr, "\t-q\t\tquiet - do not produce any output\n");
 	fprintf(stderr, "\t-s\t\tprint validation summary/stats\n");
 	fprintf(stderr, "\t-v\t\tbe extra verbose\n");
@@ -301,7 +302,7 @@ main(int argc, char **argv)
 	initialize_globals();
 	struct timeval start, stop;
 
-	while ((o = getopt(argc, argv, "fhqsvI:z:t:p:")) != -1) {
+	while ((o = getopt(argc, argv, "fhqsvI:z:t:p:n:")) != -1) {
 		switch(o) {
 		case 'h':
 			usage(NULL);
@@ -356,6 +357,13 @@ main(int argc, char **argv)
 			} else {
 				usage("origin must not be empty");
 			}
+			break;
+		case 'n':
+			G.opt.n_threads = strtol(optarg, NULL, 10);
+			if (G.opt.n_threads > 256)
+				usage("non-sensical number of threads requested");
+			if (G.opt.verbose)
+				fprintf(stderr, "using %d worker threads\n", G.opt.n_threads);
 			break;
 		case 't':
 			G.opt.current_time = strtol(optarg, NULL, 10);
