@@ -14,23 +14,26 @@ unless (*run{CODE})
 
 my @e;
 
-run('./validns', 't/zones/galaxyplus.org');
+for my $threads ("", qw(-n2 -n4 -n6 -n8)) {
+my @threads;
+push @threads, $threads if $threads;
+run('./validns', @threads, 't/zones/galaxyplus.org');
 is(rc, 0, 'valid zone parses ok');
 
-run('./validns', '-t1320094109', 't/zones/example.sec.signed');
+run('./validns', @threads, '-t1320094109', 't/zones/example.sec.signed');
 is(rc, 0, 'valid signed zone parses ok');
 
-run('./validns', '-t1303720010', 't/zones/example.sec.signed');
+run('./validns', @threads, '-t1303720010', 't/zones/example.sec.signed');
 isnt(rc, 0, 'valid signed zone with timestamps in the future');
 @e = split /\n/, stderr;
 like(shift @e, qr/signature is too new/, "signature is too new");
 
-run('./validns', '-t1355314832', 't/zones/example.sec.signed');
+run('./validns', @threads, '-t1355314832', 't/zones/example.sec.signed');
 isnt(rc, 0, 'valid signed zone with timestamps in the past');
 @e = split /\n/, stderr;
 like(shift @e, qr/signature is too old/, "signature is too old");
 
-run('./validns', '-s', '-pall', 't/zones/manyerrors.zone');
+run('./validns', @threads, '-s', '-pall', 't/zones/manyerrors.zone');
 isnt(rc, 0, 'bad zone returns an error');
 @e = split /\n/, stderr;
 
@@ -103,7 +106,7 @@ like(shift @e, qr/DNAME must not have any children \(but z.zzzz5.galaxyplus.org.
 is(+@e, 0, "no unaccounted errors");
 #like(stdout, qr/validation errors: XX/, "error count");
 
-run('./validns', '-s', 't/zones/example.sec.signed.with-errors');
+run('./validns', @threads, '-s', 't/zones/example.sec.signed.with-errors');
 isnt(rc, 0, 'bad signed zone returns an error');
 @e = split /\n/, stderr;
 
@@ -124,55 +127,55 @@ like(shift @e, qr/RRSIG\(NSEC\): cannot verify the signature/, "NSEC lists too m
 is(+@e, 0, "no unaccounted errors");
 
 # RFC 2181 policy checks
-run('./validns', '-p', 'all', '-z', 'example1.jp', 't/zones/mx-ns-alias');
+run('./validns', @threads, '-p', 'all', '-z', 'example1.jp', 't/zones/mx-ns-alias');
 is(rc, 0, 'parses OK if we cannot determine the fact of aliasing');
-run('./validns', '-p', 'all', '-z', 'example.jp', 't/zones/mx-ns-alias');
+run('./validns', @threads, '-p', 'all', '-z', 'example.jp', 't/zones/mx-ns-alias');
 isnt(rc, 0, 'RFC 2181 policy checks are active');
 @e = split /\n/, stderr;
 like(shift @e, qr/NS data is an alias/, "NS data is an alias");
 like(shift @e, qr/MX exchange is an alias/, "MX exchange is an alias");
 is(+@e, 0, "no unaccounted errors for 2181 policy checks");
 
-run('./validns', '-p', 'mx-alias', '-p', 'ns-alias', '-z', 'example.jp', 't/zones/mx-ns-alias');
+run('./validns', @threads, '-p', 'mx-alias', '-p', 'ns-alias', '-z', 'example.jp', 't/zones/mx-ns-alias');
 isnt(rc, 0, 'RFC 2181 policy checks are active (individually activated)');
 @e = split /\n/, stderr;
 like(shift @e, qr/NS data is an alias/, "NS data is an alias");
 like(shift @e, qr/MX exchange is an alias/, "MX exchange is an alias");
 is(+@e, 0, "no unaccounted errors for individually activated checks");
 
-run('./validns', '-p', 'mx-alias', '-z', 'example.jp', 't/zones/mx-ns-alias');
+run('./validns', @threads, '-p', 'mx-alias', '-z', 'example.jp', 't/zones/mx-ns-alias');
 isnt(rc, 0, 'mx-alias policy check');
 @e = split /\n/, stderr;
 like(shift @e, qr/MX exchange is an alias/, "MX exchange is an alias");
 is(+@e, 0, "no unaccounted errors for mx-alias check");
 
-run('./validns', '-p', 'ns-alias', '-z', 'example.jp', 't/zones/mx-ns-alias');
+run('./validns', @threads, '-p', 'ns-alias', '-z', 'example.jp', 't/zones/mx-ns-alias');
 isnt(rc, 0, 'ns-alias policy check');
 @e = split /\n/, stderr;
 like(shift @e, qr/NS data is an alias/, "NS data is an alias");
 is(+@e, 0, "no unaccounted errors for ns-alias check");
 
 # RP policy
-run('./validns', '-p', 'all', '-z', 'example.jp', 't/zones/rp-policy');
+run('./validns', @threads, '-p', 'all', '-z', 'example.jp', 't/zones/rp-policy');
 isnt(rc, 0, 'RP policy check is active');
 @e = split /\n/, stderr;
 like(shift @e, qr/RP TXT.*?does not exist/, "RP TXT is not there");
 is(+@e, 0, "no unaccounted errors for RP policy checks");
 
-run('./validns', '-z', 'example.jp', 't/zones/rp-policy');
+run('./validns', @threads, '-z', 'example.jp', 't/zones/rp-policy');
 is(rc, 0, 'RP policy check is inactive');
 
-run('./validns', '-v', 't/zones/ttl-regression.zone');
+run('./validns', @threads, '-v', 't/zones/ttl-regression.zone');
 is(rc, 0, 'ttl regression parses OK');
 like(stderr, qr/ns\.example\.com\.\s+IN\s+600\s+A\s+192\.0\.2\.1/,
 	"Default TTL changes correctly");
 
-run('./validns', '-v', 't/zones/misc-regression.zone');
+run('./validns', @threads, '-v', 't/zones/misc-regression.zone');
 is(rc, 0, 'misc regression parses OK');
 like(stderr, qr/"alias"/, "We parse \\nnn in text correctly");
 like(stderr, qr/"";"/, "We parse \\\" in text correctly");
 
-run('./validns', '-v', 't/zones/ttl.zone');
+run('./validns', @threads, '-v', 't/zones/ttl.zone');
 is(rc, 0, 'ttl test parses OK');
 like(stderr, qr/ns\.example\.com\.\s+IN\s+600\s+A\s+192\.0\.2\.1/,
 	"Default TTL changes correctly");
@@ -180,13 +183,14 @@ like(stderr, qr/\s+example\.com\.\s+IN\s+200\s+NS\s+ns\.example\.com\./,
 	"TTL without default picked up correctly");
 
 # DNSKEY extra checks
-run('./validns', 't/zones/dnskey-exponent.zone');
+run('./validns', @threads, 't/zones/dnskey-exponent.zone');
 is(rc, 0, 'dnskey parses OK without policy checks');
-run('./validns', '-p', 'all', 't/zones/dnskey-exponent.zone');
+run('./validns', @threads, '-p', 'all', 't/zones/dnskey-exponent.zone');
 isnt(rc, 0, 'dnskey extra checks fail');
 @e = split /\n/, stderr;
 like(shift @e, qr/leading zero octets in public key exponent/, "leading zeroes in exponent 1");
 like(shift @e, qr/leading zero octets in public key exponent/, "leading zeroes in exponent 2");
 is(+@e, 0, "no unaccounted errors for DNSKEY policy checks");
+}
 
 done_testing;
