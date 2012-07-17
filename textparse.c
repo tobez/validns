@@ -759,16 +759,18 @@ struct binary_data extract_hex_binary_data(char **input, char *what, int eat_whi
 		}
 		*input = s;
 	} else {
-		bitch("%s: internal: invalid eat_whitespace");
+		bitch("%s: internal: invalid eat_whitespace", what);
 	}
 
 	if (!*input)
 		return r;  /* bitching's done elsewhere */
 
+	hb = hl % 2 ? 1 : 0;
+	if (hb == 0)
+		bitch("%s: hex data does not represent whole number of bytes", what);
 	r.data = getmem(hl/2);
 	r.length = hl/2;
 	bzero(r.data, r.length);
-	hb = hl % 2 ? 1 : 0;
 	for (hi = 0; hi < hl-hb; hi++) {
 		r.data[hi/2] <<= 4;
 		r.data[hi/2] |= 0x0f & (isdigit(hex[hi+hb]) ? hex[hi+hb] - '0' : tolower(hex[hi+hb]) - 'a' + 10);

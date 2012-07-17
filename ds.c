@@ -39,25 +39,20 @@ static struct rr* ds_parse(char *name, long ttl, int type, char *s)
 
 	/* See http://www.iana.org/assignments/ds-rr-types/ds-rr-types.xml
 	 * for valid digest types. */
-	/*
-		SHA-1 20 bytes
-		SHA-256 32 bytes
-		GOST R 34.11-94 32 bytes
-	*/
 	switch (digest_type) {
 	case 1:
-		if (rr->digest.length != 20) {
-			return bitch("wrong SHA-1 digest length: %d bytes found, %d bytes expected", rr->digest.length, 20);
+		if (rr->digest.length != SHA1_BYTES) {
+			return bitch("wrong SHA-1 digest length: %d bytes found, %d bytes expected", rr->digest.length, SHA1_BYTES);
 		}
 		break;
 	case 2:
-		if (rr->digest.length != 32) {
-			return bitch("wrong SHA-256 digest length: %d bytes found, %d bytes expected", rr->digest.length, 32);
+		if (rr->digest.length != SHA256_BYTES) {
+			return bitch("wrong SHA-256 digest length: %d bytes found, %d bytes expected", rr->digest.length, SHA256_BYTES);
 		}
 		break;
 	case 3:
-		if (rr->digest.length != 32) {
-			return bitch("wrong GOST R 34.11-94 digest length: %d bytes found, %d bytes expected", rr->digest.length, 32);
+		if (rr->digest.length != GOST_BYTES) {
+			return bitch("wrong GOST R 34.11-94 digest length: %d bytes found, %d bytes expected", rr->digest.length, GOST_BYTES);
 		}
 		break;
 	default:

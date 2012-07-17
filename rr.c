@@ -71,7 +71,8 @@ static char* rdtype2str_map[T_MAX+1] = {
 	"DHCID",
 	"NSEC3", /* 50 */
 	"NSEC3PARAM",
-	0, 0, 0, 0, 0, 0, 0, 0, 0, /* 60 */
+	"TLSA",
+	      0, 0, 0, 0, 0, 0, 0, 0, /* 60 */
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, /* 70 */
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, /* 80 */
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, /* 90 */
@@ -520,6 +521,8 @@ int str2rdtype(char *rdtype)
 	case 't':
 		if (strcmp(rdtype, "txt") == 0) {
 			return T_TXT;
+		} else if (strcmp(rdtype, "tlsa") == 0) {
+			return T_TLSA;
 		} else if (strncmp(rdtype, "type", 4) == 0) {
 			long type = strtol(rdtype+4, NULL, 10);
 			if (type <= 0 || type > 65535)

@@ -65,4 +65,10 @@ struct globals {
 
 extern struct globals G;
 
+#define SHA1_BYTES 20
+#define SHA256_BYTES 32
+#define SHA512_BYTES 64
+/* GOST R 34.11-94 - 32 bytes */
+#define GOST_BYTES 32
+
 #endif

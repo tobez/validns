@@ -36,9 +36,9 @@ static struct rr* sshfp_parse(char *name, long ttl, int type, char *s)
 
 	rr->fingerprint = extract_hex_binary_data(&s, "fingerprint", EXTRACT_EAT_WHITESPACE);
 	if (rr->fingerprint.length < 0)	return NULL;
-	if (rr->fingerprint.length != 20) {
+	if (rr->fingerprint.length != SHA1_BYTES) {
 		return bitch("wrong SHA-1 fingerprint length: %d bytes found, %d bytes expected",
-					 rr->fingerprint.length, 20);
+					 rr->fingerprint.length, SHA1_BYTES);
 	}
 
 	if (*s) {

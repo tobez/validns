@@ -31,6 +31,7 @@
 #define T_DNSKEY	48
 #define T_NSEC3	50
 #define T_NSEC3PARAM	51
+#define T_TLSA	52
 #define T_SPF	99
 #define T_MAX	99
 
@@ -175,6 +176,16 @@ struct rr_txt
     struct binary_data txt[1];
 };
 extern struct rr_methods txt_methods;
+
+struct rr_tlsa
+{
+    struct rr rr;
+	uint8_t cert_usage;
+	uint8_t selector;
+	uint8_t matching_type;
+	struct binary_data association_data;
+};
+extern struct rr_methods tlsa_methods;
 
 struct rr_naptr
 {

@@ -75,6 +75,26 @@ like(shift @e, qr/IPv6 address is not valid/, "not an IP in AAAA");
 like(shift @e, qr/MX preference expected/, "empty MX");
 like(shift @e, qr/MX exchange expected/, "MX without exchange");
 like(shift @e, qr/garbage after valid MX data/, "bad MX");
+
+like(shift @e, qr/bad SHA-256 hash length/, "TLSA SHA-256");
+like(shift @e, qr/bad SHA-512 hash length/, "TLSA SHA-512");
+like(shift @e, qr/certificate association data: hex data does not represent whole number of bytes/, "TLSA nibbles");
+
+like(shift @e, qr/bad certificate usage field/, "TLSA certificate usage");
+like(shift @e, qr/TTL is not valid/, "TLSA certificate usage fallout");
+like(shift @e, qr/certificate usage field expected/, "TLSA certificate usage");
+like(shift @e, qr/TTL is not valid/, "TLSA certificate usage fallout");
+
+like(shift @e, qr/bad selector field/, "TLSA selector");
+like(shift @e, qr/TTL is not valid/, "TLSA selector fallout");
+like(shift @e, qr/selector field expected/, "TLSA selector");
+like(shift @e, qr/TTL is not valid/, "TLSA selector fallout");
+
+like(shift @e, qr/bad matching type field/, "TLSA matching type");
+like(shift @e, qr/TTL is not valid/, "TLSA matching type fallout");
+like(shift @e, qr/matching type field expected/, "TLSA matching type");
+like(shift @e, qr/TTL is not valid/, "TLSA matching type fallout");
+
 like(shift @e, qr/outside.org. does not belong to zone galaxyplus.org./, "outsider");
 like(shift @e, qr/long.outside.org. does not belong to zone galaxyplus.org./, "long outsider");
 like(shift @e, qr/outsidegalaxyplus.org. does not belong to zone galaxyplus.org./, "tricky outsider");

@@ -86,6 +86,8 @@ static struct rr* nsec3_parse(char *name, long ttl, int type, char *s)
 		str_type = extract_label(&s, "type list", "temporary");
 		if (!str_type) return NULL;
 		ltype = str2rdtype(str_type);
+		if (ltype < 0)
+			return NULL;
 		add_bit_to_set(&bitmap, ltype);
 	}
 	if (!s)

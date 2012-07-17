@@ -123,7 +123,7 @@ static char* cert_human(struct rr *rrv)
 	RRCAST(cert);
     char s[1024];
 
-    snprintf(s, 1024, "CERT %d %d %d ...",
+    snprintf(s, 1024, "%d %d %d ...",
 		rr->type, rr->key_tag, rr->algorithm);
     return quickstrdup_temp(s);
 }
