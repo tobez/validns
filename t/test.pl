@@ -117,6 +117,9 @@ like(shift @e, qr/garbage after valid DNAME data/, "DNAME garbage");
 like(shift @e, qr/CNAME and other data/, "CNAME+CNAME");
 like(shift @e, qr/CNAME and other data/, "CNAME+something else");
 like(shift @e, qr/there should be at least two NS records/, "NS limit");
+like(shift @e, qr/not a proper prefixed DNS domain name/, "TLSA host 1");
+like(shift @e, qr/not a proper prefixed DNS domain name/, "TLSA host 2");
+
 like(shift @e, qr/TTL values differ within an RR set/, "TTL conflict");
 like(shift @e, qr/multiple DNAMEs/, "Multiple DNAMEs");
 like(shift @e, qr/DNAME must not have any children \(but something.zzzz3.galaxyplus.org. exists\)/, "DNAME with children");

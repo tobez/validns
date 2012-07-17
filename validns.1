@@ -51,6 +51,8 @@ ns-alias
 .IP \[bu] 2
 rp-txt-exists
 .IP \[bu] 2
+tlsa-host
+.IP \[bu] 2
 all
 .RE
 .TP
@@ -172,6 +174,8 @@ NS nsdname should not be an alias
 .IP \[bu] 2
 TXT domain name mentioned in RP record must have a corresponding TXT
 record if it is within the zone
+.IP \[bu] 2
+domain name of a TLSA record must be a proper prefixed DNS name
 .SH BUGS
 .IP \[bu] 2
 textual segments in \f[I]TXT\f[] and \f[I]HINFO\f[] must be enclosed in

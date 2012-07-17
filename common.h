@@ -21,7 +21,7 @@ struct file_info
 
 extern struct file_info *file_info;
 
-#define N_POLICY_CHECKS 8
+#define N_POLICY_CHECKS 9
 
 #define POLICY_SINGLE_NS 0
 #define POLICY_CNAME_OTHER_DATA 1
@@ -31,6 +31,7 @@ extern struct file_info *file_info;
 #define POLICY_RP_TXT_EXISTS 5
 #define POLICY_DNAME 6
 #define POLICY_DNSKEY 7
+#define POLICY_TLSA_HOST 8
 
 struct globals {
 	struct stats {

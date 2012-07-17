@@ -47,6 +47,7 @@ Coming soon.
 	- mx-alias
 	- ns-alias
 	- rp-txt-exists
+	- tlsa-host
 	- all
 
 -n *N*
@@ -125,6 +126,7 @@ Other basic checks include:
 - NS nsdname should not be an alias
 - TXT domain name mentioned in RP record must have
   a corresponding TXT record if it is within the zone
+- domain name of a TLSA record must be a proper prefixed DNS name
 
 # BUGS
 

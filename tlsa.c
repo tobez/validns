@@ -84,4 +84,38 @@ static struct binary_data tlsa_wirerdata(struct rr *rrv)
 		rr->association_data);
 }
 
-struct rr_methods tlsa_methods = { tlsa_parse, tlsa_human, tlsa_wirerdata, NULL, NULL };
+static void* tlsa_validate_set(struct rr_set *rr_set)
+{
+	struct rr *rr;
+	struct named_rr *named_rr;
+	char *s;
+	int port = 0;
+	int len;
+
+	if (G.opt.policy_checks[POLICY_TLSA_HOST]) {
+		rr = rr_set->tail;
+		named_rr = rr_set->named_rr;
+
+		/* _25._tcp.mail.example.com. */
+		s = named_rr->name;
+		if (*s != '_') {
+not_a_prefixed_domain_name:
+			return moan(rr->file_name, rr->line, "not a proper prefixed DNS domain name");
+		}
+		s++;
+		while (isdigit(*s)) {
+			port = port * 10  + *s - '0';
+			s++;
+		}
+		if (port <= 0 || port > 65535)	goto not_a_prefixed_domain_name;
+		if (*s++ != '.')	goto not_a_prefixed_domain_name;
+		len = strlen(s);
+		if (len < 6)	goto not_a_prefixed_domain_name;
+		if (memcmp(s, "_tcp.", 5) != 0 &&
+			memcmp(s, "_udp.", 5) != 0 &&
+			memcmp(s, "_sctp.", 6) != 0)	goto not_a_prefixed_domain_name;
+	}
+	return NULL;
+}
+
+struct rr_methods tlsa_methods = { tlsa_parse, tlsa_human, tlsa_wirerdata, tlsa_validate_set, NULL };

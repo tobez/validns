@@ -104,8 +104,11 @@ _30._tcp.www IN TLSA (
       0 0 x d2abde240d7cd3ee6b4b28c54df034b9
             7983a1d16e8a410e4561cb106618e9 )
 
-; ?policy?  bad domain name for TLSA
+; policy  bad domain name for TLSA
 tlsa IN TLSA (
+      0 0 1 d2abde240d7cd3ee6b4b28c54df034b9
+            7983a1d16e8a410e4561cb106618e9aa )
+_30._xtp.www IN TLSA (
       0 0 1 d2abde240d7cd3ee6b4b28c54df034b9
             7983a1d16e8a410e4561cb106618e9aa )
 

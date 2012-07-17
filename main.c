@@ -342,6 +342,8 @@ main(int argc, char **argv)
 				G.opt.policy_checks[POLICY_NS_ALIAS] = 1;
 			} else if (strcmp(optarg, "rp-txt-exists") == 0) {
 				G.opt.policy_checks[POLICY_RP_TXT_EXISTS] = 1;
+			} else if (strcmp(optarg, "tlsa-host") == 0) {
+				G.opt.policy_checks[POLICY_TLSA_HOST] = 1;
 			} else {
 				usage("unknown policy name");
 			}

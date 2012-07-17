@@ -1,5 +1,9 @@
 Revision history for validns.
 
+0.6 - in progress
+	Support TLSA records.
+	Minor bug fixes.
+
 0.5 Thu Jun  7 15:45:55 CEST 2012
 	Parallelize signature verification (-n option)
 
