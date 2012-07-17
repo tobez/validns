@@ -143,3 +143,29 @@ every unsigned delegation.
 If this assumption is wrong for a zone,
 `validns` will produce spurious validation
 errors.
+
+# ACKNOWLEDGEMENTS
+
+Thanks go to
+Andy Holdaway,
+Dennis Kjaer Jensen,
+Goran Bengtson,
+Hirohisa Yamaguchi,
+Hugo Salgado,
+Jakob Schlyter,
+Koh-ichi Ito,
+Mathieu Arnold,
+Miek Gieben,
+Patrik Wallstrom,
+Paul Wouters,
+Ryan Eby,
+Tony Finch,
+and YAMAGUCHI Takanori
+for bug reports, testing, discussions,
+and occasional patches.
+
+Special thanks to
+Stephane Bortzmeyer and Phil Regnauld.
+
+Thanks for AFNIC which funded major portion of the development.
+
