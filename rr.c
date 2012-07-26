@@ -150,35 +150,48 @@ struct binary_data name2wire_name(char *s)
 	return toret;
 }
 
+static struct named_rr *last_named_rr = NULL;
+
 static struct named_rr *find_or_create_named_rr(char *name)
 {
-	struct named_rr *named_rr = find_named_rr(name);
+	struct named_rr *named_rr;
+	struct named_rr **named_rr_slot;
+	char *s;
 
-	if (!named_rr) {
-		struct named_rr **named_rr_slot;
-		char *s;
-
-		named_rr = getmem(sizeof(struct named_rr));
-		named_rr->name = quickstrdup(name);
-		named_rr->rr_sets = NULL;
-		named_rr->line = file_info->line;
-		named_rr->file_name = file_info->name;
-		named_rr->flags = 0;
-		named_rr->parent = NULL;
-
-		JSLI(named_rr_slot, zone_data, name2findable_name(name));
-		if (named_rr_slot == PJERR)
-			croak(2, "find_or_create_named_rr: JSLI failed");
-		if (*named_rr_slot)
-			croak(3, "find_or_create_named_rr: assertion error, %s should not be there", name);
-		*named_rr_slot = named_rr;
-		G.stats.names_count++;
-
-		s = index(name, '.');
-		if (s && s[1] != '\0') {
-			named_rr->parent = find_or_create_named_rr(s+1);
-		}
+	if (last_named_rr && strcmp(last_named_rr->name, name) == 0) {
+		G.stats.name_cache_hits++;
+		return last_named_rr;
 	}
+	if (last_named_rr && last_named_rr->parent && strcmp(last_named_rr->parent->name, name) == 0) {
+		G.stats.name_cache_parent_hits++;
+		return last_named_rr->parent;
+	}
+
+	JSLI(named_rr_slot, zone_data, name2findable_name(name));
+	if (named_rr_slot == PJERR)
+		croak(2, "find_or_create_named_rr: JSLI failed");
+	if (*named_rr_slot) {
+		G.stats.name_cache_misses++;
+		last_named_rr = *named_rr_slot;
+		return last_named_rr;
+	}
+
+	named_rr = getmem(sizeof(struct named_rr));
+	named_rr->name = quickstrdup(name);
+	named_rr->rr_sets = NULL;
+	named_rr->line = file_info->line;
+	named_rr->file_name = file_info->name;
+	named_rr->flags = 0;
+	named_rr->parent = NULL;
+
+	*named_rr_slot = named_rr;
+	G.stats.names_count++;
+
+	s = index(name, '.');
+	if (s && s[1] != '\0') {
+		named_rr->parent = find_or_create_named_rr(s+1);
+	}
+	last_named_rr = named_rr;
 
 	return named_rr;
 }
@@ -344,9 +357,14 @@ struct named_rr *find_named_rr(char *name)
 {
 	struct named_rr **named_rr_slot;
 
+	if (last_named_rr && strcmp(last_named_rr->name, name) == 0)
+		return last_named_rr;
+
 	JSLG(named_rr_slot, zone_data, name2findable_name(name));
-	if (named_rr_slot)
+	if (named_rr_slot) {
+		last_named_rr = *named_rr_slot;
 		return *named_rr_slot;
+	}
 	return NULL;
 }
 

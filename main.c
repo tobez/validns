@@ -315,7 +315,7 @@ main(int argc, char **argv)
 			G.opt.no_output = 1;
 			break;
 		case 's':
-			G.opt.summary = 1;
+			G.opt.summary++;
 			break;
 		case 'v':
 			G.opt.verbose = 1;
@@ -406,6 +406,11 @@ main(int argc, char **argv)
 		printf("signatures verified: %d\n", G.stats.signatures_verified);
 		printf("time taken:          %.3fs\n",
 			   stop.tv_sec - start.tv_sec + (stop.tv_usec - start.tv_usec)/1000000.);
+		if (G.opt.summary >= 2) {
+			printf("name cache hits:     %d\n", G.stats.name_cache_hits);
+			printf("name cache misses:   %d\n", G.stats.name_cache_misses);
+			printf("name cache par hits: %d\n", G.stats.name_cache_parent_hits);
+		}
 	}
 	return G.exit_code;
 }

@@ -59,7 +59,9 @@ Coming soon.
 :   quiet - do not produce any output
 
 -s
-:   print validation summary/stats
+:   Print validation summary/stats.
+    If used more than once, produces more
+    stats that are only useful for developers.
 
 -v
 :   be extra verbose

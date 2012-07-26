@@ -45,6 +45,9 @@ struct globals {
 		int delegations;
 		int not_authoritative;
 		int nsec3_count;
+		int name_cache_hits;
+		int name_cache_parent_hits;
+		int name_cache_misses;
 	} stats;
 	struct command_line_options
 	{
