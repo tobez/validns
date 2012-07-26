@@ -100,3 +100,15 @@ char *quickstrdup_temp(char *s)
 	char *r = getmem_temp(strlen(s)+1);
 	return strcpy(r, s);
 }
+
+char *quickstrdup_len(char *s, int len)
+{
+	char *r = getmem(len);
+	return memcpy(r, s, len);
+}
+
+char *quickstrdup_len_temp(char *s, int len)
+{
+	char *r = getmem_temp(len);
+	return memcpy(r, s, len);
+}

@@ -215,7 +215,7 @@ char *extract_name(char **input, char *what)
 		c = *s;
 		*s = '\0';
 		if (*(s-1) == '.') {
-			r = quickstrdup(*input);
+			r = quickstrdup_len(*input, s-*input+1);
 		} else {
 			if (!G.opt.current_origin) {
 				return bitch("do not know origin to determine %s", what);
