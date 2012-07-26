@@ -162,6 +162,9 @@ static char *extract_name_slow(char **input, char *what)
 	return t;
 }
 
+static char good_char[256];
+static char to_lower[256];
+
 char *extract_name(char **input, char *what)
 {
 	char *s = *input;
@@ -169,6 +172,18 @@ char *extract_name(char **input, char *what)
 	char *end = NULL;
 	char c;
 	int wildcard = 0;
+
+	if (!good_char['a']) {
+		int i;
+		for (i = 'a'; i <= 'z'; i++) good_char[i] = 1;
+		for (i = 'A'; i <= 'Z'; i++) good_char[i] = 1;
+		for (i = '0'; i <= '9'; i++) good_char[i] = 1;
+		good_char['.'] = 1;
+		good_char['-'] = 1;
+		good_char['_'] = 1;
+		for (i = 0; i <= 255; i++) to_lower[i] = i;
+		for (i = 'A'; i <= 'Z'; i++) to_lower[i] = i - 'A' + 'a';
+	}
 
 	if (*s == '@') {
 		s++;
@@ -190,8 +205,7 @@ char *extract_name(char **input, char *what)
 			}
 		}
 		s++;
-		while (isalnum(*s) || *s == '.' || *s == '-' || *s == '_')
-			s++;
+		while (good_char[(unsigned char)*s]) s++;
 		if (*s && !isspace(*s) && *s != ';' && *s != ')') {
 			if (*s == '\\')
 				return extract_name_slow(input, what);
@@ -224,7 +238,7 @@ char *extract_name(char **input, char *what)
 	}
 	s = r;
 	while (*s) {
-		*s = tolower(*s);
+		*s = to_lower[(unsigned char)*s];
 		s++;
 	}
 	if (wildcard && r[1] != '.') {
