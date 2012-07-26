@@ -82,6 +82,9 @@ static char* rdtype2str_map[T_MAX+1] = {
 void *zone_data = NULL;
 char *zone_apex = NULL;
 int zone_apex_l = 0;
+int max_rdtype = 0;
+int *type_count_records;
+int *type_count_sets;
 
 char *rdtype2str(int type)
 {
@@ -208,6 +211,9 @@ static struct rr_set *find_or_create_rr_set(struct named_rr *named_rr, int rdtyp
 		rr_set->named_rr = named_rr;
 		rr_set->rdtype = rdtype;
 		rr_set->count = 0;
+
+		if (max_rdtype < rdtype)
+			max_rdtype = rdtype;
 
 		JLI(rr_set_slot, named_rr->rr_sets, rdtype);
 		if (rr_set_slot == PJERR)
@@ -597,6 +603,9 @@ void validate_named_rr(struct named_rr *named_rr)
 	rdtype = 0;
 	JLF(rr_set_p, named_rr->rr_sets, rdtype);
 	while (rr_set_p) {
+		type_count_sets[rdtype]++;
+		type_count_records[rdtype] += (*rr_set_p)->count;
+
 		validate_rrset(*rr_set_p);
 		if (rdtype == T_NSEC3)
 			nsec3_present = 1;
@@ -698,6 +707,10 @@ void validate_zone(void)
 	unsigned char sorted_name[512];
 	struct named_rr **named_rr_p;
 
+	type_count_sets = malloc(sizeof(int) * (max_rdtype+1));
+	bzero(type_count_sets, sizeof(int) * (max_rdtype+1));
+	type_count_records = malloc(sizeof(int) * (max_rdtype+1));
+	bzero(type_count_records, sizeof(int) * (max_rdtype+1));
 	sorted_name[0] = 0;
 	JSLF(named_rr_p, zone_data, sorted_name);
 	while (named_rr_p) {

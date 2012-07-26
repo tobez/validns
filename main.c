@@ -407,9 +407,19 @@ main(int argc, char **argv)
 		printf("time taken:          %.3fs\n",
 			   stop.tv_sec - start.tv_sec + (stop.tv_usec - start.tv_usec)/1000000.);
 		if (G.opt.summary >= 2) {
+			int rdtype;
+
 			printf("name cache hits:     %d\n", G.stats.name_cache_hits);
 			printf("name cache misses:   %d\n", G.stats.name_cache_misses);
 			printf("name cache par hits: %d\n", G.stats.name_cache_parent_hits);
+
+			printf("\nRecord type statistics:\n");
+			for (rdtype = 0; rdtype < max_rdtype; rdtype++) {
+				if (type_count_sets[rdtype]) {
+					printf("%s\t%d\t%d\n", rdtype2str(rdtype),
+						   type_count_sets[rdtype], type_count_records[rdtype]);
+				}
+			}
 		}
 	}
 	return G.exit_code;

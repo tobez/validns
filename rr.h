@@ -58,6 +58,9 @@
 extern void *zone_data;
 extern char *zone_apex;
 extern int zone_apex_l;
+extern int max_rdtype;
+extern int *type_count_records;
+extern int *type_count_sets;
 
 struct named_rr;
 struct rr_set;
