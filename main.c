@@ -414,7 +414,7 @@ main(int argc, char **argv)
 			printf("name cache par hits: %d\n", G.stats.name_cache_parent_hits);
 
 			printf("\nRecord type statistics:\n");
-			for (rdtype = 0; rdtype < max_rdtype; rdtype++) {
+			for (rdtype = 0; rdtype <= max_rdtype; rdtype++) {
 				if (type_count_sets[rdtype]) {
 					printf("%s\t%d\t%d\n", rdtype2str(rdtype),
 						   type_count_sets[rdtype], type_count_records[rdtype]);
