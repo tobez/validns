@@ -570,6 +570,47 @@ int extract_ipv6(char **input, char *what, struct in6_addr *addr)
 	return 1;
 }
 
+int extract_u64(char **input, char *what, uint64_t *r)
+{
+	char *s = *input;
+	uint8_t result = 0;
+	unsigned u;
+
+	#define GETHEXBLOCK if (!isxdigit(*s)) { bitch("%s is not valid", what); return -1; } \
+		u = 0; \
+		while (isxdigit(*s)) { \
+			if (isdigit(*s)) { \
+				u = (u << 4) | (*s - '0'); \
+			} else if (*s >= 'a' && *s <= 'f') { \
+				u = (u << 4) | (*s - 'a' + 10); \
+			} else { \
+				u = (u << 4) | (*s - 'A' + 10); \
+			} \
+			s++; \
+		} \
+		result = (result << 16) | u;
+	#define SKIPCOLON if (*s != ':') { bitch("%s is not valid", what); return -1; } s++;
+
+	GETHEXBLOCK; SKIPCOLON;
+	GETHEXBLOCK; SKIPCOLON;
+	GETHEXBLOCK; SKIPCOLON;
+	GETHEXBLOCK;
+	*r = result;
+
+	#undef GETHEXBLOCK
+	#undef SKIPCOLON
+
+	if (*s && !isspace(*s) && *s != ';' && *s != ')') {
+		bitch("%s is not valid", what);
+		return -1;
+	}
+	*input = skip_white_space(s);
+	if (!*input) {
+		return -1;  /* bitching's done elsewhere */
+	}
+	return 1;
+}
+
 struct binary_data bad_binary_data(void)
 {
 	struct binary_data r;
@@ -842,6 +883,7 @@ struct binary_data compose_binary_data(const char *fmt, int tmp, ...)
 	uint8_t b1;
 	uint16_t b2;
 	uint32_t b4;
+	uint64_t b8;
 
 	va_start(ap, tmp);
 	args = fmt;
@@ -859,6 +901,10 @@ struct binary_data compose_binary_data(const char *fmt, int tmp, ...)
 		case '4':
 			va_arg(ap, unsigned int);
 			sz += 4;
+			break;
+		case '8':
+			va_arg(ap, uint64_t);
+			sz += 8;
 			break;
 		case 'd':
 			bd = va_arg(ap, struct binary_data);
@@ -903,6 +949,11 @@ struct binary_data compose_binary_data(const char *fmt, int tmp, ...)
 			b4 = htonl(va_arg(ap, unsigned int));
 			memcpy(t, &b4, 4);
 			t += 4;
+			break;
+		case '8':
+			b8 = htonl(va_arg(ap, uint64_t));
+			memcpy(t, &b8, 8);
+			t += 8;
 			break;
 		case 'd':
 			bd = va_arg(ap, struct binary_data);

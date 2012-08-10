@@ -64,3 +64,18 @@ cert	CERT URI 0 0 V2Ugc2hhbGwgbmVlZCBhIG51bWJlciBvZiBtYXRoZW1hdGljYWwgaWRlYXMgYW
 
 alias DNAME anotherone.sec.
 
+host1	IN NID 10 0014:4fff:ff20:ee64
+host1	IN NID 20 0015:5fff:ff21:ee65
+host2	IN NID 10 0016:6fff:ff22:ee66
+
+host1	IN L32 10 10.1.02.0
+host1	IN L32 20 10.1.04.0
+host2	IN L32 10 10.1.08.0
+
+host1	IN L64 10 2001:0DB8:1140:1000
+host1	IN L64 20 2001:0DB8:2140:2000
+host2	IN L64 10 2001:0DB8:4140:4000
+
+host1	IN LP 10 l64-subnet1.example.com.
+host1	IN LP 10 l64-subnet2.example.com.
+host1	IN LP 20 l32-subnet1.example.com.

@@ -9,6 +9,8 @@
 #ifndef _TEXTPARSE_H_
 #define _TEXTPARSE_H_
 
+#include <sys/types.h>
+
 struct binary_data {
 	int length;
 	char *data;
@@ -39,6 +41,7 @@ long extract_timevalue(char **input, char *what);
 long long extract_timestamp(char **input, char *what);
 int extract_ipv4(char **input, char *what, struct in_addr *addr);
 int extract_ipv6(char **input, char *what, struct in6_addr *addr);
+int extract_u64(char **input, char *what, uint64_t *r);
 int extract_double(char **input, char *what, double *val, int skip_m);
 struct binary_data extract_base32hex_binary_data(char **input, char *what);
 struct binary_data extract_base64_binary_data(char **input, char *what);

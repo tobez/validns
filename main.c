@@ -270,21 +270,25 @@ static void initialize_globals(void)
 	for (i = 0; i <= T_MAX; i++) {
 		rr_methods[i] = unknown_methods;
 	}
-	rr_methods[T_A]            =          a_methods;
 	rr_methods[T_AAAA]         =       aaaa_methods;
+	rr_methods[T_A]            =          a_methods;
 	rr_methods[T_CERT]         =       cert_methods;
 	rr_methods[T_CNAME]        =      cname_methods;
 	rr_methods[T_DNAME]        =      dname_methods;
 	rr_methods[T_DNSKEY]       =     dnskey_methods;
 	rr_methods[T_DS]           =         ds_methods;
 	rr_methods[T_HINFO]        =      hinfo_methods;
+	rr_methods[T_L32]          =        l32_methods;
+	rr_methods[T_L64]          =        l64_methods;
 	rr_methods[T_LOC]          =        loc_methods;
+	rr_methods[T_LP]           =         lp_methods;
 	rr_methods[T_MX]           =         mx_methods;
 	rr_methods[T_NAPTR]        =      naptr_methods;
-	rr_methods[T_NS]           =         ns_methods;
-	rr_methods[T_NSEC]         =       nsec_methods;
-	rr_methods[T_NSEC3]        =      nsec3_methods;
+	rr_methods[T_NID]          =        nid_methods;
 	rr_methods[T_NSEC3PARAM]   = nsec3param_methods;
+	rr_methods[T_NSEC3]        =      nsec3_methods;
+	rr_methods[T_NSEC]         =       nsec_methods;
+	rr_methods[T_NS]           =         ns_methods;
 	rr_methods[T_PTR]          =        ptr_methods;
 	rr_methods[T_RP]           =         rp_methods;
 	rr_methods[T_RRSIG]        =      rrsig_methods;

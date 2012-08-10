@@ -9,7 +9,7 @@ validns: main.o carp.o mempool.o textparse.o base64.o base32hex.o \
 	naptr.o srv.o nsec3param.o nsec3.o ds.o \
 	hinfo.o loc.o nsec3checks.o ptr.o \
 	sshfp.o threads.o rp.o spf.o cert.o \
-	dname.o tlsa.o
+	dname.o tlsa.o nid.o l32.o l64.o lp.o
 	$(CC) $(CFLAGS) $(OPTIMIZE) -o validns \
 	    main.o carp.o mempool.o textparse.o base64.o base32hex.o \
 	    rr.o soa.o a.o cname.o mx.o ns.o \
@@ -17,7 +17,7 @@ validns: main.o carp.o mempool.o textparse.o base64.o base32hex.o \
 	    naptr.o srv.o nsec3param.o nsec3.o ds.o \
 	    hinfo.o loc.o nsec3checks.o ptr.o \
 	    sshfp.o threads.o rp.o spf.o cert.o \
-	    dname.o tlsa.o \
+	    dname.o tlsa.o nid.o l32.o l64.o lp.o \
 	    -L/usr/local/lib -L/opt/local/lib -lJudy -lcrypto
 
 clean:
@@ -28,6 +28,7 @@ clean:
 	-rm -f hinfo.o loc.o nsec3checks.o ptr.o
 	-rm -f sshfp.o base32hex.o base64.o threads.o
 	-rm -f rp.o spf.o cert.o dname.o tlsa.o
+	-rm -f nid.o l32.o l64.o lp.o
 	-rm -f validns.core core
 	@echo ':-)'
 
@@ -126,6 +127,18 @@ dname.o: dname.c common.h textparse.h mempool.h carp.h rr.h
 
 tlsa.o: tlsa.c common.h textparse.h mempool.h carp.h rr.h
 	$(CC) $(CFLAGS) $(OPTIMIZE) -c -o tlsa.o tlsa.c $(INCPATH)
+
+nid.o: nid.c common.h textparse.h mempool.h carp.h rr.h
+	$(CC) $(CFLAGS) $(OPTIMIZE) -c -o nid.o nid.c $(INCPATH)
+
+l32.o: l32.c common.h textparse.h mempool.h carp.h rr.h
+	$(CC) $(CFLAGS) $(OPTIMIZE) -c -o l32.o l32.c $(INCPATH)
+
+l64.o: l64.c common.h textparse.h mempool.h carp.h rr.h
+	$(CC) $(CFLAGS) $(OPTIMIZE) -c -o l64.o l64.c $(INCPATH)
+
+lp.o: lp.c common.h textparse.h mempool.h carp.h rr.h
+	$(CC) $(CFLAGS) $(OPTIMIZE) -c -o lp.o lp.c $(INCPATH)
 
 threads.o: threads.c
 	$(CC) $(CFLAGS) $(OPTIMIZE) -c -o threads.o threads.c $(INCPATH)

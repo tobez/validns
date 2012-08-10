@@ -33,7 +33,11 @@
 #define T_NSEC3PARAM	51
 #define T_TLSA	52
 #define T_SPF	99
-#define T_MAX	99
+#define T_NID	104
+#define T_L32	105
+#define T_L64	106
+#define T_LP	107
+#define T_MAX	107
 
 #define ALG_DSA                  3
 #define ALG_RSASHA1              5
@@ -172,7 +176,7 @@ extern struct rr_methods ns_methods;
 struct rr_txt
 {
     struct rr rr;
-	int count;
+    int count;
     struct binary_data txt[1];
 };
 extern struct rr_methods txt_methods;
@@ -180,12 +184,44 @@ extern struct rr_methods txt_methods;
 struct rr_tlsa
 {
     struct rr rr;
-	uint8_t cert_usage;
-	uint8_t selector;
-	uint8_t matching_type;
-	struct binary_data association_data;
+    uint8_t cert_usage;
+    uint8_t selector;
+    uint8_t matching_type;
+    struct binary_data association_data;
 };
 extern struct rr_methods tlsa_methods;
+
+struct rr_nid
+{
+    struct rr rr;
+    uint16_t preference;
+    uint64_t node_id;
+};
+extern struct rr_methods nid_methods;
+
+struct rr_l32
+{
+    struct rr rr;
+    uint16_t preference;
+    uint32_t locator32;
+};
+extern struct rr_methods l32_methods;
+
+struct rr_l64
+{
+    struct rr rr;
+    uint16_t preference;
+    uint64_t locator64;
+};
+extern struct rr_methods l64_methods;
+
+struct rr_lp
+{
+    struct rr rr;
+    uint16_t preference;
+    char *fqdn;
+};
+extern struct rr_methods lp_methods;
 
 struct rr_naptr
 {

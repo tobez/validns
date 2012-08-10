@@ -77,7 +77,13 @@ static char* rdtype2str_map[T_MAX+1] = {
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, /* 80 */
 	0, 0, 0, 0, 0, 0, 0, 0, 0, 0, /* 90 */
 	0, 0, 0, 0, 0, 0, 0, 0,
-	"SPF"
+	"SPF",
+	                           0, /* 100 */
+	0, 0, 0,
+	"NID",
+	"L32",
+	"L64",
+	"LP",
 };
 void *zone_data = NULL;
 char *zone_apex = NULL;
@@ -475,6 +481,12 @@ int str2rdtype(char *rdtype)
 	case 'l':
 		if (strcmp(rdtype, "loc") == 0) {
 			return T_LOC;
+		} else if (strcmp(rdtype, "l32") == 0) {
+			return T_L32;
+		} else if (strcmp(rdtype, "l64") == 0) {
+			return T_L64;
+		} else if (strcmp(rdtype, "lp") == 0) {
+			return T_LP;
 		}
 		break;
 	case 'm':
@@ -491,6 +503,8 @@ int str2rdtype(char *rdtype)
 			return T_NSEC;
 		} else if (strcmp(rdtype, "nsec3") == 0) {
 			return T_NSEC3;
+		} else if (strcmp(rdtype, "nid") == 0) {
+			return T_NID;
 		} else if (strcmp(rdtype, "nsec3param") == 0) {
 			return T_NSEC3PARAM;
 		}
