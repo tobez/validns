@@ -81,10 +81,12 @@ static char* rdtype2str_map[T_MAX+1] = {
 };
 void *zone_data = NULL;
 char *zone_apex = NULL;
+struct named_rr *apex_named_rr = NULL;
 int zone_apex_l = 0;
 int max_rdtype = 0;
 int *type_count_records;
 int *type_count_sets;
+int max_findable_name_len = 0;
 
 char *rdtype2str(int type)
 {
@@ -103,7 +105,7 @@ char *rdtype2str(int type)
 	return quickstrdup_temp(s);
 }
 
-static unsigned char *name2findable_name(char *s)
+static unsigned char *name2findable_name(char *s, int *len)
 {
 	int l = strlen(s);
 	unsigned char *res = getmem_temp(l+1);
@@ -124,6 +126,7 @@ static unsigned char *name2findable_name(char *s)
 	}
 	if (r > res)    r--;
 	*r = 0;
+	if (len) *len = r-res;
 	return res;
 }
 
@@ -153,31 +156,22 @@ struct binary_data name2wire_name(char *s)
 	return toret;
 }
 
-static struct named_rr *last_named_rr = NULL;
-
 static struct named_rr *find_or_create_named_rr(char *name)
 {
 	struct named_rr *named_rr;
 	struct named_rr **named_rr_slot;
 	char *s;
+	unsigned char *findable_name;
+	int findable_len;
 
-	if (last_named_rr && strcmp(last_named_rr->name, name) == 0) {
-		G.stats.name_cache_hits++;
-		return last_named_rr;
-	}
-	if (last_named_rr && last_named_rr->parent && strcmp(last_named_rr->parent->name, name) == 0) {
-		G.stats.name_cache_parent_hits++;
-		return last_named_rr->parent;
-	}
-
-	JSLI(named_rr_slot, zone_data, name2findable_name(name));
+	findable_name = name2findable_name(name, &findable_len);
+	if (findable_len > max_findable_name_len)
+		max_findable_name_len = findable_len;
+	JHSI(named_rr_slot, zone_data, findable_name, findable_len);
 	if (named_rr_slot == PJERR)
-		croak(2, "find_or_create_named_rr: JSLI failed");
-	if (*named_rr_slot) {
-		G.stats.name_cache_misses++;
-		last_named_rr = *named_rr_slot;
-		return last_named_rr;
-	}
+		croak(2, "find_or_create_named_rr: JHSI failed");
+	if (*named_rr_slot)
+		return *named_rr_slot;
 
 	named_rr = getmem(sizeof(struct named_rr));
 	named_rr->name = quickstrdup(name);
@@ -186,6 +180,8 @@ static struct named_rr *find_or_create_named_rr(char *name)
 	named_rr->file_name = file_info->name;
 	named_rr->flags = 0;
 	named_rr->parent = NULL;
+	named_rr->kids = NULL;
+	named_rr->next = NULL;
 
 	*named_rr_slot = named_rr;
 	G.stats.names_count++;
@@ -193,8 +189,9 @@ static struct named_rr *find_or_create_named_rr(char *name)
 	s = index(name, '.');
 	if (s && s[1] != '\0') {
 		named_rr->parent = find_or_create_named_rr(s+1);
+		named_rr->next = named_rr->parent->kids;
+		named_rr->parent->kids = named_rr;
 	}
-	last_named_rr = named_rr;
 
 	return named_rr;
 }
@@ -242,7 +239,7 @@ int name_belongs_to_zone(const char *name)
 		if (zone_apex) {
 			return 0;
 		} else {
-			// XXX this is actually very bad, zone apex is not know
+			// XXX this is actually very bad, zone apex is not known
 			return 0;
 		}
 	}
@@ -287,6 +284,7 @@ struct rr *store_record(int rdtype, char *name, long ttl, void *rrptr)
 	named_rr = find_or_create_named_rr(name);
 	if (apex_assigned) {
 		named_rr->flags |= NAME_FLAG_APEX;
+		apex_named_rr = named_rr;
 	}
 	rr_set = find_or_create_rr_set(named_rr, rdtype);
 
@@ -362,13 +360,12 @@ after_dup_check:
 struct named_rr *find_named_rr(char *name)
 {
 	struct named_rr **named_rr_slot;
+	unsigned char *findable_name;
+	int findable_len;
 
-	if (last_named_rr && strcmp(last_named_rr->name, name) == 0)
-		return last_named_rr;
-
-	JSLG(named_rr_slot, zone_data, name2findable_name(name));
+	findable_name = name2findable_name(name, &findable_len);
+	JHSG(named_rr_slot, zone_data, findable_name, findable_len);
 	if (named_rr_slot) {
-		last_named_rr = *named_rr_slot;
 		return *named_rr_slot;
 	}
 	return NULL;
@@ -379,7 +376,8 @@ struct named_rr *find_next_named_rr(struct named_rr *named_rr)
 	unsigned char sorted_name[512];
 	struct named_rr **named_rr_p;
 
-	strcpy((char*)sorted_name, (char*)name2findable_name(named_rr->name));
+	// XXX fixme
+	strcpy((char*)sorted_name, (char*)name2findable_name(named_rr->name, NULL));
 	JSLN(named_rr_p, zone_data, sorted_name);
 	if (named_rr_p)
 		return *named_rr_p;
@@ -682,42 +680,53 @@ static void* nsec_validate_pass2(struct rr *rrv)
 	return rr;
 }
 
-void second_validation_pass()
+void
+iterate_over_zone(named_rr_processor func)
 {
-	unsigned char sorted_name[512];
-	struct named_rr **named_rr_p;
+	struct named_rr **stack, *named_rr;
+	int stack_len = 0;
 
-	sorted_name[0] = 0;
-	JSLF(named_rr_p, zone_data, sorted_name);
-	while (named_rr_p) {
-		struct rr_set **rr_set_p;
-
-		freeall_temp();
-		JLG(rr_set_p, (*named_rr_p)->rr_sets, T_NSEC);
-		if (rr_set_p && (*rr_set_p)->tail) {
-			nsec_validate_pass2((*rr_set_p)->tail);
-		} else {
+	stack = malloc(sizeof(struct named_rr*) * max_findable_name_len);
+	if (!stack) croak(1, "second_validation_pass");
+	if (apex_named_rr) {
+		stack[stack_len++] = apex_named_rr;
+	}
+	while (stack_len > 0) {
+		named_rr = stack[stack_len-1];
+		if (!named_rr) {
+			stack_len--;
+			continue;
 		}
-		JSLN(named_rr_p, zone_data, sorted_name);
+		freeall_temp();
+		func(named_rr);
+		stack[stack_len-1] = named_rr->next;
+		if (named_rr->kids) {
+			stack[stack_len++] = named_rr->kids;
+		}
+	}
+	free(stack);
+}
+
+static void
+validate_named_rr_pass2(struct named_rr *named_rr)
+{
+	struct rr_set **rr_set_p;
+
+	JLG(rr_set_p, named_rr->rr_sets, T_NSEC);
+	if (rr_set_p && (*rr_set_p)->tail) {
+		nsec_validate_pass2((*rr_set_p)->tail);
+	} else {
 	}
 }
 
 void validate_zone(void)
 {
-	unsigned char sorted_name[512];
-	struct named_rr **named_rr_p;
-
 	type_count_sets = malloc(sizeof(int) * (max_rdtype+1));
 	bzero(type_count_sets, sizeof(int) * (max_rdtype+1));
 	type_count_records = malloc(sizeof(int) * (max_rdtype+1));
 	bzero(type_count_records, sizeof(int) * (max_rdtype+1));
-	sorted_name[0] = 0;
-	JSLF(named_rr_p, zone_data, sorted_name);
-	while (named_rr_p) {
-		validate_named_rr(*named_rr_p);
-		JSLN(named_rr_p, zone_data, sorted_name);
-	}
-	second_validation_pass();
+	iterate_over_zone(validate_named_rr);
+	iterate_over_zone(validate_named_rr_pass2);
 }
 
 void validate_record(struct rr *rr)

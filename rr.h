@@ -66,6 +66,9 @@ struct named_rr;
 struct rr_set;
 struct rr;
 
+extern struct named_rr *apex_named_rr;
+
+typedef void (*named_rr_processor)(struct named_rr*);
 typedef struct rr* (*rr_parse_func)(char *, long, int, char *);
 typedef char* (*rr_human_func)(struct rr*);
 typedef struct binary_data (*rr_wire_func)(struct rr*);
@@ -88,6 +91,7 @@ struct binary_data any_wirerdata(struct rr *rrv);
 int name_belongs_to_zone(const char *name);
 void validate_record(struct rr *rr);
 void validate_zone(void);
+void iterate_over_zone(named_rr_processor func);
 struct rr *store_record(int rdtype, char *name, long ttl, void *rrptr);
 int str2rdtype(char *rdtype);
 char *rdtype2str(int type);
@@ -118,6 +122,8 @@ struct named_rr
 	char *file_name;
 	uint32_t flags;
 	struct named_rr *parent;
+	struct named_rr *kids;
+	struct named_rr *next;
 };
 
 struct rr_set
