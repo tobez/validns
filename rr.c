@@ -577,12 +577,43 @@ void validate_rrset(struct rr_set *rr_set)
 	}
 }
 
+void debug(struct named_rr *named_rr, char *s)
+{
+	fprintf(stderr, "%s %s", s, named_rr->name);
+	if ((named_rr->flags & NAME_FLAG_APEX))
+		fprintf(stderr, ", apex");
+	if ((named_rr->flags & NAME_FLAG_HAS_RECORDS))
+		fprintf(stderr, ", has records");
+	if ((named_rr->flags & NAME_FLAG_DELEGATION))
+		fprintf(stderr, ", delegation");
+	if ((named_rr->flags & NAME_FLAG_NOT_AUTHORITATIVE))
+		fprintf(stderr, ", not auth");
+	if ((named_rr->flags & NAME_FLAG_NSEC3_ONLY))
+		fprintf(stderr, ", nsec3 only");
+	if ((named_rr->flags & NAME_FLAG_KIDS_WITH_RECORDS))
+		fprintf(stderr, ", kid records");
+	if ((named_rr->flags & NAME_FLAG_SIGNED_DELEGATION))
+		fprintf(stderr, ", signed delegation");
+	if ((named_rr->flags & NAME_FLAG_APEX_PARENT))
+		fprintf(stderr, ", apex parent");
+	fprintf(stderr, "\n");
+}
+
 void validate_named_rr(struct named_rr *named_rr)
 {
 	Word_t rdtype;
 	struct rr_set **rr_set_p;
 	int nsec3_present = 0;
 	int nsec3_only = 1;
+	static int seen_apex = 0;
+
+	rdtype = 0;
+	JLF(rr_set_p, named_rr->rr_sets, rdtype);
+
+	if ((named_rr->flags & NAME_FLAG_APEX))
+		seen_apex = 1;
+	if (!seen_apex)
+		named_rr->flags |= NAME_FLAG_APEX_PARENT;
 
 	if (named_rr->parent && (named_rr->parent->flags & (NAME_FLAG_DELEGATION|NAME_FLAG_NOT_AUTHORITATIVE)) != 0) {
 		named_rr->flags |= NAME_FLAG_NOT_AUTHORITATIVE;
@@ -590,24 +621,30 @@ void validate_named_rr(struct named_rr *named_rr)
 			G.stats.not_authoritative++;
 		}
 	}
-	rdtype = 0;
-	JLF(rr_set_p, named_rr->rr_sets, rdtype);
+//debug(named_rr, ">>>>");
+
 	while (rr_set_p) {
 		validate_rrset(*rr_set_p);
 		if (rdtype == T_NSEC3)
 			nsec3_present = 1;
 		else if (rdtype != T_RRSIG)
 			nsec3_only = 0;
+		if (rdtype != T_NSEC3 && rdtype != T_RRSIG && rdtype != T_NS)
+			named_rr->flags |= NAME_FLAG_THIS_WITH_RECORDS;
 		if ((named_rr->flags & NAME_FLAG_NOT_AUTHORITATIVE) == 0 &&
 			rdtype != T_NS && rdtype != T_NSEC3 && rdtype != T_RRSIG)
 		{
 			struct named_rr *nrr = named_rr;
+			int skip_first = rdtype == T_NS;
+
 			while (nrr && (nrr->flags & NAME_FLAG_KIDS_WITH_RECORDS) == 0) {
 				if ((nrr->flags & NAME_FLAG_APEX_PARENT) || strlen(nrr->name) < zone_apex_l) {
 					nrr->flags |= NAME_FLAG_APEX_PARENT;
 					break;
 				}
-				nrr->flags |= NAME_FLAG_KIDS_WITH_RECORDS;
+				if (!skip_first)
+					nrr->flags |= NAME_FLAG_KIDS_WITH_RECORDS;
+				skip_first = 0;
 				nrr = nrr->parent;
 			}
 		}
@@ -624,6 +661,7 @@ void validate_named_rr(struct named_rr *named_rr)
 	if (nsec3_present && nsec3_only) {
 		named_rr->flags |= NAME_FLAG_NSEC3_ONLY;
 	}
+//debug(named_rr, "<<<<");
 }
 
 

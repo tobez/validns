@@ -91,6 +91,7 @@ void perform_remaining_nsec3checks(void)
 	while (named_rr_p) {
 		named_rr = *named_rr_p;
 		if ((named_rr->flags & mask) == NAME_FLAG_KIDS_WITH_RECORDS) {
+//fprintf(stderr, "--- need nsec3, kids with records: %s\n", named_rr->name);
 needs_nsec3:
 			freeall_temp();
 			hash = name2hash(named_rr->name, nsec3param);
@@ -119,10 +120,24 @@ needs_nsec3:
 					(NAME_FLAG_NOT_AUTHORITATIVE|NAME_FLAG_SIGNED_DELEGATION)) ==
 				   NAME_FLAG_SIGNED_DELEGATION)
 		{
+//fprintf(stderr, "--- need nsec3, signed delegation: %s\n", named_rr->name);
 			goto needs_nsec3;
-		} else if (!G.nsec3_opt_out_present && (named_rr->flags & NAME_FLAG_DELEGATION))
+		} else if (!G.nsec3_opt_out_present && (named_rr->flags &
+					(NAME_FLAG_APEX_PARENT|NAME_FLAG_NOT_AUTHORITATIVE|NAME_FLAG_DELEGATION|NAME_FLAG_HAS_RECORDS)) ==
+				   0)
 		{
+//fprintf(stderr, "--- need nsec3, empty non-term: %s\n", named_rr->name);
 			goto needs_nsec3;
+		} else if (!G.nsec3_opt_out_present && (named_rr->flags & (NAME_FLAG_DELEGATION|NAME_FLAG_NOT_AUTHORITATIVE))==NAME_FLAG_DELEGATION)
+		{
+//fprintf(stderr, "--- need nsec3, no opt-out: %s\n", named_rr->name);
+			goto needs_nsec3;
+		} else if (!G.nsec3_opt_out_present && (named_rr->flags & (NAME_FLAG_THIS_WITH_RECORDS)))
+		{
+//fprintf(stderr, "--- need nsec3, this with records: %s\n", named_rr->name);
+			goto needs_nsec3;
+		} else {
+//fprintf(stderr, "--- NO need for nsec3: %s\n", named_rr->name);
 		}
 next:
 		JSLN(named_rr_p, zone_data, sorted_name);

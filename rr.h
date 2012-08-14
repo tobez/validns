@@ -101,14 +101,15 @@ struct binary_data name2wire_name(char *s);
 int algorithm_type(int alg);
 int extract_algorithm(char **s, char *what);
 
-#define NAME_FLAG_APEX                1
-#define NAME_FLAG_HAS_RECORDS         2
-#define NAME_FLAG_DELEGATION          4
-#define NAME_FLAG_NOT_AUTHORITATIVE   8
-#define NAME_FLAG_NSEC3_ONLY          16
-#define NAME_FLAG_KIDS_WITH_RECORDS   32
-#define NAME_FLAG_SIGNED_DELEGATION   64
+#define NAME_FLAG_APEX                  1
+#define NAME_FLAG_HAS_RECORDS           2
+#define NAME_FLAG_DELEGATION            4
+#define NAME_FLAG_NOT_AUTHORITATIVE     8
+#define NAME_FLAG_NSEC3_ONLY           16
+#define NAME_FLAG_KIDS_WITH_RECORDS    32
+#define NAME_FLAG_SIGNED_DELEGATION    64
 #define NAME_FLAG_APEX_PARENT         128
+#define NAME_FLAG_THIS_WITH_RECORDS   256
 
 struct named_rr
 {
