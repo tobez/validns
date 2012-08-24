@@ -215,6 +215,14 @@ like(shift @e, qr/leading zero octets in public key exponent/, "leading zeroes i
 like(shift @e, qr/leading zero octets in public key exponent/, "leading zeroes in exponent 2");
 is(+@e, 0, "no unaccounted errors for DNSKEY policy checks");
 
+# issue 21: https://github.com/tobez/validns/issues/21
+run('./validns', @threads, '-t1345815800', 't/issues/21-nsec3-without-corresponding/example.sec.signed');
+is(rc, 0, 'issue 21 did not come back');
+
+# issue 24: https://github.com/tobez/validns/issues/24
+run('./validns', @threads, '-t1345815800', 't/issues/24-delegated-nsec3/example.sec.signed');
+is(rc, 0, 'issue 24 did not come back');
+
 # issue 25: https://github.com/tobez/validns/issues/25
 run('./validns', @threads, '-t1345815800', 't/issues/25-nsec/example.sec.signed');
 is(rc, 0, 'issue 25 did not come back');

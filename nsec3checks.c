@@ -132,7 +132,7 @@ needs_nsec3:
 		{
 //fprintf(stderr, "--- need nsec3, no opt-out: %s\n", named_rr->name);
 			goto needs_nsec3;
-		} else if (!G.nsec3_opt_out_present && (named_rr->flags & (NAME_FLAG_THIS_WITH_RECORDS)))
+		} else if (!G.nsec3_opt_out_present && (named_rr->flags & (NAME_FLAG_THIS_WITH_RECORDS|NAME_FLAG_NOT_AUTHORITATIVE)) == NAME_FLAG_THIS_WITH_RECORDS)
 		{
 //fprintf(stderr, "--- need nsec3, this with records: %s\n", named_rr->name);
 			goto needs_nsec3;

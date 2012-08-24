@@ -1,0 +1,17 @@
+$TTL    1d
+$INCLUDE Kexample.sec.+008+48381.key
+@       IN      SOA     ns.example.sec. hostmaster.example.sec. (
+                              1         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+
+        IN      NS      ns1.example.net.
+1.1.1.1.1.1.1.1.1.1.33  IN      NS      ns1.example.net.
+
+6.5.4.3.2.33  IN      NS      ns1.example.net.
+9.8.7.6.5.4.3.2.33  IN      NS      ns1.example.net.
+
+
+bebe.meme IN A 1.2.3.4
