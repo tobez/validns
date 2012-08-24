@@ -41,7 +41,7 @@ static char *process_directive(char *s)
 			return bitch("bad $ORIGIN format");
 		}
 		s = skip_white_space(s);
-		o = extract_name(&s, "$ORIGIN value");
+		o = extract_name(&s, "$ORIGIN value", 0);
 		if (!o) {
 			return NULL;
 		}
@@ -112,7 +112,7 @@ read_zone_file(void)
 					continue;
 				} else {
 					/* <domain-name> */
-					name = extract_name(&s, "record name");
+					name = extract_name(&s, "record name", 0);
 					if (!name)
 						continue;
 				}

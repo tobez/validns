@@ -22,9 +22,9 @@ static struct rr* soa_parse(char *name, long ttl, int type, char *s)
 	struct rr_soa *rr = getmem(sizeof(*rr));
 	long long i;
 
-	rr->mname = extract_name(&s, "mname");
+	rr->mname = extract_name(&s, "mname", 0);
 	if (!rr->mname) return NULL;
-	rr->rname = extract_name(&s, "rname");
+	rr->rname = extract_name(&s, "rname", 0);
 	if (!rr->rname) return NULL;
 	i = extract_integer(&s, "serial");
 	if (i < 0) return NULL;

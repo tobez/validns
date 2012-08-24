@@ -25,7 +25,7 @@ static struct rr *lp_parse(char *name, long ttl, int type, char *s)
 	rr->preference = preference = extract_integer(&s, "LP preference");
 	if (preference < 0)
 		return NULL;
-	rr->fqdn = extract_name(&s, "LP fqdn");
+	rr->fqdn = extract_name(&s, "LP fqdn", 0);
 	if (!rr->fqdn)
 		return NULL;
 

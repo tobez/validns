@@ -688,7 +688,7 @@ static void* nsec_validate_pass2(struct rr *rrv)
 		break;
 	}
 
-	if (strcmp(rr->next_domain, zone_apex) == 0) {
+	if (strcasecmp(rr->next_domain, zone_apex) == 0) {
 		if (next_named_rr) {
 			return moan(rr->rr.file_name, rr->rr.line, "NSEC says %s is the last name, but %s exists",
 						named_rr->name, next_named_rr->name);
@@ -697,7 +697,7 @@ static void* nsec_validate_pass2(struct rr *rrv)
 		if (!next_named_rr) {
 			return moan(rr->rr.file_name, rr->rr.line, "NSEC says %s comes after %s, but nothing does",
 						rr->next_domain, named_rr->name);
-		} else if (strcmp(rr->next_domain, next_named_rr->name) != 0) {
+		} else if (strcasecmp(rr->next_domain, next_named_rr->name) != 0) {
 			return moan(rr->rr.file_name, rr->rr.line, "NSEC says %s comes after %s, but %s does",
 						rr->next_domain, named_rr->name, next_named_rr->name);
 		}

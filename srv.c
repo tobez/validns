@@ -45,7 +45,7 @@ static struct rr *srv_parse(char *name, long ttl, int type, char *s)
 		return bitch("port range is not valid");
 	rr->port = i;
 
-	rr->target = extract_name(&s, "target");
+	rr->target = extract_name(&s, "target", 0);
 	if (!rr->target)
 		return NULL;
 

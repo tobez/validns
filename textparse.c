@@ -69,7 +69,7 @@ char *skip_white_space(char *s)
 	return s;
 }
 
-static char *extract_name_slow(char **input, char *what)
+static char *extract_name_slow(char **input, char *what, int options)
 {
 	char buf[1024];
 	char *t = buf;
@@ -152,17 +152,19 @@ static char *extract_name_slow(char **input, char *what)
 	*input = skip_white_space(s);
 	if (!*input)
 		return NULL;  /* bitching's done elsewhere */
-	t = buf;
-	while (*t) {
-		*t = tolower(*t);
-		t++;
+	if (!(options & KEEP_CAPITALIZATION)) {
+		t = buf;
+		while (*t) {
+			*t = tolower(*t);
+			t++;
+		}
 	}
 
 	t = quickstrdup(buf);
 	return t;
 }
 
-char *extract_name(char **input, char *what)
+char *extract_name(char **input, char *what, int options)
 {
 	char *s = *input;
 	char *r = NULL;
@@ -185,7 +187,7 @@ char *extract_name(char **input, char *what)
 				wildcard = 1;
 			} else {
 				if (*s == '\\')
-					return extract_name_slow(input, what);
+					return extract_name_slow(input, what, options);
 				return bitch("%s expected", what);
 			}
 		}
@@ -194,7 +196,7 @@ char *extract_name(char **input, char *what)
 			s++;
 		if (*s && !isspace(*s) && *s != ';' && *s != ')') {
 			if (*s == '\\')
-				return extract_name_slow(input, what);
+				return extract_name_slow(input, what, options);
 			return bitch("%s is not valid", what);
 		}
 		if (!*s)	end = s;
@@ -222,10 +224,12 @@ char *extract_name(char **input, char *what)
 		if (!*input)
 			return NULL;  /* bitching's done elsewhere */
 	}
-	s = r;
-	while (*s) {
-		*s = tolower(*s);
-		s++;
+	if (!(options & KEEP_CAPITALIZATION)) {
+		s = r;
+		while (*s) {
+			*s = tolower(*s);
+			s++;
+		}
 	}
 	if (wildcard && r[1] != '.') {
 		return bitch("%s: bad wildcard", what);

@@ -21,7 +21,7 @@ static struct rr *cname_parse(char *name, long ttl, int type, char *s)
 {
 	struct rr_cname *rr = getmem(sizeof(*rr));
 
-	rr->cname = extract_name(&s, "cname");
+	rr->cname = extract_name(&s, "cname", 0);
 	if (!rr->cname)
 		return NULL;
 	if (*s) {

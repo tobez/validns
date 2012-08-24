@@ -58,7 +58,7 @@ static struct rr *naptr_parse(char *name, long ttl, int type, char *s)
 		return NULL;
 	rr->regexp = text;
 
-	rr->replacement = extract_name(&s, "replacement");
+	rr->replacement = extract_name(&s, "replacement", 0);
 	if (!rr->replacement)
 		return NULL;
 

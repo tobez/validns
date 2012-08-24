@@ -214,6 +214,11 @@ isnt(rc, 0, 'dnskey extra checks fail');
 like(shift @e, qr/leading zero octets in public key exponent/, "leading zeroes in exponent 1");
 like(shift @e, qr/leading zero octets in public key exponent/, "leading zeroes in exponent 2");
 is(+@e, 0, "no unaccounted errors for DNSKEY policy checks");
+
+# issue 25: https://github.com/tobez/validns/issues/25
+run('./validns', @threads, '-t1345815800', 't/issues/25-nsec/example.sec.signed');
+is(rc, 0, 'issue 25 did not come back');
+
 }
 
 done_testing;

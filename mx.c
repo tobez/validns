@@ -25,7 +25,7 @@ static struct rr *mx_parse(char *name, long ttl, int type, char *s)
 	if (rr->preference < 0)
 		return NULL;
 	/* XXX preference range check */
-	rr->exchange = extract_name(&s, "MX exchange");
+	rr->exchange = extract_name(&s, "MX exchange", 0);
 	if (!rr->exchange)
 		return NULL;
 	if (*s) {

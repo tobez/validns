@@ -25,7 +25,7 @@ static struct rr* nsec_parse(char *name, long ttl, int type, char *s)
 	char *str_type = NULL;
 	int ltype;
 
-    rr->next_domain = extract_name(&s, "next domain");
+    rr->next_domain = extract_name(&s, "next domain", KEEP_CAPITALIZATION);
 	/* TODO: validate next_domain, http://tools.ietf.org/html/rfc4034#section-4.1.1 */
 
 	bitmap = new_set();

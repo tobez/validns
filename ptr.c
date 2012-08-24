@@ -21,7 +21,7 @@ static struct rr *ptr_parse(char *name, long ttl, int type, char *s)
 {
 	struct rr_ptr *rr = getmem(sizeof(*rr));
 
-	rr->ptrdname = extract_name(&s, "name server domain name");
+	rr->ptrdname = extract_name(&s, "name server domain name", 0);
 	if (!rr->ptrdname)
 		return NULL;
 	if (*s) {

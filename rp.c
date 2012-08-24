@@ -22,11 +22,11 @@ static struct rr *rp_parse(char *name, long ttl, int type, char *s)
 {
 	struct rr_rp *rr = getmem(sizeof(*rr));
 
-	rr->mbox_dname = extract_name(&s, "mbox domain name");
+	rr->mbox_dname = extract_name(&s, "mbox domain name", 0);
 	if (!rr->mbox_dname)
 		return NULL;
 
-	rr->txt_dname = extract_name(&s, "txt domain name");
+	rr->txt_dname = extract_name(&s, "txt domain name", 0);
 	if (!rr->txt_dname)
 		return NULL;
 

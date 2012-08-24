@@ -84,7 +84,7 @@ static struct rr* rrsig_parse(char *name, long ttl, int type, char *s)
 	if (key_tag < 0)	return NULL;
 	rr->key_tag = key_tag;
 
-	rr->signer = extract_name(&s, "signer name");
+	rr->signer = extract_name(&s, "signer name", 0);
 	if (!rr->signer) return NULL;
 	/* TODO validate signer name, http://tools.ietf.org/html/rfc4034#section-3.1.7 */
 

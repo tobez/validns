@@ -32,9 +32,11 @@ struct binary_data compose_binary_data(const char *fmt, int tmp, ...);
  *
  */
 
+#define KEEP_CAPITALIZATION 32
+
 int empty_line_or_comment(char *s);
 char *skip_white_space(char *s);
-char *extract_name(char **input, char *what);
+char *extract_name(char **input, char *what, int options);
 char *extract_label(char **input, char *what, void *is_temporary);
 long long extract_integer(char **input, char *what);
 long extract_timevalue(char **input, char *what);

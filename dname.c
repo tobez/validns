@@ -23,7 +23,7 @@ static struct rr *dname_parse(char *name, long ttl, int type, char *s)
 {
 	struct rr_dname *rr = getmem(sizeof(*rr));
 
-	rr->target = extract_name(&s, "dname target");
+	rr->target = extract_name(&s, "dname target", 0);
 	if (!rr->target)
 		return NULL;
 	if (*s) {
