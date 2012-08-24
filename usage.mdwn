@@ -150,6 +150,7 @@ errors.
 
 Thanks go to
 Andy Holdaway,
+Daniel Stirnimann,
 Dennis Kjaer Jensen,
 Goran Bengtson,
 Hirohisa Yamaguchi,
@@ -162,6 +163,7 @@ Patrik Wallstrom,
 Paul Wouters,
 Ryan Eby,
 Tony Finch,
+Willem Toorop,
 and YAMAGUCHI Takanori
 for bug reports, testing, discussions,
 and occasional patches.
