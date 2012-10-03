@@ -52,7 +52,7 @@ static struct rr* rrsig_parse(char *name, long ttl, int type, char *s)
 
 	str_type_covered = extract_label(&s, "type covered", "temporary");
 	if (!str_type_covered) return NULL;
-	type_covered = str2rdtype(str_type_covered);
+	type_covered = str2rdtype(str_type_covered, NULL);
 	if (type_covered <= 0 || type_covered > 65535) return NULL;
 	rr->type_covered = type_covered;
 
@@ -236,11 +236,6 @@ static int verify_signature(struct verification_data *d, struct rr_set *signed_s
 	struct rr_with_wired *set;
 	struct rr *signed_rr;
 	int i;
-	rr_wire_func get_wired;
-
-	get_wired = signed_set->rdtype > T_MAX ? any_wirerdata : rr_methods[signed_set->rdtype].rr_wire;
-	if (!get_wired)
-		return 0;
 
 	EVP_MD_CTX_init(&d->ctx);
 	switch (d->rr->algorithm) {
@@ -274,7 +269,7 @@ static int verify_signature(struct verification_data *d, struct rr_set *signed_s
 	i = 0;
 	while (signed_rr) {
 		set[i].rr = signed_rr;
-		set[i].wired = get_wired(signed_rr);
+		set[i].wired = call_get_wired(signed_rr);
 		if (set[i].wired.length < 0)
 			return 0;
 		i++;

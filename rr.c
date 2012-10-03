@@ -236,6 +236,18 @@ int name_belongs_to_zone(const char *name)
 	return 1;
 }
 
+struct binary_data call_get_wired(struct rr *rr)
+{
+	rr_wire_func get_wired;
+
+	if (rr->rdtype > T_MAX || rr->is_generic)
+		get_wired = any_wirerdata;
+	else
+		get_wired = rr_methods[rr->rdtype].rr_wire;
+	if (!get_wired) return bad_binary_data();
+	return get_wired(rr);
+}
+
 struct rr *store_record(int rdtype, char *name, long ttl, void *rrptr)
 {
 	struct rr *rr = rrptr;
@@ -243,7 +255,12 @@ struct rr *store_record(int rdtype, char *name, long ttl, void *rrptr)
 	struct rr_set *rr_set;
 	int name_l;
 	int apex_assigned = 0;
+	int is_generic = 0;
 
+	if (rdtype < 0) {
+		rdtype = -rdtype;
+		is_generic = 1;
+	}
 	name_l = strlen(name);
 	if (name_l > 511)
 		return bitch("name is too long: %s", name);
@@ -281,22 +298,18 @@ struct rr *store_record(int rdtype, char *name, long ttl, void *rrptr)
 	rr->ttl = ttl;
 	rr->line = file_info->line;
 	rr->file_name = file_info->name;
+	rr->is_generic = is_generic;
 
 	if (rr_set->count > 0) {
-		rr_wire_func get_wired;
 		struct binary_data new_d, old_d;
 		struct rr *old_rr;
 
-		if (rdtype > T_MAX)
-			get_wired = any_wirerdata;
-		else
-			get_wired = rr_methods[rdtype].rr_wire;
-		if (!get_wired) goto after_dup_check;
-		new_d = get_wired(rr);
+		new_d = call_get_wired(rr);
 		if (new_d.length < 0) goto after_dup_check;
+
 		old_rr = rr_set->tail;
 		while (old_rr) {
-			old_d = get_wired(old_rr);
+			old_d = call_get_wired(old_rr);
 			if (old_d.length == new_d.length &&
 				memcmp(old_d.data, new_d.data, old_d.length) == 0)
 			{
@@ -425,7 +438,7 @@ invalid:
 		return bitch("garbage after valid %s data", rdtype2str(type));
 	}
 
-	return store_record(type, name, ttl, rr);
+	return store_record(-type, name, ttl, rr);
 }
 
 char* any_human(struct rr *rrv)
@@ -446,9 +459,10 @@ struct binary_data any_wirerdata(struct rr *rrv)
 
 struct rr_methods unknown_methods = { NULL, any_human, any_wirerdata, NULL, NULL };
 
-int str2rdtype(char *rdtype)
+int str2rdtype(char *rdtype, int *is_generic)
 {
 	if (!rdtype) return -1;
+	if (is_generic) *is_generic = 0;
 	switch (*rdtype) {
 	case 'a':
 		if (strcmp(rdtype, "a") == 0) {
@@ -544,6 +558,7 @@ int str2rdtype(char *rdtype)
 			return T_TLSA;
 		} else if (strncmp(rdtype, "type", 4) == 0) {
 			long type = strtol(rdtype+4, NULL, 10);
+			if (is_generic) *is_generic = 1;
 			if (type <= 0 || type > 65535)
 				bitch("invalid rdtype %s", rdtype);
 			return type;
@@ -749,7 +764,7 @@ void validate_zone(void)
 void validate_record(struct rr *rr)
 {
 	freeall_temp();
-	if (rr->rdtype < T_MAX && rr_methods[rr->rdtype].rr_validate)
+	if (!rr->is_generic && rr->rdtype < T_MAX && rr_methods[rr->rdtype].rr_validate)
 		rr_methods[rr->rdtype].rr_validate(rr);
 }
 

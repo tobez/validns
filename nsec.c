@@ -32,7 +32,7 @@ static struct rr* nsec_parse(char *name, long ttl, int type, char *s)
 	while (s && *s) {
 		str_type = extract_label(&s, "type list", "temporary");
 		if (!str_type) return NULL;
-		ltype = str2rdtype(str_type);
+		ltype = str2rdtype(str_type, NULL);
 		if (ltype < 0)
 			return NULL;
 		add_bit_to_set(&bitmap, ltype);

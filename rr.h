@@ -83,6 +83,7 @@ struct rr_methods {
 extern struct rr_methods rr_methods[T_MAX+1];
 extern struct rr_methods unknown_methods;
 
+struct binary_data call_get_wired(struct rr *rr);
 struct rr *rr_parse_any(char *name, long ttl, int type, char *s);
 char* any_human(struct rr *rrv);
 struct binary_data any_wirerdata(struct rr *rrv);
@@ -91,7 +92,7 @@ int name_belongs_to_zone(const char *name);
 void validate_record(struct rr *rr);
 void validate_zone(void);
 struct rr *store_record(int rdtype, char *name, long ttl, void *rrptr);
-int str2rdtype(char *rdtype);
+int str2rdtype(char *rdtype, int *is_generic);
 char *rdtype2str(int type);
 struct named_rr *find_named_rr(char *name);
 struct named_rr *find_next_named_rr(struct named_rr *named_rr);
@@ -142,6 +143,7 @@ struct rr
 	int rdtype;
 
 	int line;
+	int is_generic;
 	char *file_name;
 };
 

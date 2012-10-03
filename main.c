@@ -185,9 +185,12 @@ read_zone_file(void)
 			}
 
 			{
-				int type = str2rdtype(rdtype);
+				int is_generic;
+				int type = str2rdtype(rdtype, &is_generic);
 				if (type <= 0) continue;
-				if (type > T_MAX)
+				if (is_generic)
+					rr_parse_any(name, ttl, type, s);
+				else if (type > T_MAX)
 					rr_parse_any(name, ttl, type, s);
 				else if (rr_methods[type].rr_parse)
 					rr_methods[type].rr_parse(name, ttl, type, s);
