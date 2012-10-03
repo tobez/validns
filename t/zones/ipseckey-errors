@@ -1,0 +1,24 @@
+$ORIGIN example.sec.
+$TTL    5M
+@       SOA ns1 hostmaster 42 1H 30M 1W 5M
+        NS  ns1
+        NS  ns2
+
+ns1		A	1.2.3.4
+ns2		A	5.6.7.8
+
+bad-precedence IPSECKEY ( xyz 0 0 . )
+bad-precedence IPSECKEY ( 256 0 0 . )
+bad-gw-type IPSECKEY ( 10 xyz 0 . )
+bad-gw-type IPSECKEY ( 10 4 0 . )
+bad-algo IPSECKEY ( 10 0 xyz . )
+bad-algo IPSECKEY ( 10 0 3 . )
+gw-not-dot IPSECKEY ( 10 0 0 some.name. )
+bad-ip4 IPSECKEY ( 10 1 0 192.168.1 )
+bad-ip4 IPSECKEY ( 10 1 0 moocow )
+bad-ip4 IPSECKEY ( 10 1 0 2001:2010:1::20 )
+bad-ip6 IPSECKEY ( 10 2 0 192.168.1.20 )
+bad-ip6 IPSECKEY ( 10 2 0 moocow )
+bad-ip6 IPSECKEY ( 10 2 0 2001:2010:1::::20 )
+bad-ip6 IPSECKEY ( 10 2 0 2001:2010:1:20 )
+garbage-key IPSECKEY ( 10 0 0 . AQO/C76MVA5WN743YYeE537SLNffRZvQ9yxoQqJP943gqs4QATtnJWHQ 1SDWiRE2aXl7SJoyJAu7jaUTGKWXzStD2wpkBIJ1IZ+avxf8zxRt3y6x ImvMjRqcobreI351nbop04aBtP7o+r0zrNQmy6FqkPiI657FMEdF1cWJ 2Q4lA0Pymgq/BadXymj/LZXpmCtnTNU6laUUGuxxaf0Fj+vcL17OvU1k sLs9/9hhAbYYedmbAAGmAqfICiLBdOPCbhsCUyq8dTa0FaEinyHCJSHJ WVZ8dBpbbr2pQnZ5ul5NCgkhhcr26IPPiZm2eww6ougsogj6kPdSSQYZ YayHzVnl8NFQ9uCwbRTryepPzZP5Vd2t )

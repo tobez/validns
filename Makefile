@@ -9,7 +9,8 @@ validns: main.o carp.o mempool.o textparse.o base64.o base32hex.o \
 	naptr.o srv.o nsec3param.o nsec3.o ds.o \
 	hinfo.o loc.o nsec3checks.o ptr.o \
 	sshfp.o threads.o rp.o spf.o cert.o \
-	dname.o tlsa.o nid.o l32.o l64.o lp.o
+	dname.o tlsa.o nid.o l32.o l64.o lp.o \
+	ipseckey.o
 	$(CC) $(CFLAGS) $(OPTIMIZE) -o validns \
 	    main.o carp.o mempool.o textparse.o base64.o base32hex.o \
 	    rr.o soa.o a.o cname.o mx.o ns.o \
@@ -18,7 +19,8 @@ validns: main.o carp.o mempool.o textparse.o base64.o base32hex.o \
 	    hinfo.o loc.o nsec3checks.o ptr.o \
 	    sshfp.o threads.o rp.o spf.o cert.o \
 	    dname.o tlsa.o nid.o l32.o l64.o lp.o \
-	    -L/usr/local/lib -L/opt/local/lib -lJudy -lcrypto
+	    ipseckey.o \
+	    -L/usr/local/lib -L/opt/local/lib -lJudy -lcrypto -lutil
 
 clean:
 	-rm -f validns main.o carp.o mempool.o textparse.o
@@ -28,7 +30,7 @@ clean:
 	-rm -f hinfo.o loc.o nsec3checks.o ptr.o
 	-rm -f sshfp.o base32hex.o base64.o threads.o
 	-rm -f rp.o spf.o cert.o dname.o tlsa.o
-	-rm -f nid.o l32.o l64.o lp.o
+	-rm -f nid.o l32.o l64.o lp.o ipseckey.o
 	-rm -f validns.core core
 	@echo ':-)'
 
@@ -139,6 +141,9 @@ l64.o: l64.c common.h textparse.h mempool.h carp.h rr.h
 
 lp.o: lp.c common.h textparse.h mempool.h carp.h rr.h
 	$(CC) $(CFLAGS) $(OPTIMIZE) -c -o lp.o lp.c $(INCPATH)
+
+ipseckey.o: ipseckey.c common.h textparse.h mempool.h carp.h rr.h
+	$(CC) $(CFLAGS) $(OPTIMIZE) -c -o ipseckey.o ipseckey.c $(INCPATH)
 
 threads.o: threads.c
 	$(CC) $(CFLAGS) $(OPTIMIZE) -c -o threads.o threads.c $(INCPATH)

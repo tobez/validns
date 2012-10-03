@@ -26,6 +26,7 @@
 #define T_DNAME	39
 #define T_DS	43
 #define T_SSHFP	44
+#define T_IPSECKEY	45
 #define T_RRSIG	46
 #define T_NSEC	47
 #define T_DNSKEY	48
@@ -191,6 +192,22 @@ struct rr_tlsa
     struct binary_data association_data;
 };
 extern struct rr_methods tlsa_methods;
+
+struct rr_ipseckey
+{
+    struct rr rr;
+	uint8_t precedence;
+	uint8_t gateway_type;
+	uint8_t algorithm;
+	union {
+		char           *gateway_none; /* gateway_type == 0 */
+		struct in_addr  gateway_ipv4; /* gateway_type == 1 */
+		struct in6_addr gateway_ipv6; /* gateway_type == 2 */
+		char           *gateway_name; /* gateway_type == 3 */
+	} gateway;
+	struct binary_data public_key;
+};
+extern struct rr_methods ipseckey_methods;
 
 struct rr_nid
 {

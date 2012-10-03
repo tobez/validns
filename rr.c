@@ -478,6 +478,11 @@ int str2rdtype(char *rdtype)
 			return T_HINFO;
 		}
 		break;
+	case 'i':
+		if (strcmp(rdtype, "ipseckey") == 0) {
+			return T_IPSECKEY;
+		}
+		break;
 	case 'l':
 		if (strcmp(rdtype, "loc") == 0) {
 			return T_LOC;

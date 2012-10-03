@@ -278,6 +278,7 @@ static void initialize_globals(void)
 	rr_methods[T_DNSKEY]       =     dnskey_methods;
 	rr_methods[T_DS]           =         ds_methods;
 	rr_methods[T_HINFO]        =      hinfo_methods;
+	rr_methods[T_IPSECKEY]     =   ipseckey_methods;
 	rr_methods[T_L32]          =        l32_methods;
 	rr_methods[T_L64]          =        l64_methods;
 	rr_methods[T_LOC]          =        loc_methods;

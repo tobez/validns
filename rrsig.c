@@ -16,9 +16,6 @@
 #include <arpa/inet.h>
 #include <openssl/evp.h>
 
-/* FreeBSD-only?   Debug, anyway.  */
-// #include <libutil.h>
-
 #include "common.h"
 #include "textparse.h"
 #include "mempool.h"

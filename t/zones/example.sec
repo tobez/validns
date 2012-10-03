@@ -64,18 +64,34 @@ cert	CERT URI 0 0 V2Ugc2hhbGwgbmVlZCBhIG51bWJlciBvZiBtYXRoZW1hdGljYWwgaWRlYXMgYW
 
 alias DNAME anotherone.sec.
 
-host1	IN NID 10 0014:4fff:ff20:ee64
-host1	IN NID 20 0015:5fff:ff21:ee65
-host2	IN NID 10 0016:6fff:ff22:ee66
+;; XXX BIND does not have those yet|  host1	IN NID 10 0014:4fff:ff20:ee64
+;; XXX BIND does not have those yet|  host1	IN NID 20 0015:5fff:ff21:ee65
+;; XXX BIND does not have those yet|  host2	IN NID 10 0016:6fff:ff22:ee66
+;; XXX BIND does not have those yet|  
+;; XXX BIND does not have those yet|  host1	IN L32 10 10.1.02.0
+;; XXX BIND does not have those yet|  host1	IN L32 20 10.1.04.0
+;; XXX BIND does not have those yet|  host2	IN L32 10 10.1.08.0
+;; XXX BIND does not have those yet|  
+;; XXX BIND does not have those yet|  host1	IN L64 10 2001:0DB8:1140:1000
+;; XXX BIND does not have those yet|  host1	IN L64 20 2001:0DB8:2140:2000
+;; XXX BIND does not have those yet|  host2	IN L64 10 2001:0DB8:4140:4000
+;; XXX BIND does not have those yet|  
+;; XXX BIND does not have those yet|  host1	IN LP 10 l64-subnet1.example.com.
+;; XXX BIND does not have those yet|  host1	IN LP 10 l64-subnet2.example.com.
+;; XXX BIND does not have those yet|  host1	IN LP 20 l32-subnet1.example.com.
 
-host1	IN L32 10 10.1.02.0
-host1	IN L32 20 10.1.04.0
-host2	IN L32 10 10.1.08.0
-
-host1	IN L64 10 2001:0DB8:1140:1000
-host1	IN L64 20 2001:0DB8:2140:2000
-host2	IN L64 10 2001:0DB8:4140:4000
-
-host1	IN LP 10 l64-subnet1.example.com.
-host1	IN LP 10 l64-subnet2.example.com.
-host1	IN LP 20 l32-subnet1.example.com.
+sec-00 IPSECKEY ( 10 0 0 . )
+sec-01 IPSECKEY ( 10 0 1 . AQO/C76MVA5WN743YYeE537SLNffRZvQ9yxoQqJP943gqs4QATtnJWHQ 1SDWiRE2aXl7SJoyJAu7jaUTGKWXzStD2wpkBIJ1IZ+avxf8zxRt3y6x ImvMjRqcobreI351nbop04aBtP7o+r0zrNQmy6FqkPiI657FMEdF1cWJ 2Q4lA0Pymgq/BadXymj/LZXpmCtnTNU6laUUGuxxaf0Fj+vcL17OvU1k sLs9/9hhAbYYedmbAAGmAqfICiLBdOPCbhsCUyq8dTa0FaEinyHCJSHJ WVZ8dBpbbr2pQnZ5ul5NCgkhhcr26IPPiZm2eww6ougsogj6kPdSSQYZ YayHzVnl8NFQ9uCwbRTryepPzZP5Vd2t )
+sec-02 IPSECKEY ( 10 0 2 . AQO/C76MVA5WN743YYeE537SLNffRZvQ9yxoQqJP943gqs4QATtnJWHQ 1SDWiRE2aXl7SJoyJAu7jaUTGKWXzStD2wpkBIJ1IZ+avxf8zxRt3y6x ImvMjRqcobreI351nbop04aBtP7o+r0zrNQmy6FqkPiI657FMEdF1cWJ 2Q4lA0Pymgq/BadXymj/LZXpmCtnTNU6laUUGuxxaf0Fj+vcL17OvU1k sLs9/9hhAbYYedmbAAGmAqfICiLBdOPCbhsCUyq8dTa0FaEinyHCJSHJ WVZ8dBpbbr2pQnZ5ul5NCgkhhcr26IPPiZm2eww6ougsogj6kPdSSQYZ YayHzVnl8NFQ9uCwbRTryepPzZP5Vd2t )
+sec-10 IPSECKEY ( 10 1 0 192.168.1.10 )
+sec-11 IPSECKEY ( 10 1 1 192.168.1.11 AQO/C76MVA5WN743YYeE537SLNffRZvQ9yxoQqJP943gqs4QATtnJWHQ 1SDWiRE2aXl7SJoyJAu7jaUTGKWXzStD2wpkBIJ1IZ+avxf8zxRt3y6x ImvMjRqcobreI351nbop04aBtP7o+r0zrNQmy6FqkPiI657FMEdF1cWJ 2Q4lA0Pymgq/BadXymj/LZXpmCtnTNU6laUUGuxxaf0Fj+vcL17OvU1k sLs9/9hhAbYYedmbAAGmAqfICiLBdOPCbhsCUyq8dTa0FaEinyHCJSHJ WVZ8dBpbbr2pQnZ5ul5NCgkhhcr26IPPiZm2eww6ougsogj6kPdSSQYZ YayHzVnl8NFQ9uCwbRTryepPzZP5Vd2t )
+sec-12 IPSECKEY ( 10 1 2 192.168.1.12 AQO/C76MVA5WN743YYeE537SLNffRZvQ9yxoQqJP943gqs4QATtnJWHQ 1SDWiRE2aXl7SJoyJAu7jaUTGKWXzStD2wpkBIJ1IZ+avxf8zxRt3y6x ImvMjRqcobreI351nbop04aBtP7o+r0zrNQmy6FqkPiI657FMEdF1cWJ 2Q4lA0Pymgq/BadXymj/LZXpmCtnTNU6laUUGuxxaf0Fj+vcL17OvU1k sLs9/9hhAbYYedmbAAGmAqfICiLBdOPCbhsCUyq8dTa0FaEinyHCJSHJ WVZ8dBpbbr2pQnZ5ul5NCgkhhcr26IPPiZm2eww6ougsogj6kPdSSQYZ YayHzVnl8NFQ9uCwbRTryepPzZP5Vd2t )
+sec-20 IPSECKEY ( 10 2 0 2001:2010:1::20 )
+sec-21 IPSECKEY ( 10 2 1 2001:2010:1::21 AQO/C76MVA5WN743YYeE537SLNffRZvQ9yxoQqJP943gqs4QATtnJWHQ 1SDWiRE2aXl7SJoyJAu7jaUTGKWXzStD2wpkBIJ1IZ+avxf8zxRt3y6x ImvMjRqcobreI351nbop04aBtP7o+r0zrNQmy6FqkPiI657FMEdF1cWJ 2Q4lA0Pymgq/BadXymj/LZXpmCtnTNU6laUUGuxxaf0Fj+vcL17OvU1k sLs9/9hhAbYYedmbAAGmAqfICiLBdOPCbhsCUyq8dTa0FaEinyHCJSHJ WVZ8dBpbbr2pQnZ5ul5NCgkhhcr26IPPiZm2eww6ougsogj6kPdSSQYZ YayHzVnl8NFQ9uCwbRTryepPzZP5Vd2t )
+sec-22 IPSECKEY ( 10 2 2 2001:2010:1::22 AQO/C76MVA5WN743YYeE537SLNffRZvQ9yxoQqJP943gqs4QATtnJWHQ 1SDWiRE2aXl7SJoyJAu7jaUTGKWXzStD2wpkBIJ1IZ+avxf8zxRt3y6x ImvMjRqcobreI351nbop04aBtP7o+r0zrNQmy6FqkPiI657FMEdF1cWJ 2Q4lA0Pymgq/BadXymj/LZXpmCtnTNU6laUUGuxxaf0Fj+vcL17OvU1k sLs9/9hhAbYYedmbAAGmAqfICiLBdOPCbhsCUyq8dTa0FaEinyHCJSHJ WVZ8dBpbbr2pQnZ5ul5NCgkhhcr26IPPiZm2eww6ougsogj6kPdSSQYZ YayHzVnl8NFQ9uCwbRTryepPzZP5Vd2t )
+sec-30 IPSECKEY ( 10 3 0 some.name. )
+sec-31 IPSECKEY ( 10 3 1 some.name. AQO/C76MVA5WN743YYeE537SLNffRZvQ9yxoQqJP943gqs4QATtnJWHQ 1SDWiRE2aXl7SJoyJAu7jaUTGKWXzStD2wpkBIJ1IZ+avxf8zxRt3y6x ImvMjRqcobreI351nbop04aBtP7o+r0zrNQmy6FqkPiI657FMEdF1cWJ 2Q4lA0Pymgq/BadXymj/LZXpmCtnTNU6laUUGuxxaf0Fj+vcL17OvU1k sLs9/9hhAbYYedmbAAGmAqfICiLBdOPCbhsCUyq8dTa0FaEinyHCJSHJ WVZ8dBpbbr2pQnZ5ul5NCgkhhcr26IPPiZm2eww6ougsogj6kPdSSQYZ YayHzVnl8NFQ9uCwbRTryepPzZP5Vd2t )
+sec-32 IPSECKEY ( 10 3 2 some.name. AQO/C76MVA5WN743YYeE537SLNffRZvQ9yxoQqJP943gqs4QATtnJWHQ 1SDWiRE2aXl7SJoyJAu7jaUTGKWXzStD2wpkBIJ1IZ+avxf8zxRt3y6x ImvMjRqcobreI351nbop04aBtP7o+r0zrNQmy6FqkPiI657FMEdF1cWJ 2Q4lA0Pymgq/BadXymj/LZXpmCtnTNU6laUUGuxxaf0Fj+vcL17OvU1k sLs9/9hhAbYYedmbAAGmAqfICiLBdOPCbhsCUyq8dTa0FaEinyHCJSHJ WVZ8dBpbbr2pQnZ5ul5NCgkhhcr26IPPiZm2eww6ougsogj6kPdSSQYZ YayHzVnl8NFQ9uCwbRTryepPzZP5Vd2t )
+sec-mixed-30 IPSECKEY ( 10 3 0 sOme.naMe. )
+sec-mixed-31 IPSECKEY ( 10 3 1 Some.namE. AQO/C76MVA5WN743YYeE537SLNffRZvQ9yxoQqJP943gqs4QATtnJWHQ 1SDWiRE2aXl7SJoyJAu7jaUTGKWXzStD2wpkBIJ1IZ+avxf8zxRt3y6x ImvMjRqcobreI351nbop04aBtP7o+r0zrNQmy6FqkPiI657FMEdF1cWJ 2Q4lA0Pymgq/BadXymj/LZXpmCtnTNU6laUUGuxxaf0Fj+vcL17OvU1k sLs9/9hhAbYYedmbAAGmAqfICiLBdOPCbhsCUyq8dTa0FaEinyHCJSHJ WVZ8dBpbbr2pQnZ5ul5NCgkhhcr26IPPiZm2eww6ougsogj6kPdSSQYZ YayHzVnl8NFQ9uCwbRTryepPzZP5Vd2t )
+sec-mixed-32 IPSECKEY ( 10 3 2 soMe.NAme. AQO/C76MVA5WN743YYeE537SLNffRZvQ9yxoQqJP943gqs4QATtnJWHQ 1SDWiRE2aXl7SJoyJAu7jaUTGKWXzStD2wpkBIJ1IZ+avxf8zxRt3y6x ImvMjRqcobreI351nbop04aBtP7o+r0zrNQmy6FqkPiI657FMEdF1cWJ 2Q4lA0Pymgq/BadXymj/LZXpmCtnTNU6laUUGuxxaf0Fj+vcL17OvU1k sLs9/9hhAbYYedmbAAGmAqfICiLBdOPCbhsCUyq8dTa0FaEinyHCJSHJ WVZ8dBpbbr2pQnZ5ul5NCgkhhcr26IPPiZm2eww6ougsogj6kPdSSQYZ YayHzVnl8NFQ9uCwbRTryepPzZP5Vd2t )

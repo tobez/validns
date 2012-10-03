@@ -28,7 +28,7 @@ isnt(rc, 0, 'valid signed zone with timestamps in the future');
 @e = split /\n/, stderr;
 like(shift @e, qr/signature is too new/, "signature is too new");
 
-run('./validns', @threads, '-t1355314832', 't/zones/example.sec.signed');
+run('./validns', @threads, '-t1386850832', 't/zones/example.sec.signed');
 isnt(rc, 0, 'valid signed zone with timestamps in the past');
 @e = split /\n/, stderr;
 like(shift @e, qr/signature is too old/, "signature is too old");
@@ -226,6 +226,26 @@ is(rc, 0, 'issue 24 did not come back');
 # issue 25: https://github.com/tobez/validns/issues/25
 run('./validns', @threads, '-t1345815800', 't/issues/25-nsec/example.sec.signed');
 is(rc, 0, 'issue 25 did not come back');
+
+# IPSECKEY tests
+run('./validns', @threads, 't/zones/ipseckey-errors');
+isnt(rc, 0, 'bad zone returns an error');
+@e = split /\n/, stderr;
+like(shift @e, qr/precedence expected/, "bad-precedence 1");
+like(shift @e, qr/precedence range is not valid/, "bad-precedence 2");
+like(shift @e, qr/gateway type expected/, "bad-gw-type 1");
+like(shift @e, qr/gateway type is not valid/, "bad-gw-type 2");
+like(shift @e, qr/algorithm expected/, "bad-algo 1");
+like(shift @e, qr/algorithm is not valid/, "bad-algo 2");
+like(shift @e, qr/gateway must be "\." for gateway type 0/, "gw-not-dot");
+like(shift @e, qr/cannot parse gateway\/IPv4/, "bad-ip4 1");
+like(shift @e, qr/gateway\/IPv4 is not valid/, "bad-ip4 2");
+like(shift @e, qr/gateway\/IPv4 is not valid/, "bad-ip4 3");
+like(shift @e, qr/cannot parse gateway\/IPv6/, "bad-ip6 1");
+like(shift @e, qr/gateway\/IPv6 is not valid/, "bad-ip6 2");
+like(shift @e, qr/cannot parse gateway\/IPv6/, "bad-ip6 3");
+like(shift @e, qr/cannot parse gateway\/IPv6/, "bad-ip6 4");
+like(shift @e, qr/garbage after valid IPSECKEY data/, "garbage-key");
 
 }
 
