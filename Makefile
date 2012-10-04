@@ -20,7 +20,7 @@ validns: main.o carp.o mempool.o textparse.o base64.o base32hex.o \
 	    sshfp.o threads.o rp.o spf.o cert.o \
 	    dname.o tlsa.o nid.o l32.o l64.o lp.o \
 	    ipseckey.o \
-	    -L/usr/local/lib -L/opt/local/lib -lJudy -lcrypto -lutil
+	    -L/usr/local/lib -L/opt/local/lib -lJudy -lcrypto
 
 clean:
 	-rm -f validns main.o carp.o mempool.o textparse.o
