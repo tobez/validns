@@ -627,9 +627,6 @@ void validate_named_rr(struct named_rr *named_rr)
 	int nsec3_only = 1;
 	static int seen_apex = 0;
 
-	rdtype = 0;
-	JLF(rr_set_p, named_rr->rr_sets, rdtype);
-
 	if ((named_rr->flags & NAME_FLAG_APEX))
 		seen_apex = 1;
 	if (!seen_apex)
@@ -641,7 +638,16 @@ void validate_named_rr(struct named_rr *named_rr)
 			G.stats.not_authoritative++;
 		}
 	}
+
+	if (G.nsec3_opt_out_present && (named_rr->flags & NAME_FLAG_DELEGATION)) {
+		JLG(rr_set_p, named_rr->rr_sets, T_DS);
+		if (!rr_set_p)
+			named_rr->flags |= NAME_FLAG_NOT_AUTHORITATIVE;
+	}
 //debug(named_rr, ">>>>");
+
+	rdtype = 0;
+	JLF(rr_set_p, named_rr->rr_sets, rdtype);
 
 	while (rr_set_p) {
 		validate_rrset(*rr_set_p);

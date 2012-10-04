@@ -1,0 +1,24 @@
+$TTL    1d
+$INCLUDE Kexample.sec.+008+48381.key
+@       IN      SOA     ns.example.sec. hostmaster.example.sec. (
+                              1         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+
+                IN      NS      ns1.example.net.
+sub             IN      NS      ns1.example.net.
+test.sub        IN      A       127.0.0.1
+
+sub2	IN	NS	ns1.sub2
+ns1.sub2	IN	A	1.2.3.4
+
+spurious.glue.optout IN A 5.5.5.5
+spurious.glue.optout IN NS ns1.somewhere.else.
+spurious.glue.optout IN NS ns2.somewhere.else.
+
+glue.optout IN A 5.5.5.5
+ns2.real.glue.optout IN A 6.6.6.6
+real.glue.optout IN NS glue.optout
+real.glue.optout IN NS ns2.real.glue.optout

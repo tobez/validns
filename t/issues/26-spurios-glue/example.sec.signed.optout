@@ -1,0 +1,133 @@
+; File written on Thu Oct  4 15:18:53 2012
+; dnssec_signzone version 9.8.3-P2
+example.sec.		86400	IN SOA	ns.example.sec. hostmaster.example.sec. (
+					1          ; serial
+					604800     ; refresh (1 week)
+					86400      ; retry (1 day)
+					2419200    ; expire (4 weeks)
+					604800     ; minimum (1 week)
+					)
+			86400	RRSIG	SOA 8 2 86400 20121103121853 (
+					20121004121853 48381 example.sec.
+					Ulm/liwXxmglgip/GZchcOR8cAbZhXRnQQyv
+					OavM3mVc+EtL+APaoQTMlhi1Sl09ft8zCxFq
+					9QN0Z3MXCYYWpkJ5yvOgso+Da5kabYslGTLm
+					bTo2CsW1AFzJJi9sGheT+45otO+JQ5u0kxjC
+					QdebeYcMkdVs8I7tfMklyfgeC7LfNZE4/Ipw
+					6F4x1HZe+Dqq6KU4VG4wxsiinQehXXGQZQyg
+					C+vQHjs/EATrm5xymihPqRmeFchYUeQ4r1bq
+					is1iVvcfezVRRnKjWZm0siv6WIMWu+asORnV
+					2GcBLmtvvlOCFc21zUx28dHMFXHFua4DWKB8
+					cgdYpt43xZ68GVxMPA== )
+			86400	NS	ns1.example.net.
+			86400	RRSIG	NS 8 2 86400 20121103121853 (
+					20121004121853 48381 example.sec.
+					ikpkmIGlWyzehB7usRLodt80omtP0yP37Uf6
+					Suixfz94dQFXOZRccsJjvmwxK+SWCuODJvD6
+					4d4sb8dwsxPdrFpfdSELCGZqyCECTb6GvKzy
+					fD1JnU1PujbqimNo+A2TBZAzKyolvh/9IfrN
+					5J4kXvjCAmssz2yF45hXRblJg3nkNs8nbD4U
+					VbKWzKGWsoV7oDx81hISVjFaOeMJoBMOTQNY
+					LHN9+EJDS7qo20sq6cYcSwCQ5FwpAxX3k8Ef
+					rHCtBz4A6637jmYuSKGWcdwdzCZ/a5Dm7x73
+					OtLg3bMft2bZSeiCQW6NpmPjIWCsdbACJXnm
+					984YFW/pTqapEPTpsQ== )
+			86400	DNSKEY	256 3 8 (
+					AwEAAdZOvnLtTdQjfdIqqH3stb7vI6bJlg27
+					3Tp4oRpnmnmgizDFtLQhnIv1Mr3AuwSWVIDe
+					avuiyWIAtfvwy0f3EYIv8Ys5kDiKs8PE1k90
+					yQwfC53hxyH10GzGnAx4Sutrdkh1w4HM1nMB
+					dlTMa0g9yxjJ0vm/T7qHzj+3dTUi84s8Du2m
+					fMD6noy+leZ2IuX7lFca8SzDNmhUPTkXuFrB
+					/QUuoY2FyThfidT+nhOQpzftVtLcta0E0Uv3
+					PcVDp1d7vBXsAEYGHr54r2vb3eXdOTmoFyh/
+					byehUlPq1gDEH0mBRlWbUHqbGnKyolz0dR01
+					u8SJYP6ULwx0mZ0p5BmoMH8=
+					) ; key id = 48381
+			86400	RRSIG	DNSKEY 8 2 86400 20121103121853 (
+					20121004121853 48381 example.sec.
+					si+yguBDcwzghrH0h6R9cPIauscNjlA8j/sl
+					9VWDkeBi3yVdw1aX7BaE32sQdf2k0FN4A/+Y
+					00gJAwaMHem1L9wlOKg/cRGqsaz6+VACqAtK
+					3uvG2RbDAS83VZxU5650CupN/sivmtSj/YWO
+					Utp1HEc8jZCw8LsFudmRTa2p9ps+kHzeC6BO
+					Uy3SolmGnZdESoBqnUAWTrNFaTIwCyLGIIvK
+					TcEIzP3SN1mw1Nt+GIL/ActgPTk0OpUPXvj7
+					KUoekBMAZcgAebVXuPPSkZq75cC6P2+08+di
+					LK2Fs8wpf31+TBn3daAx7xvRF++nC0EA0GAp
+					omMLBYDUAsDLsWMDUQ== )
+			0	NSEC3PARAM 1 0 1 94CD
+			0	RRSIG	NSEC3PARAM 8 2 0 20121103121853 (
+					20121004121853 48381 example.sec.
+					YHWYvmnPOvcuBXO7qz75IdG/Ceb+MsyizLAv
+					z9A6QgfUI4x6z4ADbdQblhuZi5mMsnFaNtqV
+					IYRcBEbx754hTEagLNXI/TEN+REF0P5Nhba3
+					cZm1vY+Dhnfz0ZOVIUuNDEk8S63F2TBaNm4j
+					ezias9Az5E/De2oYaOxRciP2kYoYncUaBMhi
+					HPjStz1jzrC+7YOah6uWfIAcdl3g8qqL2hjd
+					YJdMbEuY90JVhRWzEjBftqxv7w9sgA86ERai
+					2TGBIpBxAfamCfKra1aQR4Wl2x3NF/RYYfZr
+					lS4/Up0ouPI3TJXM2SGr2eHDQAhA+sGiUhm4
+					Y4mySTWd7MreJ53tAQ== )
+real.glue.optout.example.sec. 86400 IN NS ns2.real.glue.optout.example.sec.
+			86400	IN NS	glue.optout.example.sec.
+ns2.real.glue.optout.example.sec. 86400	IN A 6.6.6.6
+spurious.glue.optout.example.sec. 86400	IN NS ns1.somewhere.else.
+			86400	IN NS	ns2.somewhere.else.
+			86400	A	5.5.5.5
+sub.example.sec.	86400	IN NS	ns1.example.net.
+test.sub.example.sec.	86400	IN A	127.0.0.1
+sub2.example.sec.	86400	IN NS	ns1.sub2.example.sec.
+ns1.sub2.example.sec.	86400	IN A	1.2.3.4
+5RORN4V6I2EUE59S86LSVBHNQNFH97BN.example.sec. 604800 IN	NSEC3 1 1 1 94CD ANUH4A3TCIVO884LMD5SA3S1563VKCOG A RRSIG
+			604800	RRSIG	NSEC3 8 3 604800 20121103121853 (
+					20121004121853 48381 example.sec.
+					N1v+1lsRMwY3WJtdMl8Eh9vOV3bdwKwTbnRQ
+					kFtdKpLuvyc3256nlH6SKvWMBGPNxOyd1Qb1
+					WUdCmT4sLvY2UDzmTsvI6ETszQyntSMsORah
+					osfWPG+0zAA6DnNkUVNDPvoSiimcl4ibuzCX
+					717pCz7ubTJEX0G2X3cVGZ6/qIQ2SrNWbtED
+					LqBgJtu30w3A7APtxKTG2bAHOejrzSAVy3ms
+					V4iTItdglAMrscloJNCveWTdPPXDlHrQmD3D
+					nRPqA3gIKQzm0Y+ZI3Qzyw9bw9AiCYpMBehg
+					5gFt/jLTknaG5MCMYGJEXNFO0VbuHKgxAqsz
+					KHpKK/ifUkn7MsJzeg== )
+ANUH4A3TCIVO884LMD5SA3S1563VKCOG.example.sec. 604800 IN	NSEC3 1 1 1 94CD APFMIN8EJ96AD54VGTECHRPKHBR336EQ NS SOA RRSIG DNSKEY NSEC3PARAM
+			604800	RRSIG	NSEC3 8 3 604800 20121103121853 (
+					20121004121853 48381 example.sec.
+					od/Sqj/uWHgRTRs/zJaqqFrtItCSO2feO2XZ
+					z2oTtpyri7PoeppBkfHI7RLU+S3erNsFovxF
+					wCtrf0fyTqlp67uSyp9pDgNUKhpuKSKG+4q0
+					BcuLBXtQaKdeBD0goq9I1CyUGzvshIb51eBG
+					aREsZjYQNoVRwbNIGgu7g+xnXexQmZPaSCW4
+					Q/TeJBaHX2HHV8iDwKK3XZepP0E07dpNECSE
+					rKJpok52AeYg7PrNYwEuxA7LTJmrSmS7qCl9
+					KhU0m0CffxWDnEXkYKX3af3eahWeOZyGOhOP
+					dxIIIQ7c82n/jcqMD4Sh8d3rerPF2U1gCz9u
+					HCdKafHujj9rGn/M6Q== )
+glue.optout.example.sec. 86400	IN A	5.5.5.5
+			86400	RRSIG	A 8 4 86400 20121103121853 (
+					20121004121853 48381 example.sec.
+					QwYR1fW0291qEsM/oRaB3afMe+6gKpNvd2q9
+					RRA1y8jbS1X8xpvzJayxSBki/XEbAt5+/ruw
+					z15HPcGBRo5a0To2iJ7rJiSFvUdKHfv1jdNx
+					uRSVx9+RT8RgX2kXEk6SZOzl52fOtmF4KM3y
+					inKh7REsL41ECQLM6ZYqFjDXOkzOjTR/s8V7
+					8xxAwZScRCa+DXlc2xVPcEMExMTEx+22L5fV
+					HNRYXlJA2O+hsCiBUbiTBp0+rFDGTpG86MWR
+					dgnOwX+brkiwD8AiFw23YfSp9F8y3ft8tAqv
+					f9nXbHa3F9SCR5i1yzkUeVWKEn+by3LS4BLz
+					VpIfeb99nocNo/7Mgg== )
+APFMIN8EJ96AD54VGTECHRPKHBR336EQ.example.sec. 604800 IN	NSEC3 1 1 1 94CD 5RORN4V6I2EUE59S86LSVBHNQNFH97BN
+			604800	RRSIG	NSEC3 8 3 604800 20121103121853 (
+					20121004121853 48381 example.sec.
+					rbDtCPCS5QEJ5ESQimgn8318GRADUtZvCeqv
+					I3hDGB0w9HXpLRkyZ1McyLVIZskK4yXB1Wgg
+					ikfjG/ENVqiZ13XcXE6nZrdBJvMqZpkTmV10
+					1emVkS9q0x7wVKz9fBrVuznZij4PSZinEv0v
+					leOFmgBe2yMuBWWV9t5o/KxG/2zgW1HU4PZC
+					ue3c/iL1iEKTFaBQ856lvFyY5cqO191G26tn
+					kCW8G8x4FrUiNyB3UgoGt/9jFbqDMHMFrSOg
+					xLPNxPqBcT429qpbP7+d+QnmI7LR6usWus0A
+					UU5w6Xzq+HVD2RSBpZX8ryUKEqXa92EDcfqB
+					xYijmFAKbe24i+b1wQ== )

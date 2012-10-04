@@ -227,6 +227,14 @@ is(rc, 0, 'issue 24 did not come back');
 run('./validns', @threads, '-t1345815800', 't/issues/25-nsec/example.sec.signed');
 is(rc, 0, 'issue 25 did not come back');
 
+# issue 26: https://github.com/tobez/validns/issues/26
+run('./validns', @threads, '-t1349357570', 't/issues/26-spurios-glue/example.sec.signed.no-optout');
+is(rc, 0, 'issue 26 did not come back (NSEC3 NO optout)');
+run('./validns', @threads, '-t1349357570', 't/issues/26-spurios-glue/example.sec.signed.optout');
+is(rc, 0, 'issue 26 did not come back (NSEC3 optout)');
+run('./validns', @threads, '-t1349358570', 't/issues/26-spurios-glue/example.sec.signed.nsec');
+is(rc, 0, 'issue 26 did not come back (NSEC)');
+
 # IPSECKEY tests
 run('./validns', @threads, 't/zones/ipseckey-errors');
 isnt(rc, 0, 'bad zone returns an error');
