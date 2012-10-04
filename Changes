@@ -1,8 +1,12 @@
 Revision history for validns.
 
-0.6 - in progress
-	Support TLSA records.
-	Minor bug fixes.
+0.6 Thu Oct  4 16:40:56 CEST 2012
+	Support for TLSA records.
+	Support for ILNP (NID, L64, L3, LP) records (untested).
+	Support for IPSECKEY records.
+	Handle TYPEXXX for known types correctly.
+	A number of NSEC3-related bug fixes.
+	Miscellaneous bug fixes.
 
 0.5 Thu Jun  7 15:45:55 CEST 2012
 	Parallelize signature verification (-n option)

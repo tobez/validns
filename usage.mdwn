@@ -8,7 +8,7 @@ validns - DNS and DSNSEC zone file validator
 
 # VERSION
 
-This document describes validns version 0.5
+This document describes validns version 0.6
 
 # SYNOPSIS
 
@@ -155,6 +155,7 @@ Dennis Kjaer Jensen,
 Goran Bengtson,
 Hirohisa Yamaguchi,
 Hugo Salgado,
+Jake Zack,
 Jakob Schlyter,
 Koh-ichi Ito,
 Mathieu Arnold,
@@ -172,4 +173,5 @@ Special thanks to
 Stephane Bortzmeyer and Phil Regnauld.
 
 Thanks for AFNIC which funded major portion of the development.
+Thanks for SWITCH for additional funding.
 
