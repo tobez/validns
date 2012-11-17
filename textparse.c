@@ -592,6 +592,7 @@ int extract_u64(char **input, char *what, uint64_t *r)
 			} \
 			s++; \
 		} \
+		if (u > 0xffff) { bitch("%s is not valid, hex out of range", what); return -1; } \
 		result = (result << 16) | u;
 	#define SKIPCOLON if (*s != ':') { bitch("%s is not valid", what); return -1; } s++;
 

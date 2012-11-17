@@ -8,6 +8,7 @@
  */
 #include <sys/types.h>
 #include <stdio.h>
+#include <string.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
 
@@ -28,6 +29,9 @@ static struct rr *lp_parse(char *name, long ttl, int type, char *s)
 	rr->fqdn = extract_name(&s, "LP fqdn", 0);
 	if (!rr->fqdn)
 		return NULL;
+	if (strcasecmp(name, rr->fqdn) == 0) {
+		return bitch("LP points to itself");
+	}
 
 	if (*s) {
 		return bitch("garbage after valid LP data");
