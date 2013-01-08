@@ -129,7 +129,7 @@ like(shift @e, qr/DNAME must not have any children \(but z.zzzz5.galaxyplus.org.
 is(+@e, 0, "no unaccounted errors");
 #like(stdout, qr/validation errors: XX/, "error count");
 
-run('./validns', @threads, '-s', 't/zones/example.sec.signed.with-errors');
+run('./validns', @threads, '-s', '-t1320094109', 't/zones/example.sec.signed.with-errors');
 isnt(rc, 0, 'bad signed zone returns an error');
 @e = split /\n/, stderr;
 
