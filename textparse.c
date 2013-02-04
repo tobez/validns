@@ -141,7 +141,7 @@ static char *extract_name_slow(char **input, char *what, int options)
 		}
 	}
 
-	t = index(buf, '*');
+	t = strchr(buf, '*');
 	if (t && (t != buf || t[1] != '.'))
 		return bitch("%s: bad wildcard", what);
 	if (buf[0] == '.' && buf[1] != '\0')
@@ -210,9 +210,9 @@ char *extract_name(char **input, char *what, int options)
 			}
 			r = getmem(strlen(*input) + 1 + strlen(G.opt.current_origin) + 1);
 			if (G.opt.current_origin[0] == '.') {
-				strcpy(stpcpy(r, *input), G.opt.current_origin);
+				strcpy(mystpcpy(r, *input), G.opt.current_origin);
 			} else {
-				strcpy(stpcpy(stpcpy(r, *input), "."), G.opt.current_origin);
+				strcpy(mystpcpy(mystpcpy(r, *input), "."), G.opt.current_origin);
 			}
 		}
 		*s = c;
@@ -483,14 +483,14 @@ long long extract_timestamp(char **input, char *what)
 		bitch("%s is not valid", what);
 		return -1;
 	}
-	bzero(&tm, sizeof(tm));
+	memset(&tm, 0, sizeof(tm));
 	tm.tm_sec = second;
 	tm.tm_min = minute;
 	tm.tm_hour = hour;
 	tm.tm_mday = day;
 	tm.tm_mon = month - 1;
 	tm.tm_year = year - 1900;
-	epoch = timegm(&tm);
+	epoch = mktime(&tm);
 	if (epoch < 0) {
 		bitch("%s is not valid", what);
 		return -1;
@@ -816,7 +816,7 @@ struct binary_data extract_hex_binary_data(char **input, char *what, int eat_whi
 		bitch("%s: hex data does not represent whole number of bytes", what);
 	r.data = getmem(hl/2);
 	r.length = hl/2;
-	bzero(r.data, r.length);
+	memset(r.data, 0, r.length);
 	for (hi = 0; hi < hl-hb; hi++) {
 		r.data[hi/2] <<= 4;
 		r.data[hi/2] |= 0x0f & (isdigit(hex[hi+hb]) ? hex[hi+hb] - '0' : tolower(hex[hi+hb]) - 'a' + 10);
@@ -829,7 +829,7 @@ struct binary_data new_set(void)
 	struct binary_data set;
 	set.length = 256*(1+1+32);
 	set.data = getmem_temp(set.length);
-	bzero(set.data, set.length);
+	memset(set.data, 0, set.length);
 	return set;
 }
 
@@ -987,4 +987,12 @@ struct binary_data compose_binary_data(const char *fmt, int tmp, ...)
 	}
 	va_end(ap);
 	return r;
+}
+
+/* implementation taken from FreeBSD's libc (minus the __restrict keyword) */
+char *
+mystpcpy(char *to, const char *from)
+{
+	for (; (*to = *from); ++from, ++to);
+	return(to);
 }

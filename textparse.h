@@ -59,4 +59,7 @@ struct binary_data new_set(void);
 void add_bit_to_set(struct binary_data *set, int bit);
 struct binary_data compressed_set(struct binary_data *set);
 
+/* stpcpy(3) is not available everywhere */
+char *mystpcpy(char *to, const char *from);
+
 #endif

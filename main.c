@@ -264,9 +264,10 @@ static void initialize_globals(void)
 {
 	int i;
 
-	bzero(&G, sizeof(G));
-	bzero(&G.opt, sizeof(G.opt));
-	bzero(&G.stats, sizeof(G.stats));
+	setenv("TZ", "GMT0", 1);	tzset();
+	memset(&G, 0, sizeof(G));
+	memset(&G.opt, 0, sizeof(G.opt));
+	memset(&G.stats, 0, sizeof(G.stats));
 	G.default_ttl = -1; /* XXX orly? */
 	G.opt.current_time = time(NULL);
 
@@ -308,9 +309,9 @@ int
 main(int argc, char **argv)
 {
 	int o;
-	initialize_globals();
 	struct timeval start, stop;
 
+	initialize_globals();
 	while ((o = getopt(argc, argv, "fhqsvI:z:t:p:n:")) != -1) {
 		switch(o) {
 		case 'h':
@@ -364,7 +365,7 @@ main(int argc, char **argv)
 				G.opt.current_origin = optarg;
 			} else if (strlen(optarg)) {
 				G.opt.current_origin = getmem(strlen(optarg)+2);
-				strcpy(stpcpy(G.opt.current_origin, optarg), ".");
+				strcpy(mystpcpy(G.opt.current_origin, optarg), ".");
 			} else {
 				usage("origin must not be empty");
 			}

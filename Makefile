@@ -1,7 +1,22 @@
+# The following options seem to work fine on Linux, FreeBSD, and Darwin
 OPTIMIZE=-O2 -g
 CFLAGS=-Wall -Werror -pthread
-INCPATH=-I/usr/local/include -I/opt/local/include
+INCPATH=-I/usr/local/include -I/opt/local/include -I/usr/local/ssl/include
 CC?=cc
+
+# These additional options work on Solaris/gcc to which I have an access
+# (when combined with the options above, and CC=gcc).
+#EXTRALPATH=-L/usr/local/ssl/lib -Wl,-R,/usr/local/ssl/lib
+#EXTRALIBS=-lnsl -lrt
+
+# According to Daniel Stirnimann, the following is needed
+# to make it work on Solaris/cc.
+#CFLAGS=-fast -xtarget=ultra3 -m64 -xarch=sparcvis2
+#INCPATH=-I/opt/sws/include
+#CC=cc
+#EXTRALPATH=-L/opt/sws/lib/64 -R/opt/sws/lib/64
+#EXTRALIBS-lrt -lnsl
+#EXTRALINKING=-mt -lpthread
 
 validns: main.o carp.o mempool.o textparse.o base64.o base32hex.o \
 	rr.o soa.o a.o cname.o mx.o ns.o \
@@ -20,7 +35,8 @@ validns: main.o carp.o mempool.o textparse.o base64.o base32hex.o \
 	    sshfp.o threads.o rp.o spf.o cert.o \
 	    dname.o tlsa.o nid.o l32.o l64.o lp.o \
 	    ipseckey.o \
-	    -L/usr/local/lib -L/opt/local/lib -lJudy -lcrypto
+	    -L/usr/local/lib -L/opt/local/lib $(EXTRALPATH) \
+	    -lJudy -lcrypto $(EXTRALIBS) $(EXTRALINKING)
 
 clean:
 	-rm -f validns main.o carp.o mempool.o textparse.o

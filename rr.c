@@ -180,7 +180,7 @@ static struct named_rr *find_or_create_named_rr(char *name)
 		*named_rr_slot = named_rr;
 		G.stats.names_count++;
 
-		s = index(name, '.');
+		s = strchr(name, '.');
 		if (s && s[1] != '\0') {
 			named_rr->parent = find_or_create_named_rr(s+1);
 		}
