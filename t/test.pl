@@ -235,6 +235,20 @@ is(rc, 0, 'issue 26 did not come back (NSEC3 optout)');
 run('./validns', @threads, '-t1349358570', 't/issues/26-spurios-glue/example.sec.signed.nsec');
 is(rc, 0, 'issue 26 did not come back (NSEC)');
 
+# issues about NSEC chain validation raised by Daniel Stirnimann
+run('./validns', @threads, '-t1361306089', 't/issues/nsec-chain/example.com.signed');
+is(rc, 0, 'all is good when all NSEC are there');
+run('./validns', @threads, '-t1361306089', 't/issues/nsec-chain/example.com.signed-without-first-nsec');
+isnt(rc, 0, 'zone without first NSEC returns an error');
+@e = split /\n/, stderr;
+is(scalar @e, 1, "only one error here");
+like(shift @e, qr/apex NSEC not found/, "apex NSEC not found");
+run('./validns', @threads, '-t1361306089', 't/issues/nsec-chain/example.com.signed-without-last-nsec');
+isnt(rc, 0, 'zone without an NSEC returns an error');
+@e = split /\n/, stderr;
+is(scalar @e, 1, "only one error here");
+like(shift @e, qr/broken NSEC chain example.com. -> domain1.example.com./, "broken NSEC chain detected");
+
 # IPSECKEY tests
 run('./validns', @threads, 't/zones/ipseckey-errors');
 isnt(rc, 0, 'bad zone returns an error');

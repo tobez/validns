@@ -72,6 +72,7 @@ static struct rr* nsec3param_parse(char *name, long ttl, int type, char *s)
 		return bitch("garbage after valid NSEC3PARAM data");
 	}
 
+	G.dnssec_active = 1;
     ret_rr = store_record(type, name, ttl, rr);
 	if (ret_rr && !nsec3param && (ret_rr->rr_set->named_rr->flags & NAME_FLAG_APEX))
 		nsec3param = ret_rr;

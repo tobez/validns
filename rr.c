@@ -765,6 +765,9 @@ void validate_zone(void)
 		JSLN(named_rr_p, zone_data, sorted_name);
 	}
 	second_validation_pass();
+
+	if (G.dnssec_active && !G.nsec3_present)
+		validate_nsec_chain();
 }
 
 void validate_record(struct rr *rr)

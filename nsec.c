@@ -1,11 +1,25 @@
 /*
  * Part of DNS zone file validator `validns`.
+			604800	NSEC	example.com. NS DS RRSIG NSEC
+			604800	RRSIG	NSEC 10 3 604800 20130321184221 (
+					20130219184221 35615 example.com.
+					WWg7EiYoY8Hp593I2i5Mkl2ezg7YuAnq0y75
+					oymTCuEfGwh4OxbMT/mWNqAFL5Y8f0YoQOOY
+					wZP0m/sGK/EJN7ulNsfQyULY4WsyHIGlKMwT
+					KdyDXJLrmrzlmRnGv7pFb0bo53n3osE0uFfH
+					yMQYOkQRYfqa4yWXF9Nl48dy67frtVih0foy
+					9Mm76mmJSDUd/jGsYQmaoFGVU/a64rWapVQ9
+					O/mXPqr6Pw2ZCHecsF4ElMEp41YqG1DfR5QR
+					khTjvTlg4aTKvgX1YuvDhjUygSHit47xn2NC
+					2WwEZF+vYXT9DIUCMcKdVeb4bjWwUXbWNFqz
+					Ca3jb/mpOpUDFnrRPw== )
  *
  * Copyright 2011, 2012 Anton Berezin <tobez@tobez.org>
  * Modified BSD license.
  * (See LICENSE file in the distribution.)
  *
  */
+#include <ctype.h>
 #include <sys/types.h>
 #include <string.h>
 #include <stdio.h>
@@ -43,6 +57,7 @@ static struct rr* nsec_parse(char *name, long ttl, int type, char *s)
 		return bitch("NSEC type list should not be empty");
 	}
 	rr->type_bitmap = compressed_set(&bitmap);
+	G.dnssec_active = 1;
 
     return store_record(type, name, ttl, rr);
 }
@@ -95,6 +110,37 @@ static void* nsec_validate(struct rr *rrv)
 		return NULL;
 
 	return rr;
+}
+
+void validate_nsec_chain(void)
+{
+	struct rr_set *rr_set;
+	struct named_rr *named_rr;
+
+	rr_set = find_rr_set(T_NSEC, zone_apex);
+	if (!rr_set) {
+		named_rr = find_named_rr(zone_apex);
+		moan(named_rr->file_name, named_rr->line, "apex NSEC not found");
+		return;
+	}
+	while (1) {
+		char name[1024];
+		struct rr_nsec *rr = (struct rr_nsec *)rr_set->tail;
+		char *s, *t;
+
+		if (strcasecmp(rr->next_domain, zone_apex) == 0) /* chain complete */
+			break;
+		s = rr->next_domain;
+		t = name;
+		while (*s) *t++ = tolower(*s++);
+		*t = 0;
+		rr_set = find_rr_set(T_NSEC, name);
+		if (!rr_set) {
+			moan(rr->rr.file_name, rr->rr.line, "broken NSEC chain %s -> %s",
+				 rr->rr.rr_set->named_rr->name, rr->next_domain);
+			return;
+		}
+	}
 }
 
 struct rr_methods nsec_methods = { nsec_parse, nsec_human, nsec_wirerdata, NULL, nsec_validate };

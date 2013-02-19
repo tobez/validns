@@ -62,6 +62,7 @@ static struct rr* ds_parse(char *name, long ttl, int type, char *s)
 	if (*s) {
 		return bitch("garbage after valid DS data");
 	}
+	G.dnssec_active = 1;
 	return store_record(type, name, ttl, rr);
 }
 

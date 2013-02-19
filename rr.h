@@ -263,6 +263,8 @@ struct rr_nsec
 };
 extern struct rr_methods nsec_methods;
 
+void validate_nsec_chain(void);
+
 struct rr_nsec3
 {
 	struct rr rr;

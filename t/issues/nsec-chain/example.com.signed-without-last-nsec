@@ -1,0 +1,87 @@
+; File written on Tue Feb 19 20:42:21 2013
+; dnssec_signzone version 9.8.3-P4
+example.com.		86400	IN SOA	ns.example.com. hostmaster.example.com. (
+					1          ; serial
+					604800     ; refresh (1 week)
+					86400      ; retry (1 day)
+					2419200    ; expire (4 weeks)
+					604800     ; minimum (1 week)
+					)
+			86400	RRSIG	SOA 10 2 86400 20130321184221 (
+					20130219184221 35615 example.com.
+					fSRKU+K9f0tGSpUVNFtQc0TBufHSMhQ4yWZX
+					fv1+osKrMVHxfluIwlYa5ExqFBvf2EwVvruF
+					2gk3KGR9WtM62Ub+MsBCRZCZeIrfEZ5tWPRf
+					UHSbi7WwOD7ELQw6yeZLiG+8BRZSove8txHC
+					N0GqaB3FeFRg1BRnErsmutfG/TvNS2ihjeTw
+					IIjELjcHbe79tsvD+JIzSHghWt0b+7dHpD5A
+					Z0mNAhBSgRwtwb2BtrLwJhtRX+spPlM6iy87
+					6pfADRZQCzAlv4aridie5pQzFG15FLyyfvbF
+					5/YtMZjuAaBNf+2KqhZbGWQFuPLB9C30Vqa0
+					qQ7o10OAn3QQGHE+iA== )
+			86400	NS	ns1.example.net.
+			86400	RRSIG	NS 10 2 86400 20130321184221 (
+					20130219184221 35615 example.com.
+					B3H3TYnpWgpc4cqIS79F/GSxSrUTaDdJEtVj
+					Ps4fj0ETKrjBxIkq8r36/srAD72VK8nGuVvW
+					aC90q6hy+T5oRjnDGke8XcOZLTeSsdqSiElL
+					DgEFhKhL80Sxr9sMd2V+N7KzSLlPKsYtAW+O
+					5ktr/21CSzE0lhDI8b/GO8Hjs9gZwyMzLzlx
+					j3kVtMlsul5aJrCA2WtdKEBXTiFrhr4FU+hY
+					moe3uwrUNR6MHhb+l1IVo2yKCDBD7ZZ1ToGz
+					dl2XuHEWiuOKiUAizTcpnWbdMWzSJMkrKx1/
+					gXdAq1q1t8VIi9WJs4XyKEDuJG0Ep8BeUTmE
+					4QbwLrOe1Tabell4eQ== )
+			604800	NSEC	domain1.example.com. NS SOA RRSIG NSEC DNSKEY
+			604800	RRSIG	NSEC 10 2 604800 20130321184221 (
+					20130219184221 35615 example.com.
+					fi1kPn544HwVk3M/BhM0g2oyLrRj6XfS+r14
+					qbVtMtT4s9Nk7hmtKlqCjSvPRl+ichW9cGRn
+					pfYC6cDkKb6VX6RUqtCfN+A1s+f9iX/TPCkY
+					mo4FgxioOG6ZUNBxsbgYsBjM08VwtOf+4VZV
+					P+NvRpbMvmNRJux2Ftba+wB0GA4Bl/x1jx5R
+					O4EI8/hENXxnc+ak/eJdBRy7yDFgBMVvp2ZI
+					8nt353uXhq+C/HpB8CmQO290GpUStpQlQ9aW
+					e5usfRplUfHLSvF+YfJGBV+7WxfQa7REIdXw
+					7wmbHdS0iy4XtyGXVs9/cFipP5l82skYl4zb
+					YZol9Opb28njTmdxtg== )
+			86400	DNSKEY	256 3 10 (
+					AwEAAeYgLpfBmR2u+z7sm3aMjWVTGcfvLFIF
+					BQ3zvplCeVrKPlEi0lN0FzjLRPHKsQF22TnS
+					Fxjsu9DKGxj50f7sX9PsaZNRvOYXdVdnrh5Y
+					IJgu5BcsTtpX+npQAAAqUC0nX+m3jJkvSvdW
+					jtRIYF3ErHiCRam6rMDFGSA9IupK+Z7TJfz/
+					JRYxObYFoOZysVbTELPQjp+hk3QdSBDiYs5q
+					2KaxFYz9r18BlMUMmUwVNEDTisiF29iju44q
+					n+pcqcRSUM1Fmse9CSjawltXhA0B/WbhYDQ2
+					kiKO5UQS4Qip3C0sA3KECirCMcJbXEoaIHzX
+					OrkNGJbaCq0boHdytjdQSUM=
+					) ; key id = 35615
+			86400	RRSIG	DNSKEY 10 2 86400 20130321184221 (
+					20130219184221 35615 example.com.
+					Qx8EkBJQK08TIY9Ftt974UC788Nof2zwmCZM
+					203uXl/Pm6iDN/FgEigcl2IvtuhxrWiEvNJD
+					dINpepPOkusX9apzG1pSs5rMj8RBxhEv60i1
+					OfBeC7F/jU6CY6f7JvQ+ULPwvQ2e3/r8P3jY
+					4ErC2rsxSJpAzKkWUWokNIS9e2VJA8FCpJCI
+					oJbesCGXH7ydDFZ+x6+z60xGRIhK2/MoCzGu
+					WbLRHww77y4q1ePC7v35hh4uoMPTwbtaD1P6
+					pw3ELhXuHMlh+A/K5v7gVfZWYEFipe/r2YhM
+					dbjGdB9/ZTTiQddFBVll7G4EqhSqTA7+elTV
+					RB9EkLCRntIpYCh9BQ== )
+domain1.example.com.	86400	IN NS	ns1.example.net.
+			86400	DS	2629 8 1 (
+					422D2A1FEADD36337C719964637CA08EB4C6
+					BECB )
+			86400	RRSIG	DS 10 3 86400 20130321184221 (
+					20130219184221 35615 example.com.
+					cv4HDaasJ4SKii6DPbfHf+rRy/i4WBxRo4Uz
+					84B5Ta4tB5LaJF69c8T10mPC4jnwIFvcJ+1G
+					h07mQZdt1FyPLMJM4lOEj9Nj+mKEtf25lRtT
+					58Rph6n95wwanRvuELtUEjeU+F7vMyCj2aFw
+					NLXHIvyWvtbPCJOrSfyB7TPH+sIltOoMCziF
+					0kHHiMrVqV9CE8hjq5MgdbyZ2/LdF7vYNza3
+					btNmSJY0WpmoTyoHu9+bMQQdAKHfUx9u+MPJ
+					jbF77yqBIzEkbV1j4eeQ5NLA6YlXmowuhhxF
+					8U+dko4h7TRxkmq0ih5XQJVoKnih76Dj7p/2
+					oHYE204X16iJXqKXLQ== )
