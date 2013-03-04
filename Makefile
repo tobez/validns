@@ -1,6 +1,6 @@
 # The following options seem to work fine on Linux, FreeBSD, and Darwin
 OPTIMIZE=-O2 -g
-CFLAGS=-Wall -Werror -pthread
+CFLAGS=-Wall -Werror -pthread --no-strict-aliasing
 INCPATH=-I/usr/local/include -I/opt/local/include -I/usr/local/ssl/include
 CC?=cc
 
@@ -25,7 +25,7 @@ validns: main.o carp.o mempool.o textparse.o base64.o base32hex.o \
 	hinfo.o loc.o nsec3checks.o ptr.o \
 	sshfp.o threads.o rp.o spf.o cert.o \
 	dname.o tlsa.o nid.o l32.o l64.o lp.o \
-	ipseckey.o
+	ipseckey.o cbtree.o
 	$(CC) $(CFLAGS) $(OPTIMIZE) -o validns \
 	    main.o carp.o mempool.o textparse.o base64.o base32hex.o \
 	    rr.o soa.o a.o cname.o mx.o ns.o \
@@ -34,7 +34,7 @@ validns: main.o carp.o mempool.o textparse.o base64.o base32hex.o \
 	    hinfo.o loc.o nsec3checks.o ptr.o \
 	    sshfp.o threads.o rp.o spf.o cert.o \
 	    dname.o tlsa.o nid.o l32.o l64.o lp.o \
-	    ipseckey.o \
+	    ipseckey.o cbtree.o \
 	    -L/usr/local/lib -L/opt/local/lib $(EXTRALPATH) \
 	    -lJudy -lcrypto $(EXTRALIBS) $(EXTRALINKING)
 
@@ -47,6 +47,7 @@ clean:
 	-rm -f sshfp.o base32hex.o base64.o threads.o
 	-rm -f rp.o spf.o cert.o dname.o tlsa.o
 	-rm -f nid.o l32.o l64.o lp.o ipseckey.o
+	-rm -f cbtree.o
 	-rm -f validns.core core
 	@echo ':-)'
 
@@ -160,6 +161,9 @@ lp.o: lp.c common.h textparse.h mempool.h carp.h rr.h
 
 ipseckey.o: ipseckey.c common.h textparse.h mempool.h carp.h rr.h
 	$(CC) $(CFLAGS) $(OPTIMIZE) -c -o ipseckey.o ipseckey.c $(INCPATH)
+
+cbtree.o: cbtree.c cbtree.h
+	$(CC) $(CFLAGS) $(OPTIMIZE) -c -o cbtree.o cbtree.c $(INCPATH)
 
 threads.o: threads.c
 	$(CC) $(CFLAGS) $(OPTIMIZE) -c -o threads.o threads.c $(INCPATH)

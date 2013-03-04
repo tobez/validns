@@ -23,6 +23,8 @@
 #include "rr.h"
 #include "base32hex.h"
 
+#include "cbtree.h"
+
 static struct binary_data name2hash(char *name, struct rr *param)
 {
     struct rr_nsec3param *p = (struct rr_nsec3param *)param;
@@ -67,18 +69,74 @@ static struct binary_data name2hash(char *name, struct rr *param)
 }
 
 int sorted_hashed_names_count;
+uint32_t mask;
 struct binary_data *sorted_hashed_names;
 void *nsec3_hash;
 
-void perform_remaining_nsec3checks(void)
+static int
+validate_nsec3_for_name(const char *name, intptr_t *data, void *p)
 {
-	unsigned char sorted_name[512];
-	struct named_rr **named_rr_p;
-	struct named_rr *named_rr;
-	struct rr_nsec3 *nsec3;
-	uint32_t mask;
+	struct named_rr *named_rr = *((struct named_rr **)data);
 	struct binary_data hash;
 	struct rr_nsec3 **nsec3_slot;
+	struct rr_nsec3 *nsec3;
+
+	if ((named_rr->flags & mask) == NAME_FLAG_KIDS_WITH_RECORDS) {
+		//fprintf(stderr, "--- need nsec3, kids with records: %s\n", named_rr->name);
+needs_nsec3:
+		freeall_temp();
+		hash = name2hash(named_rr->name, nsec3param);
+		if (hash.length < 0) {
+			moan(named_rr->file_name, named_rr->line, "internal: cannot calculate hashed name");
+			goto next;
+		}
+		if (hash.length != 20)
+			croak(4, "assertion failed: wrong hashed name size %d", hash.length);
+		JHSG(nsec3_slot, nsec3_hash, hash.data, hash.length);
+		if (nsec3_slot == PJERR)
+			croak(5, "perform_remaining_nsec3checks: JHSG failed");
+		if (!nsec3_slot) {
+			moan(named_rr->file_name, named_rr->line,
+				 "no corresponding NSEC3 found for %s",
+				 named_rr->name);
+			goto next;
+		}
+		nsec3 = *nsec3_slot;
+		if (!nsec3)
+			croak(6, "assertion failed: existing nsec3 from hash is empty");
+		nsec3->corresponding_name = named_rr;
+		sorted_hashed_names_count++;
+		check_typemap(nsec3->type_bitmap, named_rr, &nsec3->rr);
+	} else if ((named_rr->flags &
+				(NAME_FLAG_NOT_AUTHORITATIVE|NAME_FLAG_SIGNED_DELEGATION)) ==
+			   NAME_FLAG_SIGNED_DELEGATION)
+	{
+		//fprintf(stderr, "--- need nsec3, signed delegation: %s\n", named_rr->name);
+		goto needs_nsec3;
+	} else if (!G.nsec3_opt_out_present && (named_rr->flags &
+											(NAME_FLAG_APEX_PARENT|NAME_FLAG_NOT_AUTHORITATIVE|NAME_FLAG_DELEGATION|NAME_FLAG_HAS_RECORDS)) ==
+			   0)
+	{
+		//fprintf(stderr, "--- need nsec3, empty non-term: %s\n", named_rr->name);
+		goto needs_nsec3;
+	} else if (!G.nsec3_opt_out_present && (named_rr->flags & (NAME_FLAG_DELEGATION|NAME_FLAG_NOT_AUTHORITATIVE))==NAME_FLAG_DELEGATION)
+	{
+		//fprintf(stderr, "--- need nsec3, no opt-out: %s\n", named_rr->name);
+		goto needs_nsec3;
+	} else if (!G.nsec3_opt_out_present && (named_rr->flags & (NAME_FLAG_THIS_WITH_RECORDS|NAME_FLAG_NOT_AUTHORITATIVE)) == NAME_FLAG_THIS_WITH_RECORDS)
+	{
+		//fprintf(stderr, "--- need nsec3, this with records: %s\n", named_rr->name);
+		goto needs_nsec3;
+	} else {
+		//fprintf(stderr, "--- NO need for nsec3: %s\n", named_rr->name);
+	}
+next:
+	return 1;
+}
+
+void perform_remaining_nsec3checks(void)
+{
+	struct rr_nsec3 *nsec3;
 
 	sorted_hashed_names_count = 0;
 	mask = NAME_FLAG_NOT_AUTHORITATIVE|NAME_FLAG_NSEC3_ONLY|NAME_FLAG_KIDS_WITH_RECORDS;
@@ -86,62 +144,7 @@ void perform_remaining_nsec3checks(void)
 		mask |= NAME_FLAG_DELEGATION;
 	}
 
-	sorted_name[0] = 0;
-	JSLF(named_rr_p, zone_data, sorted_name);
-	while (named_rr_p) {
-		named_rr = *named_rr_p;
-		if ((named_rr->flags & mask) == NAME_FLAG_KIDS_WITH_RECORDS) {
-//fprintf(stderr, "--- need nsec3, kids with records: %s\n", named_rr->name);
-needs_nsec3:
-			freeall_temp();
-			hash = name2hash(named_rr->name, nsec3param);
-			if (hash.length < 0) {
-				moan(named_rr->file_name, named_rr->line, "internal: cannot calculate hashed name");
-				goto next;
-			}
-			if (hash.length != 20)
-				croak(4, "assertion failed: wrong hashed name size %d", hash.length);
-			JHSG(nsec3_slot, nsec3_hash, hash.data, hash.length);
-			if (nsec3_slot == PJERR)
-				croak(5, "perform_remaining_nsec3checks: JHSG failed");
-			if (!nsec3_slot) {
-				moan(named_rr->file_name, named_rr->line,
-					 "no corresponding NSEC3 found for %s",
-					 named_rr->name);
-				goto next;
-			}
-			nsec3 = *nsec3_slot;
-			if (!nsec3)
-				croak(6, "assertion failed: existing nsec3 from hash is empty");
-			nsec3->corresponding_name = named_rr;
-			sorted_hashed_names_count++;
-			check_typemap(nsec3->type_bitmap, named_rr, &nsec3->rr);
-		} else if ((named_rr->flags &
-					(NAME_FLAG_NOT_AUTHORITATIVE|NAME_FLAG_SIGNED_DELEGATION)) ==
-				   NAME_FLAG_SIGNED_DELEGATION)
-		{
-//fprintf(stderr, "--- need nsec3, signed delegation: %s\n", named_rr->name);
-			goto needs_nsec3;
-		} else if (!G.nsec3_opt_out_present && (named_rr->flags &
-					(NAME_FLAG_APEX_PARENT|NAME_FLAG_NOT_AUTHORITATIVE|NAME_FLAG_DELEGATION|NAME_FLAG_HAS_RECORDS)) ==
-				   0)
-		{
-//fprintf(stderr, "--- need nsec3, empty non-term: %s\n", named_rr->name);
-			goto needs_nsec3;
-		} else if (!G.nsec3_opt_out_present && (named_rr->flags & (NAME_FLAG_DELEGATION|NAME_FLAG_NOT_AUTHORITATIVE))==NAME_FLAG_DELEGATION)
-		{
-//fprintf(stderr, "--- need nsec3, no opt-out: %s\n", named_rr->name);
-			goto needs_nsec3;
-		} else if (!G.nsec3_opt_out_present && (named_rr->flags & (NAME_FLAG_THIS_WITH_RECORDS|NAME_FLAG_NOT_AUTHORITATIVE)) == NAME_FLAG_THIS_WITH_RECORDS)
-		{
-//fprintf(stderr, "--- need nsec3, this with records: %s\n", named_rr->name);
-			goto needs_nsec3;
-		} else {
-//fprintf(stderr, "--- NO need for nsec3: %s\n", named_rr->name);
-		}
-next:
-		JSLN(named_rr_p, zone_data, sorted_name);
-	}
+	cbtree_allprefixed(&zone_data, "", validate_nsec3_for_name, NULL);
 
 	nsec3 = first_nsec3;
 	while (nsec3) {

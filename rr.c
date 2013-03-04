@@ -17,6 +17,7 @@
 #include "carp.h"
 #include "textparse.h"
 #include "rr.h"
+#include "cbtree.h"
 
 static char* rdtype2str_map[T_MAX+1] = {
 	"0",
@@ -85,7 +86,7 @@ static char* rdtype2str_map[T_MAX+1] = {
 	"L64",
 	"LP",
 };
-void *zone_data = NULL;
+struct cbtree zone_data = {NULL};
 char *zone_apex = NULL;
 int zone_apex_l = 0;
 
@@ -172,9 +173,9 @@ static struct named_rr *find_or_create_named_rr(char *name)
 		named_rr->flags = 0;
 		named_rr->parent = NULL;
 
-		JSLI(named_rr_slot, zone_data, name2findable_name(name));
-		if (named_rr_slot == PJERR)
-			croak(2, "find_or_create_named_rr: JSLI failed");
+		named_rr_slot = (void *)cbtree_insert(&zone_data, (char *)name2findable_name(name));
+		if (!named_rr_slot)
+			croak(2, "find_or_create_named_rr: tree insertion failed");
 		if (*named_rr_slot)
 			croak(3, "find_or_create_named_rr: assertion error, %s should not be there", name);
 		*named_rr_slot = named_rr;
@@ -363,7 +364,7 @@ struct named_rr *find_named_rr(char *name)
 {
 	struct named_rr **named_rr_slot;
 
-	JSLG(named_rr_slot, zone_data, name2findable_name(name));
+	named_rr_slot = (void*) cbtree_find(&zone_data, (char *)name2findable_name(name));
 	if (named_rr_slot)
 		return *named_rr_slot;
 	return NULL;
@@ -371,14 +372,12 @@ struct named_rr *find_named_rr(char *name)
 
 struct named_rr *find_next_named_rr(struct named_rr *named_rr)
 {
-	unsigned char sorted_name[512];
-	struct named_rr **named_rr_p;
+	struct named_rr *res;
 
-	strcpy((char*)sorted_name, (char*)name2findable_name(named_rr->name));
-	JSLN(named_rr_p, zone_data, sorted_name);
-	if (named_rr_p)
-		return *named_rr_p;
-	return NULL;
+	if (cbtree_next(&zone_data, (char *)name2findable_name(named_rr->name), (intptr_t *)&res) == NULL)
+		return NULL;
+
+	return res;
 }
 
 struct rr_set *find_rr_set(int rdtype, char *name)
@@ -619,8 +618,10 @@ void debug(struct named_rr *named_rr, char *s)
 	fprintf(stderr, "\n");
 }
 
-void validate_named_rr(struct named_rr *named_rr)
+static int
+validate_named_rr(const char *name, intptr_t *data, void *p)
 {
+	struct named_rr *named_rr = *((struct named_rr **)data);
 	Word_t rdtype;
 	struct rr_set **rr_set_p;
 	int nsec3_present = 0;
@@ -687,7 +688,7 @@ void validate_named_rr(struct named_rr *named_rr)
 	if (nsec3_present && nsec3_only) {
 		named_rr->flags |= NAME_FLAG_NSEC3_ONLY;
 	}
-//debug(named_rr, "<<<<");
+	return 1;
 }
 
 
@@ -733,38 +734,24 @@ static void* nsec_validate_pass2(struct rr *rrv)
 	return rr;
 }
 
-void second_validation_pass()
+static int
+second_pass_one_name(const char *name, intptr_t *data, void *p)
 {
-	unsigned char sorted_name[512];
-	struct named_rr **named_rr_p;
+	struct named_rr *named_rr = *((struct named_rr **)data);
+	struct rr_set **rr_set_p;
 
-	sorted_name[0] = 0;
-	JSLF(named_rr_p, zone_data, sorted_name);
-	while (named_rr_p) {
-		struct rr_set **rr_set_p;
-
-		freeall_temp();
-		JLG(rr_set_p, (*named_rr_p)->rr_sets, T_NSEC);
-		if (rr_set_p && (*rr_set_p)->tail) {
-			nsec_validate_pass2((*rr_set_p)->tail);
-		} else {
-		}
-		JSLN(named_rr_p, zone_data, sorted_name);
+	freeall_temp();
+	JLG(rr_set_p, named_rr->rr_sets, T_NSEC);
+	if (rr_set_p && (*rr_set_p)->tail) {
+		nsec_validate_pass2((*rr_set_p)->tail);
 	}
+	return 1;
 }
 
 void validate_zone(void)
 {
-	unsigned char sorted_name[512];
-	struct named_rr **named_rr_p;
-
-	sorted_name[0] = 0;
-	JSLF(named_rr_p, zone_data, sorted_name);
-	while (named_rr_p) {
-		validate_named_rr(*named_rr_p);
-		JSLN(named_rr_p, zone_data, sorted_name);
-	}
-	second_validation_pass();
+	cbtree_allprefixed(&zone_data, "", validate_named_rr, NULL);
+	cbtree_allprefixed(&zone_data, "", second_pass_one_name, NULL);
 
 	if (G.dnssec_active && !G.nsec3_present)
 		validate_nsec_chain();

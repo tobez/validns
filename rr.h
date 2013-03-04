@@ -60,7 +60,8 @@
 
 #define RRCAST(t) struct rr_ ## t *rr = (struct rr_ ## t *)rrv
 
-extern void *zone_data;
+struct cbtree;
+extern struct cbtree zone_data;
 extern char *zone_apex;
 extern int zone_apex_l;
 
