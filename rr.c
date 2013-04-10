@@ -1,7 +1,7 @@
 /*
  * Part of DNS zone file validator `validns`.
  *
- * Copyright 2011, 2012 Anton Berezin <tobez@tobez.org>
+ * Copyright 2011-2013 Anton Berezin <tobez@tobez.org>
  * Modified BSD license.
  * (See LICENSE file in the distribution.)
  *
@@ -510,6 +510,12 @@ int str2rdtype(char *rdtype, int *is_generic)
 	case 'm':
 		if (strcmp(rdtype, "mx") == 0) {
 			return T_MX;
+		} else if (strcmp(rdtype, "mb") == 0) {
+			return T_MB;
+		} else if (strcmp(rdtype, "mg") == 0) {
+			return T_MG;
+		} else if (strcmp(rdtype, "mr") == 0) {
+			return T_MR;
 		}
 		break;
 	case 'n':

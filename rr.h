@@ -1,7 +1,7 @@
 /*
  * Part of DNS zone file validator `validns`.
  *
- * Copyright 2011, 2012 Anton Berezin <tobez@tobez.org>
+ * Copyright 2011-2013 Anton Berezin <tobez@tobez.org>
  * Modified BSD license.
  * (See LICENSE file in the distribution.)
  *
@@ -13,6 +13,9 @@
 #define T_NS	2
 #define T_CNAME	5
 #define T_SOA	6
+#define T_MB	7
+#define T_MG	8
+#define T_MR	9
 #define T_PTR	12
 #define T_HINFO	13
 #define T_MX	15
@@ -323,6 +326,27 @@ struct rr_cname
 	char *cname;
 };
 extern struct rr_methods cname_methods;
+
+struct rr_mb
+{
+	struct rr rr;
+	char *madname;
+};
+extern struct rr_methods mb_methods;
+
+struct rr_mg
+{
+	struct rr rr;
+	char *mgmname;
+};
+extern struct rr_methods mg_methods;
+
+struct rr_mr
+{
+	struct rr rr;
+	char *newname;
+};
+extern struct rr_methods mr_methods;
 
 struct rr_dname
 {

@@ -1,7 +1,7 @@
 /*
  * Part of DNS zone file validator `validns`.
  *
- * Copyright 2011, 2012 Anton Berezin <tobez@tobez.org>
+ * Copyright 2011-2013 Anton Berezin <tobez@tobez.org>
  * Modified BSD license.
  * (See LICENSE file in the distribution.)
  *
@@ -287,6 +287,9 @@ static void initialize_globals(void)
 	rr_methods[T_L64]          =        l64_methods;
 	rr_methods[T_LOC]          =        loc_methods;
 	rr_methods[T_LP]           =         lp_methods;
+	rr_methods[T_MB]           =         mb_methods;
+	rr_methods[T_MG]           =         mg_methods;
+	rr_methods[T_MR]           =         mr_methods;
 	rr_methods[T_MX]           =         mx_methods;
 	rr_methods[T_NAPTR]        =      naptr_methods;
 	rr_methods[T_NID]          =        nid_methods;
