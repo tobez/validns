@@ -103,6 +103,9 @@ char *rdtype2str(int type)
 	}
 	r = rdtype2str_map[type];
 	if (r)	return r;
+	if (type == 32769) {
+		return rdtype2str_map[type] = "DLV";
+	}
 	sprintf(s, "TYPE%d", type);
 	return quickstrdup_temp(s);
 }
@@ -486,6 +489,8 @@ int str2rdtype(char *rdtype, int *is_generic)
 			return T_DNSKEY;
 		} else if (strcmp(rdtype, "dname") == 0) {
 			return T_DNAME;
+		} else if (strcmp(rdtype, "dlv") == 0) {
+			return T_DLV;
 		}
 		break;
 	case 'h':

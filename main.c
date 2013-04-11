@@ -279,6 +279,7 @@ static void initialize_globals(void)
 	rr_methods[T_AFSDB]        =      afsdb_methods;
 	rr_methods[T_CERT]         =       cert_methods;
 	rr_methods[T_CNAME]        =      cname_methods;
+	rr_methods[T_DLV]          =        dlv_methods;
 	rr_methods[T_DNAME]        =      dname_methods;
 	rr_methods[T_DNSKEY]       =     dnskey_methods;
 	rr_methods[T_DS]           =         ds_methods;

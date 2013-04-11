@@ -48,7 +48,8 @@
 #define T_L32	105
 #define T_L64	106
 #define T_LP	107
-#define T_MAX	107
+#define T_DLV   32769
+#define T_MAX	32769
 
 #define ALG_DSA                  3
 #define ALG_RSASHA1              5
@@ -459,6 +460,16 @@ struct rr_ds
 	struct binary_data digest;
 };
 extern struct rr_methods ds_methods;
+
+struct rr_dlv
+{
+	struct rr rr;
+	uint16_t key_tag;
+	uint8_t algorithm;
+	uint8_t digest_type;
+	struct binary_data digest;
+};
+extern struct rr_methods dlv_methods;
 
 struct rr_hinfo
 {
