@@ -1,0 +1,15 @@
+$TTL    1d
+$INCLUDE Kexample.sec.+008+48381.key
+@       IN      SOA     ns.example.sec. hostmaster.example.sec. (
+                              1         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+
+                IN      NS      ns1.example.net.
+                IN      NAPTR   100 10 "" "" "!^urn:cid:.+@([^\\.]+\\.)(.*)$!\\2!i" .
+re-root         IN NAPTR 102 10 "u" "E2U+email" "!^.*$!mailto:information@example.com!i" .
+no-re-root      IN NAPTR 103 10 "u" "E2U+email" "" .
+re-non-root     IN NAPTR 102 10 "u" "E2U+email" "!^.*$!mailto:information@example.com!i" meow.woof.
+no-re-non-root  IN NAPTR 103 10 "u" "E2U+email" "" example.sec.

@@ -269,6 +269,14 @@ like(shift @e, qr/cannot parse gateway\/IPv6/, "bad-ip6 3");
 like(shift @e, qr/cannot parse gateway\/IPv6/, "bad-ip6 4");
 like(shift @e, qr/garbage after valid IPSECKEY data/, "garbage-key");
 
+# Verify that "." is 00 and not 00 00
+run('./validns', @threads, '-t1361306089', 't/issues/dot-is-single-zero/example.sec.signed');
+is(rc, 0, 'dot is zero, all is good');
+
+# Check rare RRs
+run('./validns', @threads, '-t1365591600', 't/issues/lots-of-rare-rrs/all.rr.org');
+is(rc, 0, 'rare RRs are parsed correctly, all is good');
+
 }
 
 done_testing;

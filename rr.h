@@ -26,6 +26,7 @@
 #define T_X25	19
 #define T_ISDN	20
 #define T_RT	21
+#define T_NSAP	22
 #define T_PX	26
 #define T_AAAA	28
 #define T_LOC	29
@@ -480,6 +481,13 @@ struct rr_dlv
 	struct binary_data digest;
 };
 extern struct rr_methods dlv_methods;
+
+struct rr_nsap
+{
+	struct rr rr;
+	struct binary_data data;
+};
+extern struct rr_methods nsap_methods;
 
 struct rr_hinfo
 {

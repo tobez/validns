@@ -1,0 +1,188 @@
+; File written on Thu Apr 11 21:11:27 2013
+; dnssec_signzone version 9.8.3-P4
+example.sec.		86400	IN SOA	ns.example.sec. hostmaster.example.sec. (
+					1          ; serial
+					604800     ; refresh (1 week)
+					86400      ; retry (1 day)
+					2419200    ; expire (4 weeks)
+					604800     ; minimum (1 week)
+					)
+			86400	RRSIG	SOA 8 2 86400 20131212121212 (
+					20111010101010 48381 example.sec.
+					Fq4k/jiJFok+7glF4Nm0i58I524rmoJ1b6/N
+					At6JVKWl0oja6db3puWnOP8hr+LeVcVWurqu
+					XoV9Gka08da0xwaBmGnLZOalEUgN7b9MOsWu
+					lSGhA/rA44GBdB8DLENt2XaM3EeSQ7IMLBGb
+					ObOmwYrVgJbJpa8Nw3CtyzjqYSzde+BQuN/4
+					EYyP7fMdS8Uj6vHZq8XxolYeLgQBAmqDRg2X
+					d0rETlT1SUfvAlckb6IIJEJl+qLDHWrebPWK
+					ubVYzRrjTia8AKuo/UIuI2WYzAM7BNchh/7L
+					GSh0HntsdrZ38ZeT82hr/ApfFIXpu/8jrQD+
+					muqATnMaAaFx10+j5A== )
+			86400	NS	ns1.example.net.
+			86400	RRSIG	NS 8 2 86400 20131212121212 (
+					20111010101010 48381 example.sec.
+					I69J8S4zvi0luZE0va+MOum7IUODu7szp479
+					k844Mx4L5wb77SPxsiKwgVFtWOmFSgmNM935
+					ormzCsuAOTvtvm7b2Egov5Qo4yl/JvU3i0mR
+					vLYFgGK0HFWFYM7Fj17ypqwMlAo2WYKYTVTa
+					I9YWebM6saSkT2N19NTwBj1dGsW0CVzJPKo2
+					+ihnFi8FnoR7phZrEig0Z0U2zUmjgexYnrLU
+					RRTzDtbAuDddRUr/tKmGrjTokpEKN7VzoNQi
+					5m9hiZQkoPrjui8k0KAckHSAiXKk+foKYrt8
+					TExvBjWCTHVIVk9JmsIBpyVtX/YLAGAorJyR
+					nHAfTf6Z+YekBJbNrQ== )
+			86400	NAPTR	100 10 "" "" "!^urn:cid:.+@([^\\.]+\\.)(.*)$!\\2!i" .
+			86400	RRSIG	NAPTR 8 2 86400 20131212121212 (
+					20111010101010 48381 example.sec.
+					eaoY5DkXxp8NOLVfzqayHae7SeokwxAEkDFc
+					Sk6xdRafMXrvJ4WDtfx7rcqq26WBcUXtvvG3
+					E/1ZXkCVekTjFu9XxYnaTgvoXzps8ybyTQ3a
+					iTaDvttAwX21c7xAEOeqcxUiCQ6Uu6U5Baw8
+					8BqKc/tYMFv/lSlTK33LiqLjXOMrBWLsRdhP
+					4rbicl/xFnvFNz+MUMROpmcEVMhF4VWIflHS
+					V521exuvW695/kRuvFzOUuvzP4NKaBVJizI1
+					RW3x5cx11UsVT5I6Si4h4PMeOcYFfZTCcwYt
+					iIeBB9JcVAD8KDhe4ouMDS09R8o0ceHF4uJl
+					uPbOyTsuLe4MuMB+zg== )
+			604800	NSEC	no-re-non-root.example.sec. NS SOA NAPTR RRSIG NSEC DNSKEY
+			604800	RRSIG	NSEC 8 2 604800 20131212121212 (
+					20111010101010 48381 example.sec.
+					Pj5YE+pnDboIDPF/j1j7kZVMDRFaTN+7CDHC
+					Y7DLCEO4V8t7sQkT6JW116tvmSjBato3fdrc
+					u52IEbVZMvRM1An8uHAnBfvK+Bt44P6s55P5
+					fsqwi8KR8odCZLPcwsWK1ev0nDSmHk/PAHzd
+					ROOxhbaltxs3hg8UNdk72dAwVFOj1A/etJHJ
+					UMvTuj7bI4fGC1wpMm/jdnbG74lHOfj5e98F
+					3QZtTEv7ZOMoyrivs23hvjYV+r5miVbdw3LY
+					7OFtwfabWHaCgaV/zgqNoVgXqeexSIScXbO3
+					QiLh2QjJWwBgTaE5asUepmw6boB5lhNbJ75l
+					pMhn2BkrtdZyeiP5Aw== )
+			86400	DNSKEY	256 3 8 (
+					AwEAAdZOvnLtTdQjfdIqqH3stb7vI6bJlg27
+					3Tp4oRpnmnmgizDFtLQhnIv1Mr3AuwSWVIDe
+					avuiyWIAtfvwy0f3EYIv8Ys5kDiKs8PE1k90
+					yQwfC53hxyH10GzGnAx4Sutrdkh1w4HM1nMB
+					dlTMa0g9yxjJ0vm/T7qHzj+3dTUi84s8Du2m
+					fMD6noy+leZ2IuX7lFca8SzDNmhUPTkXuFrB
+					/QUuoY2FyThfidT+nhOQpzftVtLcta0E0Uv3
+					PcVDp1d7vBXsAEYGHr54r2vb3eXdOTmoFyh/
+					byehUlPq1gDEH0mBRlWbUHqbGnKyolz0dR01
+					u8SJYP6ULwx0mZ0p5BmoMH8=
+					) ; key id = 48381
+			86400	RRSIG	DNSKEY 8 2 86400 20131212121212 (
+					20111010101010 48381 example.sec.
+					pOw63jF88dUEJt9V6jP5ddD1rUSGEyNn6ih1
+					Be7GWq2dcrY1ZxgI3fN8fGfCXyB089MdphUy
+					83TmWcz2KiuD0qRy/F0bK4sI4hk/2eokBVTo
+					31pIFNxZsANduz2nP9OoceLMxk5TCmm9zipr
+					Bf0Ysrky0BReY2FRUjjaWNV4MuiMEf8ToZ/2
+					1+Zbqe7RGP0Z/IchDN2hpA+qHizloKTIFOCV
+					sqG2CKHiG3ZcXMWKQaohuCrQyR9ee/vmF8ZQ
+					IrY36SifxcgrT7cycE8NFhIlReLf7M41oYeo
+					erdZHzrGZVGn2ZKCW1spsgpBRXdh37HvdVaV
+					8NOQSnaXLi1paogk1g== )
+no-re-non-root.example.sec. 86400 IN NAPTR 103 10 "u" "E2U+email" "" example.sec.
+			86400	RRSIG	NAPTR 8 3 86400 20131212121212 (
+					20111010101010 48381 example.sec.
+					thOK3O1btgK+IxcmKDo2BZx+tHOOhIRFJroj
+					fmTan7U1Gm0ylrIGOpw64N0q1cUrn99g2iNF
+					+p0zXo1k1ZMDXDG59jnzvQvqrq8h7XCA3GH1
+					ZI4Jts2xmvsmlBRmkGs6BexJHbsu2gA6bOE2
+					PTfcriQHRxLNe/H2/ysA2/C+uywf3ud6eLtT
+					ztBR5m+m34IBAJ0MIZED0VD4XW7CV8jwSlQo
+					cZXfdX9VYVyM7xCJt1C4BesMSojUGRk5at2Q
+					4/giW1bXGEqtbJj5xST4HBONnyzhPqK8slsx
+					aVynOT60K3os+1M+Th3nPwPLhMMuXyi4pu+V
+					gFnfeysv3lDLaWSoOw== )
+			604800	NSEC	no-re-root.example.sec. NAPTR RRSIG NSEC
+			604800	RRSIG	NSEC 8 3 604800 20131212121212 (
+					20111010101010 48381 example.sec.
+					Imd15dZ1PVf12U8c21QUUD8aAFf3rC/pa9kb
+					Ip/zMGShCDGT2wNd08TEjTHxaSHEWUJU4+9E
+					DdL8S/dU9bEwjrkzH9dmp8VItVfo95rZmPvU
+					jIypT6XdNinTkkeBSkoc1TNmOov/H/8UnzyA
+					ryuXY/+GCyz8Srx3Iv388NxGDgSi89RBxcpJ
+					pEcIwEhs6AGtc7dPc+oAVpqekCkADgF83N10
+					AwA/yLd1rUpAc/sZphiu5iQHeDUR6DAvhIk1
+					AN2F7HgVKmtgaVni7MLEQjzqPASN/jAx2mf5
+					jGBz3jeCiuGhkh8GMhI8g3Hu37q6Noa4FYO9
+					HLfrFgZVly6NPx3C8w== )
+no-re-root.example.sec.	86400	IN NAPTR 103 10 "u" "E2U+email" "" .
+			86400	RRSIG	NAPTR 8 3 86400 20131212121212 (
+					20111010101010 48381 example.sec.
+					Sa2e/jOAImtSOP+rJIimYtqs4UzkW0o1QbZJ
+					hbyPlMwNicl6/tWCwlGnGOm+KCRMvo6DNgU7
+					kVHBMH1oZoHy674XRXP1VsNL24fXe3pTa5fq
+					hVSKfY0sO/GnIZ4emmJ+HCIuKK8ML/U8Y2Si
+					eart9IXhrwGtEPU0/RiU9oUsUWCA8Fd7eKx7
+					8k1qZCVYSq7uWhVsPpJAlernp1GEqggfc6hz
+					y0q77BnJs/Hg0ZruwV8LhCSaOa3FLUBdXr78
+					AammfUfkkkoR4hREAgAV1hX/s3sFAkLe0z4y
+					IyCKI38tzWSk9Fnvqh1ciUEK2Twk4+T916R4
+					iLFczgMHT32MSrWMzQ== )
+			604800	NSEC	re-non-root.example.sec. NAPTR RRSIG NSEC
+			604800	RRSIG	NSEC 8 3 604800 20131212121212 (
+					20111010101010 48381 example.sec.
+					h1PxESogvqIgh9qIPVRK6gV+Ku2kczLvfcYx
+					JjosK1sbyJHV3Wi0YJkSAdfmRAx5Xwx/kD4Z
+					Rx3AVkR2vDxS8vHp/W8P7ZBSoc2FBPEHEDcl
+					ip9M9HJRJrAwQAoPW8FRsR5xWQlK3jR5cQeu
+					p6gtHYmX3bEGG9DJ4y9nOlfQJiKiiGzsrw3T
+					p4YyznucIiszk4T9t9MROATvBnb+IqgnZgd/
+					70NBHLBRokPSjxlo6urQCuA8c5pAAc6CNlbx
+					bQrYCb1vQkR7HxtLT0D7TMsGk1VM9tDrRKji
+					fdaGZuOcwpE6fyKVKscSSIbrmQyuWodeR5yQ
+					zpWkkaYzGiiayhO5iQ== )
+re-non-root.example.sec. 86400	IN NAPTR 102 10 "u" "E2U+email" "!^.*$!mailto:information@example.com!i" meow.woof.
+			86400	RRSIG	NAPTR 8 3 86400 20131212121212 (
+					20111010101010 48381 example.sec.
+					CXKyN8XHuH0VoFmiGOBcNs39q8/+qrOF+QAM
+					78i0OkLLMz2v/aM2lrSOb+Hry5DWh+ot8G9U
+					XI78hnP0ASZeB+8lQvEJIVuOiSEve8rPTPsQ
+					4tGmsryg85Kj9LUtCTEKCNV6YJaUVqt4mz8z
+					h1f0SEbhqv0e3/7M7sYrWVTfB/kX0Bj8UqkH
+					/05ga8XxMIMxtWsr75zlAZsscb61tn6XVa0B
+					3MV5O0U1eG1qoFeTuAbvr1DfZK0uF6ECCUyx
+					JX8U2oo12Sxcz0o5L7Qfk0xERIwjxtN4lQ8R
+					9BdYLztEFxPPNGKKsvhSywLNZzL1hci+gNjq
+					oO7yOXNxALYtmvKjBw== )
+			604800	NSEC	re-root.example.sec. NAPTR RRSIG NSEC
+			604800	RRSIG	NSEC 8 3 604800 20131212121212 (
+					20111010101010 48381 example.sec.
+					Xqs0A2TayUWY/kqPFyOy+igaEqv3htnTdXCl
+					C+yxb34UpJ8tBnbOVMchPvgRtfrWyKHdnQYw
+					ovfdVsJ2vjWJ3CaZlji37Hq3+RdMM4I+ysUl
+					mxKYqtb5StmpT2oHVk+YTLzSCcDCKaC3/1gk
+					tCFXBxwmfj7KgnWXUtnO3JnaDKhRPFl2BJXA
+					vWzcRNo1JsLa0HWDbvMe9WlHEgPZLjFV4D49
+					UgS3MPr+ugzpRe8oMFhwxRb5Jwhg09npoc/n
+					iX9njvRbbFkWz8TpYpBxKd2gDfHmMmaHjorE
+					ZFJZc1f9827L9bZC/ZQ4C0hjgnOVVnBadjSr
+					3C8ycWv1DYri5E20mA== )
+re-root.example.sec.	86400	IN NAPTR 102 10 "u" "E2U+email" "!^.*$!mailto:information@example.com!i" .
+			86400	RRSIG	NAPTR 8 3 86400 20131212121212 (
+					20111010101010 48381 example.sec.
+					FyUk9M6UtLK7SWoMR/lzOk3ZGzgvF0EyNR2E
+					IngjzVMpZwgmxmumUgYGnXb7QNqgbv+0hq1O
+					w6KFBLfGxAjM+R9Jl8TqiAsJ+iBUnPgf09aK
+					AefnC7iF6O3ZpoZm3sXCogH6URXb9th0BIhE
+					wIcp0zUBn9K7ZO0DpLT9o9SvOcJ6IyC1q2MX
+					gb/vCD9J1ldIvzIixG4Kf9R7pOz3Skumxxh0
+					AdDpFaUnz4e8z+Mx1ggiaxu+7xpCyHt9IpqO
+					xNUWXkDnAT7gJdmuRNrfMrZ95l1d9tRBRzdr
+					a2hxjPKzkZZES22JP4bOacBIsmv9oFeWNwVl
+					BTE21qIBdDbNM++aKA== )
+			604800	NSEC	example.sec. NAPTR RRSIG NSEC
+			604800	RRSIG	NSEC 8 3 604800 20131212121212 (
+					20111010101010 48381 example.sec.
+					G7ALxMAtp+ZSLfaGoJ7G1OcEsO1GFI86ogY0
+					TlSH7RRj+Gq9AEI3q/wJYzmgxTiZyGNsQCHv
+					gd6eetKCFhL7Bh5yyOwYClQVK+mPqLx0iqHt
+					H3bkGiISUenbRBCMyjpb4MD2t0yDd0aXwqcL
+					Pv6oOIKmdhFsZb+F+JvSMjSQjGJ5AWqFxZ9O
+					Ip/VoJ24uO98vcTRaN8lyhRV+vYFfIFbaQOU
+					Pki2DDN7HkOBLLL0XAMbX2B7lM24es0tp3F3
+					Y97FqegjBsbuEG2qD30FHeom97/cQBtf0MpA
+					YgQbu9OFCi+wmE0CSANMAEecc+c86aMDjjC9
+					0X3fa5X5yacuZxz9zQ== )

@@ -299,6 +299,7 @@ static void initialize_globals(void)
 	rr_methods[T_MX]           =         mx_methods;
 	rr_methods[T_NAPTR]        =      naptr_methods;
 	rr_methods[T_NID]          =        nid_methods;
+	rr_methods[T_NSAP]         =       nsap_methods;
 	rr_methods[T_NSEC3PARAM]   = nsec3param_methods;
 	rr_methods[T_NSEC3]        =      nsec3_methods;
 	rr_methods[T_NSEC]         =       nsec_methods;

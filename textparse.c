@@ -773,6 +773,8 @@ struct binary_data extract_hex_binary_data(char **input, char *what, int eat_whi
 	hex[0] = '0';
 	hl = 1;
 
+	if (s[0] == '0' && (s[1] == 'x' || s[1] == 'X'))
+		s += 2;
 	if (eat_whitespace == EXTRACT_DONT_EAT_WHITESPACE) {
 		while (isxdigit(*s)) {
 			if (hl >= 4095) {

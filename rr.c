@@ -157,6 +157,8 @@ struct binary_data name2wire_name(char *s)
 	*c = (unsigned char)(r-c-1);
 	toret.length = r-res;
 	toret.data = (char*)res;
+	if (toret.length == 2) /* "." is just 00, not 00 00 */
+	    toret.length = 1;
 	return toret;
 }
 
@@ -549,6 +551,8 @@ int str2rdtype(char *rdtype, int *is_generic)
 			return T_NID;
 		} else if (strcmp(rdtype, "nsec3param") == 0) {
 			return T_NSEC3PARAM;
+		} else if (strcmp(rdtype, "nsap") == 0) {
+			return T_NSAP;
 		}
 		break;
 	case 'p':
