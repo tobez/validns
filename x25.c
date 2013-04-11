@@ -38,6 +38,10 @@ static struct rr *x25_parse(char *name, long ttl, int type, char *s)
 			return bitch("PSDN-address contains non-digits");
 	}
 
+	if (*s) {
+		return bitch("garbage after valid X25 data");
+	}
+
 	return store_record(type, name, ttl, rr);
 }
 

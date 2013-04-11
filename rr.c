@@ -496,6 +496,8 @@ int str2rdtype(char *rdtype, int *is_generic)
 	case 'i':
 		if (strcmp(rdtype, "ipseckey") == 0) {
 			return T_IPSECKEY;
+		} else if (strcmp(rdtype, "isdn") == 0) {
+			return T_ISDN;
 		}
 		break;
 	case 'l':
