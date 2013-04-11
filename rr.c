@@ -500,6 +500,11 @@ int str2rdtype(char *rdtype, int *is_generic)
 			return T_ISDN;
 		}
 		break;
+	case 'k':
+		if (strcmp(rdtype, "kx") == 0) {
+			return T_KX;
+		}
+		break;
 	case 'l':
 		if (strcmp(rdtype, "loc") == 0) {
 			return T_LOC;

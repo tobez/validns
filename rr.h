@@ -31,6 +31,7 @@
 #define T_LOC	29
 #define T_SRV	33
 #define T_NAPTR	35
+#define T_KX	36
 #define T_CERT	37
 #define T_DNAME	39
 #define T_DS	43
@@ -424,6 +425,14 @@ struct rr_px
 	char *mapx400;
 };
 extern struct rr_methods px_methods;
+
+struct rr_kx
+{
+	struct rr rr;
+	int   preference;
+	char *exchanger;
+};
+extern struct rr_methods kx_methods;
 
 struct rr_dnskey
 {

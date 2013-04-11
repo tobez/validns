@@ -34,7 +34,7 @@ static struct rr *px_parse(char *name, long ttl, int type, char *s)
 		return NULL;
 
 	if (*s) {
-		return bitch("garbage after valid RT data");
+		return bitch("garbage after valid KX data");
 	}
 
 	return store_record(type, name, ttl, rr);
