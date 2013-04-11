@@ -40,6 +40,7 @@
 #define T_RRSIG	46
 #define T_NSEC	47
 #define T_DNSKEY	48
+#define T_DHCID	49
 #define T_NSEC3	50
 #define T_NSEC3PARAM	51
 #define T_TLSA	52
@@ -188,6 +189,15 @@ struct rr_ns
     char *nsdname;
 };
 extern struct rr_methods ns_methods;
+
+struct rr_dhcid
+{
+    struct rr rr;
+    int id_type;
+    int digest_type;
+	struct binary_data digest;
+};
+extern struct rr_methods dhcid_methods;
 
 struct rr_txt
 {

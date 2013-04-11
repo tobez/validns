@@ -27,7 +27,7 @@ validns: main.o carp.o mempool.o textparse.o base64.o base32hex.o \
 	dname.o tlsa.o nid.o l32.o l64.o lp.o \
 	ipseckey.o cbtree.o mb.o mg.o mr.o minfo.o \
 	afsdb.o x25.o isdn.o rt.o px.o kx.o \
-	dlv.o
+	dlv.o dhcid.o
 	$(CC) $(CFLAGS) $(OPTIMIZE) -o validns \
 	    main.o carp.o mempool.o textparse.o base64.o base32hex.o \
 	    rr.o soa.o a.o cname.o mx.o ns.o \
@@ -38,7 +38,7 @@ validns: main.o carp.o mempool.o textparse.o base64.o base32hex.o \
 	    dname.o tlsa.o nid.o l32.o l64.o lp.o \
 	    ipseckey.o cbtree.o mb.o mg.o mr.o minfo.o \
 	    afsdb.o x25.o isdn.o rt.o px.o kx.o \
-	    dlv.o \
+	    dlv.o dhcid.o \
 	    -L/usr/local/lib -L/opt/local/lib $(EXTRALPATH) \
 	    -lJudy -lcrypto $(EXTRALIBS) $(EXTRALINKING)
 
@@ -53,7 +53,7 @@ clean:
 	-rm -f nid.o l32.o l64.o lp.o ipseckey.o
 	-rm -f cbtree.o mb.o mg.o mr.o minfo.o
 	-rm -f afsdb.o x25.o isdn.o rt.o px.o kx.o
-	-rm -f dlv.o
+	-rm -f dlv.o dhcid.o
 	-rm -f validns.core core
 	@echo ':-)'
 
@@ -122,6 +122,9 @@ kx.o: kx.c common.h textparse.h mempool.h carp.h rr.h
 
 dlv.o: dlv.c common.h textparse.h mempool.h carp.h rr.h
 	$(CC) $(CFLAGS) $(OPTIMIZE) -c -o dlv.o dlv.c $(INCPATH)
+
+dhcid.o: dhcid.c common.h textparse.h mempool.h carp.h rr.h
+	$(CC) $(CFLAGS) $(OPTIMIZE) -c -o dhcid.o dhcid.c $(INCPATH)
 
 ns.o: ns.c common.h textparse.h mempool.h carp.h rr.h
 	$(CC) $(CFLAGS) $(OPTIMIZE) -c -o ns.o ns.c $(INCPATH)

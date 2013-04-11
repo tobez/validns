@@ -491,6 +491,8 @@ int str2rdtype(char *rdtype, int *is_generic)
 			return T_DNAME;
 		} else if (strcmp(rdtype, "dlv") == 0) {
 			return T_DLV;
+		} else if (strcmp(rdtype, "dhcid") == 0) {
+			return T_DHCID;
 		}
 		break;
 	case 'h':
