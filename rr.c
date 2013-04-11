@@ -514,6 +514,8 @@ int str2rdtype(char *rdtype, int *is_generic)
 			return T_MB;
 		} else if (strcmp(rdtype, "mg") == 0) {
 			return T_MG;
+		} else if (strcmp(rdtype, "minfo") == 0) {
+			return T_MINFO;
 		} else if (strcmp(rdtype, "mr") == 0) {
 			return T_MR;
 		}

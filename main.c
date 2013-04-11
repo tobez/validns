@@ -289,6 +289,7 @@ static void initialize_globals(void)
 	rr_methods[T_LP]           =         lp_methods;
 	rr_methods[T_MB]           =         mb_methods;
 	rr_methods[T_MG]           =         mg_methods;
+	rr_methods[T_MINFO]        =      minfo_methods;
 	rr_methods[T_MR]           =         mr_methods;
 	rr_methods[T_MX]           =         mx_methods;
 	rr_methods[T_NAPTR]        =      naptr_methods;

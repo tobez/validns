@@ -18,6 +18,7 @@
 #define T_MR	9
 #define T_PTR	12
 #define T_HINFO	13
+#define T_MINFO	14
 #define T_MX	15
 #define T_TXT	16
 #define T_RP	17
@@ -340,6 +341,14 @@ struct rr_mg
 	char *mgmname;
 };
 extern struct rr_methods mg_methods;
+
+struct rr_minfo
+{
+	struct rr rr;
+	char *rmailbx;
+	char *emailbx;
+};
+extern struct rr_methods minfo_methods;
 
 struct rr_mr
 {
