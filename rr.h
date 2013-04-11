@@ -26,6 +26,7 @@
 #define T_X25	19
 #define T_ISDN	20
 #define T_RT	21
+#define T_PX	26
 #define T_AAAA	28
 #define T_LOC	29
 #define T_SRV	33
@@ -414,6 +415,15 @@ struct rr_isdn
 	int sa_present;
 };
 extern struct rr_methods isdn_methods;
+
+struct rr_px
+{
+	struct rr rr;
+	int   preference;
+	char *map822;
+	char *mapx400;
+};
+extern struct rr_methods px_methods;
 
 struct rr_dnskey
 {

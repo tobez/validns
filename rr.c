@@ -542,6 +542,8 @@ int str2rdtype(char *rdtype, int *is_generic)
 	case 'p':
 		if (strcmp(rdtype, "ptr") == 0) {
 			return T_PTR;
+		} else if (strcmp(rdtype, "px") == 0) {
+			return T_PX;
 		}
 		break;
 	case 'r':
