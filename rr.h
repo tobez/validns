@@ -25,6 +25,7 @@
 #define T_AFSDB	18
 #define T_X25	19
 #define T_ISDN	20
+#define T_RT	21
 #define T_AAAA	28
 #define T_LOC	29
 #define T_SRV	33
@@ -381,6 +382,14 @@ struct rr_mx
 	char *exchange;
 };
 extern struct rr_methods mx_methods;
+
+struct rr_rt
+{
+	struct rr rr;
+	int   preference;
+	char *intermediate_host;
+};
+extern struct rr_methods rt_methods;
 
 struct rr_afsdb
 {

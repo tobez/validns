@@ -302,6 +302,7 @@ static void initialize_globals(void)
 	rr_methods[T_NS]           =         ns_methods;
 	rr_methods[T_PTR]          =        ptr_methods;
 	rr_methods[T_RP]           =         rp_methods;
+	rr_methods[T_RT]           =         rt_methods;
 	rr_methods[T_RRSIG]        =      rrsig_methods;
 	rr_methods[T_SOA]          =        soa_methods;
 	rr_methods[T_SPF]          =        spf_methods;

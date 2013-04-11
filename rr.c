@@ -549,6 +549,8 @@ int str2rdtype(char *rdtype, int *is_generic)
 			return T_RRSIG;
 		} else if (strcmp(rdtype, "rp") == 0) {
 			return T_RP;
+		} else if (strcmp(rdtype, "rt") == 0) {
+			return T_RT;
 		}
 		break;
 	case 's':
