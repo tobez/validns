@@ -308,6 +308,7 @@ static void initialize_globals(void)
 	rr_methods[T_SSHFP]        =      sshfp_methods;
 	rr_methods[T_TLSA]         =       tlsa_methods;
 	rr_methods[T_TXT]          =        txt_methods;
+	rr_methods[T_X25]          =        x25_methods;
 }
 
 int

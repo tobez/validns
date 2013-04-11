@@ -573,6 +573,11 @@ int str2rdtype(char *rdtype, int *is_generic)
 			return type;
 		}
 		break;
+	case 'x':
+		if (strcmp(rdtype, "x25") == 0) {
+			return T_X25;
+		}
+		break;
 	}
 	bitch("invalid or unsupported rdtype %s", rdtype);
 	return -1;

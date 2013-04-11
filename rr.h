@@ -23,6 +23,7 @@
 #define T_TXT	16
 #define T_RP	17
 #define T_AFSDB	18
+#define T_X25	19
 #define T_AAAA	28
 #define T_LOC	29
 #define T_SRV	33
@@ -387,6 +388,13 @@ struct rr_afsdb
 	char *hostname;
 };
 extern struct rr_methods afsdb_methods;
+
+struct rr_x25
+{
+	struct rr rr;
+    struct binary_data psdn_address;
+};
+extern struct rr_methods x25_methods;
 
 struct rr_dnskey
 {
