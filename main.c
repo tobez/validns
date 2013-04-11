@@ -276,6 +276,7 @@ static void initialize_globals(void)
 	}
 	rr_methods[T_AAAA]         =       aaaa_methods;
 	rr_methods[T_A]            =          a_methods;
+	rr_methods[T_AFSDB]        =      afsdb_methods;
 	rr_methods[T_CERT]         =       cert_methods;
 	rr_methods[T_CNAME]        =      cname_methods;
 	rr_methods[T_DNAME]        =      dname_methods;

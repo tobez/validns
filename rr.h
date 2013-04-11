@@ -22,6 +22,7 @@
 #define T_MX	15
 #define T_TXT	16
 #define T_RP	17
+#define T_AFSDB	18
 #define T_AAAA	28
 #define T_LOC	29
 #define T_SRV	33
@@ -378,6 +379,14 @@ struct rr_mx
 	char *exchange;
 };
 extern struct rr_methods mx_methods;
+
+struct rr_afsdb
+{
+	struct rr rr;
+	int   subtype;
+	char *hostname;
+};
+extern struct rr_methods afsdb_methods;
 
 struct rr_dnskey
 {

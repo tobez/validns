@@ -468,6 +468,8 @@ int str2rdtype(char *rdtype, int *is_generic)
 			return T_A;
 		} else if (strcmp(rdtype, "aaaa") == 0) {
 			return T_AAAA;
+		} else if (strcmp(rdtype, "afsdb") == 0) {
+			return T_AFSDB;
 		}
 		break;
 	case 'c':
