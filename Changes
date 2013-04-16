@@ -1,5 +1,15 @@
 Revision history for validns.
 
+0.7 Tue Apr 16 12:37:11 CEST 2013
+	Support for KX, DLV, DHCID, NAPTR records.
+	Support for X25, ISDN, RT, PX records.
+	Support for MB, MG, MR, MINFO, AFSDB records.
+	NSEC chain validation fix.
+	Do not allow LP point to itself.
+	Miscellaneous performance improvements.
+	Miscellaneous portability fixes.
+	Miscellaneous bug fixes.
+
 0.6 Thu Oct  4 16:40:56 CEST 2012
 	Support for TLSA records.
 	Support for ILNP (NID, L64, L3, LP) records (untested).
