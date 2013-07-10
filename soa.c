@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <string.h>
 
 #include "common.h"
 #include "textparse.h"
@@ -65,4 +66,15 @@ static struct binary_data soa_wirerdata(struct rr *rrv)
 		rr->expire, rr->minimum);
 }
 
-struct rr_methods soa_methods = { soa_parse, soa_human, soa_wirerdata, NULL, NULL };
+static void *soa_validate(struct rr *rrv)
+{
+	RRCAST(soa);
+
+	if (strchr(rr->mname, '/') != NULL)
+		return moan(rr->rr.file_name, rr->rr.line, "MNAME contains '/'");
+	if (strchr(rr->rname, '/') != NULL)
+		return moan(rr->rr.file_name, rr->rr.line, "RNAME contains '/'");
+	return NULL;
+}
+
+struct rr_methods soa_methods = { soa_parse, soa_human, soa_wirerdata, NULL, soa_validate };

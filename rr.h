@@ -126,6 +126,7 @@ int extract_algorithm(char **s, char *what);
 #define NAME_FLAG_SIGNED_DELEGATION    64
 #define NAME_FLAG_APEX_PARENT         128
 #define NAME_FLAG_THIS_WITH_RECORDS   256
+#define NAME_FLAG_CONTAINS_SLASH      512
 
 struct named_rr
 {

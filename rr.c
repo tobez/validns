@@ -178,6 +178,9 @@ static struct named_rr *find_or_create_named_rr(char *name)
 		named_rr->flags = 0;
 		named_rr->parent = NULL;
 
+		if (strchr(name, '/') != NULL)
+			named_rr->flags |= NAME_FLAG_CONTAINS_SLASH;
+
 		named_rr_slot = (void *)cbtree_insert(&zone_data, (char *)name2findable_name(name));
 		if (!named_rr_slot)
 			croak(2, "find_or_create_named_rr: tree insertion failed");

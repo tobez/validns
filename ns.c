@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <string.h>
 
 #include "common.h"
 #include "textparse.h"
@@ -73,6 +74,8 @@ static void *ns_validate(struct rr *rrv)
 			return moan(rr->rr.file_name, rr->rr.line, "NS data is an alias");
 		}
 	}
+	if (strchr(rr->nsdname, '/') != NULL)
+		return moan(rr->rr.file_name, rr->rr.line, "NS data contains '/'");
 	return NULL;
 }
 
