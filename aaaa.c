@@ -51,4 +51,14 @@ static struct binary_data aaaa_wirerdata(struct rr *rrv)
 	return r;
 }
 
-struct rr_methods aaaa_methods = { aaaa_parse, aaaa_human, aaaa_wirerdata, NULL, NULL };
+static void* aaaa_validate_set(struct rr_set *rr_set)
+{
+	if (rr_set->named_rr->flags & NAME_FLAG_CONTAINS_SLASH) {
+		struct rr *rr = rr_set->tail;
+		return moan(rr->file_name, rr->line, "host name contains '/'");
+	}
+	return NULL;
+}
+
+struct rr_methods aaaa_methods = { aaaa_parse, aaaa_human, aaaa_wirerdata, aaaa_validate_set, NULL };
+

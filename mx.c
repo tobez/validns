@@ -53,6 +53,15 @@ static struct binary_data mx_wirerdata(struct rr *rrv)
 		rr->preference, name2wire_name(rr->exchange));
 }
 
+static void* mx_validate_set(struct rr_set *rr_set)
+{
+	if (rr_set->named_rr->flags & NAME_FLAG_CONTAINS_SLASH) {
+		struct rr *rr = rr_set->tail;
+		return moan(rr->file_name, rr->line, "host name contains '/'");
+	}
+	return NULL;
+}
+
 static void *mx_validate(struct rr *rrv)
 {
 	RRCAST(mx);
@@ -65,4 +74,4 @@ static void *mx_validate(struct rr *rrv)
 	return NULL;
 }
 
-struct rr_methods mx_methods = { mx_parse, mx_human, mx_wirerdata, NULL, mx_validate };
+struct rr_methods mx_methods = { mx_parse, mx_human, mx_wirerdata, mx_validate_set, mx_validate };

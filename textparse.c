@@ -77,7 +77,7 @@ static char *extract_name_slow(char **input, char *what, int options)
 	int d, l, ol;
 
 	while (1) {
-		if (isalnum(*s) || *s == '_' || *s == '.' || *s == '-') {
+		if (isalnum(*s) || *s == '_' || *s == '.' || *s == '-' || *s == '/') {
 			if (t-buf >= 1022)
 				return bitch("name too long");
 			*t++ = *s++;
@@ -182,7 +182,7 @@ char *extract_name(char **input, char *what, int options)
 		}
 		r = quickstrdup(G.opt.current_origin);
 	} else {
-		if (!(isalnum(*s) || *s == '_' || *s == '.')) {
+		if (!(isalnum(*s) || *s == '_' || *s == '.' || *s == '/')) {
 			if (*s == '*') {
 				wildcard = 1;
 			} else {
@@ -192,7 +192,7 @@ char *extract_name(char **input, char *what, int options)
 			}
 		}
 		s++;
-		while (isalnum(*s) || *s == '.' || *s == '-' || *s == '_')
+		while (isalnum(*s) || *s == '.' || *s == '-' || *s == '_' || *s == '/')
 			s++;
 		if (*s && !isspace(*s) && *s != ';' && *s != ')') {
 			if (*s == '\\')

@@ -277,6 +277,16 @@ is(rc, 0, 'dot is zero, all is good');
 run('./validns', @threads, '-t1365591600', 't/issues/lots-of-rare-rrs/all.rr.org');
 is(rc, 0, 'rare RRs are parsed correctly, all is good');
 
+# Stuff containing '/' in various places (issue #29)
+run('./validns', @threads, 't/issues/29-slash/example.com');
+isnt(rc, 0, 'zone with slashes returns an error');
+@e = split /\n/, stderr;
+
+like(shift @e, qr/host name contains '\/'/, "slash-A");
+like(shift @e, qr/host name contains '\/'/, "slash-MX");
+like(shift @e, qr/host name contains '\/'/, "slash-AAAA");
+like(shift @e, qr/NS data contains '\/'/, "NS-slash");
+
 }
 
 done_testing;
