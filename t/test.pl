@@ -287,6 +287,10 @@ like(shift @e, qr/host name contains '\/'/, "slash-MX");
 like(shift @e, qr/host name contains '\/'/, "slash-AAAA");
 like(shift @e, qr/NS data contains '\/'/, "NS-slash");
 
+# DS does not mean the zone is signed
+run('./validns', @threads, 't/issues/ds-does-not-mean-signed/example.com');
+is(rc, 0, 'DS does not mean zone is signed');
+
 }
 
 done_testing;
