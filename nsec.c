@@ -130,6 +130,7 @@ void validate_nsec_chain(void)
 
 		if (strcasecmp(rr->next_domain, zone_apex) == 0) /* chain complete */
 			break;
+		freeall_temp();
 		s = rr->next_domain;
 		t = name;
 		while (*s) *t++ = tolower(*s++);
@@ -138,9 +139,10 @@ void validate_nsec_chain(void)
 		if (!rr_set) {
 			moan(rr->rr.file_name, rr->rr.line, "broken NSEC chain %s -> %s",
 				 rr->rr.rr_set->named_rr->name, rr->next_domain);
-			return;
+			break;
 		}
 	}
+	freeall_temp();
 }
 
 struct rr_methods nsec_methods = { nsec_parse, nsec_human, nsec_wirerdata, NULL, nsec_validate };
