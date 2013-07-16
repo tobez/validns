@@ -1,6 +1,6 @@
 # The following options seem to work fine on Linux, FreeBSD, and Darwin
 OPTIMIZE=-O2 -g
-CFLAGS=-Wall -Werror -pthread --no-strict-aliasing
+CFLAGS=-Wall -Werror -pthread -fno-strict-aliasing
 INCPATH=-I/usr/local/include -I/opt/local/include -I/usr/local/ssl/include
 CC?=cc
 
