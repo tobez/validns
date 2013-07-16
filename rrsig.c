@@ -15,6 +15,7 @@
 #include <netinet/in.h>
 #include <arpa/inet.h>
 #include <openssl/evp.h>
+#include <openssl/err.h>
 
 #include "common.h"
 #include "textparse.h"
@@ -29,6 +30,7 @@ struct verification_data
 	struct rr_dnskey *key;
 	struct rr_rrsig *rr;
 	int ok;
+	unsigned long openssl_error;
 };
 
 struct keys_to_verify
@@ -176,9 +178,14 @@ void *verification_thread(void *dummy)
 		if (pthread_mutex_unlock(&queue_lock) != 0)
 			croak(1, "pthread_mutex_unlock");
 		if (d) {
+			int r;
 			d->next = NULL;
-			if (EVP_VerifyFinal(&d->ctx, (unsigned char *)d->rr->signature.data, d->rr->signature.length, d->key->pkey) == 1)
+			r = EVP_VerifyFinal(&d->ctx, (unsigned char *)d->rr->signature.data, d->rr->signature.length, d->key->pkey);
+			if (r == 1) {
 				d->ok = 1;
+			} else {
+				d->openssl_error = ERR_peek_last_error();
+			}
 			if (pthread_mutex_lock(&queue_lock) != 0)
 				croak(1, "pthread_mutex_lock");
 			verification_queue_size--;
@@ -223,9 +230,14 @@ static void schedule_verification(struct verification_data *d)
 		if (!workers_started && cur_size >= G.opt.n_threads)
 			start_workers();
 	} else {
+		int r;
 		G.stats.signatures_verified++;
-		if (EVP_VerifyFinal(&d->ctx, (unsigned char *)d->rr->signature.data, d->rr->signature.length, d->key->pkey) == 1)
+		r = EVP_VerifyFinal(&d->ctx, (unsigned char *)d->rr->signature.data, d->rr->signature.length, d->key->pkey);
+		if (r == 1) {
 			d->ok = 1;
+		} else {
+			d->openssl_error = ERR_peek_last_error();
+		}
 	}
 }
 
@@ -346,6 +358,7 @@ static void *rrsig_validate(struct rr *rrv)
 			candidates->to_verify[i].key = key;
 			candidates->to_verify[i].rr = rr;
 			candidates->to_verify[i].ok = 0;
+			candidates->to_verify[i].openssl_error = 0;
 			candidates->to_verify[i].next = NULL;
 			i++;
 		}
@@ -382,6 +395,7 @@ void verify_all_keys(void)
 	int i;
 	struct timespec sleep_time;
 
+	ERR_load_crypto_strings();
 	if (G.opt.n_threads > 1) {
 		lock_cs = OPENSSL_malloc(CRYPTO_num_locks() * sizeof(pthread_mutex_t));
 		lock_count = OPENSSL_malloc(CRYPTO_num_locks() * sizeof(long));
@@ -414,16 +428,22 @@ void verify_all_keys(void)
 	k = all_keys_to_verify;
 	while (k) {
 		int ok = 0;
+		unsigned long e = 0;
 		for (i = 0; i < k->n_keys; i++) {
 			if (k->to_verify[i].ok) {
 				ok = 1;
 				break;
+			} else {
+				if (k->to_verify[i].openssl_error != 0)
+					e = k->to_verify[i].openssl_error;
 			}
 		}
 		if (!ok) {
 			struct named_rr *named_rr;
 			named_rr = k->rr->rr.rr_set->named_rr;
-			moan(k->rr->rr.file_name, k->rr->rr.line, "%s RRSIG(%s): cannot verify the signature", named_rr->name, rdtype2str(k->rr->type_covered), k->rr->signer);
+			moan(k->rr->rr.file_name, k->rr->rr.line, "%s RRSIG(%s): %s",
+				 named_rr->name, rdtype2str(k->rr->type_covered),
+				 e ? ERR_reason_error_string(e) : "cannot verify signature, reason unknown");
 		}
 		k = k->next;
 	}
