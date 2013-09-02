@@ -24,21 +24,26 @@ static struct rr* sshfp_parse(char *name, long ttl, int type, char *s)
 
 	algorithm = extract_integer(&s, "algorithm");
 	if (algorithm < 0)	return NULL;
-	if (algorithm != 1 && algorithm != 2)
+	if (algorithm != 1 && algorithm != 2 && algorithm != 3)
 		return bitch("unsupported algorithm");
 	rr->algorithm = algorithm;
 
 	fp_type = extract_integer(&s, "fp type");
 	if (fp_type < 0)	return NULL;
-	if (fp_type != 1)
+	if (fp_type != 1 && fp_type != 2)
 		return bitch("unsupported fp_type");
 	rr->fp_type = fp_type;
 
 	rr->fingerprint = extract_hex_binary_data(&s, "fingerprint", EXTRACT_EAT_WHITESPACE);
 	if (rr->fingerprint.length < 0)	return NULL;
-	if (rr->fingerprint.length != SHA1_BYTES) {
+	
+	if (rr->fp_type == 1 && rr->fingerprint.length != SHA1_BYTES) {
 		return bitch("wrong SHA-1 fingerprint length: %d bytes found, %d bytes expected",
 					 rr->fingerprint.length, SHA1_BYTES);
+	}
+	if (rr->fp_type == 2 && rr->fingerprint.length != SHA256_BYTES) {
+		return bitch("wrong SHA-256 fingerprint length: %d bytes found, %d bytes expected",
+					 rr->fingerprint.length, SHA256_BYTES);
 	}
 
 	if (*s) {
