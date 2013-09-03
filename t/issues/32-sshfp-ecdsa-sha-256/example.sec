@@ -1,0 +1,28 @@
+$TTL    1d
+$INCLUDE Kexample.sec.+008+48381.key
+@       IN      SOA     ns.example.sec. hostmaster.example.sec. (
+                              1         ; Serial
+                         604800         ; Refresh
+                          86400         ; Retry
+                        2419200         ; Expire
+                         604800 )       ; Negative Cache TTL
+
+        IN      NS      ns1.example.net.
+		IN      NS      ns2.example.net.
+
+; example sshfp rdata taken from rfc 6594
+rsa-sha1 IN SSHFP 1 1 ( dd465c09cfa51fb45020cc83316fff
+                                         21b9ec74ac )
+rsa-sha256 IN SSHFP 1 2 ( b049f950d1397b8fee6a61e4d14a9a
+                                         cdc4721e084eff5460bbed80cfaa2c
+                                         e2cb )
+dsa-sha1 IN SSHFP 2 1 ( 3b6ba6110f5ffcd29469fc1ec2ee25
+                                         d61718badd )
+dsa-sha256 IN SSHFP 2 2 ( f9b8a6a460639306f1b38910456a6a
+                                         e1018a253c47ecec12db77d7a0878b
+                                         4d83 )
+ecdsa-sha1 IN SSHFP 3 1 ( c64607a28c5300fec1180b6e417b92
+                                         2943cffcdd )
+ecdsa-sha256 IN SSHFP 3 2 ( 821eb6c1c98d9cc827ab7f456304c0
+                                         f14785b7008d9e8646a8519de80849
+                                         afc7 )

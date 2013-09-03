@@ -1,0 +1,240 @@
+; File written on Tue Sep  3 12:11:54 2013
+; dnssec_signzone version 9.8.4-P2
+example.sec.		86400	IN SOA	ns.example.sec. hostmaster.example.sec. (
+					1          ; serial
+					604800     ; refresh (1 week)
+					86400      ; retry (1 day)
+					2419200    ; expire (4 weeks)
+					604800     ; minimum (1 week)
+					)
+			86400	RRSIG	SOA 8 2 86400 20141212121212 (
+					20121010101010 48381 example.sec.
+					VaxX0dVGnzFwJN4uz322gewYiKqYyc2p6QYx
+					xF9P8FPZnAbWPRYVJigykQ0o5QZsqU3fSc0s
+					OhoAapQ7KNDE3lNkLY0lVkq9dDDTLt13avVK
+					pFWLw61fdUDyVzggupz9n6rwNNz7/h1iec4Z
+					EEiyCCIOqjH9HXcbHKuLe8DHt/h6AX5y9LPU
+					DThqFjjdaOBl9JeFPOZIkiFmJsrGuStOVeLG
+					bhCX7gt5/DZw4P2TQ8pullyPyjWnd2pjA2p6
+					WMbiqiMiHZjevzcFEFNb5TCkgUG7RvWPqzhH
+					6HgUdbd9hcIH4lIoocRfztyDojswd2LGq6LG
+					enJM9fuTSqMMT5CPfQ== )
+			86400	NS	ns1.example.net.
+			86400	NS	ns2.example.net.
+			86400	RRSIG	NS 8 2 86400 20141212121212 (
+					20121010101010 48381 example.sec.
+					AEw1bOH7iWnw2+xOKViKiSCoP+2XBEYB01Lg
+					HBNdnFYIL010c5YUewI+AsyOvxbpwjNIspY8
+					k45lyXpbhmbE/SSgI79MtRIwG+6YQERx4RS6
+					fw/9N6t41NhkkcyOfL8P4wMFzTxqq8TJ5Vd5
+					7CGFqBJLtVtQZvDcRYcSMoVsNFYJFqNEjve8
+					nPO8bwxd9UwgBVNx5sPJReSdUhb9//DvI1xS
+					nr2UOHduNp4FppeOBhJYh7tjYs/1IbPUp90W
+					iQSiinfNT47sVz1ntSgcrtKTrAJmm7TAqPGk
+					cs9CcrqnN9f1SHU8/9M7nH9qnyGt5QxcbfBF
+					BnGe6lS2mOJnETN8jQ== )
+			604800	NSEC	dsa-sha1.example.sec. NS SOA RRSIG NSEC DNSKEY
+			604800	RRSIG	NSEC 8 2 604800 20141212121212 (
+					20121010101010 48381 example.sec.
+					LyRbBl03MKOn6ZqWwJQoAxFVI15rfNjlmF0w
+					dE1LaX7cm3DwDLlBgqK+Z/Hv+aRKv2Yk4x9c
+					44eLS2Xcfq5OrqTQPId0UClHkmnm86SHDVgJ
+					jtH2nu4+07FXukt01D6ap6R0nfbbdbPUC7x7
+					jVoxbFLw0m3rAXFXbewXfNRor4KO7LWf2koK
+					AaMzNxpprfAElaAIX6iJzhgTOTaRLXv6w5+7
+					y95Ca3zn6xVcpXH3RSV5iyCGgGm/aAYE0sSW
+					XRk4sGJ2zjSUj4RsnNc38W6FRMzAHmkMc1rf
+					kTB2ozJ5dmN/6OQU+V1OVyEK0oTyidTmPEec
+					IHYsORp7Iw2Hx37H4g== )
+			86400	DNSKEY	256 3 8 (
+					AwEAAdZOvnLtTdQjfdIqqH3stb7vI6bJlg27
+					3Tp4oRpnmnmgizDFtLQhnIv1Mr3AuwSWVIDe
+					avuiyWIAtfvwy0f3EYIv8Ys5kDiKs8PE1k90
+					yQwfC53hxyH10GzGnAx4Sutrdkh1w4HM1nMB
+					dlTMa0g9yxjJ0vm/T7qHzj+3dTUi84s8Du2m
+					fMD6noy+leZ2IuX7lFca8SzDNmhUPTkXuFrB
+					/QUuoY2FyThfidT+nhOQpzftVtLcta0E0Uv3
+					PcVDp1d7vBXsAEYGHr54r2vb3eXdOTmoFyh/
+					byehUlPq1gDEH0mBRlWbUHqbGnKyolz0dR01
+					u8SJYP6ULwx0mZ0p5BmoMH8=
+					) ; key id = 48381
+			86400	RRSIG	DNSKEY 8 2 86400 20141212121212 (
+					20121010101010 48381 example.sec.
+					jeH3CRSqBGG5ZvU8q+27/b0JJreGL8rIoIWg
+					8fS8SvU0MIiOHI9vjFld3EbmYcD6MqdadofW
+					tMfVkb6mAmK25lXkqrggm5jnwsV2AJ17ec0A
+					4wGZz0WlkldkGsK0s+w0lxMb2bpFNpDI9p4R
+					3FWLGve6uRThuRv6oxlbPnNAyaz6bXLmu+q3
+					oBQsDS8GdxrzcupBqC2iVxmDRhi4rKpZf/DZ
+					0dDdafD5PG4rSUfvXY7Sd0G906dsWHL/2JRi
+					4q0xEgx5F6Ve7UcE6IaMLYCiu+DCOIVOucC8
+					SQI/APsfLN3dycXBjYY1J4C+vzh2ig7P8Iks
+					z5tmeRR5vrd54yl+kw== )
+dsa-sha256.example.sec.	86400	IN SSHFP 2 2 (
+					F9B8A6A460639306F1B38910456A6AE1018A
+					253C47ECEC12DB77D7A0878B4D83 )
+			86400	RRSIG	SSHFP 8 3 86400 20141212121212 (
+					20121010101010 48381 example.sec.
+					bn5KmK2UyUlhF77ZGXCE7EPRln8RMCn1VYYg
+					FMvWuddZu/bwdeQ9V//mkEM3P0KwnfQ+GuAm
+					q2ybXunLDmPcdwuHl3hhU4PIJ6qeFFbguRg9
+					6dW0JkQt7vN9EGRx6LQbGPX/UaAEaN3x971I
+					Xr0KCThkwR07PRFf5OX8e1FD+Nuyu3YtGwNL
+					mii9xN0gwX/FZHAqnUXxS/1B1M/UY7yZMazN
+					jZDj3X9kIcNH+dM2Pgo2Gkej1VhxrZjbN3fV
+					0MkJUUxWkmE51pBAg89u1PwMjQqkb2+7e4lj
+					8+/Tg0JXA4Row46QDOcrq+MSfiHKNM4HiOKs
+					FSxe/7OhH3FfENzelg== )
+			604800	NSEC	ecdsa-sha1.example.sec. SSHFP RRSIG NSEC
+			604800	RRSIG	NSEC 8 3 604800 20141212121212 (
+					20121010101010 48381 example.sec.
+					quPG7kmU75o0/us5C5worKfUgWH8O7VXUHRe
+					xPDx0g3yxFicwGa22Uniz7wZzI+AFwL9Kui8
+					KY+ZGqiKaiuW4OOCj87A4p5OBL6Q0ZMFMoNq
+					Pv2xeKTfO//2DKpqFk1mm9HD7Geh0bsvIT78
+					pLZeUkzWfY7ms2juDIAuQ4uMa3Q9XCtbQcd2
+					fl2LBhzoWU/x6NThelMUVq8O9KvTX3F/Svt9
+					byLncSswcwGBHIcpmQDA/bVMd1yfj9V+uB+U
+					v419X5BoznrDu0YSQj2KoFNUb6qkWezEeWd1
+					4yEYrogNibIHGxK2A/mEaMQ8bGfuhQvriRZI
+					JQAZsMI+HVzURgUCpA== )
+ecdsa-sha1.example.sec.	86400	IN SSHFP 3 1 (
+					C64607A28C5300FEC1180B6E417B922943CF
+					FCDD )
+			86400	RRSIG	SSHFP 8 3 86400 20141212121212 (
+					20121010101010 48381 example.sec.
+					xZTXovaSXMlmsX5puB+JbEqOqofouS9aluao
+					89SS79iTZxfA2NQw9CCVTQTowQ7Lc7F4eYqM
+					kAEEYyLk2XdopARrJelgMsNk4u/uGbUV/8/y
+					dB9PwMKZcyDA6HC42LNxGjRo+SYvVXyOzWyu
+					5aQFP7LknuhEzjZxIXwooAL+Bc9zvnNEeWQT
+					+xcWwlw+0wPucGQh6reAlxL0LqCtGVhGxErB
+					1l9XXs/0ViJfMLoaRtIasuG1eSfbpCgYdU0s
+					4i08ovR71q79ixvUI22h+Vbv3KZFgva5w02M
+					flL1xgTINATtO6OpLci5/aTsBciU8jiHuE2N
+					s+4GBci7zrV1mZl4Gg== )
+			604800	NSEC	ecdsa-sha256.example.sec. SSHFP RRSIG NSEC
+			604800	RRSIG	NSEC 8 3 604800 20141212121212 (
+					20121010101010 48381 example.sec.
+					e8s85RPO1PL31ANtrK2cXCe2vBLX5NtDCJG+
+					BICwmZ4y7o72N4P7kN9MFCYzZg33Egh28uXB
+					LxH5QA5mE+kt6KFaCvr7rnL93p82qydRUiku
+					sjFGYIDIINwz9m6p/SxoidDI3nyYvghpllrS
+					sRXV2vrDETLfBUY7RcOQbsCvCwE8j5EwZAmi
+					Q81Ye99Gsf2MlyhcoYVkmBs4pRVpnVqHn+VI
+					d18gPjg8UFdqlL/yLim9Tqk7nARU6jbvGSGx
+					Ldz4QeuCHBKr3gtEx6MXdscxO+cLS4w7Hpws
+					1mxHtQ+iCpiG1Iz4CUcucdNAS2jTcBE9FcUf
+					CDH43KFjxNSgiFcOWQ== )
+dsa-sha1.example.sec.	86400	IN SSHFP 2 1 (
+					3B6BA6110F5FFCD29469FC1EC2EE25D61718
+					BADD )
+			86400	RRSIG	SSHFP 8 3 86400 20141212121212 (
+					20121010101010 48381 example.sec.
+					R4BdW6B06U4U2xVvWNWWZ6VGnHY5XvJrI2/U
+					NJ6j3tWdNP/v3FbK+RpFPZQk26SomY3KF7D8
+					dhjACC4jxlwQqwQYl5wC3jOnnt1xzqvW44GL
+					r6GSjSwOC0QfDPXNYQ6H8JC1Ea+vGHJa3HKy
+					sre2HEUn3YyxkqhktTAZ+eUxzQ5L5EP3pL+y
+					DdKsVItWy/4LGkNPFBq0AJyE2Rv69TnIKx5Q
+					MYxtTqFgFsO+iUyIK+RlRCq1HITtmg0o7YZN
+					nc66uSLF1Fcy5iAolhC9Q1aX2Vj5j1rfocqh
+					8Y70QIi1n60PrzisgRrp4qdzG5ad057gJKNz
+					hQ2wcrjurmGLbayv/A== )
+			604800	NSEC	dsa-sha256.example.sec. SSHFP RRSIG NSEC
+			604800	RRSIG	NSEC 8 3 604800 20141212121212 (
+					20121010101010 48381 example.sec.
+					hr4HLlCWtcU5yLX0ikTcSKSSafXqjifnUCB6
+					m9+0bjsA7Oyi8ivA65yNUC0maiIyWkgrgw2t
+					DbMXTFVvmJThu9sGAc5jj5j3PmoqTF1ztKrl
+					jTIMnCgASraV1DWSBgDMV9FrJIZdf3k2leVO
+					ib0BbT774r81pRsw/5OvcMl/8Fnikr+xylXc
+					EOCBIPT052p+k83cQzmSMLZJXE19XhxSGZAB
+					+WbpLIkFYkkFy0Yvokar+NFzDPkE4aG7XiJx
+					WWJMft23q5D9RPD/uxnVrYCVADE8DDmTwziE
+					cvVgv0o6SZTXvI6M4QKzDZuYMoukfjMkFBai
+					SaGkiIbXTG8s/cz1dQ== )
+ecdsa-sha256.example.sec. 86400	IN SSHFP 3 2 (
+					821EB6C1C98D9CC827AB7F456304C0F14785
+					B7008D9E8646A8519DE80849AFC7 )
+			86400	RRSIG	SSHFP 8 3 86400 20141212121212 (
+					20121010101010 48381 example.sec.
+					BhuvbNtOY0vfVJYNyIR7SiN4q9/BfBbgX7Jd
+					YQJK7zNxxf7EX7RlvZTrBI0VlRIeW++4MkOP
+					BuQz3U45BiyPe1V/LDhXmsWNtusaPjO3z3NA
+					fV661W1O078f+HYJS5EtNnfo64TNAnSOkd3r
+					8fQxYy/5NTWI9GLq7Uop4JVuqOYzr7/KN4WG
+					HCvfR3duKHG6DUZ/nCY1cCpFjFvIDZa89EVX
+					2MUcB06F1rLKQiSZNBVjSy7RtrIlR0nrXLOB
+					0DIJ6cNZuF+t8+zPe1c5hG574B3SmUyz9VIv
+					A1OXt0i4S2IQ/xmoncHDoVswNlTaWPDz+iEm
+					e4dtrkspArlAfWrBAg== )
+			604800	NSEC	rsa-sha1.example.sec. SSHFP RRSIG NSEC
+			604800	RRSIG	NSEC 8 3 604800 20141212121212 (
+					20121010101010 48381 example.sec.
+					KLXCFYreUBGQxpFcEsUKfr9whiNzae/2yjE0
+					ssFRHqVKgVzHWmBrh2Rz1995d+eeupTZdden
+					RE7iY3ArKd/Gx0Rs2HmMvgJJ/z0auCHNCUaP
+					LCW9WKRFFestBDvuRBHSJ5mt6Y5XLs3521r+
+					/fRIICwldr6zQjzoPZ1OOik8kujwYTLoQPRM
+					UrEJoMskL+OgrQTDn+pdtwuAXF7hWsUkrEpL
+					w9aqhYcl9C4AQoG8gVMcPmmZLYBhDYnXvT+R
+					9NJNrdKve2Xsw7pKOYMz54xZo9IjBrnFa+k6
+					QBH7yTIaT+E/Nuv02Ve2O3L9BQ3HUcIpYeGz
+					LCegEmI1H5+VzqQyeA== )
+rsa-sha1.example.sec.	86400	IN SSHFP 1 1 (
+					DD465C09CFA51FB45020CC83316FFF21B9EC
+					74AC )
+			86400	RRSIG	SSHFP 8 3 86400 20141212121212 (
+					20121010101010 48381 example.sec.
+					uyZJ8JEIe+1Nwn8umonD3qapuM6DDpyljlUO
+					1cCWCjoFiIOGqne4f9gQeN7p0eEjc94yVjTP
+					P1XtVSIZYGRe+Yd+zEVqBJmVtT1fqIWxQokT
+					aTiw6NUMP8uztnZANHnFH8EFzzmM2s6tJdbC
+					bAj0VGVuR/a3gk3in3fTdWN1WkNO4rCW5rtZ
+					MpJsCWb1w0/OOPLhgNma1W9+hE8XErxwR/1D
+					tvyog+ccf2WKPoyph5tPBe98b6Eb2vo7f3Im
+					PaasOcIno2yi35TN1NW0Da12cb51qo7vuPxU
+					ISZZXXi5wXWX3lF66nXxnpiZkZ24k+ZPiN41
+					VPV817T53Wx+U8kDmQ== )
+			604800	NSEC	rsa-sha256.example.sec. SSHFP RRSIG NSEC
+			604800	RRSIG	NSEC 8 3 604800 20141212121212 (
+					20121010101010 48381 example.sec.
+					rfOeXJndauKIfbI7Rja0KTZmw0jbpmZNKk7+
+					mh/QcchF7Ov/U3+vUhIiWrJtzm0w7HtVG+Cv
+					IXidvyDd8yecr/WF9K7BCvOlXd4WcFJCCSze
+					rAOoBZzpbkw7UKJD7cc4Nf0MWH1G4w3SNRAc
+					gZXTXmRNVY10ZT7F42ApTirQMjbbujB2XSgy
+					KYEdFRfcNLnHpUApjl4gv8Yli263IOSuhRaM
+					67BVNzlX7lgllRyvS1QDh+TPAlLsINuQp2Zw
+					znFS0+gZggYzCDQlLoAAm55sFBOUnrBxIPCf
+					971T3ThN17hbilS27hJZQJvHf6HSdRm/SN6m
+					Dz+EndqSwlDddtVxdQ== )
+rsa-sha256.example.sec.	86400	IN SSHFP 1 2 (
+					B049F950D1397B8FEE6A61E4D14A9ACDC472
+					1E084EFF5460BBED80CFAA2CE2CB )
+			86400	RRSIG	SSHFP 8 3 86400 20141212121212 (
+					20121010101010 48381 example.sec.
+					O6bG4RWK53z/hhTf+oxZNuMa08XCr+oGuM5l
+					TN+CxYLDX3y3jKuaR9G1U8XiW6BFxBIKW02G
+					ufGlJTvFvRVazIzgeCnbcJSkeR3dW9aUP3+R
+					zoUQHNiFPy1osIXrx9jYbbPBrR+OdIpKNk3H
+					jcjVtUksHlo4QE2aNbl2jvybpz+ORb6IfxBL
+					Fqxr7bWrMiw2VVTbvVU6FSI0ObIHsJsqnK6b
+					XC7IoGl53mosrJi9AUGQ0NSbcEUOXwbHfQsM
+					avvJQwjbvsyPi1BhXCO2/kU7Jtl4SdCHHr59
+					06ZB/D/0iaPBacT1NBbmTHWVMCeO4zjK2kgB
+					V+6dc+ouUYupPbt/QA== )
+			604800	NSEC	example.sec. SSHFP RRSIG NSEC
+			604800	RRSIG	NSEC 8 3 604800 20141212121212 (
+					20121010101010 48381 example.sec.
+					XJdaTjwHgp8E7Yd9CZl9ixnA9xSyu0qC/GEK
+					BiVR0t4bPGjYG1qM6S8b3DkSXB81sb2hVI3F
+					jEteyPlHPPsKEHsQx4EfwplO9iJH8h30qLBV
+					TmPOCec9kbSvtV+YQp2wB+Yqi7QIlmEHKZrc
+					3zRMkRC9cjyO4W0YT4zcY7B2Vo5KhDKd8Y2E
+					R144qQAWZ0mI5QW77iz7w0qnZV5IZSLYB6Sc
+					6PxNuRXY527ywYVhOX9O/2jl+4aDFSovU64P
+					ZdYXeQxu6FZGqjkZWMJXH1gOx/ZY6yT3+Jhn
+					G5EQz0P5qtEQUoEML2t+v8FKXlxEElBiPnFe
+					Q8uMauGefXwnHglZOw== )

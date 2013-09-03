@@ -291,6 +291,10 @@ like(shift @e, qr/NS data contains '\/'/, "NS-slash");
 run('./validns', @threads, 't/issues/ds-does-not-mean-signed/example.com');
 is(rc, 0, 'DS does not mean zone is signed');
 
+# issue 32: support ECDSA and SHA-256 for SSHFP: https://github.com/tobez/validns/issues/32
+run('./validns', @threads, '-t1378203490', 't/issues/32-sshfp-ecdsa-sha-256/example.sec.signed');
+is(rc, 0, 'issue 32: SSHFP supports ECDSA and SHA-256');
+
 }
 
 done_testing;
