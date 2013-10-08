@@ -42,6 +42,13 @@ ghost NS ns1
 ghost NS ns2
 ghost DS	50458 12 3 2e40b2a6ccd2760ec70af69d1c144064c8931e53a6b3eee78bdb9e0bafbb9c02 ; xerig-bosep-kufot-datib-vucob-petin-toluc-gubuk-gidyn-faleh-fenor-ferav-lydat-rolib-rirur-rulab-daxux
 
+sha384 NS ns1
+sha384 NS ns2
+sha384 3600 IN DS 10771 14 4 (
+           72d7b62976ce06438e9c0bf319013cf801f09ecc84b8
+           d7e9495f27e305c6a9b0563a9b5f4d288405c3008a94
+           6df983d6 )
+
 ; and let's have some glue
 delegation2 NS a.ns.delegation2.example.sec.
 a.ns.delegation2.example.sec. A 8.8.1.1

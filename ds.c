@@ -55,6 +55,11 @@ static struct rr* ds_parse(char *name, long ttl, int type, char *s)
 			return bitch("wrong GOST R 34.11-94 digest length: %d bytes found, %d bytes expected", rr->digest.length, GOST_BYTES);
 		}
 		break;
+	case 4:
+		if (rr->digest.length != SHA384_BYTES) {
+			return bitch("wrong SHA-384 digest length: %d bytes found, %d bytes expected", rr->digest.length, SHA384_BYTES);
+		}
+		break;
 	default:
 		return bitch("bad or unsupported digest type %d", digest_type);
 	}

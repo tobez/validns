@@ -20,7 +20,7 @@ push @threads, $threads if $threads;
 run('./validns', @threads, 't/zones/galaxyplus.org');
 is(rc, 0, 'valid zone parses ok');
 
-run('./validns', @threads, '-t1320094109', 't/zones/example.sec.signed');
+run('./validns', @threads, '-t1381239017', 't/zones/example.sec.signed');
 is(rc, 0, 'valid signed zone parses ok');
 
 run('./validns', @threads, '-t1303720010', 't/zones/example.sec.signed');
@@ -28,7 +28,7 @@ isnt(rc, 0, 'valid signed zone with timestamps in the future');
 @e = split /\n/, stderr;
 like(shift @e, qr/signature is too new/, "signature is too new");
 
-run('./validns', @threads, '-t1386850832', 't/zones/example.sec.signed');
+run('./validns', @threads, '-t1421410832', 't/zones/example.sec.signed');
 isnt(rc, 0, 'valid signed zone with timestamps in the past');
 @e = split /\n/, stderr;
 like(shift @e, qr/signature is too old/, "signature is too old");
