@@ -182,7 +182,7 @@ char *extract_name(char **input, char *what, int options)
 		}
 		r = quickstrdup(G.opt.current_origin);
 	} else {
-		if (!(isalnum(*s) || *s == '_' || *s == '.' || *s == '/')) {
+		if (!(isalnum(*s) || *s == '_' || *s == '.' || *s == '/' || *s == '-')) {
 			if (*s == '*') {
 				wildcard = 1;
 			} else {
