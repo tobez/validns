@@ -295,6 +295,25 @@ is(rc, 0, 'DS does not mean zone is signed');
 run('./validns', @threads, '-t1378203490', 't/issues/32-sshfp-ecdsa-sha-256/example.sec.signed');
 is(rc, 0, 'issue 32: SSHFP supports ECDSA and SHA-256');
 
+# issue 34: multiple time specifications
+run('./validns', @threads, ('-t1381239017') x 32, 't/zones/example.sec.signed');
+is(rc, 0, 'valid signed zone parses ok');
+
+run('./validns', @threads, ('-t1421410832') x 33, 't/zones/example.sec.signed');
+isnt(rc, 0, 'too many time specs');
+@e = split /\n/, stderr;
+like(shift @e, qr/too many -t/, "too many -t");
+
+run('./validns', @threads, '-t1381239017', '-t1303720010', 't/zones/example.sec.signed');
+isnt(rc, 0, 'multitime: valid signed zone with timestamps in the future');
+@e = split /\n/, stderr;
+like(shift @e, qr/signature is too new/, "multitime: signature is too new");
+
+run('./validns', @threads, '-t1381239017', '-t1421410832', 't/zones/example.sec.signed');
+isnt(rc, 0, 'multitime: valid signed zone with timestamps in the past');
+@e = split /\n/, stderr;
+like(shift @e, qr/signature is too old/, "multitime: signature is too old");
+
 }
 
 done_testing;

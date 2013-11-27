@@ -1,33 +1,33 @@
 .TH VALIDNS 1 "April 2011" 
 .SH NAME
 .PP
-validns - DNS and DSNSEC zone file validator
+validns \- DNS and DSNSEC zone file validator
 .SH VERSION
 .PP
 This document describes validns version 0.7
 .SH SYNOPSIS
 .PP
-validns \f[I]-h\f[] validns [\f[I]options\f[]] \f[I]zone-file\f[]
+validns \f[I]\-h\f[] validns [\f[I]options\f[]] \f[I]zone\-file\f[]
 .PP
-For validating stdin, specify "-" in place of \f[I]zone-file\f[].
+For validating stdin, specify "\-" in place of \f[I]zone\-file\f[].
 .SH DESCRIPTION
 .PP
 Coming soon.
 .SH OPTIONS
 .TP
-.B -h
+.B \-h
 Produce usage text and quit.
 .RS
 .RE
 .TP
-.B -f
+.B \-f
 Quit on first validation error.
 Normally, \f[C]validns\f[] continues working on a zone after
 encountering a parsing or validation error.
 .RS
 .RE
 .TP
-.B -p \f[I]name\f[]
+.B \-p \f[I]name\f[]
 Activate policy check \f[I]name\f[].
 By default, only basic checks and DNSSEC checks are performed.
 This option can be specified multiple times.
@@ -35,62 +35,64 @@ See \f[B]POLICY CHECKS\f[], below, for details.
 The following names are understood:
 .RS
 .IP \[bu] 2
-single-ns
+single\-ns
 .IP \[bu] 2
-cname-other-data
+cname\-other\-data
 .IP \[bu] 2
 dname
 .IP \[bu] 2
 dnskey
 .IP \[bu] 2
-nsec3param-not-apex
+nsec3param\-not\-apex
 .IP \[bu] 2
-mx-alias
+mx\-alias
 .IP \[bu] 2
-ns-alias
+ns\-alias
 .IP \[bu] 2
-rp-txt-exists
+rp\-txt\-exists
 .IP \[bu] 2
-tlsa-host
+tlsa\-host
 .IP \[bu] 2
 all
 .RE
 .TP
-.B -n \f[I]N\f[]
+.B \-n \f[I]N\f[]
 Use N worker threads for parallelizable operations.
 The default is 0, meaning no parallelization.
 Currently only signature verification is parallelizable.
 .RS
 .RE
 .TP
-.B -q
-quiet - do not produce any output
+.B \-q
+quiet \- do not produce any output
 .RS
 .RE
 .TP
-.B -s
+.B \-s
 print validation summary/stats
 .RS
 .RE
 .TP
-.B -v
+.B \-v
 be extra verbose
 .RS
 .RE
 .TP
-.B -I \f[I]path\f[]
+.B \-I \f[I]path\f[]
 use this path for $INCLUDE files
 .RS
 .RE
 .TP
-.B -z \f[I]origin\f[]
+.B \-z \f[I]origin\f[]
 use this origin as initial $ORIGIN
 .RS
 .RE
 .TP
-.B -t \f[I]epoch-time\f[]
+.B \-t \f[I]epoch\-time\f[]
 Use specified time instead of the current time when verifying validity
 of the signatures.
+This option may be specified multiple times, in which case every
+signature is checked against all specified times.
 .RS
 .RE
 .SH BASIC CHECKS
@@ -125,7 +127,7 @@ signature is too new;
 .IP \[bu] 2
 signature is too old;
 .IP \[bu] 2
-RRSIG exists for non-existing type \f[I]type\f[];
+RRSIG exists for non\-existing type \f[I]type\f[];
 .IP \[bu] 2
 RRSIG\[aq]s original TTL differs from corresponding record\[aq]s;
 .IP \[bu] 2
@@ -152,7 +154,7 @@ broken NSEC3 chain, expected \f[I]name\f[], but nothing found;
 .IP \[bu] 2
 broken NSEC3 chain, expected \f[I]name1\f[], but found \f[I]name2\f[];
 .IP \[bu] 2
-NSEC3 without a corresponding record (or empty non-terminal).
+NSEC3 without a corresponding record (or empty non\-terminal).
 .SH POLICY CHECKS
 .IP \[bu] 2
 there should be at least two NS records per name (or zero);
@@ -187,9 +189,9 @@ there cannot be more than 20 textual segments in a \f[I]TXT\f[] record;
 .IP \[bu] 2
 a dot within a label is not currently supported;
 .PP
-If at least one NSEC3 record uses opt-out flag, \f[C]validns\f[] assumes
-it is used as much as possible, that is, every unsigned delegation does
-not have a corresponding NSEC3 record.
+If at least one NSEC3 record uses opt\-out flag, \f[C]validns\f[]
+assumes it is used as much as possible, that is, every unsigned
+delegation does not have a corresponding NSEC3 record.
 This is done for reasons of efficiency, to avoid calculating
 cryptographic hashes of every unsigned delegation.
 If this assumption is wrong for a zone, \f[C]validns\f[] will produce
@@ -198,7 +200,7 @@ spurious validation errors.
 .PP
 Thanks go to Andy Holdaway, Daniel Stirnimann, Dennis Kjaer Jensen,
 Goran Bengtson, Hirohisa Yamaguchi, Hugo Salgado, Jake Zack, Jakob
-Schlyter, Koh-ichi Ito, Mathieu Arnold, Miek Gieben, Patrik Wallstrom,
+Schlyter, Koh\-ichi Ito, Mathieu Arnold, Miek Gieben, Patrik Wallstrom,
 Paul Wouters, Ryan Eby, Tony Finch, Willem Toorop, and YAMAGUCHI
 Takanori for bug reports, testing, discussions, and occasional patches.
 .PP
