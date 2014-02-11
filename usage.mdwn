@@ -8,7 +8,7 @@ validns - DNS and DSNSEC zone file validator
 
 # VERSION
 
-This document describes validns version 0.7
+This document describes validns version 0.8
 
 # SYNOPSIS
 
