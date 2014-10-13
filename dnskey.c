@@ -30,7 +30,7 @@ static struct rr* dnskey_parse(char *name, long ttl, int type, char *s)
 
 	flags = extract_integer(&s, "flags");
 	if (flags < 0) return NULL;
-	if (flags & 0xfefe)
+	if (flags & 0xfe7e)
 		return bitch("reserved flags bits are set");
 	if (flags & 0x0001 && !(flags & 0x0100))
 		return bitch("SEP bit is set but Zone Key bit is unset");
