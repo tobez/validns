@@ -1,7 +1,7 @@
 /*
  * Part of DNS zone file validator `validns`.
  *
- * Copyright 2011-2013 Anton Berezin <tobez@tobez.org>
+ * Copyright 2011-2014 Anton Berezin <tobez@tobez.org>
  * Modified BSD license.
  * (See LICENSE file in the distribution.)
  *
@@ -231,6 +231,8 @@ open_zone_file(char *fname)
 
 void usage(char *err)
 {
+	if (err)
+		fprintf(stderr, "%s\n", err);
 	fprintf(stderr, "Usage:\n");
 	fprintf(stderr, "    %s -h\n", thisprogname());
 	fprintf(stderr, "    %s [options] zone-file\n", thisprogname());
@@ -269,7 +271,8 @@ static void initialize_globals(void)
 	memset(&G.opt, 0, sizeof(G.opt));
 	memset(&G.stats, 0, sizeof(G.stats));
 	G.default_ttl = -1; /* XXX orly? */
-	G.opt.current_time = time(NULL);
+	G.opt.times_to_check[0] = time(NULL);
+	G.opt.n_times_to_check = 0;
 
 	for (i = 0; i <= T_MAX; i++) {
 		rr_methods[i] = unknown_methods;
@@ -391,14 +394,16 @@ main(int argc, char **argv)
 				fprintf(stderr, "using %d worker threads\n", G.opt.n_threads);
 			break;
 		case 't':
-			G.opt.current_time = strtol(optarg, NULL, 10);
-			if (G.opt.verbose)
-				fprintf(stderr, "using time %d instead of \"now\"\n", G.opt.current_time);
+			if (G.opt.n_times_to_check >= MAX_TIMES_TO_CHECK)
+				usage("too many -t specified");
+			G.opt.times_to_check[G.opt.n_times_to_check++] = strtol(optarg, NULL, 10);
 			break;
 		default:
 			usage(NULL);
 		}
 	}
+	if (G.opt.n_times_to_check <= 0)
+		G.opt.n_times_to_check = 1;
 	argc -= optind;
 	argv += optind;
 	if (argc != 1)

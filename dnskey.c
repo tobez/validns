@@ -1,7 +1,7 @@
 /*
  * Part of DNS zone file validator `validns`.
  *
- * Copyright 2011, 2012 Anton Berezin <tobez@tobez.org>
+ * Copyright 2011-2014 Anton Berezin <tobez@tobez.org>
  * Modified BSD license.
  * (See LICENSE file in the distribution.)
  *
@@ -30,7 +30,7 @@ static struct rr* dnskey_parse(char *name, long ttl, int type, char *s)
 
 	flags = extract_integer(&s, "flags");
 	if (flags < 0) return NULL;
-	if (flags & 0xfefe)
+	if (flags & 0xfe7e)
 		return bitch("reserved flags bits are set");
 	if (flags & 0x0001 && !(flags & 0x0100))
 		return bitch("SEP bit is set but Zone Key bit is unset");

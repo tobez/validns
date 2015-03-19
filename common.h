@@ -1,7 +1,7 @@
 /*
  * Part of DNS zone file validator `validns`.
  *
- * Copyright 2011, 2012 Anton Berezin <tobez@tobez.org>
+ * Copyright 2011-2014 Anton Berezin <tobez@tobez.org>
  * Modified BSD license.
  * (See LICENSE file in the distribution.)
  *
@@ -33,6 +33,8 @@ extern struct file_info *file_info;
 #define POLICY_DNSKEY 7
 #define POLICY_TLSA_HOST 8
 
+#define MAX_TIMES_TO_CHECK 32
+
 struct globals {
 	struct stats {
 		int names_count;
@@ -54,7 +56,8 @@ struct globals {
 		int verbose;
 		char *include_path;
 		char *current_origin;
-		uint32_t current_time;
+		int n_times_to_check;
+		uint32_t times_to_check[MAX_TIMES_TO_CHECK];
 		char policy_checks[N_POLICY_CHECKS];
 		int n_threads;
 	} opt;

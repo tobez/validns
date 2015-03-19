@@ -8,7 +8,7 @@ validns - DNS and DSNSEC zone file validator
 
 # VERSION
 
-This document describes validns version 0.7
+This document describes validns version 0.8
 
 # SYNOPSIS
 
@@ -73,6 +73,9 @@ Coming soon.
 -t *epoch-time*
 :   Use specified time instead of the current time
     when verifying validity of the signatures.
+    This option may be specified multiple times,
+    in which case every signature is checked
+    against all specified times.
 
 # BASIC CHECKS
 

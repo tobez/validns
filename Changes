@@ -1,5 +1,12 @@
 Revision history for validns.
 
+0.8 Tue Feb 11 21:39:41 CET 2014
+	Miscellaneous bug fixes.
+	Miscellaneous portability fixes.
+	Support ECDSA and SHA-256 in SSHFP.
+	Add support for SHA-384 digests in DS (RFC 6605).
+	Support multiple -t options.
+
 0.7 Tue Apr 16 12:37:11 CEST 2013
 	Support for KX, DLV, DHCID, NAPTR records.
 	Support for X25, ISDN, RT, PX records.
