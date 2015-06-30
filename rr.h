@@ -458,10 +458,18 @@ struct rr_dnskey
 	uint16_t key_tag;
 	int pkey_built;
 	void *pkey;
+	/* extras */
+	int key_type;
+	struct rr_dnskey *next_key;
 };
 extern struct rr_methods dnskey_methods;
 
+#define KEY_TYPE_UNUSED 0
+#define KEY_TYPE_KSK    1
+#define KEY_TYPE_ZSK    2
+
 int dnskey_build_pkey(struct rr_dnskey *rr);
+void dnskey_ksk_policy_check(void);
 
 struct rr_ds
 {

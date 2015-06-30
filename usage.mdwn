@@ -48,6 +48,7 @@ Coming soon.
 	- ns-alias
 	- rp-txt-exists
 	- tlsa-host
+	- ksk-exists
 	- all
 
 -n *N*
@@ -130,6 +131,7 @@ Other basic checks include:
 - TXT domain name mentioned in RP record must have
   a corresponding TXT record if it is within the zone
 - domain name of a TLSA record must be a proper prefixed DNS name
+- a KSK key must exist in a signed zone
 
 # BUGS
 

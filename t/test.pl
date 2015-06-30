@@ -227,6 +227,19 @@ is(rc, 0, 'issue 24 did not come back');
 run('./validns', @threads, '-t1345815800', 't/issues/25-nsec/example.sec.signed');
 is(rc, 0, 'issue 25 did not come back');
 
+# issue 41: https://github.com/tobez/validns/issues/41
+run('./validns', @threads, '-t1345815800', '-pksk-exists', 't/issues/25-nsec/example.sec.signed');
+isnt(rc, 0, 'KSK policy check fails');
+@e = split /\n/, stderr;
+like(shift @e, qr/\bNo KSK found\b/, "KSK policy check produces expected error output");
+is(+@e, 0, "no unaccounted errors for KSK policy check");
+
+run('./validns', @threads, '-t1435671103', '-pksk-exists', 't/issues/41-ksk-policy-check/example.sec.signed');
+is(rc, 0, 'signed zone with KSK parses ok when KSK policy check is active');
+
+run('./validns', @threads, '-pksk-exists', 't/zones/galaxyplus.org');
+is(rc, 0, 'unsigned zone ignores KSK policy checks');
+
 # issue 26: https://github.com/tobez/validns/issues/26
 run('./validns', @threads, '-t1349357570', 't/issues/26-spurios-glue/example.sec.signed.no-optout');
 is(rc, 0, 'issue 26 did not come back (NSEC3 NO optout)');
