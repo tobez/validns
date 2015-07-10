@@ -17,6 +17,7 @@
 #include <time.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <libgen.h>
 
 #include "common.h"
 #include "carp.h"
@@ -27,8 +28,8 @@
 struct globals G;
 struct file_info *file_info = NULL;
 
-int
-read_zone_file(void);
+int read_zone_file(void);
+void open_zone_file(char *fname);
 
 static char *process_directive(char *s)
 {
@@ -48,7 +49,7 @@ static char *process_directive(char *s)
 		if (*s) {
 			return bitch("garbage after valid $ORIGIN directive");
 		}
-		G.opt.current_origin = o;
+		file_info->current_origin = o;
 		if (G.opt.verbose) {
 			fprintf(stderr, "-> %s:%d: ", file_info->name, file_info->line);
 			fprintf(stderr, "origin is now %s\n", o);
@@ -72,13 +73,37 @@ static char *process_directive(char *s)
 			fprintf(stderr, "default ttl is now %ld\n", G.default_ttl);
 		}
 	} else if (*(s+1) == 'I' && strncmp(s, "$INCLUDE", 8) == 0) {
+		char *p, *f;
+		char c;
 		s += 8;
 		if (!isspace(*s)) {
 			if (isalnum(*s)) goto unrecognized_directive;
 			return bitch("bad $INCLUDE format");
 		}
 		s = skip_white_space(s);
-		return bitch("XXX include support is not implemented");
+		p = s;
+		while (*s && !isspace(*s) && *s != ';')
+			s++;
+		c = *s;
+		*s = '\0';
+		if (!*p) {
+			return bitch("$INCLUDE directive with empty file name");
+		}
+		f = quickstrdup_temp(p);
+		*s = c;
+		s = skip_white_space(s);
+
+		if (*s) {
+			return bitch("garbage after valid $INCLUDE directive");
+		}
+		if (*f == '/') {
+			open_zone_file(f);
+		} else {
+			char buf[1024];
+
+			snprintf(buf, 1024, "%s/%s", G.opt.include_path, f);
+			open_zone_file(buf);
+		}
 	} else {
 unrecognized_directive:
 		s = d-1;
@@ -216,6 +241,9 @@ open_zone_file(char *fname)
 		fname = "stdin";
 	} else {
 		f = fopen(fname, "r");
+		if (!file_info && !G.opt.include_path_specified) {
+			G.opt.include_path = quickstrdup(dirname(quickstrdup_temp(fname)));
+		}
 	}
 	if (!f)
 		croak(1, "open %s", fname);
@@ -226,6 +254,11 @@ open_zone_file(char *fname)
 	new_file_info->file = f;
 	new_file_info->line = 0;
 	strcpy(new_file_info->name, fname);
+	if (file_info) {
+		new_file_info->current_origin = file_info->current_origin;
+	} else {
+		new_file_info->current_origin = G.opt.first_origin;
+	}
 	file_info = new_file_info;
 }
 
@@ -275,6 +308,7 @@ static void initialize_globals(void)
 	G.default_ttl = -1; /* XXX orly? */
 	G.opt.times_to_check[0] = time(NULL);
 	G.opt.n_times_to_check = 0;
+	G.opt.include_path = ".";
 
 	for (i = 0; i <= T_MAX; i++) {
 		rr_methods[i] = unknown_methods;
@@ -379,13 +413,14 @@ main(int argc, char **argv)
 			break;
 		case 'I':
 			G.opt.include_path = optarg;
+			G.opt.include_path_specified = 1;
 			break;
 		case 'z':
 			if (strlen(optarg) && *(optarg+strlen(optarg)-1) == '.') {
-				G.opt.current_origin = optarg;
+				G.opt.first_origin = optarg;
 			} else if (strlen(optarg)) {
-				G.opt.current_origin = getmem(strlen(optarg)+2);
-				strcpy(mystpcpy(G.opt.current_origin, optarg), ".");
+				G.opt.first_origin = getmem(strlen(optarg)+2);
+				strcpy(mystpcpy(G.opt.first_origin, optarg), ".");
 			} else {
 				usage("origin must not be empty");
 			}

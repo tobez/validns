@@ -125,19 +125,19 @@ static char *extract_name_slow(char **input, char *what, int options)
 		return bitch("%s should not be empty", what);
 
 	if (buf[l-1] != '.') {
-		if (!G.opt.current_origin) {
+		if (!file_info->current_origin) {
 			return bitch("do not know origin to determine %s", what);
 		}
-		ol = strlen(G.opt.current_origin);
-		if (G.opt.current_origin[0] == '.') {
+		ol = strlen(file_info->current_origin);
+		if (file_info->current_origin[0] == '.') {
 			if (l + ol >= 1023)
 				return bitch("name too long");
-			strcat(buf, G.opt.current_origin);
+			strcat(buf, file_info->current_origin);
 		} else {
 			if (l + ol >= 1022)
 				return bitch("name too long");
 			strcat(buf, ".");
-			strcat(buf, G.opt.current_origin);
+			strcat(buf, file_info->current_origin);
 		}
 	}
 
@@ -177,10 +177,10 @@ char *extract_name(char **input, char *what, int options)
 		if (*s && !isspace(*s) && *s != ';' && *s != ')') {
 			return bitch("literal @ in %s is not all by itself", what);
 		}
-		if (!G.opt.current_origin) {
+		if (!file_info->current_origin) {
 			return bitch("do not know origin to expand @ in %s", what);
 		}
-		r = quickstrdup(G.opt.current_origin);
+		r = quickstrdup(file_info->current_origin);
 	} else {
 		if (!(isalnum(*s) || *s == '_' || *s == '.' || *s == '/')) {
 			if (*s == '*') {
@@ -205,14 +205,14 @@ char *extract_name(char **input, char *what, int options)
 		if (*(s-1) == '.') {
 			r = quickstrdup(*input);
 		} else {
-			if (!G.opt.current_origin) {
+			if (!file_info->current_origin) {
 				return bitch("do not know origin to determine %s", what);
 			}
-			r = getmem(strlen(*input) + 1 + strlen(G.opt.current_origin) + 1);
-			if (G.opt.current_origin[0] == '.') {
-				strcpy(mystpcpy(r, *input), G.opt.current_origin);
+			r = getmem(strlen(*input) + 1 + strlen(file_info->current_origin) + 1);
+			if (file_info->current_origin[0] == '.') {
+				strcpy(mystpcpy(r, *input), file_info->current_origin);
 			} else {
-				strcpy(mystpcpy(mystpcpy(r, *input), "."), G.opt.current_origin);
+				strcpy(mystpcpy(mystpcpy(r, *input), "."), file_info->current_origin);
 			}
 		}
 		*s = c;

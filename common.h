@@ -16,6 +16,7 @@ struct file_info
 	int  line;
 	int  paren_mode;
 	char buf[2048];
+	char *current_origin;
 	char name[0];
 };
 
@@ -56,7 +57,8 @@ struct globals {
 		int summary;
 		int verbose;
 		char *include_path;
-		char *current_origin;
+		int include_path_specified;
+		char *first_origin;
 		int n_times_to_check;
 		uint32_t times_to_check[MAX_TIMES_TO_CHECK];
 		char policy_checks[N_POLICY_CHECKS];
