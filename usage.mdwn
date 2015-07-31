@@ -48,6 +48,7 @@ Coming soon.
 	- ns-alias
 	- rp-txt-exists
 	- tlsa-host
+	- ksk-exists
 	- all
 
 -n *N*
@@ -130,12 +131,12 @@ Other basic checks include:
 - TXT domain name mentioned in RP record must have
   a corresponding TXT record if it is within the zone
 - domain name of a TLSA record must be a proper prefixed DNS name
+- a KSK key must exist in a signed zone
 
 # BUGS
 
 - textual segments in *TXT* and *HINFO* must be enclosed in double quotes;
 - there cannot be more than 20 textual segments in a *TXT* record;
-- *$INCLUDE* directive is not implemented;
 - a dot within a label is not currently supported;
 
 If at least one NSEC3 record uses opt-out flag,

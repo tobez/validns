@@ -1,4 +1,4 @@
-.TH VALIDNS 1 "April 2011" 
+.TH "VALIDNS" "1" "April 2011" "" ""
 .SH NAME
 .PP
 validns \- DNS and DSNSEC zone file validator
@@ -52,6 +52,8 @@ ns\-alias
 rp\-txt\-exists
 .IP \[bu] 2
 tlsa\-host
+.IP \[bu] 2
+ksk\-exists
 .IP \[bu] 2
 all
 .RE
@@ -178,14 +180,14 @@ TXT domain name mentioned in RP record must have a corresponding TXT
 record if it is within the zone
 .IP \[bu] 2
 domain name of a TLSA record must be a proper prefixed DNS name
+.IP \[bu] 2
+a KSK key must exist in a signed zone
 .SH BUGS
 .IP \[bu] 2
 textual segments in \f[I]TXT\f[] and \f[I]HINFO\f[] must be enclosed in
 double quotes;
 .IP \[bu] 2
 there cannot be more than 20 textual segments in a \f[I]TXT\f[] record;
-.IP \[bu] 2
-\f[I]$INCLUDE\f[] directive is not implemented;
 .IP \[bu] 2
 a dot within a label is not currently supported;
 .PP

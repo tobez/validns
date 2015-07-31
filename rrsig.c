@@ -434,6 +434,12 @@ void verify_all_keys(void)
 		unsigned long e = 0;
 		for (i = 0; i < k->n_keys; i++) {
 			if (k->to_verify[i].ok) {
+				if (k->to_verify[i].rr->rr.rr_set->named_rr->flags & NAME_FLAG_APEX) {
+					if (k->to_verify[i].key->key_type == KEY_TYPE_UNUSED)
+						k->to_verify[i].key->key_type = KEY_TYPE_KSK;
+				} else {
+					k->to_verify[i].key->key_type = KEY_TYPE_ZSK;
+				}
 				ok = 1;
 				break;
 			} else {

@@ -1,0 +1,131 @@
+; File written on Tue Jun 30 15:31:27 2015
+; dnssec_signzone version 9.9.7
+example.sec.		86400	IN SOA	ns.example.sec. hostmaster.example.sec. (
+					1          ; serial
+					604800     ; refresh (1 week)
+					86400      ; retry (1 day)
+					2419200    ; expire (4 weeks)
+					604800     ; minimum (1 week)
+					)
+			86400	RRSIG	SOA 7 2 86400 (
+					20150730123127 20150630123127 64232 example.sec.
+					b1Qs5d/0a4IDAvFPVvDKqWpir4189XoPOD4E
+					804eiNXRLP2ShkEUBPil44+6Ikwup5Im24XU
+					PLnmStjUFHVniicvwbwT/IY4etXR4xNoBHUc
+					BU8LiADPpZGfJ1tC/s/IHLcPbX21OltyYzi0
+					++z9gxZGy4vCG5gYCH0vm+Q96fY= )
+			86400	NS	ns1.example.net.
+			86400	RRSIG	NS 7 2 86400 (
+					20150730123127 20150630123127 64232 example.sec.
+					gyqsk3xSnKefnjTOVzJS4sdDFiJ5cPEupSkP
+					+LGXGRDGrclY6V9mkfddQz3MkeCCjujvQNAi
+					NpZllyzFj221se5bHLAVydkT0jhl2jgp8bsL
+					DBk15FGa7SXcwtpXn5rkDvR1/wmS7M/aYnrY
+					3j5dTSSsOlZQLENWBEtct9QSNbU= )
+			86400	DNSKEY	256 3 7 (
+					AwEAAaMBYu1QXBi6AII33FKwWpHhOkGMhcVc
+					IWJ73npEFjvDe0jJfLjkghnij4tMfDI8MPIZ
+					6xwVLYsEshxsDNEJJGdZ1dUvfJDxSCv8Wp0a
+					2IffxQ5NDRHSpUw27yJoQfI5gUqvor+wGTNC
+					UWx2OU0Y1BOy1whHtVbDl1gt1R6/8mOZ
+					) ; ZSK; alg = NSEC3RSASHA1; key id = 64232
+			86400	DNSKEY	257 3 7 (
+					AwEAAciLWglw17dt8EDAN88BrQYCIaGPifC4
+					pxrizfz3S1cC4XbSyRW5loj5SSHVveUmmIV9
+					0MTEOhGCDUVq/qiYG7NgTNHn3YiqyRU3sirw
+					4SACFiwln/ejxFDpQkeAbZMCzU8FQhTIB1K9
+					y7QRiLacI6naULzgP3h4PsdQSQmw3/TWy973
+					M+lHzwkgVq6ML42L18rGG0sn1KQDNSs/6sd9
+					dcRjPo7uJ2OuUsnbu/5N3vWYLciSBUnY27FU
+					vbFLkVIq072wjUMIb0Xc2EgYGRFKyV2MMckL
+					voD7vPclBE0Krv9fO/B2/KXsbObTgz4m5iQN
+					F45QLU02kmvwB4iyIzIk9O0=
+					) ; KSK; alg = NSEC3RSASHA1; key id = 7686
+			86400	RRSIG	DNSKEY 7 2 86400 (
+					20150730123127 20150630123127 7686 example.sec.
+					YQ42WBCr7e4MR51W+d6Awkxdff7tTNiA1qfJ
+					wsst0UiNXKAv504YRcS6B34u4CfG59lWWtcd
+					+xBHU7Zuox5nehsLEkFAneD1YrJLkgVw03nZ
+					NzDNWFvlxfQ2/tJ7vGbjKG2cEwUnbJKl+Kcl
+					JTAc5JzZegfM75M0Z4Yi9NiDjicpHbaICtKJ
+					5WZ6T5nVFo1nl2xCq2CiXiR1+jGKARUW+btO
+					NzHMApLQszDo7CMgvYJoHy0CHAV1Uc7Ka4zO
+					P3dVYkwu1Puk+gixhNUqo+UhKgLB2JUYdci7
+					cQ1JR9RzqEXzyZgGpLmXCOEOc8KD2c2dDN5L
+					uvOV40OrWhST/bAQ+Q== )
+			86400	RRSIG	DNSKEY 7 2 86400 (
+					20150730123127 20150630123127 64232 example.sec.
+					lKX35bocQ1iR4VTW0Es+2bZ2qX1ON7OGU1fO
+					Pb0ZqueG2GYgI63VE4Jv3WeOmGg/Tkjvsdb6
+					bMHVuVpxHvQKRqqzfaQmY7nzoDe53LfSJewj
+					p2TvdhvpPRroEZGXXPmVl46R/p+jlYMJd47T
+					o0oqB/BvQPUS61a5NThagGq6vJM= )
+			0	NSEC3PARAM 1 0 10 -
+			0	RRSIG	NSEC3PARAM 7 2 0 (
+					20150730123127 20150630123127 64232 example.sec.
+					hNJlc3JuGYBpnYEZQrhqNwrIL2fBegnnR4ii
+					TOW+0Km2maqF5ZZMxBZ7x54gW4T0amXXz89+
+					uE+l02eknf/FgM81FFOrQvJul0toOzKW9g67
+					e2VwQAwcw7g6H06cSsypXM/h9wvsNQpoSdx0
+					rq6qU2ruYM9NmJf+xUzUk38AFUw= )
+subA.example.sec.	86400	IN NS	ns1.example.net.
+subb.example.sec.	86400	IN NS	ns1.example.net.
+subC.example.sec.	86400	IN NS	ns1.example.net.
+93GL7KF6D2G7J2PSLEO2CIA70A3MM4KQ.example.sec. 604800 IN	NSEC3 1 0 10 - (
+					CSLD6RFNKVSKA73DGNI0EOM95Q8DKGBQ
+					NS )
+			604800	RRSIG	NSEC3 7 3 604800 (
+					20150730123127 20150630123127 64232 example.sec.
+					JRhyC3PbmnvYBkXzV5GmIBnj5LJTnrVeC1t3
+					v6t6o+3udfPZRecHw2cApf/Oed8H9jCeox77
+					vA13/fLXui635CYAcqXYxVgO4g0au1d1S6lo
+					N2Pw96JXDNhIqyVBVj1Ii2ZOQLWXZ8YgZRQ6
+					lxgww8m0QGC8FjEnzR8z2liSG88= )
+3ED4GMVJJ0FT4TCFDKNFQ5EPEFSDBPNM.example.sec. 604800 IN	NSEC3 1 0 10 - (
+					93GL7KF6D2G7J2PSLEO2CIA70A3MM4KQ
+					NS )
+			604800	RRSIG	NSEC3 7 3 604800 (
+					20150730123127 20150630123127 64232 example.sec.
+					B9L5NrHjO/J6FDmv7DjT1xq/f8jiB2WTEXSl
+					bFeUVcTivoyvdyfNNTH+YlzJesqTtQ9GaEPQ
+					ouzw7XbdyvtJ//GD+vrO/7XwfrVmkckQgEVl
+					zPm70TksAkwLzj0uY6WBIGIPq/KJMM14f6El
+					ct5w2KtgvF9sazFP+KMchU5Be3Q= )
+myMX.example.sec.	86400	IN MX	5 mx.example.net.
+			86400	RRSIG	MX 7 3 86400 (
+					20150730123127 20150630123127 64232 example.sec.
+					lh8vFwFg77gLtLyXbzqzYSlebkzn3yAlXHU2
+					/hgiyUWYcuZa5E33Ul+ZrUJPCGLaUQs3X+yL
+					p/uk6LP2dnMaf/X1mow/tyYNtIdn0MhTYNqs
+					WmYV1Ga/NSoErtoHYoNgeqV1w0Q/nfhipMdX
+					RekpxVR6RUUt2d3LS8UIH+pEYd8= )
+CSLD6RFNKVSKA73DGNI0EOM95Q8DKGBQ.example.sec. 604800 IN	NSEC3 1 0 10 - (
+					JC1M8I9IPBEENK9RDGMN9LQKAMMSQEVV
+					MX RRSIG )
+			604800	RRSIG	NSEC3 7 3 604800 (
+					20150730123127 20150630123127 64232 example.sec.
+					menCNV7RkbVWmfhuPfoYHfHCEtvQmVb3+p/x
+					WYVymu5hXUPQ2+K4Ns0jQ+om4GuTmXmm1DYY
+					IjIXv4jthJoD6jydqN6Hr+tr0ewxr6mHXj3I
+					RizTBuw4zcgPUrIRVQStkMtwyjN4Nlznhg7I
+					txZ14uH1G4U1DgkR2oC6YZsSqi8= )
+JC1M8I9IPBEENK9RDGMN9LQKAMMSQEVV.example.sec. 604800 IN	NSEC3 1 0 10 - (
+					NLF2NKFTCGVVRC4C941FOOCD00TPI9DV
+					NS SOA RRSIG DNSKEY NSEC3PARAM )
+			604800	RRSIG	NSEC3 7 3 604800 (
+					20150730123127 20150630123127 64232 example.sec.
+					ggLIoKQYmI9GeBkSccVdE87G1QQwGGO0HlrN
+					dg9Ah5QiWWjZ5icSOU4vyEm0XiqkFCrGEAq0
+					9L4HMOFuELMa28dAhVxOvZldbXizXUSCbWCS
+					miYFLOIKcQ9IcmzeEgg+uJzHdAyYSSK2Jb+0
+					YYuoXOhiZwzluj+u2i6kbf6wDY4= )
+NLF2NKFTCGVVRC4C941FOOCD00TPI9DV.example.sec. 604800 IN	NSEC3 1 0 10 - (
+					3ED4GMVJJ0FT4TCFDKNFQ5EPEFSDBPNM
+					NS )
+			604800	RRSIG	NSEC3 7 3 604800 (
+					20150730123127 20150630123127 64232 example.sec.
+					buRQJjfJDIbRFZFr8s7odGSxqnrSHXXN/AAu
+					tbG1k2L7WD+DGYFiRnR5Uia/C2oL186PqBtT
+					R8oDKf/4zr5qOsZz9xYabaBqG98JVXwPTiFk
+					JBoc7sFcwGJ16hj9Zey05aNs1h5RZm6BL8W0
+					9bRF3qIezckG0VA+U7ASTLNH4ME= )

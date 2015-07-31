@@ -16,12 +16,13 @@ struct file_info
 	int  line;
 	int  paren_mode;
 	char buf[2048];
+	char *current_origin;
 	char name[0];
 };
 
 extern struct file_info *file_info;
 
-#define N_POLICY_CHECKS 9
+#define N_POLICY_CHECKS 10
 
 #define POLICY_SINGLE_NS 0
 #define POLICY_CNAME_OTHER_DATA 1
@@ -32,6 +33,7 @@ extern struct file_info *file_info;
 #define POLICY_DNAME 6
 #define POLICY_DNSKEY 7
 #define POLICY_TLSA_HOST 8
+#define POLICY_KSK_EXISTS 9
 
 #define MAX_TIMES_TO_CHECK 32
 
@@ -55,7 +57,8 @@ struct globals {
 		int summary;
 		int verbose;
 		char *include_path;
-		char *current_origin;
+		int include_path_specified;
+		char *first_origin;
 		int n_times_to_check;
 		uint32_t times_to_check[MAX_TIMES_TO_CHECK];
 		char policy_checks[N_POLICY_CHECKS];

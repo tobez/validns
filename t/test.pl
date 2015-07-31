@@ -215,6 +215,35 @@ like(shift @e, qr/leading zero octets in public key exponent/, "leading zeroes i
 like(shift @e, qr/leading zero octets in public key exponent/, "leading zeroes in exponent 2");
 is(+@e, 0, "no unaccounted errors for DNSKEY policy checks");
 
+# issue 36: https://github.com/tobez/validns/issues/36 - $include implementation
+run('./validns', @threads, 't/issues/36-include/empty-include.zone');
+isnt(rc, 0, 'empty include detected');
+@e = split /\n/, stderr;
+like(shift @e, qr/\bINCLUDE directive with empty file name\b/, "Expected error with empty INCLUDE");
+is(+@e, 0, "no unaccounted errors for empty include");
+
+run('./validns', @threads, 't/issues/36-include/missing-include.zone');
+isnt(rc, 0, 'missing include detected');
+@e = split /\n/, stderr;
+like(shift @e, qr/\bNo such file or directory\b/, "Expected error with missing INCLUDE file");
+is(+@e, 0, "no unaccounted errors for missing include");
+
+run('./validns', @threads, '-v', 't/issues/36-include/include.zone');
+is(rc, 0, 'zone with nested includes parses ok');
+@e = split /\n/, stderr;
+for my $rx ((qr/\d:\s+example\.com\.\s+IN\s+\d+\s+NS\s+ns\.example\.com\./,
+			 qr/\d:\s+inc1\.example\.com\.\s+IN\s+\d+\s+A\s+11\.11\.11\.11/,
+			 qr/\d:\s+inc2\.inc1\.example\.com\.\s+IN\s+\d+\s+A\s+55\.55\.55\.55/,
+			 qr/\d:\s+inc1\.example\.com\.\s+IN\s+\d+\s+AAAA\s+1111::1111/,
+			 qr/\d:\s+example\.com\.\s+IN\s+\d+\s+A\s+99\.99\.99\.99/))
+{
+	my $ok = 0;
+	for my $e (@e) {
+		$ok = 1 if $e =~ $rx;
+	}
+	is($ok, 1, "found expected record with correct ORIGIN tracked across INCLUDEs");
+}
+
 # issue 21: https://github.com/tobez/validns/issues/21
 run('./validns', @threads, '-t1345815800', 't/issues/21-nsec3-without-corresponding/example.sec.signed');
 is(rc, 0, 'issue 21 did not come back');
@@ -226,6 +255,19 @@ is(rc, 0, 'issue 24 did not come back');
 # issue 25: https://github.com/tobez/validns/issues/25
 run('./validns', @threads, '-t1345815800', 't/issues/25-nsec/example.sec.signed');
 is(rc, 0, 'issue 25 did not come back');
+
+# issue 41: https://github.com/tobez/validns/issues/41
+run('./validns', @threads, '-t1345815800', '-pksk-exists', 't/issues/25-nsec/example.sec.signed');
+isnt(rc, 0, 'KSK policy check fails');
+@e = split /\n/, stderr;
+like(shift @e, qr/\bNo KSK found\b/, "KSK policy check produces expected error output");
+is(+@e, 0, "no unaccounted errors for KSK policy check");
+
+run('./validns', @threads, '-t1435671103', '-pksk-exists', 't/issues/41-ksk-policy-check/example.sec.signed');
+is(rc, 0, 'signed zone with KSK parses ok when KSK policy check is active');
+
+run('./validns', @threads, '-pksk-exists', 't/zones/galaxyplus.org');
+is(rc, 0, 'unsigned zone ignores KSK policy checks');
 
 # issue 26: https://github.com/tobez/validns/issues/26
 run('./validns', @threads, '-t1349357570', 't/issues/26-spurios-glue/example.sec.signed.no-optout');

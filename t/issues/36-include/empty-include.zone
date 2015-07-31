@@ -1,0 +1,4 @@
+$ORIGIN example.com.
+@       IN  200    SOA     ns hostmaster 1 10800 3600 2592000 1200
+        IN      NS      ns
+$INCLUDE ; there is no include, and it is wrong

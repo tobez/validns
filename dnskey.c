@@ -20,6 +20,8 @@
 #include "carp.h"
 #include "rr.h"
 
+static struct rr_dnskey *all_dns_keys = NULL;
+
 static struct rr* dnskey_parse(char *name, long ttl, int type, char *s)
 {
 	struct rr_dnskey *rr = getmem(sizeof(*rr));
@@ -27,6 +29,7 @@ static struct rr* dnskey_parse(char *name, long ttl, int type, char *s)
 	int flags, proto, algorithm;
 	unsigned int ac;
 	int i;
+	static struct rr *result;
 
 	flags = extract_integer(&s, "flags");
 	if (flags < 0) return NULL;
@@ -68,11 +71,17 @@ static struct rr* dnskey_parse(char *name, long ttl, int type, char *s)
 
 	rr->pkey_built = 0;
 	rr->pkey = NULL;
+	rr->key_type = KEY_TYPE_UNUSED;
 
 	if (*s) {
 		return bitch("garbage after valid DNSKEY data");
 	}
-	return store_record(type, name, ttl, rr);
+	result = store_record(type, name, ttl, rr);
+	if (result) {
+		rr->next_key = all_dns_keys;
+		all_dns_keys = rr;
+	}
+	return result;
 }
 
 static char* dnskey_human(struct rr *rrv)
@@ -185,5 +194,20 @@ done:
 		moan(rr->rr.file_name, rr->rr.line, "error building pkey");
 	}
 	return rr->pkey ? 1 : 0;
+}
+
+void
+dnskey_ksk_policy_check(void)
+{
+	struct rr_dnskey *rr = all_dns_keys;
+	int ksk_found = 0;
+
+	while (rr) {
+		if (rr->key_type == KEY_TYPE_KSK)
+			ksk_found = 1;
+		rr = rr->next_key;
+	}
+	if (!ksk_found)
+		moan(all_dns_keys->rr.file_name, all_dns_keys->rr.line, "No KSK found");
 }
 

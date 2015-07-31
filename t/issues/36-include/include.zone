@@ -1,0 +1,6 @@
+$ORIGIN example.com.
+@       IN  200    SOA     ns hostmaster 1 10800 3600 2592000 1200
+        IN      NS      ns
+$INCLUDE reldir/inc1.inc ; relative to the zone file
+; here we should be back to our origin
+@ IN A 99.99.99.99
