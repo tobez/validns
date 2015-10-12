@@ -136,7 +136,6 @@ Other basic checks include:
 # BUGS
 
 - textual segments in *TXT* and *HINFO* must be enclosed in double quotes;
-- there cannot be more than 20 textual segments in a *TXT* record;
 - a dot within a label is not currently supported;
 
 If at least one NSEC3 record uses opt-out flag,
