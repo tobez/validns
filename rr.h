@@ -201,11 +201,15 @@ struct rr_dhcid
 };
 extern struct rr_methods dhcid_methods;
 
+struct rr_txt_segment {
+	struct binary_data txt;
+	struct rr_txt_segment *next;
+};
 struct rr_txt
 {
     struct rr rr;
     int count;
-    struct binary_data txt[1];
+	struct rr_txt_segment *txt;
 };
 extern struct rr_methods txt_methods;
 

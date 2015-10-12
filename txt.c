@@ -23,28 +23,36 @@
 static struct rr *txt_parse(char *name, long ttl, int type, char *s)
 {
 	struct rr_txt *rr;
-	struct binary_data txt[20];
+	struct binary_data txt;
+	struct rr_txt_segment *first = NULL;
+	struct rr_txt_segment *last  = NULL;
+	struct rr_txt_segment *cur   = NULL;
 	int i;
 
 	i = 0;
 	while (*s) {
-		if (i >= 20)
-			return bitch("program limit: too many text segments");
-		txt[i] = extract_text(&s, "text segment");
-		if (txt[i].length < 0)
+		freeall_temp();
+		txt = extract_text(&s, "text segment");
+		if (txt.length < 0)
 			return NULL;
-		if (txt[i].length > 255)
+		if (txt.length > 255)
 			return bitch("TXT segment too long");
 		i++;
+		cur = getmem(sizeof(*cur));
+		cur->txt = txt;
+		cur->next = NULL;
+		if (!first)
+			first = cur;
+		if (last)
+			last->next = cur;
+		last = cur;
 	}
 	if (i == 0)
 		return bitch("empty text record");
 
-   	rr = getmem(sizeof(*rr) + sizeof(struct binary_data) * (i-1));
+   	rr = getmem(sizeof(*rr));
 	rr->count = i;
-	for (i = 0; i < rr->count; i++) {
-		rr->txt[i] = txt[i];
-	}
+	rr->txt = first;
 
 	return store_record(type, name, ttl, rr);
 }
@@ -53,14 +61,15 @@ static char* txt_human(struct rr *rrv)
 {
 	RRCAST(txt);
     char ss[1024];
-	int i;
 	char *s = ss;
 	int l;
+	struct rr_txt_segment *seg = rr->txt;
 
-	for (i = 0; i < rr->count; i++) {
+	while (seg) {
 		/* XXX would be nice to escape " with \ in strings */
-		l = snprintf(s, 1024-(s-ss), "\"%s\" ", rr->txt[i].data);
+		l = snprintf(s, 1024-(s-ss), "\"%s\" ", seg->txt.data);
 		s += l;
+		seg = seg->next;
 	}
     return quickstrdup_temp(ss);
 }
@@ -69,14 +78,15 @@ static struct binary_data txt_wirerdata(struct rr *rrv)
 {
 	RRCAST(txt);
 	struct binary_data r, t;
-	int i;
+	struct rr_txt_segment *seg = rr->txt;
 
 	r = bad_binary_data();
 	t.length = 0;
 	t.data = NULL;
-	for (i = 0; i < rr->count; i++) {
-		r = compose_binary_data("db", 1, t, rr->txt[i]);
+	while (seg) {
+		r = compose_binary_data("db", 1, t, seg->txt);
 		t = r;
+		seg = seg->next;
 	}
     return r;
 }
