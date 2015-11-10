@@ -37,6 +37,8 @@ extern struct file_info *file_info;
 
 #define MAX_TIMES_TO_CHECK 32
 
+#define MAX_RR_COUNT_ID 32769
+
 struct globals {
 	struct stats {
 		int names_count;
@@ -49,6 +51,7 @@ struct globals {
 		int delegations;
 		int not_authoritative;
 		int nsec3_count;
+		int rr_count_by_type[MAX_RR_COUNT_ID+1];
 	} stats;
 	struct command_line_options
 	{

@@ -473,6 +473,16 @@ main(int argc, char **argv)
 			   "                     %d\n", G.stats.not_authoritative);
 		printf("validation errors:   %d\n", G.stats.error_count);
 		printf("signatures verified: %d\n", G.stats.signatures_verified);
+
+		printf ("record count by type:\n");
+		int i;
+		for (i=0;i<MAX_RR_COUNT_ID;i++) {
+			if (G.stats.rr_count_by_type[i]>0) {
+				printf("    %10s: %d\n",
+						rdtype2str(i),
+						G.stats.rr_count_by_type[i]);
+			}
+		}
 		printf("time taken:          %.3fs\n",
 			   stop.tv_sec - start.tv_sec + (stop.tv_usec - start.tv_usec)/1000000.);
 	}
