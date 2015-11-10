@@ -572,6 +572,7 @@ extern void verify_all_keys(void);
 extern void* nsec3_validate(struct rr *rrv);
 extern void *remember_nsec3(char *name, struct rr_nsec3 *rr);
 extern void perform_remaining_nsec3checks(void);
+extern void nsec3_consistency_policy_check(void);
 extern void *check_typemap(struct binary_data type_bitmap, struct named_rr *named_rr, struct rr *reference_rr);
 
 #endif

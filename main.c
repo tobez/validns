@@ -283,6 +283,7 @@ void usage(char *err)
 	fprintf(stderr, "\t\t\trp-txt-exists\n");
 	fprintf(stderr, "\t\t\ttlsa-host\n");
 	fprintf(stderr, "\t\t\tksk-exists\n");
+	fprintf(stderr, "\t\t\tnsec3-consistency\n");
 	fprintf(stderr, "\t\t\tall\n");
 
 	fprintf(stderr, "\t-n N\t\tuse N worker threads\n");
@@ -407,6 +408,9 @@ main(int argc, char **argv)
 				G.opt.policy_checks[POLICY_TLSA_HOST] = 1;
 			} else if (strcmp(optarg, "ksk-exists") == 0) {
 				G.opt.policy_checks[POLICY_KSK_EXISTS] = 1;
+			} else if (strcmp(optarg, "nsec3-consistency") == 0) {
+				G.opt.policy_checks[POLICY_NSEC3_CONSISTENCY] = 1;
+
 			} else {
 				usage("unknown policy name");
 			}
@@ -455,6 +459,7 @@ main(int argc, char **argv)
 	if (G.nsec3_present) {
 		if (first_nsec3) nsec3_validate(&first_nsec3->rr);
 		perform_remaining_nsec3checks();
+		if (G.opt.policy_checks[POLICY_NSEC3_CONSISTENCY]) nsec3_consistency_policy_check();
 	}
 	if (G.dnssec_active && G.opt.policy_checks[POLICY_KSK_EXISTS]) {
 		dnskey_ksk_policy_check();

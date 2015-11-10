@@ -56,7 +56,7 @@ srdem16n208faucj0tsn0003idt2hm62.de.	7200	IN	NSEC3	1 1 15 1234abcd  tdq5s96abfja
 srdem16n208faucj0tsn0003idt2hm62.de.	7200	IN	RRSIG	NSEC3 8 2 7200 20300101000000 20151110131128 11286 de. TkfU0oZ+VQe9S/I4UMQZOHrRy4Mbqlox6zSFi9eTG3PL3GbCPn4w/7DePPKIHYYJoibD2C/lZ/eXytxx+7tey2YcshLT6Ph87hIA/cI6+OTos4oDBm8x54gK+XmA1scyeicfy1wad2bYz7J/jsLdeUId8S3Cet3BHddGpJLXqLc=
 denic-itstt-dispute.de.	86400	IN	NS	dns1.opsblau.de.
 denic-itstt-dispute.de.	86400	IN	NS	dns3.opsblau.de.
-mkl43mfefg2rupgq929m3m0gon7877l9.de.	7200	IN	NSEC3	1 1 16 1234abcd  n4etc7qfttgfla9824c8rlbu79t28n7i NS 
+mkl43mfefg2rupgq929m3m0gon7877l9.de.	7200	IN	NSEC3	1 1 15 1234abcd  n4etc7qfttgfla9824c8rlbu79t28n7i NS 
 mkl43mfefg2rupgq929m3m0gon7877l9.de.	7200	IN	RRSIG	NSEC3 8 2 7200 20300101000000 20151110131128 11286 de. S4ObU5Mp4gRdMPEnqorYwQQ0QBEoyH/M5f4bRBZkKWtI/DO3wSsvoVNns5CMT7ap+DbpTJRTfNZUNQrEibHysbQCfK8Fu38LwpMCYjy4S6geJVCj7yy+HWru3BzVUVXgHl2BmOGxbTTmXePC11GbvZNrkLBZ3csZ3nu5g7FUppw=
 denic-itstt-dnskey.de.	86400	IN	NS	dns1.opsblau.de.
 denic-itstt-dnskey.de.	86400	IN	NS	dns3.opsblau.de.
@@ -90,7 +90,10 @@ dns1.denic-itstt-glues4.de.	86400	IN	A	88.198.51.92
 dns3.denic-itstt-glues4.de.	86400	IN	A	81.169.129.171
 denic-itstt-glues6.de.	86400	IN	NS	dns1.denic-itstt-glues6.de.
 denic-itstt-glues6.de.	86400	IN	NS	dns3.opsblau.de.
-h8gpboh497fq57a169opvao3ncgi9ed1.de.	7200	IN	NSEC3	1 1 14 1234abcd  h9ttr4v2useh9tlea4vqiri7dsas8p33 NS 
+;h8gpboh497fq57a169opvao3ncgi9ed1.de = denic-itstt-glues6.de
+;h9ttr4v2useh9tlea4vqiri7dsas8p33 = *.denic-itstt-nsentry-wildcardmx.de
+;h8gpboh497fq57a169opvao3ncgi9ed1.de.	7200	IN	NSEC3	1 1 15 1234abcd  h9ttr4v2useh9tlea4vqiri7dsas8p33 NS 
+0pvehlhq4a5v272460a0pmil4h79e3vf.de.	7200	IN	NSEC3	1 1 16 1234abcd  r1loccnndo7gusqv3j5d1l58c8gbc82f NS
 h8gpboh497fq57a169opvao3ncgi9ed1.de.	7200	IN	RRSIG	NSEC3 8 2 7200 20300101000000 20151110131128 11286 de. aQSl+iYfq8fvinA7ij9ZFenw+lWfXWcQk06pH6yD1SGR2xokCkm/mYkUStLxhFA7SfrTtAi9SbH6Bbl+BKYGA9Oeo7+7q4Cxs+r9onOtjwBbJYBMHV1CWW5AX33rDWi6A7urch2HBgyQrtBq4fcige5G0y9fyAz/XQhncqtqRcQ=
 dns1.denic-itstt-glues6.de.	86400	IN	A	88.198.51.92
 dns1.denic-itstt-glues6.de.	86400	IN	AAAA	2a01:4f8:a0:8222::2
