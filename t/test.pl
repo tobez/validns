@@ -356,6 +356,35 @@ isnt(rc, 0, 'multitime: valid signed zone with timestamps in the past');
 @e = split /\n/, stderr;
 like(shift @e, qr/signature is too old/, "multitime: signature is too old");
 
+run('./validns', @threads, '-t1447282800', '-s', 't/issues/45-counting-of-records/de.test.signed');
+is(rc, 0, 'valid zone parses ok');
+like(stdout, qr/^record count by type:$/m, "record count exists");
+like(stdout, qr/^\s+A: 19$/m, "correct amount of A-RR counted");
+like(stdout, qr/^\s+AAAA: 4$/m, "correct amount of AAAA-RR counted");
+like(stdout, qr/^\s+DS: 9$/m, "correct amount of DS-RR counted");
+like(stdout, qr/^\s+MX: 7$/m, "correct amount of MX-RR counted");
+like(stdout, qr/^\s+NS: 49$/m, "correct amount of DS-RR counted");
+like(stdout, qr/^\s+TXT: 1$/m, "correct amount of TXT-RR counted");
+like(stdout, qr/^\s+SRV: 1$/m, "correct amount of SRV-RR counted");
+like(stdout, qr/^\s+SOA: 1$/m, "correct amount of SRV-RR counted");
+like(stdout, qr/^\s+DNSKEY: 2$/m, "correct amount of DNSKEY-RR counted");
+like(stdout, qr/^\s+NSEC3: 39$/m, "correct amount of NSEC3-RR counted");
+like(stdout, qr/^\s+NSEC3PARAM: 1$/m, "correct amount of NSEC3-RR counted");
+like(stdout, qr/^\s+RRSIG: 72$/m, "correct amount of RRSIG-RR counted");
+
+run('./validns', @threads, '-t1447282800', '-s', 't/issues/42-consistency-of-nsec3-chain/de.test.inconsistent_algorithm');
+isnt(rc, 0, 'inconsistent algorithm in NSEC3 not detected');
+like(stderr, qr/unrecognized or unsupported hash algorithm$/m, "inconsistent algorithm in NSEC3 not detected");
+
+run('./validns', @threads, '-t1447282800', '-s', 't/issues/42-consistency-of-nsec3-chain/de.test.inconsistent_flags');
+isnt(rc, 0, 'inconsistent flags in NSEC3 not detected');
+
+run('./validns', @threads, '-t1447282800', '-s', 't/issues/42-consistency-of-nsec3-chain/de.test.inconsistent_iterations');
+isnt(rc, 0, 'inconsistent iterations in NSEC3 not detected');
+
+run('./validns', @threads, '-t1447282800', '-s', 't/issues/42-consistency-of-nsec3-chain/de.test.inconsistent_salt');
+isnt(rc, 0, 'inconsistent salt in NSEC3 not detected');
+
 }
 
 done_testing;
