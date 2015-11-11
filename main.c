@@ -283,6 +283,7 @@ void usage(char *err)
 	fprintf(stderr, "\t\t\trp-txt-exists\n");
 	fprintf(stderr, "\t\t\ttlsa-host\n");
 	fprintf(stderr, "\t\t\tksk-exists\n");
+	fprintf(stderr, "\t\t\tds-requires-ns\n");
 	fprintf(stderr, "\t\t\tall\n");
 
 	fprintf(stderr, "\t-n N\t\tuse N worker threads\n");
@@ -407,6 +408,8 @@ main(int argc, char **argv)
 				G.opt.policy_checks[POLICY_TLSA_HOST] = 1;
 			} else if (strcmp(optarg, "ksk-exists") == 0) {
 				G.opt.policy_checks[POLICY_KSK_EXISTS] = 1;
+			} else if (strcmp(optarg, "ds-requires-ns") == 0) {
+				G.opt.policy_checks[POLICY_DS_REQUIRES_NS] = 1;
 			} else {
 				usage("unknown policy name");
 			}
@@ -459,6 +462,10 @@ main(int argc, char **argv)
 	if (G.dnssec_active && G.opt.policy_checks[POLICY_KSK_EXISTS]) {
 		dnskey_ksk_policy_check();
 	}
+	if (G.dnssec_active && G.opt.policy_checks[POLICY_DS_REQUIRES_NS]) {
+		ds_requires_ns_policy_check();
+	}
+
 	gettimeofday(&stop, NULL);
 	if (G.opt.summary) {
 		printf("records found:       %d\n", G.stats.rr_count);

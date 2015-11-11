@@ -17,10 +17,13 @@
 #include "carp.h"
 #include "rr.h"
 
+static struct rr_ds *all_ds_rr = NULL;
+
 static struct rr* ds_parse(char *name, long ttl, int type, char *s)
 {
 	struct rr_ds *rr = getmem(sizeof(*rr));
 	int key_tag, algorithm, digest_type;
+	static struct rr *result;
 
 	key_tag = extract_integer(&s, "key tag");
 	if (key_tag < 0)	return NULL;
@@ -67,7 +70,12 @@ static struct rr* ds_parse(char *name, long ttl, int type, char *s)
 	if (*s) {
 		return bitch("garbage after valid DS data");
 	}
-	return store_record(type, name, ttl, rr);
+	result = store_record(type, name, ttl, rr);
+	if (result) {
+		rr->next_ds_rr = all_ds_rr;
+		all_ds_rr = rr;
+	}
+	return result;
 }
 
 static char* ds_human(struct rr *rrv)
@@ -97,3 +105,17 @@ static struct binary_data ds_wirerdata(struct rr *rrv)
 }
 
 struct rr_methods ds_methods = { ds_parse, ds_human, ds_wirerdata, NULL, NULL };
+
+void ds_requires_ns_policy_check(void)
+{
+	struct rr_ds *rr = all_ds_rr;
+	while (rr) {
+		struct rr_set *ns_rr_set = find_rr_set(T_NS,rr->rr.rr_set->named_rr->name);
+		if (!ns_rr_set) {
+			moan(rr->rr.file_name, rr->rr.line, "DS-RR without corresponding NS-RR");
+		}
+		rr = rr->next_ds_rr;
+
+	}
+
+}
