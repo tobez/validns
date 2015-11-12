@@ -113,6 +113,8 @@ void ds_requires_ns_policy_check(void)
 		struct rr_set *ns_rr_set = find_rr_set(T_NS,rr->rr.rr_set->named_rr->name);
 		if (!ns_rr_set) {
 			moan(rr->rr.file_name, rr->rr.line, "DS-RR without corresponding NS-RR");
+		} else if (ns_rr_set->count<2) {
+			moan(rr->rr.file_name, rr->rr.line, "DS-RR with less than 2 corresponding NS-RR");
 		}
 		rr = rr->next_ds_rr;
 
