@@ -708,7 +708,17 @@ struct binary_data extract_text(char **input, char *what)
 	int c;
 
 	if (*s != '"') {
-		bitch("for now, %s must be put in double quotes", what);
+		while (*s && !isspace(*s)) {
+			o[l++] = *s++;
+		}
+		*input = skip_white_space(s);
+		if (!*input)
+			return r;  /* bitching's done elsewhere */
+
+		o[l] = 0;
+		r.data = getmem(l+1);
+		r.length = l;
+		memcpy(r.data, o, l+1);
 		return r;
 	}
 	s++;
