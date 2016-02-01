@@ -28,19 +28,19 @@ static struct rr* tlsa_parse(char *name, long ttl, int type, char *s)
 	struct rr_tlsa *rr = getmem(sizeof(*rr));
 	int cert_usage, selector, matching_type;
 
-	cert_usage = extract_integer(&s, "certificate usage field");
+	cert_usage = extract_integer(&s, "certificate usage field", NULL);
 	if (cert_usage < 0)	return NULL;
 	if (cert_usage > 3)
 		return bitch("bad certificate usage field");
 	rr->cert_usage = cert_usage;
 
-	selector = extract_integer(&s, "selector field");
+	selector = extract_integer(&s, "selector field", NULL);
 	if (selector < 0)	return NULL;
 	if (selector > 1)
 		return bitch("bad selector field");
 	rr->selector = selector;
 
-	matching_type = extract_integer(&s, "matching type field");
+	matching_type = extract_integer(&s, "matching type field", NULL);
 	if (matching_type < 0)	return NULL;
 	if (matching_type > 2)
 		return bitch("bad matching type field");

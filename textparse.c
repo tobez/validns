@@ -77,7 +77,7 @@ static char *extract_name_slow(char **input, char *what, int options)
 	int d, l, ol;
 
 	while (1) {
-		if (isalnum(*s) || *s == '_' || *s == '.' || *s == '-' || *s == '/') {
+		if (isalnum(*s) || *s == '_' || *s == '.' || *s == '-' || *s == '/' || ((options & DOLLAR_OK_IN_NAMES) && *s == '$')) {
 			if (t-buf >= 1022)
 				return bitch("name too long");
 			*t++ = *s++;
@@ -182,7 +182,7 @@ char *extract_name(char **input, char *what, int options)
 		}
 		r = quickstrdup(file_info->current_origin);
 	} else {
-		if (!(isalnum(*s) || *s == '_' || *s == '.' || *s == '/')) {
+		if (!(isalnum(*s) || *s == '_' || *s == '.' || *s == '/' || ((options & DOLLAR_OK_IN_NAMES) && *s == '$'))) {
 			if (*s == '*') {
 				wildcard = 1;
 			} else {
@@ -192,7 +192,7 @@ char *extract_name(char **input, char *what, int options)
 			}
 		}
 		s++;
-		while (isalnum(*s) || *s == '.' || *s == '-' || *s == '_' || *s == '/')
+		while (isalnum(*s) || *s == '.' || *s == '-' || *s == '_' || *s == '/' || ((options & DOLLAR_OK_IN_NAMES) && *s == '$'))
 			s++;
 		if (*s && !isspace(*s) && *s != ';' && *s != ')') {
 			if (*s == '\\')
@@ -277,7 +277,7 @@ char *extract_label(char **input, char *what, void *is_temporary)
 	return r;
 }
 
-long long extract_integer(char **input, char *what)
+long long extract_integer(char **input, char *what, const char *extra_delimiters)
 {
 	char *s = *input;
 	long long r = -1;
@@ -292,8 +292,10 @@ long long extract_integer(char **input, char *what)
 	while (isdigit(*s))
 		s++;
 	if (*s && !isspace(*s) && *s != ';' && *s != ')') {
-		bitch("%s is not valid", what);
-		return -1;
+		if (!extra_delimiters || strchr(extra_delimiters, *s) == NULL) {
+			bitch("%s is not valid", what);
+			return -1;
+		}
 	}
 	if (!*s)	end = s;
 	c = *s;

@@ -27,7 +27,7 @@ static struct rr* soa_parse(char *name, long ttl, int type, char *s)
 	if (!rr->mname) return NULL;
 	rr->rname = extract_name(&s, "rname", 0);
 	if (!rr->rname) return NULL;
-	i = extract_integer(&s, "serial");
+	i = extract_integer(&s, "serial", NULL);
 	if (i < 0) return NULL;
 	if (i > 4294967295UL) return bitch("serial is out of range");
 	rr->serial = i;

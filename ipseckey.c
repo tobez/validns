@@ -24,15 +24,15 @@ static struct rr *ipseckey_parse(char *name, long ttl, int type, char *s)
 	struct rr_ipseckey *rr = getmem(sizeof(*rr));
 	int i;
 
-	rr->precedence = i = extract_integer(&s, "precedence");
+	rr->precedence = i = extract_integer(&s, "precedence", NULL);
 	if (i < 0)    return NULL;
 	if (i >= 256) return bitch("precedence range is not valid");
 
-	rr->gateway_type = i = extract_integer(&s, "gateway type");
+	rr->gateway_type = i = extract_integer(&s, "gateway type", NULL);
 	if (i < 0) return NULL;
 	if (i > 3) return bitch("gateway type is not valid");
 
-	rr->algorithm = i = extract_integer(&s, "algorithm");
+	rr->algorithm = i = extract_integer(&s, "algorithm", NULL);
 	if (i < 0) return NULL;
 	if (i > 2) return bitch("algorithm is not valid");
 

@@ -22,7 +22,7 @@ static struct rr* dlv_parse(char *name, long ttl, int type, char *s)
 	struct rr_dlv *rr = getmem(sizeof(*rr));
 	int key_tag, algorithm, digest_type;
 
-	key_tag = extract_integer(&s, "key tag");
+	key_tag = extract_integer(&s, "key tag", NULL);
 	if (key_tag < 0)	return NULL;
 	rr->key_tag = key_tag;
 
@@ -30,7 +30,7 @@ static struct rr* dlv_parse(char *name, long ttl, int type, char *s)
 	if (algorithm == ALG_UNSUPPORTED)	return NULL;
 	rr->algorithm = algorithm;
 
-	digest_type = extract_integer(&s, "digest type");
+	digest_type = extract_integer(&s, "digest type", NULL);
 	if (digest_type < 0)	return NULL;
 	rr->digest_type = digest_type;
 

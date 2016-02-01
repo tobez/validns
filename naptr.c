@@ -24,14 +24,14 @@ static struct rr *naptr_parse(char *name, long ttl, int type, char *s)
 	int i;
 	struct binary_data text;
 
-	i = extract_integer(&s, "order");
+	i = extract_integer(&s, "order", NULL);
 	if (i < 0)
 		return NULL;
 	if (i >= 65536)
 		return bitch("order range is not valid");
 	rr->order = i;
 
-	i = extract_integer(&s, "preference");
+	i = extract_integer(&s, "preference", NULL);
 	if (i < 0)
 		return NULL;
 	if (i >= 65536)

@@ -27,7 +27,7 @@ static struct rr* nsec3param_parse(char *name, long ttl, int type, char *s)
 	struct rr *ret_rr;
 	int i;
 
-	i = extract_integer(&s, "hash algorithm");
+	i = extract_integer(&s, "hash algorithm", NULL);
 	if (i < 0)
 		return NULL;
 	if (i > 255)
@@ -36,7 +36,7 @@ static struct rr* nsec3param_parse(char *name, long ttl, int type, char *s)
 		return bitch("unrecognized or unsupported hash algorithm");
 	rr->hash_algorithm = i;
 
-	i = extract_integer(&s, "flags");
+	i = extract_integer(&s, "flags", NULL);
 	if (i < 0)
 		return NULL;
 	if (i > 255)
@@ -45,7 +45,7 @@ static struct rr* nsec3param_parse(char *name, long ttl, int type, char *s)
 		return bitch("flags is supposed to be 0 for NSEC3PARAM");
 	rr->flags = i;
 
-	i = extract_integer(&s, "iterations");
+	i = extract_integer(&s, "iterations", NULL);
 	if (i < 0)
 		return NULL;
 	if (i > 2500)

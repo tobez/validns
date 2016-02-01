@@ -432,7 +432,7 @@ invalid:
 	s = skip_white_space(s);
 	if (!s)	return NULL;
 
-	len = extract_integer(&s, "custom data size");
+	len = extract_integer(&s, "custom data size", NULL);
 	if (len < 0) return NULL;
 	if (len > 65535) goto invalid;
 
@@ -810,7 +810,7 @@ int extract_algorithm(char **s, char *what)
 	char *str_alg;
 
 	if (isdigit(**s)) {
-		alg = extract_integer(s, what);
+		alg = extract_integer(s, what, NULL);
 		if (algorithm_type(alg) == ALG_UNSUPPORTED) {
 			bitch("bad or unsupported algorithm %d", alg);
 			return ALG_UNSUPPORTED;

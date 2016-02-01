@@ -22,7 +22,7 @@ static struct rr *nid_parse(char *name, long ttl, int type, char *s)
 	struct rr_nid *rr = getmem(sizeof(*rr));
 	int preference;
 
-	rr->preference = preference = extract_integer(&s, "NID preference");
+	rr->preference = preference = extract_integer(&s, "NID preference", NULL);
 	if (preference < 0)
 		return NULL;
 	if (extract_u64(&s, "NodeID", &rr->node_id) < 0)

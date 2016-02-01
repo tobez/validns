@@ -56,7 +56,7 @@ static struct rr *loc_parse(char *name, long ttl, int type, char *s)
 	rr->version = 0;
 
 	/* latitude block */
-	i = extract_integer(&s, "degrees latitude");
+	i = extract_integer(&s, "degrees latitude", NULL);
 	if (i < 0)
 		return NULL;
 	if (i > 90)
@@ -65,7 +65,7 @@ static struct rr *loc_parse(char *name, long ttl, int type, char *s)
 	min = 0;
 	sec = 0;
 	if (isdigit(*s)) {
-		i = extract_integer(&s, "minutes latitude");
+		i = extract_integer(&s, "minutes latitude", NULL);
 		if (i < 0)
 			return NULL;
 		if (i > 59)
@@ -96,7 +96,7 @@ static struct rr *loc_parse(char *name, long ttl, int type, char *s)
 	if (!s) return NULL;
 
 	/* longitude block */
-	i = extract_integer(&s, "degrees longitude");
+	i = extract_integer(&s, "degrees longitude", NULL);
 	if (i < 0)
 		return NULL;
 	if (i > 180)
@@ -105,7 +105,7 @@ static struct rr *loc_parse(char *name, long ttl, int type, char *s)
 	min = 0;
 	sec = 0;
 	if (isdigit(*s)) {
-		i = extract_integer(&s, "minutes longitude");
+		i = extract_integer(&s, "minutes longitude", NULL);
 		if (i < 0)
 			return NULL;
 		if (i > 59)

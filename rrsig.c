@@ -64,7 +64,7 @@ static struct rr* rrsig_parse(char *name, long ttl, int type, char *s)
 		return bitch("private algorithms are not supported in RRSIG");
 	}
 
-	rr->labels = extract_integer(&s, "labels");
+	rr->labels = extract_integer(&s, "labels", NULL);
 	if (rr->labels < 0)	return NULL;
 	/* TODO validate labels, see http://tools.ietf.org/html/rfc4034#section-3.1.3 */
 
@@ -79,7 +79,7 @@ static struct rr* rrsig_parse(char *name, long ttl, int type, char *s)
 	if (ts < 0) return NULL;
 	rr->sig_inception = ts;
 
-	key_tag = extract_integer(&s, "key tag");
+	key_tag = extract_integer(&s, "key tag", NULL);
 	if (key_tag < 0)	return NULL;
 	rr->key_tag = key_tag;
 

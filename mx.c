@@ -21,7 +21,7 @@ static struct rr *mx_parse(char *name, long ttl, int type, char *s)
 {
 	struct rr_mx *rr = getmem(sizeof(*rr));
 
-	rr->preference = extract_integer(&s, "MX preference");
+	rr->preference = extract_integer(&s, "MX preference", NULL);
 	if (rr->preference < 0)
 		return NULL;
 	/* XXX preference range check */

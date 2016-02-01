@@ -21,7 +21,7 @@ static struct rr *afsdb_parse(char *name, long ttl, int type, char *s)
 {
 	struct rr_afsdb *rr = getmem(sizeof(*rr));
 
-	rr->subtype = extract_integer(&s, "AFSDB subtype");
+	rr->subtype = extract_integer(&s, "AFSDB subtype", NULL);
 	if (rr->subtype < 0)
 		return NULL;
 

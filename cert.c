@@ -30,7 +30,7 @@ static int extract_certificate_type(char **s, char *what)
 	char *str_type;
 
 	if (isdigit(**s)) {
-		type = extract_integer(s, what);
+		type = extract_integer(s, what, NULL);
 		if (type >= 1 && type <= 8)
 			return type;
 		if (type == 253 || type == 254)
@@ -84,14 +84,14 @@ static struct rr* cert_parse(char *name, long ttl, int type, char *s)
 	if (cert_type < 0)	return NULL;
 	rr->type = cert_type;
 
-	key_tag = extract_integer(&s, "key tag");
+	key_tag = extract_integer(&s, "key tag", NULL);
 	if (key_tag < 0)	return NULL;
 	if (key_tag > 65535)
 		return bitch("bad key tag");
 	rr->key_tag = key_tag;
 
 	if (isdigit(*s)) {
-		alg = extract_integer(&s, "algorithm");
+		alg = extract_integer(&s, "algorithm", NULL);
 		if (alg < 0)	return NULL;
 		if (alg > 255)	return bitch("bad algorithm");
 		if (alg != 0) {  /* 0 is just fine */

@@ -18,6 +18,11 @@ struct file_info
 	char buf[2048];
 	char *current_origin;
 	char name[0];
+
+	int generate_cur;
+	int generate_lim;
+	int generate_lhs;
+	int generate_rhs;
 };
 
 extern struct file_info *file_info;

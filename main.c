@@ -72,6 +72,39 @@ static char *process_directive(char *s)
 			fprintf(stderr, "-> %s:%d: ", file_info->name, file_info->line);
 			fprintf(stderr, "default ttl is now %ld\n", G.default_ttl);
 		}
+	} else if (*(s+1) == 'G' && strncmp(s, "$GENERATE", 9) == 0) {
+		int from, to;
+		char *lhs, *rhs;
+
+		s += 9;
+		if (!isspace(*s)) {
+			if (isalnum(*s)) goto unrecognized_directive;
+			return bitch("bad $GENERATE format");
+		}
+		s = skip_white_space(s);
+
+		from = extract_integer(&s, "generate-from", "-");
+		if (from < 0)
+			return NULL;
+		if (*s != '-')
+			return bitch("'-' between generate-from and generate-to is expected");
+		s++;
+		to = extract_integer(&s, "generate-to", "-");
+		if (to < 0)
+			return NULL;
+
+		if (*s == '/')
+			return bitch("generate-step is unsupported for now");
+
+		lhs = extract_name(&s, "generate-lhs", KEEP_CAPITALIZATION | DOLLAR_OK_IN_NAMES);
+		if (!lhs)
+			return NULL;
+
+		if (*s == '{')
+			return bitch("{offset,width,type} is unsupported for now");
+
+		rhs = quickstrdup(s);
+		return rhs;
 	} else if (*(s+1) == 'I' && strncmp(s, "$INCLUDE", 8) == 0) {
 		char *p, *f;
 		char c;

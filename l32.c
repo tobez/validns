@@ -23,7 +23,7 @@ static struct rr *l32_parse(char *name, long ttl, int type, char *s)
 	struct in_addr ipv4_like;
 	int preference;
 
-	rr->preference = preference = extract_integer(&s, "L32 preference");
+	rr->preference = preference = extract_integer(&s, "L32 preference", NULL);
 	if (preference < 0)
 		return NULL;
 	if (extract_ipv4(&s, "Locator32", &ipv4_like) <= 0)

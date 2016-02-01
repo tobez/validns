@@ -31,7 +31,7 @@ static struct rr* dnskey_parse(char *name, long ttl, int type, char *s)
 	int i;
 	static struct rr *result;
 
-	flags = extract_integer(&s, "flags");
+	flags = extract_integer(&s, "flags", NULL);
 	if (flags < 0) return NULL;
 	if (flags & 0xfe7e)
 		return bitch("reserved flags bits are set");
@@ -41,7 +41,7 @@ static struct rr* dnskey_parse(char *name, long ttl, int type, char *s)
 
 	/* TODO validate that `name` is the name of the zone if flags have Zone Key bit set */
 
-	proto = extract_integer(&s, "protocol");
+	proto = extract_integer(&s, "protocol", NULL);
 	if (proto < 0) return NULL;
 	if (proto != 3)
 		return bitch("bad protocol value");

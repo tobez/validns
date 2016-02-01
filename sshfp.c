@@ -22,13 +22,13 @@ static struct rr* sshfp_parse(char *name, long ttl, int type, char *s)
 	struct rr_sshfp *rr = getmem(sizeof(*rr));
 	int algorithm, fp_type;
 
-	algorithm = extract_integer(&s, "algorithm");
+	algorithm = extract_integer(&s, "algorithm", NULL);
 	if (algorithm < 0)	return NULL;
 	if (algorithm != 1 && algorithm != 2 && algorithm != 3 && algorithm != 4)
 		return bitch("unsupported algorithm");
 	rr->algorithm = algorithm;
 
-	fp_type = extract_integer(&s, "fp type");
+	fp_type = extract_integer(&s, "fp type", NULL);
 	if (fp_type < 0)	return NULL;
 	if (fp_type != 1 && fp_type != 2)
 		return bitch("unsupported fp_type");

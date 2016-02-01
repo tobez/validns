@@ -23,7 +23,7 @@ static struct rr *lp_parse(char *name, long ttl, int type, char *s)
 	struct rr_lp *rr = getmem(sizeof(*rr));
 	int preference;
 
-	rr->preference = preference = extract_integer(&s, "LP preference");
+	rr->preference = preference = extract_integer(&s, "LP preference", NULL);
 	if (preference < 0)
 		return NULL;
 	rr->fqdn = extract_name(&s, "LP fqdn", 0);

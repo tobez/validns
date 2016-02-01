@@ -22,7 +22,7 @@ static struct rr *l64_parse(char *name, long ttl, int type, char *s)
 	struct rr_l64 *rr = getmem(sizeof(*rr));
 	int preference;
 
-	rr->preference = preference = extract_integer(&s, "L64 preference");
+	rr->preference = preference = extract_integer(&s, "L64 preference", NULL);
 	if (preference < 0)
 		return NULL;
 	if (extract_u64(&s, "Locator64", &rr->locator64) < 0)

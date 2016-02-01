@@ -24,21 +24,21 @@ static struct rr *srv_parse(char *name, long ttl, int type, char *s)
 
 	/* TODO validate `name` (underscores etc) http://tools.ietf.org/html/rfc2782 */
 
-	i = extract_integer(&s, "priority");
+	i = extract_integer(&s, "priority", NULL);
 	if (i < 0)
 		return NULL;
 	if (i >= 65536)
 		return bitch("priority range is not valid");
 	rr->priority = i;
 
-	i = extract_integer(&s, "weight");
+	i = extract_integer(&s, "weight", NULL);
 	if (i < 0)
 		return NULL;
 	if (i >= 65536)
 		return bitch("weight range is not valid");
 	rr->weight = i;
 
-	i = extract_integer(&s, "port");
+	i = extract_integer(&s, "port", NULL);
 	if (i < 0)
 		return NULL;
 	if (i >= 65536)

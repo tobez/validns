@@ -33,12 +33,13 @@ struct binary_data compose_binary_data(const char *fmt, int tmp, ...);
  */
 
 #define KEEP_CAPITALIZATION 32
+#define DOLLAR_OK_IN_NAMES  64
 
 int empty_line_or_comment(char *s);
 char *skip_white_space(char *s);
 char *extract_name(char **input, char *what, int options);
 char *extract_label(char **input, char *what, void *is_temporary);
-long long extract_integer(char **input, char *what);
+long long extract_integer(char **input, char *what, const char *extra_delimiters);
 long extract_timevalue(char **input, char *what);
 long long extract_timestamp(char **input, char *what);
 int extract_ipv4(char **input, char *what, struct in_addr *addr);

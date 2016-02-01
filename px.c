@@ -21,7 +21,7 @@ static struct rr *px_parse(char *name, long ttl, int type, char *s)
 {
 	struct rr_px *rr = getmem(sizeof(*rr));
 
-	rr->preference = extract_integer(&s, "PX preference");
+	rr->preference = extract_integer(&s, "PX preference", NULL);
 	if (rr->preference < 0)
 		return NULL;
 

@@ -21,7 +21,7 @@ static struct rr *kx_parse(char *name, long ttl, int type, char *s)
 {
 	struct rr_kx *rr = getmem(sizeof(*rr));
 
-	rr->preference = extract_integer(&s, "KX preference");
+	rr->preference = extract_integer(&s, "KX preference", NULL);
 	if (rr->preference < 0)
 		return NULL;
 

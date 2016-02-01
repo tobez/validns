@@ -21,7 +21,7 @@ static struct rr *rt_parse(char *name, long ttl, int type, char *s)
 {
 	struct rr_rt *rr = getmem(sizeof(*rr));
 
-	rr->preference = extract_integer(&s, "RT preference");
+	rr->preference = extract_integer(&s, "RT preference", NULL);
 	if (rr->preference < 0)
 		return NULL;
 
