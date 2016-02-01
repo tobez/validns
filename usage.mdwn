@@ -65,6 +65,9 @@ Coming soon.
 -v
 :   be extra verbose
 
+-M
+:   use SOA MINTTL as the default TTL when no TTL specified
+
 -I *path*
 :   use this path for $INCLUDE files
 

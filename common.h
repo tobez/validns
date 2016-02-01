@@ -63,6 +63,7 @@ struct globals {
 		uint32_t times_to_check[MAX_TIMES_TO_CHECK];
 		char policy_checks[N_POLICY_CHECKS];
 		int n_threads;
+		int soa_minttl_as_default_ttl;
 	} opt;
 	int exit_code;
 	long default_ttl;

@@ -204,23 +204,36 @@ read_zone_file(void)
 			if (ttl < 0) {
 				ttl = G.default_ttl;
 			}
-			if (ttl < 0) {
-				bitch("ttl not specified and default is not known");
-				continue;
-			}
 
 			{
 				int is_generic;
 				int type = str2rdtype(rdtype, &is_generic);
+				struct rr *rr;
+
 				if (type <= 0) continue;
+
+				if (ttl < 0 && !(G.opt.soa_minttl_as_default_ttl && type == T_SOA)) {
+					bitch("ttl not specified and default is not known");
+					continue;
+				}
+
 				if (is_generic)
-					rr_parse_any(name, ttl, type, s);
+					rr = rr_parse_any(name, ttl, type, s);
 				else if (type > T_MAX)
-					rr_parse_any(name, ttl, type, s);
+					rr = rr_parse_any(name, ttl, type, s);
 				else if (rr_methods[type].rr_parse)
-					rr_methods[type].rr_parse(name, ttl, type, s);
+					rr = rr_methods[type].rr_parse(name, ttl, type, s);
 				else
-					rr_parse_any(name, ttl, type, s);
+					rr = rr_parse_any(name, ttl, type, s);
+
+				if (type == T_SOA && ttl < 0 && rr) {
+					struct rr_soa *soa = (struct rr_soa *) rr;
+					soa->rr.ttl = G.default_ttl = soa->minimum;
+					if (G.opt.verbose) {
+						fprintf(stderr, "-> %s:%d: ", file_info->name, file_info->line);
+						fprintf(stderr, "no ttl specified; using SOA MINTTL (%ld) instead\n", G.default_ttl);
+					}
+				}
 			}
 		}
 		if (ferror(file_info->file))
@@ -364,13 +377,16 @@ main(int argc, char **argv)
 	struct timeval start, stop;
 
 	initialize_globals();
-	while ((o = getopt(argc, argv, "fhqsvI:z:t:p:n:")) != -1) {
+	while ((o = getopt(argc, argv, "fhMqsvI:z:t:p:n:")) != -1) {
 		switch(o) {
 		case 'h':
 			usage(NULL);
 			break;
 		case 'f':
 			G.opt.die_on_first_error = 1;
+			break;
+		case 'M':
+			G.opt.soa_minttl_as_default_ttl = 1;
 			break;
 		case 'q':
 			G.opt.no_output = 1;

@@ -39,6 +39,9 @@ static struct rr* soa_parse(char *name, long ttl, int type, char *s)
 	if (rr->expire < 0) return NULL;
 	rr->minimum = extract_timevalue(&s, "minimum");
 	if (rr->minimum < 0) return NULL;
+	if (ttl < 0 && G.opt.soa_minttl_as_default_ttl) {
+		ttl = rr->minimum;
+	}
 	if (*s) {
 		return bitch("garbage after valid SOA data");
 	}
