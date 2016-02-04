@@ -60,7 +60,9 @@ struct binary_data new_set(void);
 void add_bit_to_set(struct binary_data *set, int bit);
 struct binary_data compressed_set(struct binary_data *set);
 
-/* stpcpy(3) is not available everywhere */
-char *mystpcpy(char *to, const char *from);
+char *mystpcpy(char *to, const char *from); /* stpcpy(3) is not available everywhere */
+size_t mystrlcat(char *dst, const char *src, size_t siz); /* so is strlcat */
+
+char *read_zone_line(void);
 
 #endif

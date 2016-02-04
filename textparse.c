@@ -40,8 +40,7 @@ char *skip_white_space(char *s)
 	}
 	if (*s == 0) {
 		if (file_info->paren_mode) {
-			if (fgets(file_info->buf, 2048, file_info->file)) {
-				file_info->line++;
+			if (read_zone_line()) {
 				return skip_white_space(file_info->buf);
 			} else {
 				return bitch("unexpected end of file");
@@ -754,8 +753,7 @@ new_char:
 		}
 	}
 	if (!*s) {
-		if (fgets(file_info->buf, 2048, file_info->file)) {
-			file_info->line++;
+		if (read_zone_line()) {
 			s = file_info->buf;
 			goto more_text;
 		} else {
@@ -1010,3 +1008,32 @@ mystpcpy(char *to, const char *from)
 	for (; (*to = *from); ++from, ++to);
 	return(to);
 }
+
+size_t
+mystrlcat(char *dst, const char *src, size_t siz)
+{
+	char *d = dst;
+	const char *s = src;
+	size_t n = siz;
+	size_t dlen;
+
+	/* Find the end of dst and adjust bytes left but don't go past end */
+	while (n-- != 0 && *d != '\0')
+		d++;
+	dlen = d - dst;
+	n = siz - dlen;
+
+	if (n == 0)
+		return(dlen + strlen(s));
+	while (*s != '\0') {
+		if (n != 1) {
+			*d++ = *s;
+			n--;
+		}
+		s++;
+	}
+	*d = '\0';
+
+	return(dlen + (s - src));       /* count does not include NUL */
+}
+

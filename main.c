@@ -31,6 +31,78 @@ struct file_info *file_info = NULL;
 int read_zone_file(void);
 void open_zone_file(char *fname);
 
+static void
+concat_generate_template(char *buf, int bufsz, int val, struct generate_template_piece *t)
+{
+	char sval[40];
+
+	while (t) {
+		if (t->constant_string) {
+			mystrlcat(buf, t->constant_string, bufsz);
+		} else {
+			snprintf(sval, 40, "%d", val);
+			mystrlcat(buf, sval, bufsz);
+		}
+		t = t->next;
+	}
+}
+
+static struct generate_template_piece *
+free_generate_template(struct generate_template_piece *t)
+{
+	struct generate_template_piece *n;
+	while (t) {
+		n = t->next;
+		free(t);
+		t = n;
+	}
+	return NULL;
+}
+
+static void
+create_generate_template_piece(struct generate_template_piece **generate_template, char *s)
+{
+	if (s && *s == 0)
+		return;
+
+	struct generate_template_piece *p = malloc(sizeof(struct generate_template_piece));
+
+	p->constant_string = s;
+	p->next = NULL;
+
+	if (*generate_template) {
+		struct generate_template_piece *t = *generate_template;
+		while (t->next)
+			t = t->next;
+		t->next = p;
+	} else {
+		*generate_template = p;
+	}
+}
+
+static struct generate_template_piece *
+prepare_generate_template(char *t)
+{
+	char *s = t;
+	struct generate_template_piece *r = NULL;
+
+	while (1) {
+		while (*t && *t != '$') t++;
+		if (!*t) {
+			create_generate_template_piece(&r, s);
+			break;
+		} else {
+			*t = 0;
+			create_generate_template_piece(&r, s);
+			create_generate_template_piece(&r, NULL);
+			t++;
+			s = t;
+		}
+	}
+
+	return r;
+}
+
 static char *process_directive(char *s)
 {
 	char *d = s+1;
@@ -74,7 +146,7 @@ static char *process_directive(char *s)
 		}
 	} else if (*(s+1) == 'G' && strncmp(s, "$GENERATE", 9) == 0) {
 		int from, to;
-		char *lhs, *rhs;
+		char *lhs, *rdtype;
 
 		s += 9;
 		if (!isspace(*s)) {
@@ -103,8 +175,17 @@ static char *process_directive(char *s)
 		if (*s == '{')
 			return bitch("{offset,width,type} is unsupported for now");
 
-		rhs = quickstrdup(s);
-		return rhs;
+		rdtype = extract_label(&s, "type", NULL);
+		if (!rdtype)
+			return NULL;
+
+		file_info->generate_cur  = from;
+		file_info->generate_lim  = to;
+		file_info->generate_type = rdtype;
+		file_info->generate_lhs = prepare_generate_template(lhs);
+		file_info->generate_rhs = prepare_generate_template(quickstrdup(s));
+
+		return s;
 	} else if (*(s+1) == 'I' && strncmp(s, "$INCLUDE", 8) == 0) {
 		char *p, *f;
 		char c;
@@ -147,6 +228,39 @@ unrecognized_directive:
 	return s;
 }
 
+char *
+read_zone_line(void)
+{
+	char *r;
+
+	if (file_info->generate_lhs) {
+		if (file_info->generate_cur <= file_info->generate_lim) {
+			file_info->buf[0] = 0;
+			concat_generate_template(file_info->buf, LINEBUFSZ, file_info->generate_cur, file_info->generate_lhs);
+			mystrlcat(file_info->buf, " ", LINEBUFSZ);
+			mystrlcat(file_info->buf, file_info->generate_type, LINEBUFSZ);
+			mystrlcat(file_info->buf, " ", LINEBUFSZ);
+			concat_generate_template(file_info->buf, LINEBUFSZ, file_info->generate_cur, file_info->generate_rhs);
+			file_info->generate_cur++;
+			return file_info->buf;
+		} else {
+			/* Done with this $GENERATE */
+			file_info->generate_cur = 0;
+			file_info->generate_lim = 0;
+			file_info->generate_type = NULL;
+			file_info->generate_lhs = NULL;
+			free_generate_template(file_info->generate_lhs);
+			free_generate_template(file_info->generate_rhs);
+			file_info->generate_rhs = NULL;
+		}
+	}
+
+	r = fgets(file_info->buf, LINEBUFSZ, file_info->file);
+	if (r)
+		file_info->line++;
+	return r;
+}
+
 int
 read_zone_file(void)
 {
@@ -154,9 +268,8 @@ read_zone_file(void)
 	char *name = NULL, *class, *rdtype;
 	long ttl = -1;
 	while (file_info) {
-		while (fgets(file_info->buf, 2048, file_info->file)) {
+		while (read_zone_line()) {
 			freeall_temp();
-			file_info->line++;
 			file_info->paren_mode = 0;
 			rdtype = NULL;
 			if (empty_line_or_comment(file_info->buf))

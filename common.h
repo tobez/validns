@@ -9,20 +9,32 @@
 #ifndef _COMMON_H_
 #define _COMMON_H_ 1
 
+struct generate_template_piece;
+struct generate_template_piece
+{
+	char *constant_string;
+	struct generate_template_piece *next;
+};
+
+#define LINEBUFSZ 2048
+
 struct file_info
 {
 	struct file_info *next;
 	FILE *file;
 	int  line;
 	int  paren_mode;
-	char buf[2048];
+	char buf[LINEBUFSZ];
 	char *current_origin;
-	char name[0];
 
 	int generate_cur;
 	int generate_lim;
-	int generate_lhs;
-	int generate_rhs;
+	char *generate_type;
+	struct generate_template_piece *generate_lhs;
+	struct generate_template_piece *generate_rhs;
+
+	/* must be last struct member */
+	char name[0];
 };
 
 extern struct file_info *file_info;
