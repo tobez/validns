@@ -266,6 +266,10 @@ struct rr *store_record(int rdtype, char *name, long ttl, void *rrptr)
 	int apex_assigned = 0;
 	int is_generic = 0;
 
+	if (rdtype<=MAX_RR_COUNT_ID)
+		G.stats.rr_count_by_type[rdtype]++;
+
+
 	if (rdtype < 0) {
 		rdtype = -rdtype;
 		is_generic = 1;

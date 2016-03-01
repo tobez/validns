@@ -1,0 +1,110 @@
+$ORIGIN de.
+$TTL 86400  ; 1 day
+$TTL 86400  ; 1 day ;N
+@   86400   IN  SOA           f.nic.de. its.denic.de.   (
+                                        2015110371   ; serial
+                                        7200    ; refresh
+                                        7200    ; retry
+                                        3600000 ; expire
+                                        7200 )  ; minimum
+;
+;; AUTHORITY RECORDS
+de. 86400   IN  NS  z.nic.de.
+de. 86400   IN  NS  a.nic.de.
+de. 86400   IN  NS  f.nic.de.
+de. 86400   IN  NS  l.de.net.
+de. 86400   IN  NS  n.de.net.
+de. 86400   IN  NS  s.de.net.
+;
+;; ADDITIONAL RECORDS
+;
+;; ZONE RECORDS
+_nicname._tcp.de.     IN SRV  0 0 43 whois.denic.de.
+txt._test.de.     IN TXT "1446568534"
+;
+a	IN	NS	dns1.opsblau ;N
+a	IN	NS	dns3.opsblau ;N
+www.denic-itstt-empty-nonterminal	IN	A	81.91.170.12
+denic-itstt-nsentry-aaaa	IN	A	192.0.2.0
+www.xn--denic-itstt-nsentry--uwb	IN	A	81.91.170.12
+xn--denic-itstt-nsentry--uwb	IN	A	81.91.170.12
+denic-itstt-nsentry-aaaa	IN	AAAA	2001:608:6:6::11
+denic-itstt-nsentry-aaaa	IN	MX	10 mail.denic
+*.denic-itstt-nsentry-wildcardmx	IN	MX	10 mail.denic
+denic-itstt-nsentry-wildcardmx	IN	MX	10 mail.denic
+denic-itstt-contacts-daniel	IN	NS	dns1.opsblau ;N
+denic-itstt-contacts-daniel	IN	NS	dns3.opsblau ;N
+denic-itstt-dispute	IN	NS	dns1.opsblau ;N
+denic-itstt-dispute	IN	NS	dns3.opsblau ;N
+denic-itstt-dnskey	IN	NS	dns1.opsblau ;N
+denic-itstt-dnskey	IN	NS	dns3.opsblau ;N
+denic-itstt-ecdsa256	IN	NS	dns1.opsblau ;N
+denic-itstt-ecdsa256	IN	NS	dns3.opsblau ;N
+denic-itstt-ecdsa384	IN	NS	dns1.opsblau ;N
+denic-itstt-ecdsa384	IN	NS	dns3.opsblau ;N
+denic-itstt-glues4	IN	NS	dns1.denic-itstt-glues4 ;N
+denic-itstt-glues4	IN	NS	dns3.denic-itstt-glues4 ;N
+denic-itstt-glues6	IN	NS	dns1.denic-itstt-glues6 ;N
+denic-itstt-glues6	IN	NS	dns3.opsblau ;N
+denic-itstt-gost	IN	NS	dns1.opsblau ;N
+denic-itstt-gost	IN	NS	dns3.opsblau ;N
+denic-itstt-holderadmintech	IN	NS	dns1.opsblau ;N
+denic-itstt-holderadmintech	IN	NS	dns3.opsblau ;N
+denic-itstt-maxholder	IN	NS	dns1.opsblau ;N
+denic-itstt-maxholder	IN	NS	dns3.opsblau ;N
+denic-itstt-nameserver	IN	NS	dns1.opsblau ;N
+denic-itstt-nameserver	IN	NS	dns3.opsblau ;N
+denic-itstt-ss	IN	NS	dns1.opsblau ;N
+denic-itstt-ss	IN	NS	dns3.opsblau ;N
+denic-itstt-twodnskey	IN	NS	dns1.opsblau ;N
+denic-itstt-twodnskey	IN	NS	dns3.opsblau ;N
+xn--denic-itstt--w9a	IN	NS	dns1.opsblau ;N
+xn--denic-itstt--w9a	IN	NS	dns3.opsblau ;N
+denic-itstt	IN	NS	dns1.pfp ;N
+denic-itstt	IN	NS	ns1.denic-itstt ;N
+denic-itstt	IN	NS	ns2.denic-itstt ;N
+denic	IN	NS	ns1.denic ;N
+denic	IN	NS	ns2.denic ;N
+denic	IN	NS	ns3.denic ;N
+dns3.denic-itstt-glues4	IN	A	81.169.129.171 ;N
+dns1.denic-itstt-glues4	IN	A	88.198.51.92 ;N
+dns1.denic-itstt-glues6	IN	AAAA	2a01:4f8:a0:8222:0:0:0:2 ;N
+dns1.denic-itstt-glues6	IN	A	88.198.51.92 ;N
+ns2.denic-itstt	IN	A	81.169.129.171 ;N
+ns1.denic-itstt	IN	A	88.198.51.72 ;N
+ns1.denic	IN	AAAA	2a02:568:121:6:2::2 ;N
+ns2.denic	IN	A	78.104.145.26 ;N
+ns1.denic	IN	A	81.91.170.1 ;N
+ns3.denic	IN	A	81.91.173.19 ;N
+denic-itstt-dnskey	IN	DS	56827 8 2 62EDC7064F85222CD43622D422226E722B344A15BC07ED10D209FFD8F57E57D1
+denic-itstt-ecdsa256	IN	DS	62996 13 2 CC951A06D6D2F7C08B1111364393A3F3482F87D979307030B372C69DD4FFF43F
+denic-itstt-ecdsa384	IN	DS	51285 14 2 55F9B581C22420BA1B135991AFA8E2617566ED991618333E5971FA8ECA9C3036
+denic-itstt-gost	IN	DS	58287 12 2 AB7718789736F5D2526ACFE6C7F0EA0E365BE2E2B653012784244F420C4CD732
+denic-itstt-twodnskey	IN	DS	31879 8 2 650BECC16FF5FAF025184460CC2CE05E1F42903B0CFCFC4B75B44714CAB19B1E
+denic-itstt-twodnskey	IN	DS	55312 8 2 A51094E24342E8698F3A3D9F3CFB71728E070709B161CE3DA36285B778895E66
+denic-itstt	IN	DS	48739 8 2 4FEC22B30F27C9C190DE7F586F0535EA1CB2209BE5FFF8021B3CDC05259286B4
+denic	IN	DS	26155 8 2 078547BF937A225C9EFB2CAF7FAC11BD88671FCEDFAEEB55C9B19CB0320BEFC9
+nur-a	IN	A	194.123.77.11
+nic	IN	NS	ns1.denic ;N
+nic	IN	NS	ns2.denic ;N
+nic	IN	NS	ns3.denic ;N
+opsblau	IN	NS	ns1.denic-itstt ;N
+opsblau	IN	NS	ns2.denic-itstt ;N
+opsblau	IN	DS	54376 8 2 60F80A49C23A794CB02297D5CC6ABBB5D9F72D8883169838A9CB447CBB2416E6
+www.xn---itstt-authinfo-3ob09bsepb20g	IN	A	192.0.2.0
+xn---itstt-authinfo-3ob09bsepb20g	IN	A	192.0.2.0
+www.xn---itstt-nsentry-aaaa-k1b20dofvby0h	IN	A	192.0.2.0
+xn---itstt-nsentry-aaaa-k1b20dofvby0h	IN	A	192.0.2.0
+www.xn---itstt-nsentry-zlb26bkenb95f	IN	A	192.0.2.0
+xn---itstt-nsentry-zlb26bkenb95f	IN	A	192.0.2.0
+www.xn---itstt-nsentry-aaaa-k1b20dofvby0h	IN	AAAA	2a01:4f8:a0:8222:0:0:0:2
+xn---itstt-authinfo-3ob09bsepb20g	IN	MX	10 mail.denic
+xn---itstt-nsentry-aaaa-k1b20dofvby0h	IN	MX	10 mail.denic
+xn---itstt-nsentry-zlb26bkenb95f	IN	MX	10 mail.denic
+xn---itstt-nsentry-zlb26bkenb95f	IN	MX	20 mail.pfp
+xn---itstt-nameserver-cvb64c8esb91g	IN	NS	dns1.opsblau ;N
+xn---itstt-nameserver-cvb64c8esb91g	IN	NS	dns3.opsblau ;N
+;
+; END Zone
+;
+
