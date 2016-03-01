@@ -482,8 +482,12 @@ struct rr_ds
 	uint8_t algorithm;
 	uint8_t digest_type;
 	struct binary_data digest;
+	struct rr_ds *next_ds_rr;
 };
 extern struct rr_methods ds_methods;
+
+void ds_requires_ns_policy_check(void);
+
 
 struct rr_dlv
 {
