@@ -13,6 +13,8 @@
 #include <openssl/bn.h>
 #include <openssl/evp.h>
 #include <openssl/rsa.h>
+#include <openssl/ec.h>
+#include <openssl/sha.h>
 
 #include "common.h"
 #include "textparse.h"
@@ -185,6 +187,48 @@ int dnskey_build_pkey(struct rr_dnskey *rr)
 			goto done;
 
 		if (!EVP_PKEY_set1_RSA(pkey, rsa))
+			goto done;
+
+		rr->pkey = pkey;
+	} else if (algorithm_type(rr->algorithm) == ALG_ECC_FAMILY) {
+		EC_KEY *pubeckey;
+		EVP_PKEY *pkey;
+		unsigned char *pk;
+		int l;
+		BIGNUM *bn_x = NULL;
+		BIGNUM *bn_y = NULL;
+
+		if (rr->algorithm == ALG_ECDSAP256SHA256) {
+		    l = SHA256_DIGEST_LENGTH;
+		    pubeckey = EC_KEY_new_by_curve_name(NID_X9_62_prime256v1);
+		} else if (rr->algorithm == ALG_ECDSAP384SHA384) {
+		    l = SHA384_DIGEST_LENGTH;
+		    pubeckey = EC_KEY_new_by_curve_name(NID_secp384r1);
+		} else {
+		    goto done;
+		}
+
+		if (!pubeckey)
+			goto done;
+
+		if (rr->pubkey.length != 2*l) {
+		    goto done;
+		}
+
+		pk = (unsigned char *)rr->pubkey.data;
+
+		bn_x = BN_bin2bn(pk, l, NULL);
+		bn_y = BN_bin2bn(&pk[l], l, NULL);
+
+		if (1 != EC_KEY_set_public_key_affine_coordinates(pubeckey, bn_x, bn_y)) {
+			goto done;
+		}
+
+		pkey = EVP_PKEY_new();
+		if (!pkey)
+			goto done;
+
+		if (!EVP_PKEY_assign_EC_KEY(pkey, pubeckey))
 			goto done;
 
 		rr->pkey = pkey;

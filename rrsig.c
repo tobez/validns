@@ -181,6 +181,7 @@ void *verification_thread(void *dummy)
 			int r;
 			d->next = NULL;
 			r = EVP_VerifyFinal(&d->ctx, (unsigned char *)d->rr->signature.data, d->rr->signature.length, d->key->pkey);
+			EVP_MD_CTX_cleanup(&d->ctx);
 			if (r == 1) {
 				d->ok = 1;
 			} else {
@@ -233,6 +234,7 @@ static void schedule_verification(struct verification_data *d)
 		int r;
 		G.stats.signatures_verified++;
 		r = EVP_VerifyFinal(&d->ctx, (unsigned char *)d->rr->signature.data, d->rr->signature.length, d->key->pkey);
+		EVP_MD_CTX_cleanup(&d->ctx);
 		if (r == 1) {
 			d->ok = 1;
 		} else {
@@ -265,6 +267,14 @@ static int verify_signature(struct verification_data *d, struct rr_set *signed_s
 		break;
 	case ALG_RSASHA512:
 		if (EVP_VerifyInit(&d->ctx, EVP_sha512()) != 1)
+			return 0;
+		break;
+	case ALG_ECDSAP256SHA256:
+		if (EVP_VerifyInit(&d->ctx, EVP_sha256()) != 1)
+			return 0;
+		break;
+	case ALG_ECDSAP384SHA384:
+		if (EVP_VerifyInit(&d->ctx, EVP_sha384()) != 1)
 			return 0;
 		break;
 	default:
@@ -367,7 +377,6 @@ static void *rrsig_validate(struct rr *rrv)
 		}
 		key = (struct rr_dnskey *)key->rr.next;
 	}
-
 	return rr;
 }
 
