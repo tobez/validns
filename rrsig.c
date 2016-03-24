@@ -105,6 +105,7 @@ static struct rr* rrsig_parse(char *name, long ttl, int type, char *s)
 		sig.data = getmem(sig.length); /* reallocate larger mempool chunk */
 		unsigned char *sig_ptr = (unsigned char *)sig.data;
 		sig.length = i2d_ECDSA_SIG(ecdsa_sig, &sig_ptr);
+		ECDSA_SIG_free(ecdsa_sig);
 	}
 	rr->signature = sig;
 
