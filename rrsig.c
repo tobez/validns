@@ -198,7 +198,6 @@ void *verification_thread(void *dummy)
 			int r;
 			d->next = NULL;
 			r = EVP_VerifyFinal(&d->ctx, (unsigned char *)d->rr->signature.data, d->rr->signature.length, d->key->pkey);
-			EVP_MD_CTX_cleanup(&d->ctx);
 			if (r == 1) {
 				d->ok = 1;
 			} else {
@@ -251,7 +250,6 @@ static void schedule_verification(struct verification_data *d)
 		int r;
 		G.stats.signatures_verified++;
 		r = EVP_VerifyFinal(&d->ctx, (unsigned char *)d->rr->signature.data, d->rr->signature.length, d->key->pkey);
-		EVP_MD_CTX_cleanup(&d->ctx);
 		if (r == 1) {
 			d->ok = 1;
 		} else {
@@ -394,6 +392,7 @@ static void *rrsig_validate(struct rr *rrv)
 		}
 		key = (struct rr_dnskey *)key->rr.next;
 	}
+
 	return rr;
 }
 
