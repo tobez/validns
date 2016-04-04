@@ -88,7 +88,9 @@ static char* rdtype2str_map[T_MAX+1] = {
     "L32",
     "L64",
     "LP",
-                         0, 0, 0, /* 110 */
+    "EUI48",
+    "EUI64",
+                               0, /* 110 */
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, /* 120 */
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, /* 130 */
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, /* 140 */
@@ -526,6 +528,13 @@ int str2rdtype(char *rdtype, int *is_generic)
             return T_DLV;
         } else if (strcmp(rdtype, "dhcid") == 0) {
             return T_DHCID;
+        }
+        break;
+    case 'e':
+        if (strcmp(rdtype, "eui48") == 0) {
+            return T_EUI48;
+        } else if (strcmp(rdtype, "eui64") == 0) {
+            return T_EUI64;
         }
         break;
     case 'h':
