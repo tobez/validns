@@ -327,13 +327,6 @@ static void *rrsig_validate(struct rr *rrv)
 			return moan(rr->rr.file_name, rr->rr.line, "%s signature is too old", named_rr->name);
 		}
 	}
-	signed_set = find_rr_set_in_named_rr(named_rr, rr->type_covered);
-	if (!signed_set) {
-		return moan(rr->rr.file_name, rr->rr.line, "%s RRSIG exists for non-existing type %s", named_rr->name, rdtype2str(rr->type_covered));
-	}
-	if (signed_set->tail->ttl != rr->orig_ttl) {
-		return moan(rr->rr.file_name, rr->rr.line, "%s RRSIG's original TTL differs from corresponding record's", named_rr->name);
-	}
 	dnskey_rr_set = find_rr_set(T_DNSKEY, rr->signer);
 	if (!dnskey_rr_set) {
 		return moan(rr->rr.file_name, rr->rr.line, "%s RRSIG(%s): cannot find a signer key (%s)", named_rr->name, rdtype2str(rr->type_covered), rr->signer);
@@ -346,28 +339,40 @@ static void *rrsig_validate(struct rr *rrv)
 		}
 		key = (struct rr_dnskey *)key->rr.next;
 	}
-	if (candidate_keys == 0)
-		return moan(rr->rr.file_name, rr->rr.line, "%s RRSIG(%s): cannot find the right signer key (%s)", named_rr->name, rdtype2str(rr->type_covered), rr->signer);
-
-	candidates = getmem(sizeof(struct keys_to_verify) + (candidate_keys-1) * sizeof(struct verification_data));
-	candidates->next = all_keys_to_verify;
-	candidates->rr = rr;
-	candidates->signed_set = signed_set;
-	candidates->n_keys = candidate_keys;
-	all_keys_to_verify = candidates;
-	key = (struct rr_dnskey *)dnskey_rr_set->tail;
-	while (key) {
-		if (key->algorithm == rr->algorithm && key->key_tag == rr->key_tag) {
-			candidates->to_verify[i].key = key;
-			candidates->to_verify[i].rr = rr;
-			candidates->to_verify[i].ok = 0;
-			candidates->to_verify[i].openssl_error = 0;
-			candidates->to_verify[i].next = NULL;
-			i++;
+	signed_set = find_rr_set_in_named_rr(named_rr, rr->type_covered);
+	/*
+	 * dnssec-signzone was not removing unnecessary rrsigs when
+	 * re-signing a zone (bug 4305). Policy check ignores these.
+	 */
+	if (!G.opt.policy_checks[POLICY_BIND_RRSIG_BUG_4305] || signed_set) {
+		if (!signed_set) {
+			return moan(rr->rr.file_name, rr->rr.line, "%s RRSIG exists for non-existing type %s", named_rr->name, rdtype2str(rr->type_covered));
 		}
-		key = (struct rr_dnskey *)key->rr.next;
-	}
+		if (signed_set->tail->ttl != rr->orig_ttl) {
+			return moan(rr->rr.file_name, rr->rr.line, "%s RRSIG's original TTL differs from corresponding record's", named_rr->name);
+		}
+		if (candidate_keys == 0)
+			return moan(rr->rr.file_name, rr->rr.line, "%s RRSIG(%s): cannot find the right signer key (%s)", named_rr->name, rdtype2str(rr->type_covered), rr->signer);
 
+		candidates = getmem(sizeof(struct keys_to_verify) + (candidate_keys-1) * sizeof(struct verification_data));
+		candidates->next = all_keys_to_verify;
+		candidates->rr = rr;
+		candidates->signed_set = signed_set;
+		candidates->n_keys = candidate_keys;
+		all_keys_to_verify = candidates;
+		key = (struct rr_dnskey *)dnskey_rr_set->tail;
+		while (key) {
+			if (key->algorithm == rr->algorithm && key->key_tag == rr->key_tag) {
+				candidates->to_verify[i].key = key;
+				candidates->to_verify[i].rr = rr;
+				candidates->to_verify[i].ok = 0;
+				candidates->to_verify[i].openssl_error = 0;
+				candidates->to_verify[i].next = NULL;
+				i++;
+			}
+			key = (struct rr_dnskey *)key->rr.next;
+		}
+	}
 	return rr;
 }
 

@@ -356,6 +356,12 @@ isnt(rc, 0, 'multitime: valid signed zone with timestamps in the past');
 @e = split /\n/, stderr;
 like(shift @e, qr/signature is too old/, "multitime: signature is too old");
 
+# issue 54: dnssec-signzone was not removing unnecessary rrsigs from zone
+run('./validns', @threads, '-t1458924400', 't/issues/54-bind-rrsig-bug-4305/8.example.com.resign');
+isnt(rc, 0, 'issue 51: unnecessary rrsigs detected without policy check');
+run('./validns', @threads, '-t1458924400', '-p', 'bind-rrsig-bug-4305', 't/issues/54-bind-rrsig-bug-4305/8.example.com.resign');
+is(rc, 0, 'issue 51: unnecessary rrsigs ignored with policy check enabled');
+
 }
 
 done_testing;
