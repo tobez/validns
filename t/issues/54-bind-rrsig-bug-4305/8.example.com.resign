@@ -1,0 +1,110 @@
+; File written on Fri Mar 25 17:52:37 2016
+; dnssec_signzone version 9.9.8-P4-RedHat-9.9.8_P4-2.el7.0
+8.example.com.		86400	IN SOA	ns1.example.com. hostmaster.example.com. (
+					2014012401 ; serial
+					14400      ; refresh (4 hours)
+					1800       ; retry (30 minutes)
+					1209600    ; expire (2 weeks)
+					3600       ; minimum (1 hour)
+					)
+			86400	RRSIG	SOA 8 3 86400 (
+					20160424155237 20160325155237 40162 8.example.com.
+					WJ5UJNP6oxOf0ESrhAC1gHS844t3gdLbRNJ9
+					ky5AxDSotB5KvdT1FUAeyyydebH9u+n3cXV+
+					s5IPGC4k0uicIXiLZMS01Gl6mV/evPxG+9SD
+					HX31bom1MI9rs96PEWQRzTgSQECSPaJBpmyP
+					xSfQt0qsBD4fN7LHAgGBhilTjagBV8bodk8s
+					M+x9nQ6MaqVZTqERj8jns+dKayfU8jRoQRUG
+					6ye9HIdzYdl9XwaFJ33ekBuUpiG8eYDexG+U
+					3xbWP/tyKbg428QJNcpZTPYOI0EX5aZ2Q5vg
+					46QWWniLrlPgwUAkffJIic5GSDvPtaTQGzYd
+					PovIt6qgiDRJ8XeOSQ== )
+			172800	NS	ns1.switch.ch.
+			172800	NS	ns2.switch.ch.
+			172800	RRSIG	NS 8 3 172800 (
+					20160424155237 20160325155237 40162 8.example.com.
+					XTmOThLXEi3O0ej+yiP+V4pbw5J/Z7fFv+EG
+					EOnf42sXqIxW4d686ZTG3jDyEgHBAFCGgvyE
+					XN5RqlOk42k6NWCja1SdGY7hQ0tJh3cv9gwv
+					tfmOk2650TJ64hG6QjreXg27tPWUWV56HxVY
+					P7E0w1I+lksdKGuO9I1SZUy984GYzwj1hWb8
+					TwImgUE77BDr0vdQQRbs1D5USAXUJMhMrFpt
+					waEKD7yJDXQ3fvtYtcEAjGiSedJ5YF8rNvMr
+					Pt3fVmqzrwc8+1tLysbD1CmnKSMFHpXXkwJZ
+					VVeBQt8jRsvFxLsxJm+8ZYeUHEHkCpIOKtc1
+					xmy+GdooTdttAx9G+A== )
+			86400	RRSIG	A 8 3 86400 (
+					20160401093304 20160302093304 40162 8.example.com.
+					cALbnjysGSk3OH9fd73ejhBQrj752CI+qfxI
+					MUqaZr3TFHC3ZYVtTK0t7mC5M/FhDi1f8SVx
+					7VhcyJpMD7GedNJqQoWtoGQv6YdQix84Xt8v
+					c8OC+EIdGSFzeue5VxUW+Cj/hWgVk6AXodQA
+					zgBDKdG/5SMZRhxf2m/gtjGgledxogAOTOhW
+					CxXOptnZoq0bM7j8aM4UJl+MttGCTdfjHOO2
+					wqLzrzl6fMIENkFL7IugVqxKSMYLofZpHs9g
+					VvJf+PwecZXJlJohw6aiiE4+8rSeGG8HInuZ
+					hPu9pc39GFwI4k5LGSNYqVAuNg26OkmAMddP
+					nZbc4nXbMqSMD6CEaQ== )
+			3600	NSEC	www.8.example.com. NS SOA RRSIG NSEC DNSKEY
+			3600	RRSIG	NSEC 8 3 3600 (
+					20160424155237 20160325155237 40162 8.example.com.
+					FuGXOmCa/22zVS4QSaGU2ykW92nj/7CXVMqU
+					obMQDO+QV1Z/x1P3HzxFQVxN5fpdwEx0cXRh
+					2bP0ypfU9e5Hhuz86unp66ABbTyqPYFIQQAL
+					5zNo2p/eSx4zdSbXS15010AdD1dglvS6V+iB
+					dv0gB4Ijg4UZDsKl/+eww3rBBpJe3PrbXWFs
+					Yws3Oq0OyNd+v5aZ3gS2ZSYN9O58G40ocPm7
+					skmgnWoYB0rXwk8O/XpL3U8aND38uo5oycpO
+					WomQSc3KaYscO9kTRWVbacc4cNV/g3I94rOm
+					mC2l5p7DxSdQLRFlohzSHIOmdpIFKK+mytPi
+					kxJnNUNxv1StYwE7ig== )
+			86400	DNSKEY	257 3 8 (
+					AwEAAdQg6nL8wit3k8bXSOyK8we295xDSIcl
+					rEz6jD0MVog64xMovnf5445u3my0T9eBCpjL
+					MzYcsWqgm3kBxcCLwwL8yixZUjI1X3TCuX4t
+					q9tRvry6KxmxhlO7d1dlDeQH9iKqarYc/uK5
+					L3SsiOxVaBTzlR/D+Id9s36tW297YPrPD8tk
+					dgTX3UAKs1vcyiKPcbvLX6HuCGYNBBXN2/7z
+					pJTvXLSDX5vVFc0Gny4R0GLDnGLoLmW+b/Ev
+					oH6Fk2nmSrBZCE+3DmyaaP3KrhV7LXxZTSrf
+					V4uiQeJf1uMPPDSPW2vlZpvQe43b4LUgwjtu
+					cTtXctAW1OuzyAz5GEplET8=
+					) ; KSK; alg = RSASHA256; key id = 40162
+			86400	RRSIG	DNSKEY 8 3 86400 (
+					20160424155237 20160325155237 40162 8.example.com.
+					kBXmP65mwAwTpyHX9gjNdbiSNCQ4rhhPI/Ef
+					tkV7P51MYTyBnlICcSwyYc/B2I02bvkg7Yo7
+					ecE9qwIXEdBWtUv0OKp73KfHGaPCeRU/JFCk
+					beYBURSGW8bBnF196GR0dbho+nAqU3LTG+NP
+					8gV6VapjDxmPbQi56UYOHEPQ/diaJkKHyizj
+					Bxiw7fjZ1VgeLtLihcLaYxZhAKXpc0hNaJza
+					vAcvw48D0gGQW+6rIxKLZrG+VqRlXJ4ulW4t
+					F+Tler9h09iIOqF6HAN8Ym2F8DmJ7d3o3JtY
+					VTNomeJ1Lm6GLD7tOwwYQ/3xh7xddd7Gt4uu
+					CeJiDaqiL70qXKGwOg== )
+www.8.example.com.	86400	IN CNAME 8.example.com.
+			86400	RRSIG	CNAME 8 4 86400 (
+					20160424155237 20160325155237 40162 8.example.com.
+					Vg7n1td1uc274ZVuNeYTrhPcKR2bjRhOx3BO
+					myGVpTK1uIX6awbZGs+FRzPCzheFgi765c4s
+					RBuPr3mqAW1YxQ6F8GANTDQEDM+i636c5NR8
+					uaT8h6hoUy/p8OKxwBdz6LA+sRkFxqIoKV++
+					Mk+UCTNy+QJDRQAJKaXyUPO5pyEKF4hBrdjg
+					1JUEmKod6XrfXD/4xEvtPCk1eWVhiIHEdGC5
+					SpaCObOHD/CFtWRbuBWLt2+I0JWtxK+K0PX0
+					rUOwLbF97Os/Ijw/WAlF4w4GO3TkLL+7+CxK
+					vpxP9ussiW3oB/Jbm8GDFxLpFoIgb8uVNtCi
+					ahLu+oC58Fre4xkNQg== )
+			3600	NSEC	8.example.com. CNAME RRSIG NSEC
+			3600	RRSIG	NSEC 8 4 3600 (
+					20160424155237 20160325155237 40162 8.example.com.
+					kE0CYn9ezf6kc32Jtzp8XtWSRIAKpkwIKovS
+					rF/tD0Gi0/NIok9XEjemAYeTCQFQzNH4t35w
+					DcKcVsKEWGFVc3Am5z76JgAFndzEAh5u5MkL
+					7xzo421FFBzgbrID0/DKqt9lvcoc+xTceQOi
+					bc6BSyK0DkfbXrIi7K1S6jNaNouOXMGgiadY
+					kcKs1RhFu4fLV1lYX7l37IR/0Q0BKMOnqe3a
+					oYlXvZXVvIf71zg2UsLv2Bvlr+ypJ+IQnSEf
+					91o8Cu59iQJ0hv5ansQ3kEqN99O9NEQO0lpx
+					Oescyd+UZyimctfm4pCemTwYO6qnXkPpJ3DR
+					yLBgvsQmY6ermz9g9A== )

@@ -442,6 +442,7 @@ void usage(char *err)
 	fprintf(stderr, "\t\t\trp-txt-exists\n");
 	fprintf(stderr, "\t\t\ttlsa-host\n");
 	fprintf(stderr, "\t\t\tksk-exists\n");
+	fprintf(stderr, "\t\t\tbind-rrsig-bug-4305\n");
 	fprintf(stderr, "\t\t\tall\n");
 
 	fprintf(stderr, "\t-n N\t\tuse N worker threads\n");
@@ -569,6 +570,8 @@ main(int argc, char **argv)
 				G.opt.policy_checks[POLICY_TLSA_HOST] = 1;
 			} else if (strcmp(optarg, "ksk-exists") == 0) {
 				G.opt.policy_checks[POLICY_KSK_EXISTS] = 1;
+			} else if (strcmp(optarg, "bind-rrsig-bug-4305") == 0) {
+				G.opt.policy_checks[POLICY_BIND_RRSIG_BUG_4305] = 1;
 			} else {
 				usage("unknown policy name");
 			}
