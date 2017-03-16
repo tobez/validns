@@ -356,6 +356,13 @@ isnt(rc, 0, 'multitime: valid signed zone with timestamps in the past');
 @e = split /\n/, stderr;
 like(shift @e, qr/signature is too old/, "multitime: signature is too old");
 
+# issue 51: support curved algorithms 
+run('./validns', @threads, '-t1459259658', 't/issues/51-support-curved-algorithms/13.example.com.signed');
+is(rc, 0, 'issue 51: support ECDSAP256SHA256');
+
+run('./validns', @threads, '-t1459259658', 't/issues/51-support-curved-algorithms/14.example.com.signed');
+is(rc, 0, 'issue 51: support ECDSAP384SHA384');
+
 }
 
 done_testing;

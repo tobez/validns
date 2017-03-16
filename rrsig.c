@@ -16,6 +16,7 @@
 #include <arpa/inet.h>
 #include <openssl/evp.h>
 #include <openssl/err.h>
+#include <openssl/ecdsa.h>
 
 #include "common.h"
 #include "textparse.h"
@@ -90,6 +91,22 @@ static struct rr* rrsig_parse(char *name, long ttl, int type, char *s)
 	sig = extract_base64_binary_data(&s, "signature");
 	if (sig.length < 0)	return NULL;
 	/* TODO validate signature length based on algorithm */
+	if (algorithm_type(rr->algorithm) == ALG_ECC_FAMILY) {
+		/*
+		 * Transform ECDSA signatures from DNSSEC vanilla binary
+		 * representation (r || s) into OpenSSL ASN.1 DER format
+		 */
+		ECDSA_SIG *ecdsa_sig = ECDSA_SIG_new();
+		int l = sig.length / 2;
+		if ((BN_bin2bn((unsigned char *)sig.data, l, ecdsa_sig->r) == NULL) ||
+		    (BN_bin2bn(((unsigned char *)sig.data) + l, l, ecdsa_sig->s) == NULL))
+			return NULL;
+		sig.length = i2d_ECDSA_SIG(ecdsa_sig, NULL);
+		sig.data = getmem(sig.length); /* reallocate larger mempool chunk */
+		unsigned char *sig_ptr = (unsigned char *)sig.data;
+		sig.length = i2d_ECDSA_SIG(ecdsa_sig, &sig_ptr);
+		ECDSA_SIG_free(ecdsa_sig);
+	}
 	rr->signature = sig;
 
 	if (*s) {
@@ -265,6 +282,14 @@ static int verify_signature(struct verification_data *d, struct rr_set *signed_s
 		break;
 	case ALG_RSASHA512:
 		if (EVP_VerifyInit(&d->ctx, EVP_sha512()) != 1)
+			return 0;
+		break;
+	case ALG_ECDSAP256SHA256:
+		if (EVP_VerifyInit(&d->ctx, EVP_sha256()) != 1)
+			return 0;
+		break;
+	case ALG_ECDSAP384SHA384:
+		if (EVP_VerifyInit(&d->ctx, EVP_sha384()) != 1)
 			return 0;
 		break;
 	default:
