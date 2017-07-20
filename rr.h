@@ -62,6 +62,8 @@
 #define ALG_ECCGOST             12
 #define ALG_ECDSAP256SHA256     13
 #define ALG_ECDSAP384SHA384     14
+#define ALG_ED25519             15
+#define ALG_ED448               16
 #define ALG_PRIVATEDNS         253
 #define ALG_PRIVATEOID         254
 

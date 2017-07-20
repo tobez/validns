@@ -838,6 +838,10 @@ int extract_algorithm(char **s, char *what)
 			return ALG_ECDSAP256SHA256;
 		if (strcmp(str_alg, "ecdsap384sha384") == 0)
 			return ALG_ECDSAP384SHA384;
+		if (strcmp(str_alg, "ed25519") == 0)
+			return ALG_ED25519;
+		if (strcmp(str_alg, "ed448") == 0)
+			return ALG_ED448;
 
 		if (strcmp(str_alg, "privatedns") == 0)
 			return ALG_PRIVATEDNS;
@@ -869,6 +873,10 @@ int algorithm_type(int alg)
                 return ALG_ECC_FAMILY;
         case ALG_ECDSAP384SHA384:
                 return ALG_ECC_FAMILY;
+	case ALG_ED25519:
+		return ALG_ECC_FAMILY;
+	case ALG_ED448:
+		return ALG_ECC_FAMILY;
 	case ALG_PRIVATEDNS:
 		return ALG_PRIVATE_FAMILY;
 	case ALG_PRIVATEOID:
