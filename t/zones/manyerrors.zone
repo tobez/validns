@@ -156,6 +156,35 @@ zzzz5 DNAME a.b.org. ; fine
 x.y.z.zzzz5 A 5.6.7.8 ; DNAME must not have any children (but z.zzzz5.galaxyplus.org exists) - yuck
 zzzz6 DNAME x.y.dk.  ; fine, no induced error
 
+@ CAA          ; CAA flag expected
+  CAA 0        ; CAA tag expected
+  CAA 45       ; CAA unrecognized flag value
+  CAA 0 meow   ; CAA unrecognized tag name
+  CAA 0 x-y    ; CAA bad characters in tag
+  CAA 0 auth   ; CAA reserved tag name
+  CAA 0 path   ; CAA reserved tag name
+  CAA 0 policy ; CAA reserved tag name
+  CAA 0 issue  ; CAA missing tag value
+  CAA 0 issue ";"   ; fine
+  CAA 0 issue "hello/world" ; CAA invalid issue domain
+  CAA 0 issue "example.net" ; fine
+  CAA 0 issue "example.net ;" ; fine
+  CAA 0 issue "example.net ; sometag" ; CAA missing issue parameter value
+  CAA 0 issue "example.net ; =sometag" ; CAA missing issue parameter tag
+  CAA 0 issue "example.net ; sometag=somevalue othertag=othervalue" ; fine
+  CAA 0 issuewild ";"   ; fine
+  CAA 0 issuewild "hello/world" ; CAA invalid issuewild domain
+  CAA 0 issuewild "example.net" ; fine
+  CAA 0 issuewild "example.net ;" ; fine
+  CAA 0 issuewild "example.net ; sometag" ; CAA missing issuewild parameter value
+  CAA 0 issuewild "example.net ; =sometag" ; CAA missing issuewild parameter tag
+  CAA 0 issuewild "example.net ; sometag=somevalue othertag=othervalue" ; fine
+  CAA 0 iodef "hello-world"    ; CAA iodef value not a URL
+  CAA 0 iodef "hello:world"    ; CAA iodef value unrecognized URL
+  CAA 0 iodef "mailto:tobez@tobez.org"    ; fine
+  CAA 0 iodef "http://example.net"    ; fine
+  CAA 128 iodef "https://example.net" ; fine
+
 @       SOA ns1.catpipe.net. hostmaster.catpipe.net. ( ; skipped again
             2011011400  ; Serial
             1H  ; Refresh

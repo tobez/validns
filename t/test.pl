@@ -126,6 +126,24 @@ like(shift @e, qr/DNAME must not have any children \(but something.zzzz3.galaxyp
 like(shift @e, qr/CNAME and other data/, "DNAME+CNAME");
 like(shift @e, qr/DNAME must not have any children \(but z.zzzz5.galaxyplus.org. exists\)/, "DNAME with children 2");
 
+like(shift @e, qr/CAA flag expected/, "CAA without a flag");
+like(shift @e, qr/CAA tag expected/, "CAA without a tag");
+like(shift @e, qr/CAA unrecognized flag value/, "CAA with bad flag");
+like(shift @e, qr/CAA unrecognized tag name/, "CAA with bad tag");
+like(shift @e, qr/CAA bad characters in tag/, "CAA with bad chars in tag");
+like(shift @e, qr/CAA reserved tag name/, "CAA with reserved tag 1");
+like(shift @e, qr/CAA reserved tag name/, "CAA with reserved tag 2");
+like(shift @e, qr/CAA reserved tag name/, "CAA with reserved tag 3");
+like(shift @e, qr/CAA missing tag value/, "CAA without a tag value");
+like(shift @e, qr/CAA invalid issue domain/, "CAA bad issue domain");
+like(shift @e, qr/CAA missing issue parameter value/, "CAA missing issue parameter value");
+like(shift @e, qr/CAA missing issue parameter tag/, "CAA missing issue parameter tag");
+like(shift @e, qr/CAA invalid issuewild domain/, "CAA bad issuewild domain");
+like(shift @e, qr/CAA missing issuewild parameter value/, "CAA missing issuewild parameter value");
+like(shift @e, qr/CAA missing issuewild parameter tag/, "CAA missing issuewild parameter tag");
+like(shift @e, qr/CAA iodef value not a URL/, "CAA iodef value is not a URL");
+like(shift @e, qr/CAA iodef value unrecognized URL/, "CAA iodef value unrecognized URL");
+
 is(+@e, 0, "no unaccounted errors");
 #like(stdout, qr/validation errors: XX/, "error count");
 
