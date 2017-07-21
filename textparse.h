@@ -28,6 +28,9 @@ struct binary_data compose_binary_data(const char *fmt, int tmp, ...);
  * B - another binary structure, will incorporate its data,
  *     and prepend the length as a 16-bit word in NBO,
  *     fatal error on overflow
+ * s - a NULL-terminated string, will incorporate the string
+ *     without the NULL byte, and prepend the string length as a byte
+ *     (fatal error on overflow)
  * tmp : allocate temp storage if true, permanent if false
  *
  */

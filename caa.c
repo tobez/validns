@@ -10,6 +10,7 @@
 #include <stdio.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
+#include <string.h>
 
 #include "common.h"
 #include "textparse.h"
@@ -20,34 +21,40 @@
 static struct rr* caa_parse(char *name, long ttl, int type, char *s)
 {
     struct rr_caa *rr = getmem(sizeof(*rr));
-    int algorithm, fp_type;
+    int flags;
+    char *str_tag;
 
-    algorithm = extract_integer(&s, "algorithm", NULL);
-    if (algorithm < 0)  return NULL;
-    if (algorithm != 1 && algorithm != 2 && algorithm != 3 && algorithm != 4)
-        return bitch("unsupported algorithm");
-    rr->algorithm = algorithm;
+    flags = extract_integer(&s, "CAA flags", NULL);
+    if (flags < 0)  return NULL;
+    if (flags != 0 && flags != 128)
+        return bitch("CAA unrecognized flags value");
+    rr->flags = flags;
 
-    fp_type = extract_integer(&s, "fp type", NULL);
-    if (fp_type < 0)    return NULL;
-    if (fp_type != 1 && fp_type != 2)
-        return bitch("unsupported fp_type");
-    rr->fp_type = fp_type;
+    str_tag = extract_label(&s, "CAA tag", "temporary");
+    if (!str_tag) return NULL;
 
-    rr->fingerprint = extract_hex_binary_data(&s, "fingerprint", EXTRACT_EAT_WHITESPACE);
-    if (rr->fingerprint.length < 0) return NULL;
-    
-    if (rr->fp_type == 1 && rr->fingerprint.length != SHA1_BYTES) {
-        return bitch("wrong SHA-1 fingerprint length: %d bytes found, %d bytes expected",
-                     rr->fingerprint.length, SHA1_BYTES);
-    }
-    if (rr->fp_type == 2 && rr->fingerprint.length != SHA256_BYTES) {
-        return bitch("wrong SHA-256 fingerprint length: %d bytes found, %d bytes expected",
-                     rr->fingerprint.length, SHA256_BYTES);
-    }
+    if (strcmp(str_tag, "issue") == 0) {
+        /* ok */
+    } else if (strcmp(str_tag, "issuewild") == 0) {
+        /* ok */
+    } else if (strcmp(str_tag, "iodef") == 0) {
+        /* ok */
+    } else if (strcmp(str_tag, "auth") == 0)
+        return bitch("CAA reserved tag name");
+    else if (strcmp(str_tag, "path") == 0)
+        return bitch("CAA reserved tag name");
+    else if (strcmp(str_tag, "policy") == 0)
+        return bitch("CAA reserved tag name");
+    else
+        return bitch("CAA unrecognized tag name");
+
+    rr->tag = compose_binary_data("s", 0, str_tag);
+    rr->value = extract_text(&s, "CAA tag value");
+    if (rr->value.length <= 0)
+        return bitch("CAA missing tag value");
 
     if (*s) {
-        return bitch("garbage after valid SSHFP data");
+        return bitch("garbage after valid CAA data");
     }
     return store_record(type, name, ttl, rr);
 }
@@ -58,14 +65,10 @@ static char* caa_human(struct rr *rrv)
     char ss[4096];
     char *s = ss;
     int l;
-    int i;
 
-    l = snprintf(s, 4096, "%u %u ", rr->algorithm, rr->fp_type);
+    /* incomplete */
+    l = snprintf(s, 4096, "%u", rr->flags);
     s += l;
-    for (i = 0; i < rr->fingerprint.length; i++) {
-        l = snprintf(s, 4096-(s-ss), "%02X", (unsigned char)rr->fingerprint.data[i]);
-        s += l;
-    }
     return quickstrdup_temp(ss);
 }
 
@@ -73,9 +76,7 @@ static struct binary_data caa_wirerdata(struct rr *rrv)
 {
     RRCAST(caa);
 
-    return compose_binary_data("11d", 1,
-        rr->algorithm, rr->fp_type,
-        rr->fingerprint);
+    return compose_binary_data("1bd", 1, rr->flags, rr->tag, rr->value);
 }
 
 struct rr_methods caa_methods = { caa_parse, caa_human, caa_wirerdata, NULL, NULL };

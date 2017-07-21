@@ -568,6 +568,15 @@ struct rr_cert
 };
 extern struct rr_methods cert_methods;
 
+struct rr_caa
+{
+    struct rr rr;
+    uint8_t flags;
+    struct binary_data tag;
+    struct binary_data value;
+};
+extern struct rr_methods caa_methods;
+
 extern struct rr_nsec3 *first_nsec3;
 extern struct rr_nsec3 *latest_nsec3;
 

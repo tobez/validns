@@ -901,6 +901,8 @@ struct binary_data compose_binary_data(const char *fmt, int tmp, ...)
     uint16_t b2;
     uint32_t b4;
     uint64_t b8;
+    char *bs;
+    int bsl;
 
     va_start(ap, tmp);
     args = fmt;
@@ -938,6 +940,13 @@ struct binary_data compose_binary_data(const char *fmt, int tmp, ...)
             if (bd.length > 65535)
                 croak(5, "compose_binary_data: 'B' data too long");
             sz += bd.length + 2;
+            break;
+        case 's':
+            bs = va_arg(ap, char *);
+            bsl = strlen(bs);
+            if (bsl > 255)
+                croak(5, "compose_binary_data: 's' string too long");
+            sz += bsl + 1;
             break;
         default:
             croak(5, "compose_binary_data: bad format");
@@ -992,6 +1001,15 @@ struct binary_data compose_binary_data(const char *fmt, int tmp, ...)
             t += 2;
             memcpy(t, bd.data, bd.length);
             t += bd.length;
+            break;
+        case 's':
+            bs = va_arg(ap, char *);
+            bsl = strlen(bs);
+            b1 = (uint8_t)bsl;
+            memcpy(t, &b1, 1);
+            t += 1;
+            memcpy(t, bs, bsl);
+            t += bsl;
             break;
         default:
             croak(5, "compose_binary_data: bad format");
