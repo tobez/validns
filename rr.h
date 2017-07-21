@@ -50,6 +50,7 @@
 #define T_L32	105
 #define T_L64	106
 #define T_LP	107
+#define T_CAA   257
 #define T_DLV   32769
 #define T_MAX	32769
 
