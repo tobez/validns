@@ -19,45 +19,45 @@
 
 static struct rr *px_parse(char *name, long ttl, int type, char *s)
 {
-	struct rr_px *rr = getmem(sizeof(*rr));
+    struct rr_px *rr = getmem(sizeof(*rr));
 
-	rr->preference = extract_integer(&s, "PX preference", NULL);
-	if (rr->preference < 0)
-		return NULL;
+    rr->preference = extract_integer(&s, "PX preference", NULL);
+    if (rr->preference < 0)
+        return NULL;
 
-	rr->map822 = extract_name(&s, "map822", 0);
-	if (!rr->map822)
-		return NULL;
+    rr->map822 = extract_name(&s, "map822", 0);
+    if (!rr->map822)
+        return NULL;
 
-	rr->mapx400 = extract_name(&s, "mapx400", 0);
-	if (!rr->mapx400)
-		return NULL;
+    rr->mapx400 = extract_name(&s, "mapx400", 0);
+    if (!rr->mapx400)
+        return NULL;
 
-	if (*s) {
-		return bitch("garbage after valid KX data");
-	}
+    if (*s) {
+        return bitch("garbage after valid KX data");
+    }
 
-	return store_record(type, name, ttl, rr);
+    return store_record(type, name, ttl, rr);
 }
 
 static char* px_human(struct rr *rrv)
 {
-	RRCAST(px);
+    RRCAST(px);
     char s[1024];
 
     snprintf(s, 1024, "%d %s %s",
-	     rr->preference, rr->map822, rr->mapx400);
+         rr->preference, rr->map822, rr->mapx400);
     return quickstrdup_temp(s);
 }
 
 static struct binary_data px_wirerdata(struct rr *rrv)
 {
-	RRCAST(px);
+    RRCAST(px);
 
     return compose_binary_data("2dd", 1,
-		rr->preference,
-		name2wire_name(rr->map822),
-		name2wire_name(rr->mapx400));
+        rr->preference,
+        name2wire_name(rr->map822),
+        name2wire_name(rr->mapx400));
 }
 
 struct rr_methods px_methods = { px_parse, px_human, px_wirerdata, NULL, NULL };

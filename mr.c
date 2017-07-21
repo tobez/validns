@@ -19,28 +19,28 @@
 
 static struct rr *mr_parse(char *name, long ttl, int type, char *s)
 {
-	struct rr_mr *rr = getmem(sizeof(*rr));
+    struct rr_mr *rr = getmem(sizeof(*rr));
 
-	rr->newname = extract_name(&s, "newname", 0);
-	if (!rr->newname)
-		return NULL;
-	if (*s) {
-		return bitch("garbage after valid MR data");
-	}
+    rr->newname = extract_name(&s, "newname", 0);
+    if (!rr->newname)
+        return NULL;
+    if (*s) {
+        return bitch("garbage after valid MR data");
+    }
 
-	return store_record(type, name, ttl, rr);
+    return store_record(type, name, ttl, rr);
 }
 
 static char* mr_human(struct rr *rrv)
 {
-	RRCAST(mr);
+    RRCAST(mr);
     return rr->newname;
 }
 
 static struct binary_data mr_wirerdata(struct rr *rrv)
 {
-	RRCAST(mr);
-	return name2wire_name(rr->newname);
+    RRCAST(mr);
+    return name2wire_name(rr->newname);
 }
 
 struct rr_methods mr_methods = { mr_parse, mr_human, mr_wirerdata, NULL, NULL };

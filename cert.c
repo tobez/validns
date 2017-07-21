@@ -26,115 +26,115 @@
 
 static int extract_certificate_type(char **s, char *what)
 {
-	int type;
-	char *str_type;
+    int type;
+    char *str_type;
 
-	if (isdigit(**s)) {
-		type = extract_integer(s, what, NULL);
-		if (type >= 1 && type <= 8)
-			return type;
-		if (type == 253 || type == 254)
-			return type;
-		if (type >= 65280 && type <= 65534)
-			return type;
-		if (type < 0 || type > 65535) {
-			bitch("bad certificate type %d", type);
-			return -1;
-		}
-		if (type == 0 || type == 255 || type == 65535) {
-			bitch("certificate type %d is reserved by IANA", type);
-			return -1;
-		}
-		bitch("certificate type %d is unassigned", type);
-		return -1;
-	} else {
-		str_type = extract_label(s, what, "temporary");
-		if (!str_type) return -1;
-		if (strcmp(str_type, "pkix") == 0)
-			return 1;
-		if (strcmp(str_type, "spki") == 0)
-			return 2;
-		if (strcmp(str_type, "pgp") == 0)
-			return 3;
-		if (strcmp(str_type, "ipkix") == 0)
-			return 4;
-		if (strcmp(str_type, "ispki") == 0)
-			return 5;
-		if (strcmp(str_type, "ipgp") == 0)
-			return 6;
-		if (strcmp(str_type, "acpkix") == 0)
-			return 7;
-		if (strcmp(str_type, "iacpkix") == 0)
-			return 8;
-		if (strcmp(str_type, "uri") == 0)
-			return 253;
-		if (strcmp(str_type, "oid") == 0)
-			return 254;
-		bitch("bad certificate type %s", str_type);
-		return -1;
-	}
+    if (isdigit(**s)) {
+        type = extract_integer(s, what, NULL);
+        if (type >= 1 && type <= 8)
+            return type;
+        if (type == 253 || type == 254)
+            return type;
+        if (type >= 65280 && type <= 65534)
+            return type;
+        if (type < 0 || type > 65535) {
+            bitch("bad certificate type %d", type);
+            return -1;
+        }
+        if (type == 0 || type == 255 || type == 65535) {
+            bitch("certificate type %d is reserved by IANA", type);
+            return -1;
+        }
+        bitch("certificate type %d is unassigned", type);
+        return -1;
+    } else {
+        str_type = extract_label(s, what, "temporary");
+        if (!str_type) return -1;
+        if (strcmp(str_type, "pkix") == 0)
+            return 1;
+        if (strcmp(str_type, "spki") == 0)
+            return 2;
+        if (strcmp(str_type, "pgp") == 0)
+            return 3;
+        if (strcmp(str_type, "ipkix") == 0)
+            return 4;
+        if (strcmp(str_type, "ispki") == 0)
+            return 5;
+        if (strcmp(str_type, "ipgp") == 0)
+            return 6;
+        if (strcmp(str_type, "acpkix") == 0)
+            return 7;
+        if (strcmp(str_type, "iacpkix") == 0)
+            return 8;
+        if (strcmp(str_type, "uri") == 0)
+            return 253;
+        if (strcmp(str_type, "oid") == 0)
+            return 254;
+        bitch("bad certificate type %s", str_type);
+        return -1;
+    }
 }
 
 static struct rr* cert_parse(char *name, long ttl, int type, char *s)
 {
-	struct rr_cert *rr = getmem(sizeof(*rr));
-	int cert_type, key_tag, alg;
+    struct rr_cert *rr = getmem(sizeof(*rr));
+    int cert_type, key_tag, alg;
 
-	cert_type = extract_certificate_type(&s, "certificate type");
-	if (cert_type < 0)	return NULL;
-	rr->type = cert_type;
+    cert_type = extract_certificate_type(&s, "certificate type");
+    if (cert_type < 0)  return NULL;
+    rr->type = cert_type;
 
-	key_tag = extract_integer(&s, "key tag", NULL);
-	if (key_tag < 0)	return NULL;
-	if (key_tag > 65535)
-		return bitch("bad key tag");
-	rr->key_tag = key_tag;
+    key_tag = extract_integer(&s, "key tag", NULL);
+    if (key_tag < 0)    return NULL;
+    if (key_tag > 65535)
+        return bitch("bad key tag");
+    rr->key_tag = key_tag;
 
-	if (isdigit(*s)) {
-		alg = extract_integer(&s, "algorithm", NULL);
-		if (alg < 0)	return NULL;
-		if (alg > 255)	return bitch("bad algorithm");
-		if (alg != 0) {  /* 0 is just fine */
-			if (algorithm_type(alg) == ALG_UNSUPPORTED)
-				return bitch("bad algorithm %d", alg);
-		}
-	} else {
-		alg = extract_algorithm(&s, "algorithm");
-		if (alg == ALG_UNSUPPORTED)	return NULL;
-	}
-	rr->algorithm = alg;
+    if (isdigit(*s)) {
+        alg = extract_integer(&s, "algorithm", NULL);
+        if (alg < 0)    return NULL;
+        if (alg > 255)  return bitch("bad algorithm");
+        if (alg != 0) {  /* 0 is just fine */
+            if (algorithm_type(alg) == ALG_UNSUPPORTED)
+                return bitch("bad algorithm %d", alg);
+        }
+    } else {
+        alg = extract_algorithm(&s, "algorithm");
+        if (alg == ALG_UNSUPPORTED) return NULL;
+    }
+    rr->algorithm = alg;
 
-	if (alg == 0 && key_tag != 0) {
-		/* we might want to bitch here, but RFC says "SHOULD", so we don't */
-	}
+    if (alg == 0 && key_tag != 0) {
+        /* we might want to bitch here, but RFC says "SHOULD", so we don't */
+    }
 
-	rr->certificate = extract_base64_binary_data(&s, "certificate");
-	if (rr->certificate.length < 0)	return NULL;
-	/* TODO validate cert length based on algorithm */
+    rr->certificate = extract_base64_binary_data(&s, "certificate");
+    if (rr->certificate.length < 0) return NULL;
+    /* TODO validate cert length based on algorithm */
 
-	if (*s) {
-		return bitch("garbage after valid CERT data");
-	}
-	return store_record(type, name, ttl, rr);
+    if (*s) {
+        return bitch("garbage after valid CERT data");
+    }
+    return store_record(type, name, ttl, rr);
 }
 
 static char* cert_human(struct rr *rrv)
 {
-	RRCAST(cert);
+    RRCAST(cert);
     char s[1024];
 
     snprintf(s, 1024, "%d %d %d ...",
-		rr->type, rr->key_tag, rr->algorithm);
+        rr->type, rr->key_tag, rr->algorithm);
     return quickstrdup_temp(s);
 }
 
 static struct binary_data cert_wirerdata(struct rr *rrv)
 {
-	RRCAST(cert);
+    RRCAST(cert);
 
-	return compose_binary_data("221d", 1,
-		rr->type, rr->key_tag, rr->algorithm,
-		rr->certificate);
+    return compose_binary_data("221d", 1,
+        rr->type, rr->key_tag, rr->algorithm,
+        rr->certificate);
 }
 
 struct rr_methods cert_methods = { cert_parse, cert_human, cert_wirerdata, NULL, NULL };

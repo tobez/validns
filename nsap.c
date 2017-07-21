@@ -19,15 +19,15 @@
 
 static struct rr* nsap_parse(char *name, long ttl, int type, char *s)
 {
-	struct rr_nsap *rr = getmem(sizeof(*rr));
+    struct rr_nsap *rr = getmem(sizeof(*rr));
 
-	rr->data = extract_hex_binary_data(&s, "NSAP data", EXTRACT_EAT_WHITESPACE);
-	if (rr->data.length < 0)	return NULL;
+    rr->data = extract_hex_binary_data(&s, "NSAP data", EXTRACT_EAT_WHITESPACE);
+    if (rr->data.length < 0)    return NULL;
 
-	if (*s) {
-		return bitch("garbage after valid NSAP data");
-	}
-	return store_record(type, name, ttl, rr);
+    if (*s) {
+        return bitch("garbage after valid NSAP data");
+    }
+    return store_record(type, name, ttl, rr);
 }
 
 static char* nsap_human(struct rr *rrv)
@@ -37,9 +37,9 @@ static char* nsap_human(struct rr *rrv)
 
 static struct binary_data nsap_wirerdata(struct rr *rrv)
 {
-	RRCAST(nsap);
+    RRCAST(nsap);
 
-	return compose_binary_data("d", 1, rr->data);
+    return compose_binary_data("d", 1, rr->data);
 }
 
 struct rr_methods nsap_methods = { nsap_parse, nsap_human, nsap_wirerdata, NULL, NULL };

@@ -12,8 +12,8 @@
 #include <sys/types.h>
 
 struct binary_data {
-	int length;
-	char *data;
+    int length;
+    char *data;
 };
 
 struct binary_data compose_binary_data(const char *fmt, int tmp, ...);
