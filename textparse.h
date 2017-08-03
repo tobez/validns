@@ -16,6 +16,8 @@ struct binary_data {
     char *data;
 };
 
+void dump_binary_data(FILE *f, struct binary_data d);
+
 struct binary_data compose_binary_data(const char *fmt, int tmp, ...);
 /*
  * Format:

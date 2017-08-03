@@ -76,7 +76,15 @@ static struct binary_data caa_wirerdata(struct rr *rrv)
 {
     RRCAST(caa);
 
-    return compose_binary_data("1bd", 1, rr->flags, rr->tag, rr->value);
+    return compose_binary_data("1dd", 1, rr->flags, rr->tag, rr->value);
 }
+
+/*
+static void *caa_validate(struct rr *rrv)
+{
+    dump_binary_data(stderr, call_get_wired(rrv));
+    return NULL;
+}
+*/
 
 struct rr_methods caa_methods = { caa_parse, caa_human, caa_wirerdata, NULL, NULL };
