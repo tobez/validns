@@ -60,7 +60,8 @@ Coming soon.
 :   quiet - do not produce any output
 
 -s
-:   print validation summary/stats
+:   Print validation summary/stats.
+    If specified twice, also print record counts by type.
 
 -v
 :   be extra verbose

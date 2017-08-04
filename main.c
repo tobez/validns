@@ -464,6 +464,7 @@ static void initialize_globals(void)
     memset(&G, 0, sizeof(G));
     memset(&G.opt, 0, sizeof(G.opt));
     memset(&G.stats, 0, sizeof(G.stats));
+    memset(rr_counts, 0, sizeof(rr_counts[0])*(T_MAX+1));
     G.default_ttl = -1; /* XXX orly? */
     G.opt.times_to_check[0] = time(NULL);
     G.opt.n_times_to_check = 0;
@@ -539,7 +540,7 @@ main(int argc, char **argv)
             G.opt.no_output = 1;
             break;
         case 's':
-            G.opt.summary = 1;
+            G.opt.summary++;
             break;
         case 'v':
             G.opt.verbose = 1;
@@ -638,6 +639,14 @@ main(int argc, char **argv)
         printf("signatures verified: %d\n", G.stats.signatures_verified);
         printf("time taken:          %.3fs\n",
                stop.tv_sec - start.tv_sec + (stop.tv_usec - start.tv_usec)/1000000.);
+        if (G.opt.summary > 1) {
+            int i;
+            printf("record count by type:\n");
+            for (i = 1; i <= T_MAX; i++) {
+                if (rr_counts[i])
+                    printf("%20s: %d\n", rdtype2str(i), rr_counts[i]);
+            }
+        }
     }
     return G.exit_code;
 }

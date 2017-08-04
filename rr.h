@@ -99,6 +99,7 @@ struct rr_methods {
 };
 extern struct rr_methods rr_methods[T_MAX+1];
 extern struct rr_methods unknown_methods;
+extern int rr_counts[T_MAX+1];
 
 struct binary_data call_get_wired(struct rr *rr);
 struct rr *rr_parse_any(char *name, long ttl, int type, char *s);

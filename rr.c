@@ -107,6 +107,7 @@ static char* rdtype2str_map[T_MAX+1] = {
 struct cbtree zone_data = {NULL};
 char *zone_apex = NULL;
 int zone_apex_l = 0;
+int rr_counts[T_MAX+1];
 
 char *rdtype2str(int type)
 {
@@ -820,7 +821,9 @@ void validate_zone(void)
 void validate_record(struct rr *rr)
 {
     freeall_temp();
-    if (!rr->is_generic && rr->rdtype < T_MAX && rr_methods[rr->rdtype].rr_validate)
+    if (!rr->is_generic && rr->rdtype <= T_MAX)
+        rr_counts[rr->rdtype]++;
+    if (!rr->is_generic && rr->rdtype <= T_MAX && rr_methods[rr->rdtype].rr_validate)
         rr_methods[rr->rdtype].rr_validate(rr);
 }
 
