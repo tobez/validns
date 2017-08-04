@@ -17,7 +17,7 @@
 #include "carp.h"
 #include "rr.h"
 
-static struct rr* ds_parse(char *name, long ttl, int type, char *s)
+static struct rr* ds_cds_parse(char *name, long ttl, int type, char *s)
 {
     struct rr_ds *rr = getmem(sizeof(*rr));
     int key_tag, algorithm, digest_type;
@@ -65,12 +65,12 @@ static struct rr* ds_parse(char *name, long ttl, int type, char *s)
     }
 
     if (*s) {
-        return bitch("garbage after valid DS data");
+        return bitch("garbage after valid %s data", type == T_CDS ? "CDS" : "DS");
     }
     return store_record(type, name, ttl, rr);
 }
 
-static char* ds_human(struct rr *rrv)
+static char* ds_cds_human(struct rr *rrv)
 {
     RRCAST(ds);
     char ss[4096];
@@ -87,7 +87,7 @@ static char* ds_human(struct rr *rrv)
     return quickstrdup_temp(ss);
 }
 
-static struct binary_data ds_wirerdata(struct rr *rrv)
+static struct binary_data ds_cds_wirerdata(struct rr *rrv)
 {
     RRCAST(ds);
 
@@ -96,4 +96,5 @@ static struct binary_data ds_wirerdata(struct rr *rrv)
         rr->digest);
 }
 
-struct rr_methods ds_methods = { ds_parse, ds_human, ds_wirerdata, NULL, NULL };
+struct rr_methods ds_methods = { ds_cds_parse, ds_cds_human, ds_cds_wirerdata, NULL, NULL };
+struct rr_methods cds_methods = { ds_cds_parse, ds_cds_human, ds_cds_wirerdata, NULL, NULL };

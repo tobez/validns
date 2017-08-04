@@ -45,6 +45,8 @@
 #define T_NSEC3 50
 #define T_NSEC3PARAM    51
 #define T_TLSA  52
+#define T_CDS   59
+#define T_CDNSKEY 60
 #define T_SPF   99
 #define T_NID   104
 #define T_L32   105
@@ -471,6 +473,7 @@ struct rr_dnskey
     struct rr_dnskey *next_key;
 };
 extern struct rr_methods dnskey_methods;
+extern struct rr_methods cdnskey_methods;
 
 #define KEY_TYPE_UNUSED 0
 #define KEY_TYPE_KSK    1
@@ -488,6 +491,7 @@ struct rr_ds
     struct binary_data digest;
 };
 extern struct rr_methods ds_methods;
+extern struct rr_methods cds_methods;
 
 struct rr_dlv
 {

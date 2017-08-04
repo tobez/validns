@@ -24,7 +24,7 @@
 
 static struct rr_dnskey *all_dns_keys = NULL;
 
-static struct rr* dnskey_parse(char *name, long ttl, int type, char *s)
+static struct rr* dnskey_cdnskey_parse(char *name, long ttl, int type, char *s)
 {
     struct rr_dnskey *rr = getmem(sizeof(*rr));
     struct binary_data key;
@@ -52,7 +52,7 @@ static struct rr* dnskey_parse(char *name, long ttl, int type, char *s)
     algorithm = extract_algorithm(&s, "algorithm");
     if (algorithm == ALG_UNSUPPORTED)   return NULL;
     if (algorithm == ALG_PRIVATEDNS || algorithm == ALG_PRIVATEOID) {
-        return bitch("private algorithms are not supported in DNSKEY");
+        return bitch("private algorithms are not supported in %s", type == T_CDNSKEY ? "CDNSKEY" : "DNSKEY");
     }
     rr->algorithm = algorithm;
 
@@ -76,17 +76,17 @@ static struct rr* dnskey_parse(char *name, long ttl, int type, char *s)
     rr->key_type = KEY_TYPE_UNUSED;
 
     if (*s) {
-        return bitch("garbage after valid DNSKEY data");
+        return bitch("garbage after valid %s data", type == T_CDNSKEY ? "CDNSKEY" : "DNSKEY");
     }
     result = store_record(type, name, ttl, rr);
-    if (result) {
+    if (result && type == T_DNSKEY) {
         rr->next_key = all_dns_keys;
         all_dns_keys = rr;
     }
     return result;
 }
 
-static char* dnskey_human(struct rr *rrv)
+static char* dnskey_cdnskey_human(struct rr *rrv)
 {
     RRCAST(dnskey);
     char s[1024];
@@ -96,7 +96,7 @@ static char* dnskey_human(struct rr *rrv)
     return quickstrdup_temp(s);
 }
 
-static struct binary_data dnskey_wirerdata(struct rr *rrv)
+static struct binary_data dnskey_cdnskey_wirerdata(struct rr *rrv)
 {
     RRCAST(dnskey);
 
@@ -105,7 +105,7 @@ static struct binary_data dnskey_wirerdata(struct rr *rrv)
         rr->pubkey);
 }
 
-static void *dnskey_validate(struct rr *rrv)
+static void *dnskey_cdnskey_validate(struct rr *rrv)
 {
     RRCAST(dnskey);
 
@@ -141,7 +141,8 @@ static void *dnskey_validate(struct rr *rrv)
     return NULL;
 }
 
-struct rr_methods dnskey_methods = { dnskey_parse, dnskey_human, dnskey_wirerdata, NULL, dnskey_validate };
+struct rr_methods dnskey_methods = { dnskey_cdnskey_parse, dnskey_cdnskey_human, dnskey_cdnskey_wirerdata, NULL, dnskey_cdnskey_validate };
+struct rr_methods cdnskey_methods = { dnskey_cdnskey_parse, dnskey_cdnskey_human, dnskey_cdnskey_wirerdata, NULL, dnskey_cdnskey_validate };
 
 int dnskey_build_pkey(struct rr_dnskey *rr)
 {

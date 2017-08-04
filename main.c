@@ -477,6 +477,8 @@ static void initialize_globals(void)
     rr_methods[T_A]            =          a_methods;
     rr_methods[T_AFSDB]        =      afsdb_methods;
     rr_methods[T_CAA]          =        caa_methods;
+    rr_methods[T_CDNSKEY]      =    cdnskey_methods;
+    rr_methods[T_CDS]          =        cds_methods;
     rr_methods[T_CERT]         =       cert_methods;
     rr_methods[T_CNAME]        =      cname_methods;
     rr_methods[T_DHCID]        =      dhcid_methods;

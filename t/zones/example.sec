@@ -16,6 +16,19 @@ $INCLUDE Kexample.sec.+010+01862.key
 		TXT "Responsible person"
         CAA 0 issue "example.sec" ; fine
 
+        CDS	50458 12 3 2e40b2a6ccd2760ec70af69d1c144064c8931e53a6b3eee78bdb9e0bafbb9c02
+        CDNSKEY 256 3 8 (
+            AwEAAdZOvnLtTdQjfdIqqH3stb7vI6bJlg27
+            3Tp4oRpnmnmgizDFtLQhnIv1Mr3AuwSWVIDe
+            avuiyWIAtfvwy0f3EYIv8Ys5kDiKs8PE1k90
+            yQwfC53hxyH10GzGnAx4Sutrdkh1w4HM1nMB
+            dlTMa0g9yxjJ0vm/T7qHzj+3dTUi84s8Du2m
+            fMD6noy+leZ2IuX7lFca8SzDNmhUPTkXuFrB
+            /QUuoY2FyThfidT+nhOQpzftVtLcta0E0Uv3
+            PcVDp1d7vBXsAEYGHr54r2vb3eXdOTmoFyh/
+            byehUlPq1gDEH0mBRlWbUHqbGnKyolz0dR01
+            u8SJYP6ULwx0mZ0p5BmoMH8=
+        )
 ns1		A	1.2.3.4
 ns2		A	5.6.7.8
 mail	A	2.3.4.5

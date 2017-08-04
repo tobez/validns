@@ -73,7 +73,9 @@ static char* rdtype2str_map[T_MAX+1] = {
     "NSEC3", /* 50 */
     "NSEC3PARAM",
     "TLSA",
-          0, 0, 0, 0, 0, 0, 0, 0, /* 60 */
+          0, 0, 0, 0, 0, 0,
+    "CDS",
+    "CDNSKEY", /* 60 */
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, /* 70 */
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, /* 80 */
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, /* 90 */
@@ -506,6 +508,10 @@ int str2rdtype(char *rdtype, int *is_generic)
             return T_CERT;
         } else if (strcmp(rdtype, "caa") == 0) {
             return T_CAA;
+        } else if (strcmp(rdtype, "cds") == 0) {
+            return T_CDS;
+        } else if (strcmp(rdtype, "cdnskey") == 0) {
+            return T_CDNSKEY;
         }
         break;
     case 'd':
