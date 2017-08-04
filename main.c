@@ -442,6 +442,7 @@ void usage(char *err)
     fprintf(stderr, "\t\t\trp-txt-exists\n");
     fprintf(stderr, "\t\t\ttlsa-host\n");
     fprintf(stderr, "\t\t\tksk-exists\n");
+    fprintf(stderr, "\t\t\tsmimea-host\n");
     fprintf(stderr, "\t\t\tall\n");
 
     fprintf(stderr, "\t-n N\t\tuse N worker threads\n");
@@ -511,6 +512,7 @@ static void initialize_globals(void)
     rr_methods[T_RP]           =         rp_methods;
     rr_methods[T_RT]           =         rt_methods;
     rr_methods[T_RRSIG]        =      rrsig_methods;
+    rr_methods[T_SMIMEA]       =     smimea_methods;
     rr_methods[T_SOA]          =        soa_methods;
     rr_methods[T_SPF]          =        spf_methods;
     rr_methods[T_SRV]          =        srv_methods;
@@ -571,6 +573,8 @@ main(int argc, char **argv)
                 G.opt.policy_checks[POLICY_RP_TXT_EXISTS] = 1;
             } else if (strcmp(optarg, "tlsa-host") == 0) {
                 G.opt.policy_checks[POLICY_TLSA_HOST] = 1;
+            } else if (strcmp(optarg, "smimea-host") == 0) {
+                G.opt.policy_checks[POLICY_SMIMEA_HOST] = 1;
             } else if (strcmp(optarg, "ksk-exists") == 0) {
                 G.opt.policy_checks[POLICY_KSK_EXISTS] = 1;
             } else {

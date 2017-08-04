@@ -47,6 +47,12 @@ _8443._tcp.www.example.sec. IN TLSA (
 _25._tcp.mail IN TLSA (
       3 0 0 30820307308201efa003020102020123 )
 
+c93f1e400f26708f98cb19d936620da35eec8f72e57f9eec01c1afd6._smimecert.example.com IN SMIMEA (
+      1 1 2 92003ba34942dc74152e2f2c408d29ec
+            a5a520e7f2e06bb944f4dca346baf63c
+            1b177615d466f6c4b71c216a50292bd5
+            8c9ebdd2f74e38fe51ffd48c43326cbc )
+
 delegation NS ns1
 delegation NS ns2
 delegation DS 60485 5 1 ( 2BB183AF5F22588179A53B0A

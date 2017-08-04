@@ -73,7 +73,8 @@ static char* rdtype2str_map[T_MAX+1] = {
     "NSEC3", /* 50 */
     "NSEC3PARAM",
     "TLSA",
-          0, 0, 0, 0, 0, 0,
+    "SMIMEA",
+             0, 0, 0, 0, 0,
     "CDS",
     "CDNSKEY", /* 60 */
     0, 0, 0, 0, 0, 0, 0, 0, 0, 0, /* 70 */
@@ -610,6 +611,8 @@ int str2rdtype(char *rdtype, int *is_generic)
             return T_SPF;
         } else if (strcmp(rdtype, "sshfp") == 0) {
             return T_SSHFP;
+        } else if (strcmp(rdtype, "smimea") == 0) {
+            return T_SMIMEA;
         }
         break;
     case 't':

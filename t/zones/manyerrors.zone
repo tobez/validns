@@ -112,6 +112,17 @@ _30._xtp.www IN TLSA (
       0 0 1 d2abde240d7cd3ee6b4b28c54df034b9
             7983a1d16e8a410e4561cb106618e9aa )
 
+; policy  bad domain name for SMIMEA
+smimea IN SMIMEA (
+      0 0 1 d2abde240d7cd3ee6b4b28c54df034b9
+            7983a1d16e8a410e4561cb106618e9aa )
+93f1e400f26708f98cb19d936620da35eec8f72e57f9eec01c1afd6._smimecert.www IN SMIMEA (
+      0 0 1 d2abde240d7cd3ee6b4b28c54df034b9
+            7983a1d16e8a410e4561cb106618e9aa )
+c93f1e400f26708f98cb19d936620da35eec8f72e57f9eec01c1afd6._xmimecert.www IN SMIMEA (
+      0 0 1 d2abde240d7cd3ee6b4b28c54df034b9
+            7983a1d16e8a410e4561cb106618e9aa )
+
 outside.org. A 194.28.255.11
 long.outside.org. A 194.28.255.11
 outsidegalaxyplus.org. A 194.28.255.11

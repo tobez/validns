@@ -45,6 +45,7 @@
 #define T_NSEC3 50
 #define T_NSEC3PARAM    51
 #define T_TLSA  52
+#define T_SMIMEA  53
 #define T_CDS   59
 #define T_CDNSKEY 60
 #define T_SPF   99
@@ -219,7 +220,7 @@ struct rr_txt
 };
 extern struct rr_methods txt_methods;
 
-struct rr_tlsa
+struct rr_tlsa_smimea
 {
     struct rr rr;
     uint8_t cert_usage;
@@ -228,6 +229,7 @@ struct rr_tlsa
     struct binary_data association_data;
 };
 extern struct rr_methods tlsa_methods;
+extern struct rr_methods smimea_methods;
 
 struct rr_ipseckey
 {

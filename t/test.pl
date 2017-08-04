@@ -137,7 +137,10 @@ like(shift @e, qr/garbage after valid CAA/, "CAA + garbage");
 like(shift @e, qr/CNAME and other data/, "CNAME+CNAME");
 like(shift @e, qr/CNAME and other data/, "CNAME+something else");
 like(shift @e, qr/there should be at least two NS records/, "NS limit");
+like(shift @e, qr/not a proper domain name for an SMIMEA record/, "SMIMEA host 1");
 like(shift @e, qr/not a proper prefixed DNS domain name/, "TLSA host 1");
+like(shift @e, qr/not a proper domain name for an SMIMEA record/, "SMIMEA host 2");
+like(shift @e, qr/not a proper domain name for an SMIMEA record/, "SMIMEA host 3");
 like(shift @e, qr/not a proper prefixed DNS domain name/, "TLSA host 2");
 
 like(shift @e, qr/TTL values differ within an RR set/, "TTL conflict");

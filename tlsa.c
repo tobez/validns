@@ -21,11 +21,13 @@
 
 /* See http://www.rfc-editor.org/internet-drafts/draft-ietf-dane-protocol-23.txt
  * for TLSA description.
+ * See https://tools.ietf.org/html/draft-ietf-dane-smime-16
+ * for SMIMEA description.
  */
 
-static struct rr* tlsa_parse(char *name, long ttl, int type, char *s)
+static struct rr* tlsa_smimea_parse(char *name, long ttl, int type, char *s)
 {
-    struct rr_tlsa *rr = getmem(sizeof(*rr));
+    struct rr_tlsa_smimea *rr = getmem(sizeof(*rr));
     int cert_usage, selector, matching_type;
 
     cert_usage = extract_integer(&s, "certificate usage field", NULL);
@@ -60,14 +62,14 @@ static struct rr* tlsa_parse(char *name, long ttl, int type, char *s)
     }
 
     if (*s) {
-        return bitch("garbage after valid TLSA data");
+        return bitch("garbage after valid %s data", type == T_TLSA ? "TLSA" : "SMIMEA");
     }
     return store_record(type, name, ttl, rr);
 }
 
-static char* tlsa_human(struct rr *rrv)
+static char* tlsa_smimea_human(struct rr *rrv)
 {
-    RRCAST(tlsa);
+    RRCAST(tlsa_smimea);
     char s[1024];
 
     snprintf(s, 1024, "%d %d %d ...",
@@ -75,9 +77,9 @@ static char* tlsa_human(struct rr *rrv)
     return quickstrdup_temp(s);
 }
 
-static struct binary_data tlsa_wirerdata(struct rr *rrv)
+static struct binary_data tlsa_smimea_wirerdata(struct rr *rrv)
 {
-    RRCAST(tlsa);
+    RRCAST(tlsa_smimea);
 
     return compose_binary_data("111d", 1,
         rr->cert_usage, rr->selector, rr->matching_type,
@@ -118,4 +120,34 @@ not_a_prefixed_domain_name:
     return NULL;
 }
 
-struct rr_methods tlsa_methods = { tlsa_parse, tlsa_human, tlsa_wirerdata, tlsa_validate_set, NULL };
+static void* smimea_validate_set(struct rr_set *rr_set)
+{
+    struct rr *rr;
+    struct named_rr *named_rr;
+    char *s;
+    int hash_len = 0;
+    int len;
+
+    if (G.opt.policy_checks[POLICY_SMIMEA_HOST]) {
+        rr = rr_set->tail;
+        named_rr = rr_set->named_rr;
+
+        /* c93f1e400f26708f98cb19d936620da35eec8f72e57f9eec01c1afd6._smimecert.example.com. */
+        s = named_rr->name;
+        while (isxdigit(*s)) {
+            hash_len++;
+            s++;
+        }
+        if (*s++ != '.' || hash_len != 56) {
+not_a_proper_smimea_domainname:
+            return moan(rr->file_name, rr->line, "not a proper domain name for an SMIMEA record");
+        }
+        len = strlen(s);
+        if (len < 11)    goto not_a_proper_smimea_domainname;
+        if (memcmp(s, "_smimecert.", 11) != 0)    goto not_a_proper_smimea_domainname;
+    }
+    return NULL;
+}
+
+struct rr_methods tlsa_methods = { tlsa_smimea_parse, tlsa_smimea_human, tlsa_smimea_wirerdata, tlsa_validate_set, NULL };
+struct rr_methods smimea_methods = { tlsa_smimea_parse, tlsa_smimea_human, tlsa_smimea_wirerdata, smimea_validate_set, NULL };

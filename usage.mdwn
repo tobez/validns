@@ -49,6 +49,7 @@ Coming soon.
 	- rp-txt-exists
 	- tlsa-host
 	- ksk-exists
+	- smimea-host
 	- all
 
 -n *N*
@@ -136,6 +137,7 @@ Other basic checks include:
   a corresponding TXT record if it is within the zone
 - domain name of a TLSA record must be a proper prefixed DNS name
 - a KSK key must exist in a signed zone
+- domain name must have the form which is proper for an SMIMEA record
 
 # BUGS
 

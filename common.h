@@ -39,7 +39,7 @@ struct file_info
 
 extern struct file_info *file_info;
 
-#define N_POLICY_CHECKS 10
+#define N_POLICY_CHECKS 11
 
 #define POLICY_SINGLE_NS 0
 #define POLICY_CNAME_OTHER_DATA 1
@@ -51,6 +51,7 @@ extern struct file_info *file_info;
 #define POLICY_DNSKEY 7
 #define POLICY_TLSA_HOST 8
 #define POLICY_KSK_EXISTS 9
+#define POLICY_SMIMEA_HOST 10
 
 #define MAX_TIMES_TO_CHECK 32
 
