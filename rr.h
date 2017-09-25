@@ -53,6 +53,8 @@
 #define T_L32   105
 #define T_L64   106
 #define T_LP    107
+#define T_EUI48 108
+#define T_EUI64 109
 #define T_CAA   257
 #define T_DLV   32769
 #define T_MAX   32769
@@ -504,6 +506,20 @@ struct rr_dlv
     struct binary_data digest;
 };
 extern struct rr_methods dlv_methods;
+
+struct rr_eui48
+{
+	struct rr rr;
+	uint8_t address[6];
+};
+extern struct rr_methods eui48_methods;
+
+struct rr_eui64
+{
+	struct rr rr;
+	uint8_t address[8];
+};
+extern struct rr_methods eui64_methods;
 
 struct rr_nsap
 {
