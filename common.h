@@ -52,6 +52,7 @@ extern struct file_info *file_info;
 #define POLICY_TLSA_HOST 8
 #define POLICY_KSK_EXISTS 9
 #define POLICY_SMIMEA_HOST 10
+#define POLICY_NSEC3_CONSISTENCY 11
 
 #define MAX_TIMES_TO_CHECK 32
 

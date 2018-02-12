@@ -266,3 +266,47 @@ void *check_typemap(struct binary_data type_bitmap, struct named_rr *named_rr, s
     }
     return reference_rr;
 }
+
+
+void nsec3_consistency_policy_check(void)
+{
+	if (!first_nsec3) return;
+	struct rr_nsec3 *nsec3;
+	uint8_t first_hash_algorithm=first_nsec3->hash_algorithm;
+	uint8_t first_flags=first_nsec3->flags;
+	uint16_t first_iterations=first_nsec3->iterations;
+	struct binary_data first_salt;
+	first_salt.length=first_nsec3->salt.length;
+	if (first_nsec3->salt.data) {
+		first_salt.data=malloc(first_nsec3->salt.length);
+		if (first_salt.data==NULL) {
+			croak(1,"out of memory error");
+		}
+		memcpy(first_salt.data, first_nsec3->salt.data, first_nsec3->salt.length);
+	} else {
+		first_salt.data=NULL;
+	}
+	nsec3 = first_nsec3->next_nsec3;
+	while (nsec3) {
+		if (nsec3->hash_algorithm != first_hash_algorithm) {
+			moan(nsec3->rr.file_name, nsec3->rr.line,
+				 "inconsistent NSEC3 hash algorithm");
+		}
+		if (nsec3->flags != first_flags) {
+			moan(nsec3->rr.file_name, nsec3->rr.line,
+				 "inconsistent NSEC3 flags");
+		}
+		if (nsec3->iterations != first_iterations) {
+			moan(nsec3->rr.file_name, nsec3->rr.line,
+				 "inconsistent NSEC3 iterations");
+		}
+		if (nsec3->salt.length != first_salt.length ||
+				nsec3->salt.data==NULL || first_salt.data==NULL ||
+				memcmp(nsec3->salt.data,first_salt.data,first_salt.length)!=0) {
+			moan(nsec3->rr.file_name, nsec3->rr.line,
+				 "inconsistent NSEC3 salt");
+		}
+		nsec3 = nsec3->next_nsec3;
+	}
+	free(first_salt.data);
+}

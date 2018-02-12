@@ -423,36 +423,38 @@ open_zone_file(char *fname)
 
 void usage(char *err)
 {
-    if (err)
-        fprintf(stderr, "%s\n", err);
-    fprintf(stderr, "Usage:\n");
-    fprintf(stderr, "    %s -h\n", thisprogname());
-    fprintf(stderr, "    %s [options] zone-file\n", thisprogname());
-    fprintf(stderr, "Usage parameters:\n");
-    fprintf(stderr, "\t-h\t\tproduce usage text and quit\n");
-    fprintf(stderr, "\t-f\t\tquit on first validation error\n");
+	if (err)
+		fprintf(stderr, "%s\n", err);
+	fprintf(stderr, "Usage:\n");
+	fprintf(stderr, "    %s -h\n", thisprogname());
+	fprintf(stderr, "    %s [options] zone-file\n", thisprogname());
+	fprintf(stderr, "Usage parameters:\n");
+	fprintf(stderr, "\t-h\t\tproduce usage text and quit\n");
+	fprintf(stderr, "\t-f\t\tquit on first validation error\n");
 
-    fprintf(stderr, "\t-p name\tperform policy check <name>\n");
-    fprintf(stderr, "\t\t\tsingle-ns\n");
-    fprintf(stderr, "\t\t\tcname-other-data\n");
-    fprintf(stderr, "\t\t\tdname\n");
-    fprintf(stderr, "\t\t\tnsec3param-not-apex\n");
-    fprintf(stderr, "\t\t\tmx-alias\n");
-    fprintf(stderr, "\t\t\tns-alias\n");
-    fprintf(stderr, "\t\t\trp-txt-exists\n");
-    fprintf(stderr, "\t\t\ttlsa-host\n");
-    fprintf(stderr, "\t\t\tksk-exists\n");
-    fprintf(stderr, "\t\t\tsmimea-host\n");
-    fprintf(stderr, "\t\t\tall\n");
+	fprintf(stderr, "\t-p name\tperform policy check <name>\n");
+	fprintf(stderr, "\t\t\tsingle-ns\n");
+	fprintf(stderr, "\t\t\tcname-other-data\n");
+	fprintf(stderr, "\t\t\tdname\n");
+	fprintf(stderr, "\t\t\tnsec3param-not-apex\n");
+	fprintf(stderr, "\t\t\tmx-alias\n");
+	fprintf(stderr, "\t\t\tns-alias\n");
+	fprintf(stderr, "\t\t\trp-txt-exists\n");
+	fprintf(stderr, "\t\t\ttlsa-host\n");
+	fprintf(stderr, "\t\t\tksk-exists\n");
+	fprintf(stderr, "\t\t\tnsec3-consistency\n");
+  fprintf(stderr, "\t\t\tsmimea-host\n");
+  fprintf(stderr, "\t\t\tall\n");
 
-    fprintf(stderr, "\t-n N\t\tuse N worker threads\n");
-    fprintf(stderr, "\t-q\t\tquiet - do not produce any output\n");
-    fprintf(stderr, "\t-s\t\tprint validation summary/stats\n");
-    fprintf(stderr, "\t-v\t\tbe extra verbose\n");
-    fprintf(stderr, "\t-I path\tuse this path for $INCLUDE files\n");
-    fprintf(stderr, "\t-z origin\tuse this origin as initial $ORIGIN\n");
-    fprintf(stderr, "\t-t epoch-time\tuse this time instead of \"now\"\n");
-    exit(1);
+	fprintf(stderr, "\t-n N\t\tuse N worker threads\n");
+	fprintf(stderr, "\t-q\t\tquiet - do not produce any output\n");
+	fprintf(stderr, "\t-s\t\tprint validation summary/stats\n");
+	fprintf(stderr, "\t-v\t\tbe extra verbose\n");
+	fprintf(stderr, "\t-I path\tuse this path for $INCLUDE files\n");
+	fprintf(stderr, "\t-z origin\tuse this origin as initial $ORIGIN\n");
+	fprintf(stderr, "\t-t epoch-time\tuse this time instead of \"now\"\n");
+	exit(1);
+
 }
 
 struct rr_methods rr_methods[T_MAX+1];
@@ -577,6 +579,8 @@ main(int argc, char **argv)
                 G.opt.policy_checks[POLICY_SMIMEA_HOST] = 1;
             } else if (strcmp(optarg, "ksk-exists") == 0) {
                 G.opt.policy_checks[POLICY_KSK_EXISTS] = 1;
+            } else if (strcmp(optarg, "nsec3-consistency") == 0) {
+				        G.opt.policy_checks[POLICY_NSEC3_CONSISTENCY] = 1;
             } else {
                 usage("unknown policy name");
             }
@@ -622,10 +626,13 @@ main(int argc, char **argv)
     read_zone_file();
     validate_zone();
     verify_all_keys();
-    if (G.nsec3_present) {
-        if (first_nsec3) nsec3_validate(&first_nsec3->rr);
-        perform_remaining_nsec3checks();
-    }
+  
+  	if (G.nsec3_present) {
+		  if (first_nsec3) nsec3_validate(&first_nsec3->rr);
+		    perform_remaining_nsec3checks();
+		    if (G.opt.policy_checks[POLICY_NSEC3_CONSISTENCY]) nsec3_consistency_policy_check();
+  	}
+  
     if (G.dnssec_active && G.opt.policy_checks[POLICY_KSK_EXISTS]) {
         dnskey_ksk_policy_check();
     }

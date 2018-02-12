@@ -1,0 +1,258 @@
+;; Zone: de.
+;
+de.	86400	IN	SOA	f.nic.de. its.denic.de. 2015110371 7200 7200 3600000 7200
+de.	86400	IN	RRSIG	SOA 8 1 86400 20151209154056 20151111154056 11286 de. oiXR+4AUri0i9cNOYzIsGduDGhMw8AgNCvLT4om4grReqke4MNbSSjtSVsbfuVP6d9RFLu2e3AYt+RQ3jUoI0M0SUj9AEpagjWL0H44/1ENL3HB+6kAzPGXeb4rU5r7TYSksmb9k7rwpTduV6HRFD79cMGl3NZakuxA3ITpMUB8=
+;
+de.	86400	IN	NS	a.nic.de.
+de.	86400	IN	NS	f.nic.de.
+de.	86400	IN	NS	l.de.net.
+de.	86400	IN	NS	n.de.net.
+de.	86400	IN	NS	s.de.net.
+de.	86400	IN	NS	z.nic.de.
+de.	86400	IN	RRSIG	NS 8 1 86400 20151209154056 20151111154056 11286 de. gtpHIeexvPkTdX8hlW+O/40SjQ7uEhzIzzg6l70QBq0A8D+yYuq6CSsMj8+2E26erF6MLwOrTDBwpHcqYEG1t6eVqXXXYV6i101IRzcKQpZzIh/z6sonicgWmX1vvP/CtXM6JC4YvMgXXeyVVa1p3BUEMyFSJ1drbCudUQPMvlk=
+de.	86400	IN	DNSKEY	256 3 8 AwEAAaIvRZHdrSo8+jolmskEoENzJ76lXMQFOiA7TK3MFPsSyqYn7F7pvt1p22DwdgGEGHsRoxxuE4j+va/iEpLnUe7TQGLfByhkdTGR8ip0pZ9Fftv/U/d/18iLkj6a+bUnsKbmTbZpXG7E6gBRCAV9AlnA0HdZ/RDLRJiF3gebU0Dh ;{id = 11286 (zsk), size = 1024b}
+de.	86400	IN	DNSKEY	257 3 8 AwEAAchiXLkVWUzOZGSiQ2Dz4HRuRIZ5f09SoSFQ2zR+WSTxtxAlGt4+YPn58I5j9aCKXlQhJZWpHcpMKj0Bafqpxb4z/sDcD3QRtxpo8sPyh7Wq4j9SUINiSwq+JZjEewUqCMh9EEE2+sm0C/Dhpuqp5s0Oqy/mx9wbaokN1TbYlJ7MLV48t6Jxl5tkSOwMrLVARjp366J/MyWeHQDcBfUCTH0KJVr4JgaNSw0rvenYi9ms6lJ7MaaK5MA/Odem4/lvG02mN0XaB/LAI9EkgsxaPW1qc3KZlPBAigmo5ATgF+lhVgHpHzeGmDXYQ5JcWtNmxoA7qanGvoqEX5RR/WcrzsE= ;{id = 5821 (ksk), size = 2048b}
+de.	86400	IN	RRSIG	DNSKEY 8 1 86400 20151209154056 20151111154056 5821 de. KQr2Hu29p/e/5xim4mImDgpkdEb3Y00NZQ/3iYB7RT6eSPGv54AuJc9u+zirGiiynOTTkEMDUvvQ6+prnMhDvosipBYAQm4Zn7ZK8p/u+4Ljkb+t/vsl6+y1xxpP07KoIkJpW/kq1pKnWqXQh1Fy37JTJmRrFpL2cYcss2AOaEPblLE5MjW8pFAJ/TMguDBoEh82dpKiRgMgbTbal/tOfGHycXMJS4ZwBGlFMss5MKZVR/yd1GGDUevYM5ClpUJHVV68CnPRUq8gARMkjdYoMZK9seh9Q6uKxjnW7SXUIqNyyuPFGvdz5YpYKB1frX7BqgiFQV/g10LdHRVLEFW+NQ==
+de.	3600	IN	NSEC3PARAM	1 0 15 1234abcd 
+de.	3600	IN	RRSIG	NSEC3PARAM 8 1 3600 20151209154056 20151111154056 11286 de. C2GvqRisx5hyAqVHHstGpOnB/6RjFjVjFQJ3kdLid9ax/LV3CwTqWBR8A0olj/GyrVk3NnQDrJpfDg+F2sJ6Qmo4caE4p+DB/eZQdigBe4Sj2OFsp7uGJmoOFwsgUmrVTaOIul75mb4ulMJmdJMEhrESHbo0v6hgzzvF7FDbmJI=
+va2rimael90s5p232g41rjdj9es4d78l.de.	7200	IN	NSEC3	1 0 15 1234abcd  2me4icfr0t9id9b8f8dmmgl1mq5d731s NS SOA RRSIG DNSKEY NSEC3PARAM  ;{ flags: -, from: de. to: a.de.}
+va2rimael90s5p232g41rjdj9es4d78l.de.	7200	IN	RRSIG	NSEC3 8 2 7200 20151209154056 20151111154056 11286 de. RjTkhNt6MMOkLmhVLZkwMTXfbI5L3ZG33GUfe4/Hde6IbluFt1bdbc2P/h+fMoCbXDuprkFN3Dl928oFHudGDpenNCchWt2ijflQHFZ68kTt4xq6FlgtBuXPgzw7/oVF1pPalMkNFtxMlBk3sRfWpEcjadwlrGBfkTw/l3tk0f4=
+;
+;; Empty nonterminal: _tcp.de.
+o2as4ukc259trv95vl74bvvolpllofc1.de.	7200	IN	NSEC3	1 0 15 1234abcd  p4pactimc5ncksdfprki7a4a5anqr28b ;{ flags: -, from: _tcp.de. to: denic-itstt-ss.de.}
+o2as4ukc259trv95vl74bvvolpllofc1.de.	7200	IN	RRSIG	NSEC3 8 2 7200 20151209154056 20151111154056 11286 de. bvtE5N+GvC9bfLiaXzBt4r7u+JtT7/D3KFon7PasquNEKJMh1jWTBQ6hdSy5tYoRsorTreAVSHu3QHvBJA6hF9RS3jpvwMgsMuu40F6ppFWo8C07bwWNckJQJwK/IkLuU929P8DgUx+pMnAbse9ZZ9k7VqanqPOnEdevyb7v6CY=
+;
+_nicname._tcp.de.	86400	IN	SRV	0 0 43 whois.denic.de.
+_nicname._tcp.de.	86400	IN	RRSIG	SRV 8 3 86400 20151209154056 20151111154056 11286 de. dV4O5hDxjilstTPKuqpQmxcs5M/0u3/3UFHHSRb6NIm0MENVHiv82LMjtcynB6/2m5Sntbhz8oXMMOHcWF4/ocG0QmbKbQ2wTgupdAB6d2DIezuKSctprvJV6OKm4hJqy92i5OonwPih3+5i/49ksSAJjTIDsXfJlNl5PQ96UkA=
+32sm3o9vlgrher4h7psrgl63efgb67q3.de.	7200	IN	NSEC3	1 0 15 1234abcd  5g2a8hrikngr0b33ko9j0m2tglu9fi21 SRV RRSIG  ;{ flags: -, from: _nicname._tcp.de. to: www.xn---itstt-nsentry-zlb26bkenb95f.de.}
+32sm3o9vlgrher4h7psrgl63efgb67q3.de.	7200	IN	RRSIG	NSEC3 8 2 7200 20151209154056 20151111154056 11286 de. mh7c0OpWLfXmng9pZyf7CVJRaVoQOpD1Vu87/UGlQLoqzo7HqvYKcrd7soSwRM0/6djjcdmPS8jK8jFFgTtWbeQkwEUkNRrjAdBMVNajXAYVEQX61QI+LUVHtDpFLM39hjDEUO6BEL9QzVMD8KHhJCjZGnAIQDbzaSVBSW4tHSI=
+;
+;; Empty nonterminal: _test.de.
+n4etc7qfttgfla9824c8rlbu79t28n7i.de.	7200	IN	NSEC3	1 0 15 12345678  o2as4ukc259trv95vl74bvvolpllofc1 ;{ flags: -, from: _test.de. to: _tcp.de.}
+n4etc7qfttgfla9824c8rlbu79t28n7i.de.	7200	IN	RRSIG	NSEC3 8 2 7200 20151209154056 20151111154056 11286 de. ixS6EdRDcyldx22gY1FlYGcFApfozj1AK2vfaqXvj/38wazhJj0Mws722XN8V2JtT5kZkgClNQ69VRTWziMiyFKzgOKzjCFXJCoEDEO5rUP2NVRaWGwN+KV5t+HgeMtuWaJL6aS/qfWaVBlE7hASZFP4iu5629uKx6FiVejNOKU=
+;
+txt._test.de.	86400	IN	TXT	"1446568534"
+txt._test.de.	86400	IN	RRSIG	TXT 8 3 86400 20151209154056 20151111154056 11286 de. j6JG7Fm/hR0+Pm5aQ++5yoeozL+z8CVRIZEmDOMZE7NX0nS57QtuyAvqnpxWin+N1iFtffPdhKK/vwhUTw9NUw5GLersHOoAPxKSpd+f3v8ozLTCC3nMxJpsgpcc6cWsMYaLWL2MBpM8tbRLogoeXF1riLEZAMjT20M28/bgM5I=
+b8gm7j41pq02c81701go1so1guog4sak.de.	7200	IN	NSEC3	1 0 15 1234abcd  ccoff7vjn3d1nkakukr8g25f0etmjotv TXT RRSIG  ;{ flags: -, from: txt._test.de. to: denic-itstt-nsentry-wildcardmx.de.}
+b8gm7j41pq02c81701go1so1guog4sak.de.	7200	IN	RRSIG	NSEC3 8 2 7200 20151209154056 20151111154056 11286 de. ijgRCSiQC0DSkZ3Vz2tr/SeOPpfZBPKGcHqDfNgeB19Xe7UIat740JuxulHRcXpZPvZvR3pEmZqMzluClZJVYVGiXhutFW+4J4ctBM780Ef1zHlUTfTiLOsF0W77//+EFmtXN+ft41Ek9fakzPPWzK/XBNtAtX4WMyqfQwhFdPU=
+;
+a.de.	86400	IN	NS	dns1.opsblau.de.
+a.de.	86400	IN	NS	dns3.opsblau.de.
+2me4icfr0t9id9b8f8dmmgl1mq5d731s.de.	7200	IN	NSEC3	1 0 15 1234abcd  32sm3o9vlgrher4h7psrgl63efgb67q3 NS  ;{ flags: -, from: a.de. to: _nicname._tcp.de.}
+2me4icfr0t9id9b8f8dmmgl1mq5d731s.de.	7200	IN	RRSIG	NSEC3 8 2 7200 20151209154056 20151111154056 11286 de. eMKNTqufaepk1PaEGkrRUX8XhIzyJrGIst1VeeHINZVJiyUdOBQ2ZHPwZVJr8vJV/te6avrwrIQnyIwCgn2VcYoWlswrKPMbs2cKq5bQXOcdjFt+G6jETkkyI/olaI37ZVAkz6HTv5ik/Js7KYpYjFM3Mry39jWIkNrRIKzKe7I=
+;
+denic.de.	86400	IN	NS	ns1.denic.de.
+denic.de.	86400	IN	NS	ns2.denic.de.
+denic.de.	86400	IN	NS	ns3.denic.de.
+denic.de.	86400	IN	DS	26155 8 2 078547bf937a225c9efb2caf7fac11bd88671fcedfaeeb55c9b19cb0320befc9 ;{xecom-hicur-zygol-pimuh-saliz-rorep-zezep-sygyr-tydok-lilus-vulip-vopah-hydur-calur-busib-raras-nyxyx}
+denic.de.	86400	IN	RRSIG	DS 8 2 86400 20151209154056 20151111154056 11286 de. dz2PC6Enl+AAzOPGI4aFdqK4yesY+cwnje+havEwhEelObAN7U/xHIQ0WKsiWKxB35nkKnVvuYCy1Creq8XSyLz5o9xDngwoybFpGFDlq+f2OoqQDWW6u82Mj7YuGxPKzC0GrRewWt58NySkGw9er8RhfP9hBUUr0jdcSpvb7Pc=
+fm44i7lcfbqvh8dh5g8dk1btkh3v4kpe.de.	7200	IN	NSEC3	1 0 15 1234abcd  h8gpboh497fq57a169opvao3ncgi9ed1 NS DS RRSIG  ;{ flags: -, from: denic.de. to: denic-itstt-glues6.de.}
+fm44i7lcfbqvh8dh5g8dk1btkh3v4kpe.de.	7200	IN	RRSIG	NSEC3 8 2 7200 20151209154056 20151111154056 11286 de. GrpfhcG4/w4UZ1E6PO3a/5yQBlKgu3ZIST94B+YreEfCxUhp1tbRKtXnWKeQWPsZ/DCc69AA/vvVvzMj4MBQA5JowVaZ1x8j1A1goLYc0JchzDw5DAl0EKZpLElfm7nEGabfrghBtjyu5dltOtIKexsb24h6CoJGYYBGSzQ8Atc=
+;
+ns1.denic.de.	86400	IN	A	81.91.170.1
+ns1.denic.de.	86400	IN	AAAA	2a02:568:121:6:2::2
+;
+ns2.denic.de.	86400	IN	A	78.104.145.26
+;
+ns3.denic.de.	86400	IN	A	81.91.173.19
+;
+denic-itstt.de.	86400	IN	NS	ns1.denic-itstt.de.
+denic-itstt.de.	86400	IN	NS	ns2.denic-itstt.de.
+denic-itstt.de.	86400	IN	NS	dns1.pfp.de.
+denic-itstt.de.	86400	IN	DS	48739 8 2 4fec22b30f27c9c190de7f586f0535ea1cb2209be5fff8021b3cdc05259286b4 ;{xifov-simir-fefid-lidis-cegyt-vizoh-myrub-hutev-pelir-demen-ronuz-zevab-dakif-salab-hanon-dycer-gyxox}
+denic-itstt.de.	86400	IN	RRSIG	DS 8 2 86400 20151209154056 20151111154056 11286 de. ZEF6ZhKQqOrgdQVUetpsZjlhbY5FcVORO1MSOAEBaNcwQIohM1a9XNZ4qH+36DvwQ9iYMeeYsLsJBPoWsnu0iDxrfHRnQBUoBMDmV155DTBVt4RopzYBveQsBsM7uZRiA005LodzZAuGUz6su3W9ghuGdaT/IoKiDC8MwpPj1SI=
+fd5al06tj40a1e29jgibq6pg7k6g32uh.de.	7200	IN	NSEC3	1 0 15 1234abcd  fhn0n0t29iu1kseh4bhvm5tlj8d9k0ij NS DS RRSIG  ;{ flags: -, from: denic-itstt.de. to: denic-itstt-dnskey.de.}
+fd5al06tj40a1e29jgibq6pg7k6g32uh.de.	7200	IN	RRSIG	NSEC3 8 2 7200 20151209154056 20151111154056 11286 de. Qj56upRT8b3RQNWb1Rz4JwGV1achvFqF3vMOUnMSSwhUpcKM1m+pySLlH36Smqyot9LwM3+eY1wEk9gWC0qD+Sh2Dzo1ds+bLl/o5Em4F8coGY4arpnJiK0q3Vt9NQkGpXXZnR6/IL1m1c+Kaf+qlsm8W/M1tapT7Ry++T9UMLM=
+;
+ns1.denic-itstt.de.	86400	IN	A	88.198.51.72
+;
+ns2.denic-itstt.de.	86400	IN	A	81.169.129.171
+;
+denic-itstt-contacts-daniel.de.	86400	IN	NS	dns1.opsblau.de.
+denic-itstt-contacts-daniel.de.	86400	IN	NS	dns3.opsblau.de.
+srdem16n208faucj0tsn0003idt2hm62.de.	7200	IN	NSEC3	1 0 15 1234abcd  tdq5s96abfjatehj3v0nc93t09aknb99 NS  ;{ flags: -, from: denic-itstt-contacts-daniel.de. to: xn---itstt-nameserver-cvb64c8esb91g.de.}
+srdem16n208faucj0tsn0003idt2hm62.de.	7200	IN	RRSIG	NSEC3 8 2 7200 20151209154056 20151111154056 11286 de. OeHI52BvpZrldMAwF2WExD5rpzLmlMi3DAVWdqAhQhzp+7eC7iDctuifsrDKgEnZKcPwh0w1hGYBuGZLMjxA5cz1wlRUDiDbVA3D7ws9Hlpe7l0m0rH7XPIHTNflemTKA+okVI3H0aFJ1oE3xaRmQXCe0ZM3kZ5pXEkg3Q5awPE=
+;
+denic-itstt-dispute.de.	86400	IN	NS	dns1.opsblau.de.
+denic-itstt-dispute.de.	86400	IN	NS	dns3.opsblau.de.
+mkl43mfefg2rupgq929m3m0gon7877l9.de.	7200	IN	NSEC3	1 0 15 1234abcd  n4etc7qfttgfla9824c8rlbu79t28n7i NS  ;{ flags: -, from: denic-itstt-dispute.de. to: _test.de.}
+mkl43mfefg2rupgq929m3m0gon7877l9.de.	7200	IN	RRSIG	NSEC3 8 2 7200 20151209154056 20151111154056 11286 de. KMXp2H/Larvv1YhOvHM9n9gJ0LjDyFvI768kQNUmA6q8IxQCEhclFBlnY6OdwC7FRlU2pJUaTTbjxrAtJQ4PwtxaXNrMqmUEKYlFZr2eS7AYnUwZxy4UXbveWkE3hSaNTnynFrQ/IhWWdoU9NdIK9plz/M6BxYh/lFTECH31qMg=
+;
+denic-itstt-dnskey.de.	86400	IN	NS	dns1.opsblau.de.
+denic-itstt-dnskey.de.	86400	IN	NS	dns3.opsblau.de.
+denic-itstt-dnskey.de.	86400	IN	DS	56827 8 2 62edc7064f85222cd43622d422226e722b344a15bc07ed10d209ffd8f57e57d1 ;{ximiv-teceb-kufem-hymad-suhyf-kemit-gymyd-dural-dypuf-geduc-hezob-lerac-bagob-nozyt-matil-vohyt-caxux}
+denic-itstt-dnskey.de.	86400	IN	RRSIG	DS 8 2 86400 20151209154056 20151111154056 11286 de. QpMzlq0dHuIzla55kt4Dyd4tfxkLnlsrTwtzZdSh8D23ZsWCpxhK97wJcuISIXf7jiMDHTObqFQfmthIqvL403/Jc5TjlA+XIWnBzQ5kLukNqb0MgF/1i/3DUPPfLywzwi+Fp3yP34t2A1iTuTlRS2mvkzRHpoa2i26kUm4ZfEQ=
+fhn0n0t29iu1kseh4bhvm5tlj8d9k0ij.de.	7200	IN	NSEC3	1 0 15 1234abcd  fm44i7lcfbqvh8dh5g8dk1btkh3v4kpe NS DS RRSIG  ;{ flags: -, from: denic-itstt-dnskey.de. to: denic.de.}
+fhn0n0t29iu1kseh4bhvm5tlj8d9k0ij.de.	7200	IN	RRSIG	NSEC3 8 2 7200 20151209154056 20151111154056 11286 de. n1GPmTOIkLDs27L2Wa7E1ojQ+mN4ie5WfGq5d9Tns+DOd6HUHKxxTa7+Dg00OAoGVUDlJ6btF3RuKhhKJunIs+lixz1y9ihL+sNkDAL+iRuLwmKzlnjKLyVE4i16nD8Fr8PL9n/7LSLlU77L3LBkyWdrZcWt2REy5bW6Ewz5lcI=
+;
+denic-itstt-ecdsa256.de.	86400	IN	NS	dns1.opsblau.de.
+denic-itstt-ecdsa256.de.	86400	IN	NS	dns3.opsblau.de.
+denic-itstt-ecdsa256.de.	86400	IN	DS	62996 13 2 cc951a06d6d2f7c08b1111364393a3f3482f87d979307030b372c69dd4fff43f ;{xufan-hukeb-kehet-dotus-boduc-cygof-kebun-famiz-feded-zecot-navaf-bosuf-busel-dacyn-tehuz-zutef-zaxex}
+denic-itstt-ecdsa256.de.	86400	IN	RRSIG	DS 8 2 86400 20151209154056 20151111154056 11286 de. Xnla11ibyE4MBK/mvP8zKF1sA6aYYxwDEesrzgHrvvbjElyY2OtJPe76ddXEFSFHDNJ6wkaS0WDewZoYW+wYF6pHMK1n4PI06P0zY4Ujt3lS5mHD+fCgnDfQbC1uCUWzuZDkFKBdi3OlKRIReEubi5vescQd0M5aZmqqQ/GSRts=
+hk1f21lqk6349m4sr71qg2lkrim3da6h.de.	7200	IN	NSEC3	1 0 15 1234abcd  j25e3rufvnm297t7rgdeijqmoq603psi NS DS RRSIG  ;{ flags: -, from: denic-itstt-ecdsa256.de. to: nur-a.de.}
+hk1f21lqk6349m4sr71qg2lkrim3da6h.de.	7200	IN	RRSIG	NSEC3 8 2 7200 20151209154056 20151111154056 11286 de. CBoqPSAM/ZCUaBijxe8m99SBRgWfQDGNx9b1lspjUDB9gT5px6cytDE+wpXoKqwOToq+0JAOw/vLP+wwTLZk5/5XB+DzMeCYIu7zswdORM2h7y/DuGFZZVTVEDuWvKONpXjsmsrZejaKOyWfDxAFZLSV22XuJg52UR/u8cTfejQ=
+;
+denic-itstt-ecdsa384.de.	86400	IN	NS	dns1.opsblau.de.
+denic-itstt-ecdsa384.de.	86400	IN	NS	dns3.opsblau.de.
+denic-itstt-ecdsa384.de.	86400	IN	DS	51285 14 2 55f9b581c22420ba1b135991afa8e2617566ed991618333e5971fa8eca9c3036 ;{xihez-nytum-cubad-gemer-pekyc-fukun-cyrup-memek-citok-kyron-nuhoc-masyf-vakil-civem-vadun-sesuf-kyxex}
+denic-itstt-ecdsa384.de.	86400	IN	RRSIG	DS 8 2 86400 20151209154056 20151111154056 11286 de. Ws4l+YRJVSH+i+2Z+ADqjicmWxvK8n9wZwbKY08iG0Yznol2EY08YUnvoSL92Y3pjw30C6nSnhVuQdfVDk6X41kBYia00+v1oxPXL4IUjXzZS1hIx7pNcuYzD7VmVbAr8rP638JqeI36m/XlJCnstqCfv4NWpjOSpwcuBqO41D4=
+mairl3odfr30cgaefmpoqb18q48249sf.de.	7200	IN	NSEC3	1 0 15 1234abcd  mf3rg0sb81uaqatt89n79ghf0ag19u3r NS DS RRSIG  ;{ flags: -, from: denic-itstt-ecdsa384.de. to: www.denic-itstt-empty-nonterminal.de.}
+mairl3odfr30cgaefmpoqb18q48249sf.de.	7200	IN	RRSIG	NSEC3 8 2 7200 20151209154056 20151111154056 11286 de. J1cr68kO3/LGlJ/T1F98r3Vm/TdrmJPTXGlDlSc7EDYkDqT2ZPYD3GDTlCjxZO5GiDco860NzQsEEA9GL+YmixIDP1EaglW/ukmGo7lGHcpOMNsPCubkB/Q4Z6tjol2kGwBuOgXxFj/p2YxPN5SyqPU33l9eL1WD0bi48zi1qUw=
+;
+;; Empty nonterminal: denic-itstt-empty-nonterminal.de.
+qe3ovliktqvcruvlubpm64j1fkhp6otj.de.	7200	IN	NSEC3	1 0 15 1234abcd  qh3ug3pnn6498i16m20midu3l4j4n9ql ;{ flags: -, from: denic-itstt-empty-nonterminal.de. to: denic-itstt-maxholder.de.}
+qe3ovliktqvcruvlubpm64j1fkhp6otj.de.	7200	IN	RRSIG	NSEC3 8 2 7200 20151209154056 20151111154056 11286 de. AYks5MilHh9fxE4YgkhI1qAg1fwcvN3MY9FgFW2RhXq9kC4FvX0DUs+7LShVEkbUgw6nX6zGL51K8XXItiaP1lLZNdjjpVkkhMO2lkBFHxI8dv38uffUngqFG/CbHlhqi7Z622sL8J2aUhIBVDUV+Syb28rCcccCAiKut29e4cw=
+;
+www.denic-itstt-empty-nonterminal.de.	86400	IN	A	81.91.170.12
+www.denic-itstt-empty-nonterminal.de.	86400	IN	RRSIG	A 8 3 86400 20151209154056 20151111154056 11286 de. F0b4cI8qDkFCAr21gJm1xjhIhPN71iyvIBbM0Bv8YePLfpPklaTJ5pTw5nn+vcZn8kudXhu3SDruyBukNu84ugAPsfOqBYNPtdNfoft34/alEaM481glOD9dRW5mwrMnO4evPNN6uu93FBCvJ9NfVbMV1Ega9hmfhr7YM4tfIjo=
+mf3rg0sb81uaqatt89n79ghf0ag19u3r.de.	7200	IN	NSEC3	1 0 15 1234abcd  mh3um6prae6rvku4rm1cftftr4cfcjve A RRSIG  ;{ flags: -, from: www.denic-itstt-empty-nonterminal.de. to: denic-itstt-gost.de.}
+mf3rg0sb81uaqatt89n79ghf0ag19u3r.de.	7200	IN	RRSIG	NSEC3 8 2 7200 20151209154056 20151111154056 11286 de. ifGTgrC6c/Q3AQYLr7XP5pHLYWFBhgPNYr+iiXobkwS7TBTzUsAE6e+10vHuvwysCisNLR5rvze7ThU592jwihQtOS0wKUMdfxzgYbDPBg1OrIg/mFcU0UW+X3tDsNH6ynkQgqEbHWT0+ljxxeyraZGEWgOB5JHtYTTe6/BQcw0=
+;
+denic-itstt-glues4.de.	86400	IN	NS	dns1.denic-itstt-glues4.de.
+denic-itstt-glues4.de.	86400	IN	NS	dns3.denic-itstt-glues4.de.
+r1i0gji59tt38b8eijabggo68mliovtk.de.	7200	IN	NSEC3	1 0 15 1234abcd  rp6gkh06ab7h692fmcdv9ug837mjpngb NS  ;{ flags: -, from: denic-itstt-glues4.de. to: xn--denic-itstt-nsentry--uwb.de.}
+r1i0gji59tt38b8eijabggo68mliovtk.de.	7200	IN	RRSIG	NSEC3 8 2 7200 20151209154056 20151111154056 11286 de. lYs+lR3/ClETvpq5uqCTSXAXIk5qChd1tSVNM+yFwvnCuguyLMDavL2bOAMCYQJgZ1f8rqx9kqAEnUGZfv5qzEJlr/mebdfFqju+JfXPyxZk+wrSGsssNAjomJu7BW0htCx8T6XnJb4HUjJRWvEfCtZ1+s3J4MpFr0YMIoInxgI=
+;
+dns1.denic-itstt-glues4.de.	86400	IN	A	88.198.51.92
+;
+dns3.denic-itstt-glues4.de.	86400	IN	A	81.169.129.171
+;
+denic-itstt-glues6.de.	86400	IN	NS	dns1.denic-itstt-glues6.de.
+denic-itstt-glues6.de.	86400	IN	NS	dns3.opsblau.de.
+h8gpboh497fq57a169opvao3ncgi9ed1.de.	7200	IN	NSEC3	1 0 15 1234abcd  h9ttr4v2useh9tlea4vqiri7dsas8p33 NS  ;{ flags: -, from: denic-itstt-glues6.de. to: *.denic-itstt-nsentry-wildcardmx.de.}
+h8gpboh497fq57a169opvao3ncgi9ed1.de.	7200	IN	RRSIG	NSEC3 8 2 7200 20151209154056 20151111154056 11286 de. Rjxe5SelEUO75lfNT83mUDCdRb+r6jL1LoRWvz/SkmHOl6uQYMi9ZXfGOoOgyoibLFlei1vlc2LDC+Ed0ETUOEwfbvdE3ZVnY3XReI5nfBelPicGJ06sFOOVrJMC9ttQyNQ7JaCKxejWoJsglgd7GcNqygvvdw/H3tVhmaVFqak=
+;
+dns1.denic-itstt-glues6.de.	86400	IN	A	88.198.51.92
+dns1.denic-itstt-glues6.de.	86400	IN	AAAA	2a01:4f8:a0:8222::2
+;
+denic-itstt-gost.de.	86400	IN	NS	dns1.opsblau.de.
+denic-itstt-gost.de.	86400	IN	NS	dns3.opsblau.de.
+denic-itstt-gost.de.	86400	IN	DS	58287 12 2 ab7718789736f5d2526acfe6c7f0ea0e365be2e2b653012784244f420c4cd732 ;{xopol-lekul-mehyf-kytit-dugyk-pifev-kocez-bupab-vetuh-romev-dutuh-fybud-lecid-gifog-dafig-sehof-doxux}
+denic-itstt-gost.de.	86400	IN	RRSIG	DS 8 2 86400 20151209154056 20151111154056 11286 de. C1NE/TlPVaAfhIeTy73TzLI+Iy5PB8mt8xRABR9Oqj1uLoWf+bg963TZDx9c22kR76Dg8de89cZXyLcmeH0G7HHowZlSX/kuk7Wl1OtdkcWrCZeo59gAMRqOJFkPEnUzWZ7jYxwx+4rEviQjk1WtpGBeD0QfYjAju6VJzU8E/+0=
+mh3um6prae6rvku4rm1cftftr4cfcjve.de.	7200	IN	NSEC3	1 0 15 1234abcd  miineui09pko6o4jss2ghc9t6n5l3aa8 NS DS RRSIG  ;{ flags: -, from: denic-itstt-gost.de. to: www.xn---itstt-authinfo-3ob09bsepb20g.de.}
+mh3um6prae6rvku4rm1cftftr4cfcjve.de.	7200	IN	RRSIG	NSEC3 8 2 7200 20151209154056 20151111154056 11286 de. DInDIjPk5CbO9W9uKYRGHIA+747+jTeo84GHfw1NjThL60pxPFcbLmcVPFAITjSVbu5qTuO3Kwd3oHg4uQuFjy1LCTSYZJCHy3g4ulM/xpTiv/gwLEwlzwgwzQVm4x3R0/3JG5klGOP5xgCVhbx58c8E8RHMQwBTcanwAfbQH3A=
+;
+denic-itstt-holderadmintech.de.	86400	IN	NS	dns1.opsblau.de.
+denic-itstt-holderadmintech.de.	86400	IN	NS	dns3.opsblau.de.
+podgugnm344a2su02g9ri61jmrij1vue.de.	7200	IN	NSEC3	1 0 15 1234abcd  q3bsvqurmp1ivble8eeir5k54190q97e NS  ;{ flags: -, from: denic-itstt-holderadmintech.de. to: xn---itstt-nsentry-aaaa-k1b20dofvby0h.de.}
+podgugnm344a2su02g9ri61jmrij1vue.de.	7200	IN	RRSIG	NSEC3 8 2 7200 20151209154056 20151111154056 11286 de. TmmjCv8Cirfv49za2WK0s0PcoTCGXn8NYctykHyUILn1I1SkNRhJnIebYOUzuEKuUzYB2I5daD39IR937eEiO/8lVJxlHg/PljfRvFXB5ge7D7r63ZzUjWw4SJyFkM2rSC8qj41kL9bE+OFpMbATApApcdidy9FwJb7JnzABbv8=
+;
+denic-itstt-maxholder.de.	86400	IN	NS	dns1.opsblau.de.
+denic-itstt-maxholder.de.	86400	IN	NS	dns3.opsblau.de.
+qh3ug3pnn6498i16m20midu3l4j4n9ql.de.	7200	IN	NSEC3	1 0 15 1234abcd  r1i0gji59tt38b8eijabggo68mliovtk NS  ;{ flags: -, from: denic-itstt-maxholder.de. to: denic-itstt-glues4.de.}
+qh3ug3pnn6498i16m20midu3l4j4n9ql.de.	7200	IN	RRSIG	NSEC3 8 2 7200 20151209154056 20151111154056 11286 de. WSiGPa6BcFo/inZO+FtP/gOJuDsSfr+DKwgO0YmryBiXup1vHkd/3m8Fi24aROl/2OZOubCycsYYGLdhYV8FX3yebtYRCN1hu8G6jobtaded9tR+PhYRbEbC/yw4Svprzv3/RYV9Nz2eOHLsChNnj9ZQk5fAF3CRe/swS16YpPk=
+;
+denic-itstt-nameserver.de.	86400	IN	NS	dns1.opsblau.de.
+denic-itstt-nameserver.de.	86400	IN	NS	dns3.opsblau.de.
+kb1v8j1q1fnrdgvq9uuk4j01ti11e2cc.de.	7200	IN	NSEC3	1 0 15 1234abcd  lqa0uduiecdiqi6044b04nd21agtrhc8 NS  ;{ flags: -, from: denic-itstt-nameserver.de. to: xn--denic-itstt--w9a.de.}
+kb1v8j1q1fnrdgvq9uuk4j01ti11e2cc.de.	7200	IN	RRSIG	NSEC3 8 2 7200 20151209154056 20151111154056 11286 de. TznHl7g2yPe6NeW6jNTVAqcJHuGC/9O1Y29/yelktYrpg5Df1GbBEisX2+VgHRDhXFPG+9uAwNyrN4N4QwKhiAoBHdg0dvNRnKREXjeR9eh2LBiizEN64jsqFHeo3LDgHY8LtT8BCrqK7fy1tTYFB6PluSqoIQpo6zPIGC98W1o=
+;
+denic-itstt-nsentry-aaaa.de.	86400	IN	A	192.0.2.0
+denic-itstt-nsentry-aaaa.de.	86400	IN	RRSIG	A 8 2 86400 20151209154056 20151111154056 11286 de. glTBCXoY6L14wb54qoEz/1QQN18nNzS13/Y+cthqeo8u/qhoV0o6ShR4VWYM/MbR3wgW0Q/8D5HqpZkCnMFbjZojmaPSZ9M4FG5mnIzMvdlEVTOEVEAsTCeM4B52RxXCFv1bgwvqFJekRNXxevRfSsKcOvI6+c0by5G10VwjGs8=
+denic-itstt-nsentry-aaaa.de.	86400	IN	MX	10 mail.denic.de.
+denic-itstt-nsentry-aaaa.de.	86400	IN	RRSIG	MX 8 2 86400 20151209154056 20151111154056 11286 de. mYU7268Gcgl2SV1EXT+GKpcnqSHOdNtz13hzuR2yGyZ6PUekytPbsD9Z5C7mqUHXemWlaiN2YKCwnT9b6c0yE266PEw6B/Pp7Gsw2PI7U9R2pXwSTe2SferVIU6/7ANONf+BYEuvcNgvHlE6gOy9VEZFR5cJXTsI70nsJki+AKs=
+denic-itstt-nsentry-aaaa.de.	86400	IN	AAAA	2001:608:6:6::11
+denic-itstt-nsentry-aaaa.de.	86400	IN	RRSIG	AAAA 8 2 86400 20151209154056 20151111154056 11286 de. enzLhPd+nwaoqdhRWXc/NoDqeUYN9EKDXQavTXx0gl5vQ8f2Odm+1V39JWVuwtLZHS85W/IoTSOQdD7NPTZ5mM0KReHGUjmA6X9jPzne2MXGeAiY4r6Wh9Wydlav4NawXk+2DbCHwNFrEi9CfnX2Q7WWyTOwjlvG/RTFuERb2BM=
+abtu7hasnk1fvblih8s1bv30jsuja6ql.de.	7200	IN	NSEC3	1 0 15 1234abcd  ahmrgg3hlr1utsmt7jnpq5gq3sr0u5pu A MX AAAA RRSIG  ;{ flags: -, from: denic-itstt-nsentry-aaaa.de. to: xn---itstt-nsentry-zlb26bkenb95f.de.}
+abtu7hasnk1fvblih8s1bv30jsuja6ql.de.	7200	IN	RRSIG	NSEC3 8 2 7200 20151209154056 20151111154056 11286 de. jg2/9bWE1AEW0LUMg/Rb9sABbmJJZnWKCYNqpexbmCTYHdb59FB/uJ4awZNHCy3oElnB8yRuXwiBZfN8dD8yL12RwLQpaBB/xDr2sC3+AmVXKVMpj3389u/k4td5ibaQZ/4OCFXi1BLn2ns+1KeiiLawNZAPsyLDNAaTHabUK+I=
+;
+denic-itstt-nsentry-wildcardmx.de.	86400	IN	MX	10 mail.denic.de.
+denic-itstt-nsentry-wildcardmx.de.	86400	IN	RRSIG	MX 8 2 86400 20151209154056 20151111154056 11286 de. XkVQ81ZBv4rCn9FuOSZKJj5Pw8TWvnXNiAFfq8asRWJrz0fsRa5hl4EYabpVw3IqR3I5HO0K7CVM9Sf4Sx/ORhkcVvnIDtpf5MvsqMdN7JQ++Ci2ICyyJD+h1ee+NO7RdEbextzjn7erkMdwlVJPG/AzOrKeI3lUESSp8mBtVKc=
+ccoff7vjn3d1nkakukr8g25f0etmjotv.de.	7200	IN	NSEC3	1 0 15 1234abcd  dddebg3u5m5s9jv7v94odikc44fj07kj MX RRSIG  ;{ flags: -, from: denic-itstt-nsentry-wildcardmx.de. to: opsblau.de.}
+ccoff7vjn3d1nkakukr8g25f0etmjotv.de.	7200	IN	RRSIG	NSEC3 8 2 7200 20151209154056 20151111154056 11286 de. ebZ55yNTE+6bW7n/KlnxFBHpdJ14Ns3AiOuWWbe80UoTCq08SQlXnHXyIwq8dsPbUwVCQzhSV9dTTDPXMe3wTmpfEJraDW/Qx66E38qb/JYYOhlsgH1vV82ZzGvLjAs6Y4qiAIs1m0jbWzwHNiztU63YadF2+EoPa4WQc7CamQs=
+;
+*.denic-itstt-nsentry-wildcardmx.de.	86400	IN	MX	10 mail.denic.de.
+*.denic-itstt-nsentry-wildcardmx.de.	86400	IN	RRSIG	MX 8 2 86400 20151209154056 20151111154056 11286 de. YHijK9T+pWda4treOeCP8j5DgKKWBsyetIdfH9ZaikLXhnn/dRhnKIh2S6a71gylPh0gOcr1hg4cW//7AJ6/Sss6lcCLn5gUYkHOKFOgLpvBxZ2pzw+5MaEwkWU2t/iwJBGVUemVedDhttKmQwW3xMmss+GWtp5SpBAYz9Rsipo=
+h9ttr4v2useh9tlea4vqiri7dsas8p33.de.	7200	IN	NSEC3	1 0 15 1234abcd  hk1f21lqk6349m4sr71qg2lkrim3da6h MX RRSIG  ;{ flags: -, from: *.denic-itstt-nsentry-wildcardmx.de. to: denic-itstt-ecdsa256.de.}
+h9ttr4v2useh9tlea4vqiri7dsas8p33.de.	7200	IN	RRSIG	NSEC3 8 2 7200 20151209154056 20151111154056 11286 de. eBblj/0YSsl7KJuCxrCnRs7eXqiE/pChL7RId88bmRMT9hh5NyWTELsKAqFSBdHzgydSRKGOSdRWrkZrOPuxKaPvGciE3OoZfdzIKI+sTYbX5lE+bNq8G6CVcNwjlDPPvvGCPbyxgBW7uoJ8a7Pielv/myVFwQeTkTbNwolOlfU=
+;
+denic-itstt-ss.de.	86400	IN	NS	dns1.opsblau.de.
+denic-itstt-ss.de.	86400	IN	NS	dns3.opsblau.de.
+p4pactimc5ncksdfprki7a4a5anqr28b.de.	7200	IN	NSEC3	1 0 15 1234abcd  podgugnm344a2su02g9ri61jmrij1vue NS  ;{ flags: -, from: denic-itstt-ss.de. to: denic-itstt-holderadmintech.de.}
+p4pactimc5ncksdfprki7a4a5anqr28b.de.	7200	IN	RRSIG	NSEC3 8 2 7200 20151209154056 20151111154056 11286 de. IopYxDTLNP/WuBIB64OP+Bp4y2KoPR945ccY+5R0zy6PA84Z4IXhZwJH220WOeA+oq2u0AU9S/quZP5RaVZEqi3mFWjVR3ZZ3I+VbWdvLbaoiRKUq7R76Hh4b4o0eurIRcOagkTv4dqiRuLHUJjo0qXur4BdxWmWbZyLbrlaECk=
+;
+denic-itstt-twodnskey.de.	86400	IN	NS	dns1.opsblau.de.
+denic-itstt-twodnskey.de.	86400	IN	NS	dns3.opsblau.de.
+denic-itstt-twodnskey.de.	86400	IN	DS	31879 8 2 650becc16ff5faf025184460cc2ce05e1f42903b0cfcfc4b75b44714cab19b1e ;{xineb-raras-cerez-hyvaz-binac-macek-bafid-simyh-velog-digaf-ryfoz-suzog-rotyr-gicyc-godor-cokoc-vuxax}
+denic-itstt-twodnskey.de.	86400	IN	DS	55312 8 2 a51094e24342e8698f3a3d9f3cfb71728e070709b161ce3da36285b778895e66 ;{xonec-bihuv-dobyg-dipuk-nufof-pezyn-zozuz-rosol-dyfib-licub-nusyk-cyfaf-tomyk-ducir-lovam-nuluk-kexex}
+denic-itstt-twodnskey.de.	86400	IN	RRSIG	DS 8 2 86400 20151209154056 20151111154056 11286 de. BwKD8jZTCQFg4ZXNc//gSstXnnc59Ktdu8vWU348xFV137z8NjV7w1LuPHyDEh6mfrp1AV2+TEDvO3tv0iIJ+PhCsRqdTZhOEfLaGmj59fjkuYOCdKD3VWtRbxHULB6q7iEAbhrlzybYbLONQQ6AYpZeGCriXkv5P0JsnNlIV2I=
+m1gpej7vgcgvui2nkagjtufvc249gscq.de.	7200	IN	NSEC3	1 0 15 1234abcd  mairl3odfr30cgaefmpoqb18q48249sf NS DS RRSIG  ;{ flags: -, from: denic-itstt-twodnskey.de. to: denic-itstt-ecdsa384.de.}
+m1gpej7vgcgvui2nkagjtufvc249gscq.de.	7200	IN	RRSIG	NSEC3 8 2 7200 20151209154056 20151111154056 11286 de. Cv42RWSY7i6oNbiHug/gOz8kg+7pVlnRvDgZXaxr9uBR6PikivY9sOO5IR970vEkHc0Q4nk+KUxChtTHLo4EqxWqR50VwtjnLoCY85jHfUqNvKWMsYlo4tp0lGI44BGBmQ5IQ5XLJgHP25dvb7b0yJUZ+uLr37BTWqV2L0CQr8c=
+;
+nic.de.	86400	IN	NS	ns1.denic.de.
+nic.de.	86400	IN	NS	ns2.denic.de.
+nic.de.	86400	IN	NS	ns3.denic.de.
+94au2editlq96o4dl12p1s0dobj41i4e.de.	7200	IN	NSEC3	1 0 15 1234abcd  9ebck2c2rm6u6r5ulu4jerdsjf9bm63p NS  ;{ flags: -, from: nic.de. to: www.xn--denic-itstt-nsentry--uwb.de.}
+94au2editlq96o4dl12p1s0dobj41i4e.de.	7200	IN	RRSIG	NSEC3 8 2 7200 20151209154056 20151111154056 11286 de. VmxotyUHYElYp+yxTJhh6j/OlNVfySgePY+bUwp1V5qlZh63dZrM1x8rqNp5hhu2dSowh3qgjzVoeOQxxpjJEMiMIoAlRi6t7crrv0pqGNsuy/aKBBBcn6Ef7EQCMzljwXdQIBIjjJ7dHiAIcrH0UmG5Jg6M6W/jpR2T01IbYGM=
+;
+nur-a.de.	86400	IN	A	194.123.77.11
+nur-a.de.	86400	IN	RRSIG	A 8 2 86400 20151209154056 20151111154056 11286 de. Jn94aTYD1xV0IzSZP7gOHup3UK6lYCEwMgc0ue/HoFNmMMOLdBFKmEwdnGvX3UUkFBmipirwDjsJ/bhu7Xu7Xxqg+7Av3qlhA9/0xMP8kKWMBW6rqxybBFEVoT4sN04FR5e5pN9XTc+9sMEDJPM7EULIjidHQM7hSeyOLfzqot8=
+j25e3rufvnm297t7rgdeijqmoq603psi.de.	7200	IN	NSEC3	1 0 15 1234abcd  j6qkdj9l16ubmbqsbcv0hdcj5t3f364c A RRSIG  ;{ flags: -, from: nur-a.de. to: xn---itstt-authinfo-3ob09bsepb20g.de.}
+j25e3rufvnm297t7rgdeijqmoq603psi.de.	7200	IN	RRSIG	NSEC3 8 2 7200 20151209154056 20151111154056 11286 de. EPAvbgRD0U8fgnK8PWIBSJeMhvYw/GYxjQNHwRStnaoERTaZIcuufsF1u7H1dRKaGgHkBMf3yHwcIPjMh+WrFe25yNMiz4bbNl00uRwRb3aXsWvFTmYh3v/kIS3ip6GwdfABsLhXv0EVvPmKzBtrWjtESWiNrlmHSMN/j3wbC0U=
+;
+opsblau.de.	86400	IN	NS	ns1.denic-itstt.de.
+opsblau.de.	86400	IN	NS	ns2.denic-itstt.de.
+opsblau.de.	86400	IN	DS	54376 8 2 60f80a49c23a794cb02297d5cc6abbb5d9f72d8883169838a9cb447cbb2416e6 ;{ximaz-medag-nebuf-povug-sysid-dyhut-hufok-pyvur-hikuz-lorim-mabec-kekyf-mepas-ricil-sevyd-gihav-kuxex}
+opsblau.de.	86400	IN	RRSIG	DS 8 2 86400 20151209154056 20151111154056 11286 de. hph0NKKq5+DJL0GcwT+RfI/AA1MtzMlUnDRN7B4YrtPFADKC+Go6/MuKIA6ULlbKd7VMSENyWEIW5gG/5TwzcM7xh4H1KAueOQcqDXNIfxdbvKRYWlSlr1MKQK/RU3JxTBUuHFlKR2VvXAs9v/xwcXHqDm9ZXXW8SYO/SY0aZYE=
+dddebg3u5m5s9jv7v94odikc44fj07kj.de.	7200	IN	NSEC3	1 0 15 1234abcd  fd5al06tj40a1e29jgibq6pg7k6g32uh NS DS RRSIG  ;{ flags: -, from: opsblau.de. to: denic-itstt.de.}
+dddebg3u5m5s9jv7v94odikc44fj07kj.de.	7200	IN	RRSIG	NSEC3 8 2 7200 20151209154056 20151111154056 11286 de. DEcU7ABEHIyjCOLsoNvHHAnfu294txOxW4jRTltOh4m2zmnkg0vbgDcKw2WwGXYZoiV65DPjwRt+IDouxwc1k/lTvITmYdEBR8Ujptm4FiaYpXGc6X4UnxCg1ZWyuna6cNsYp3kHyuY+Kn5/K/DlXtLOjTHP/VoBRQ7YZqhrSJg=
+;
+xn---itstt-authinfo-3ob09bsepb20g.de.	86400	IN	A	192.0.2.0
+xn---itstt-authinfo-3ob09bsepb20g.de.	86400	IN	RRSIG	A 8 2 86400 20151209154056 20151111154056 11286 de. Dnl3dqE5hCHMhIs9VjakgV0FIbuWWt+7/h7x9tIjGPUu2flPhhVvSTiWGaq17t5e77E0yK37MWj7k7VIFZHJKThZksbTmx+7q7leqxMkYwDSDQd9hn4jufuxxBCBrcHt01m+Ru7K/45AKTzm47cE0X5L6LCJItYoJm0X4ybBjg0=
+xn---itstt-authinfo-3ob09bsepb20g.de.	86400	IN	MX	10 mail.denic.de.
+xn---itstt-authinfo-3ob09bsepb20g.de.	86400	IN	RRSIG	MX 8 2 86400 20151209154056 20151111154056 11286 de. JIhzbIigsyz/pEZy4uZfvjH7O4JGdFIKL6lSeysRGnw695MdbHUAZH3QpQEcsj27OStNfmySDajmQXTgECHq1AWA8+76NCSvb+msxZLhcwkWl/Wwa5jTQss6/P9NXk44Ix+NvdvkT4xbdOr4ZN9yfYEKJCR3vd2ZzJj6hehq8lU=
+j6qkdj9l16ubmbqsbcv0hdcj5t3f364c.de.	7200	IN	NSEC3	1 0 15 1234abcd  kb1v8j1q1fnrdgvq9uuk4j01ti11e2cc A MX RRSIG  ;{ flags: -, from: xn---itstt-authinfo-3ob09bsepb20g.de. to: denic-itstt-nameserver.de.}
+j6qkdj9l16ubmbqsbcv0hdcj5t3f364c.de.	7200	IN	RRSIG	NSEC3 8 2 7200 20151209154056 20151111154056 11286 de. Te0xDfjo3coKAHTHxNDHIusFUzO+nssRGNtt2ua2NMp1RxSErvzzoMyuW8asaGU5WzsYeoBsEfmHqPs3loJxk20KIXdOm3Uq9aSSb/yEWAVOVP4hYYGLe5Wo78eiFFJiTfrcz154SGbUOD3X1Rj2gGoebX8yjDICtpCo+TT23OE=
+;
+www.xn---itstt-authinfo-3ob09bsepb20g.de.	86400	IN	A	192.0.2.0
+www.xn---itstt-authinfo-3ob09bsepb20g.de.	86400	IN	RRSIG	A 8 3 86400 20151209154056 20151111154056 11286 de. jYKadAxPM2g1zvNxmGGWnEQaUvPNBg6gpieCHU8agf0TxQvct0/OSJdIocPfcmPo0QJ8Nrxf/8niZMUNHk0oBTSb+2KiS/6mDK3Qrx6zdNMXz2ycNAXJoiMhkzZLBaOoxMgSA1zcdsDiO4n0xmSVfo9xhFR22yzEiHY5f500FL0=
+miineui09pko6o4jss2ghc9t6n5l3aa8.de.	7200	IN	NSEC3	1 0 15 1234abcd  mkl43mfefg2rupgq929m3m0gon7877l9 A RRSIG  ;{ flags: -, from: www.xn---itstt-authinfo-3ob09bsepb20g.de. to: denic-itstt-dispute.de.}
+miineui09pko6o4jss2ghc9t6n5l3aa8.de.	7200	IN	RRSIG	NSEC3 8 2 7200 20151209154056 20151111154056 11286 de. e4NgS5lqjkXSRfEryP8bAPbTewmswHIZ1WI+4heVRnC+N2KTNkldLJFyvXHT5Lm0J1w8bZi1OXeLQ7D5SGhpXKfz6p+Bs7/hJZeNLGs6Aw4ZFTJNCBoB7HPBvgO5l1k6A1IxrorbLrqv2RzmnDmwQ0YPpe5eujuDAWwhLJ/zmAM=
+;
+xn---itstt-nameserver-cvb64c8esb91g.de.	86400	IN	NS	dns1.opsblau.de.
+xn---itstt-nameserver-cvb64c8esb91g.de.	86400	IN	NS	dns3.opsblau.de.
+tdq5s96abfjatehj3v0nc93t09aknb99.de.	7200	IN	NSEC3	1 0 15 1234abcd  va2rimael90s5p232g41rjdj9es4d78l NS  ;{ flags: -, from: xn---itstt-nameserver-cvb64c8esb91g.de. to: de.}
+tdq5s96abfjatehj3v0nc93t09aknb99.de.	7200	IN	RRSIG	NSEC3 8 2 7200 20151209154056 20151111154056 11286 de. BxRtrhGDuo00+bUW12Nvupm8n2ovRhc+EuCbowOeEtovMlEGmm1fdHg8owSL1rLK1JSTMdj3103BQ7eF1G46SCducO+7re++HUy1PyxaBserzKNR3HxIwus+TNdKbdwu1EMKqdo7YCyO3bmYSLsZUlxlowaNB29fD6UrjtqepbY=
+;
+xn---itstt-nsentry-aaaa-k1b20dofvby0h.de.	86400	IN	A	192.0.2.0
+xn---itstt-nsentry-aaaa-k1b20dofvby0h.de.	86400	IN	RRSIG	A 8 2 86400 20151209154056 20151111154056 11286 de. jvelIPCbaCLvaPnuXkC8oT980qkW23L9Webnn4OdqSSTDcZ+w9QtIG/z9ortWgldF2a1wvzLu0fgaxA3ZJinv1uitoeBm7CGgQ4Ov/IHpGV6zSEo3MqtdlUwybzRaAM03kpTMainxf7j/2+oNNPg4DaVyiFlWXsbESK0sfO/pZ8=
+xn---itstt-nsentry-aaaa-k1b20dofvby0h.de.	86400	IN	MX	10 mail.denic.de.
+xn---itstt-nsentry-aaaa-k1b20dofvby0h.de.	86400	IN	RRSIG	MX 8 2 86400 20151209154056 20151111154056 11286 de. SRtHwKoNe5touIzUx6SifrcrQANx+VjqxcDW9Cbs8MeKOqRhZQJ5BG5p/NjukyivCZ+cvMlfjy1H6GKip0MktjjbrOP96TLwYdpRsZdIac+9UTeKlFXRQ+RaFKZIkhmzruACPh1JRom8lqDxXyBLaRLOKfwa3KpXNnHj4uVKGR0=
+q3bsvqurmp1ivble8eeir5k54190q97e.de.	7200	IN	NSEC3	1 0 15 1234abcd  qe3ovliktqvcruvlubpm64j1fkhp6otj A MX RRSIG  ;{ flags: -, from: xn---itstt-nsentry-aaaa-k1b20dofvby0h.de. to: denic-itstt-empty-nonterminal.de.}
+q3bsvqurmp1ivble8eeir5k54190q97e.de.	7200	IN	RRSIG	NSEC3 8 2 7200 20151209154056 20151111154056 11286 de. NFEFwINdoGQZj2g6Exq9E7HyMl69VLxKMsoD9oCHwKqt/6CrlH8+nKUpb6nSyD8uap9It3azhj1e/HOiTtHE97mZXAAR1QUIb2iAsaoiJDCYKeCXPqw1gAkKcTgKbJAtMbWEnBXoflfkNn3bdyPEZn5zhH4gsM4wCfBekGslo+8=
+;
+www.xn---itstt-nsentry-aaaa-k1b20dofvby0h.de.	86400	IN	A	192.0.2.0
+www.xn---itstt-nsentry-aaaa-k1b20dofvby0h.de.	86400	IN	RRSIG	A 8 3 86400 20151209154056 20151111154056 11286 de. AbJZhxibrB8zkNm4BLoXxv1wcUDiC+vT/fTyiv2ULZ6PENbWnzHliKtcybZFaPOLDqyS2JqAxE+8OwcbZ9JM9mQprHAzkW5p10maSaMzzwxNJ1FjPuGLD3mKJfxP6u7zh/hmcME8pb8lGeDCoOsdMpm1WBwzTVVnSl/z77XoQXA=
+www.xn---itstt-nsentry-aaaa-k1b20dofvby0h.de.	86400	IN	AAAA	2a01:4f8:a0:8222::2
+www.xn---itstt-nsentry-aaaa-k1b20dofvby0h.de.	86400	IN	RRSIG	AAAA 8 3 86400 20151209154056 20151111154056 11286 de. PZN64sP8WHmEQx2f3henk13PrhLoGuPlCO7hAjtb2HDuuuBIWkVPKO8vsItAu6a0zEFAhEfYQXEO67jSbNSIdkWErg3tqS6LoyZBaydJx5aw3EtK54AOo4sBFqg6E14NMBpfuYLPDuF0jUD/Pm3hE0HdbENMjULygiMh31NZ9CA=
+m0n3cc9bj7luvpto6pnevojoukpocc1q.de.	7200	IN	NSEC3	1 0 15 1234abcd  m1gpej7vgcgvui2nkagjtufvc249gscq A AAAA RRSIG  ;{ flags: -, from: www.xn---itstt-nsentry-aaaa-k1b20dofvby0h.de. to: denic-itstt-twodnskey.de.}
+m0n3cc9bj7luvpto6pnevojoukpocc1q.de.	7200	IN	RRSIG	NSEC3 8 2 7200 20151209154056 20151111154056 11286 de. WsitSGQtxyyhq2/+ByznVw7FaoGKuX/l96BJJAB9iyR68Lf0dJuo76SDK1papOeEaiIDNAb9tesZUNE0n30eJyerlCH3R4+ODf4rc34bh5TrkzJGnE1K87hv5PazQTo0elSu/ous7s164KhC0WZExsBrsDvLFh1Si+gMSTy1V+I=
+;
+xn---itstt-nsentry-zlb26bkenb95f.de.	86400	IN	A	192.0.2.0
+xn---itstt-nsentry-zlb26bkenb95f.de.	86400	IN	RRSIG	A 8 2 86400 20151209154056 20151111154056 11286 de. IqZMqXT1WokddFi8TM+xYOhvG7eHhj1bfHYFHWiKkxViJYOhb9aSsZUU8z4sc7Lw9PxAXIGF2MtNEdvGLV8fei7/AjcDu1lxF5+t2AIxM8FF7YM7ySldkkcm7DmWDYc0W2IOneD0kcm+3bZpgO4Q+N0P5hXnxI46QgPWg+R9NSA=
+xn---itstt-nsentry-zlb26bkenb95f.de.	86400	IN	MX	10 mail.denic.de.
+xn---itstt-nsentry-zlb26bkenb95f.de.	86400	IN	MX	20 mail.pfp.de.
+xn---itstt-nsentry-zlb26bkenb95f.de.	86400	IN	RRSIG	MX 8 2 86400 20151209154056 20151111154056 11286 de. f6Sxo4b4gTEWpFcq9UW9QqOvSUaD6wZpZ/+m2USvF5Y7ovfU0CVEbssr3IqHY2aXuiv0y9NB4+VCDNdSx53M5skx/SRpKVMET39ol0dwO7pyINsi1mmiV+3ZXO9Q5Zrx+hYwQD39Gtp3xaubfjouKIr+JGiwU4jdiLCOA7IxF7c=
+ahmrgg3hlr1utsmt7jnpq5gq3sr0u5pu.de.	7200	IN	NSEC3	1 0 15 1234abcd  b8gm7j41pq02c81701go1so1guog4sak A MX RRSIG  ;{ flags: -, from: xn---itstt-nsentry-zlb26bkenb95f.de. to: txt._test.de.}
+ahmrgg3hlr1utsmt7jnpq5gq3sr0u5pu.de.	7200	IN	RRSIG	NSEC3 8 2 7200 20151209154056 20151111154056 11286 de. bk2v4jv5GFSAWMujKTbco15zGQ7/syFu8N08FEf++PS/jELAGjd0Ul+mfkZX9e+/sS4kdle1zCCjvcS1GOXIP508D/2pIkq3PsCIvhpeBZ0qdnrU9YkR/kUS8uQFSAARQ4VkQCIQAby/f9M6QAyFs/FV0fNAN8cgC4SXHGif9J4=
+;
+www.xn---itstt-nsentry-zlb26bkenb95f.de.	86400	IN	A	192.0.2.0
+www.xn---itstt-nsentry-zlb26bkenb95f.de.	86400	IN	RRSIG	A 8 3 86400 20151209154056 20151111154056 11286 de. T+jlYwf6AQDMuF7YFkCDg48FZaZOJ0G7trRefzaro+CyKnVq7iqezyZ1LhwlCM55b+HIQMjdZrXhdSFlqG/R/6CxuLuOz9IVduYv5lKdqtDfkjhJYPsUk/7FAEaiGEWn0VAcR2ptzX9zXBn6QLiQLq8Ni4WQgWUT6YUMq++2zJo=
+5g2a8hrikngr0b33ko9j0m2tglu9fi21.de.	7200	IN	NSEC3	1 0 15 1234abcd  94au2editlq96o4dl12p1s0dobj41i4e A RRSIG  ;{ flags: -, from: www.xn---itstt-nsentry-zlb26bkenb95f.de. to: nic.de.}
+5g2a8hrikngr0b33ko9j0m2tglu9fi21.de.	7200	IN	RRSIG	NSEC3 8 2 7200 20151209154056 20151111154056 11286 de. ExiD9+wvRJbjre8JUePKFOVk6pmPkz5xfy/2RRRJ75S8/8aw7fMIt0/R4gjjt9JH2uFk1t2n1shknbn/DkBsimVoid6/+aKMzLyBZnVuDWh16EPBayvxzNAF8rzSRJjO+y65EnLbn3Eszpf03OTicmjQl7JB4CgwMtJweOXYHWY=
+;
+xn--denic-itstt--w9a.de.	86400	IN	NS	dns1.opsblau.de.
+xn--denic-itstt--w9a.de.	86400	IN	NS	dns3.opsblau.de.
+lqa0uduiecdiqi6044b04nd21agtrhc8.de.	7200	IN	NSEC3	1 0 15 1234abcd  m0n3cc9bj7luvpto6pnevojoukpocc1q NS  ;{ flags: -, from: xn--denic-itstt--w9a.de. to: www.xn---itstt-nsentry-aaaa-k1b20dofvby0h.de.}
+lqa0uduiecdiqi6044b04nd21agtrhc8.de.	7200	IN	RRSIG	NSEC3 8 2 7200 20151209154056 20151111154056 11286 de. JpPvdht83j9QY06BovwXhU+B1ItqkOGs9/o40SN2xNhrUgHtoSWW9yeKzK44/Y3G70T0mEvFrxTrerrAd6BlnPPu4AWNOK1ybFF0k8bgzxbMdC01lHlBzi5uI3pJGS9BMZ0GmiApSw5hKbEHcA5Si0hSbvX3NDOaZnj4dIPluNQ=
+;
+xn--denic-itstt-nsentry--uwb.de.	86400	IN	A	81.91.170.12
+xn--denic-itstt-nsentry--uwb.de.	86400	IN	RRSIG	A 8 2 86400 20151209154056 20151111154056 11286 de. QZ9iAYgZe25hEYq+hpIINhJKfbwSpCEeDw572JoQfQW6aKleAE41AqmqUpoCYwSH9/ylv49B2fJhj9HPqHJgVOSNU7aDjv3qII34/AHuW/pk8YwGcx2nnWP5E7fwgmQZ4zgpUMYlW5Mv8I//9+cbLgeDyylt1acXF4gO8NwVAbk=
+rp6gkh06ab7h692fmcdv9ug837mjpngb.de.	7200	IN	NSEC3	1 0 15 1234abcd  srdem16n208faucj0tsn0003idt2hm62 A RRSIG  ;{ flags: -, from: xn--denic-itstt-nsentry--uwb.de. to: denic-itstt-contacts-daniel.de.}
+rp6gkh06ab7h692fmcdv9ug837mjpngb.de.	7200	IN	RRSIG	NSEC3 8 2 7200 20151209154056 20151111154056 11286 de. TPZ/b8nxXzL8cQXw3buuDb6gom9INg1WQj03GG/Xl92pItHMoD8YeDyiA8GDc2Wz+o8sS7Ip7AlMOgAfchzBEbTdK79+SLze4raRMhWmEACiuZoSr+Hb85Mm/58I/kwVqsufKCX1nzoOQKZcph+OwIO/pmwPE+LP3KR9LJbwcf8=
+;
+www.xn--denic-itstt-nsentry--uwb.de.	86400	IN	A	81.91.170.12
+www.xn--denic-itstt-nsentry--uwb.de.	86400	IN	RRSIG	A 8 3 86400 20151209154056 20151111154056 11286 de. ZmdCPkeE++ORmKbxTGKHL5h8pi1y6eX/WYli/J2pA9mQRe94h1ZfI21PTPl30z3WyqJY5P6fCA0h1MrvDrWLd0Yih8EorJRTbofhU2UjG0p+61jmkEEhlv79Fd4LBcWr9PHdNIcvk49ukWwoB2wyIg00DhcpqOPwaR+yFMcslPI=
+9ebck2c2rm6u6r5ulu4jerdsjf9bm63p.de.	7200	IN	NSEC3	1 0 15 1234abcd  abtu7hasnk1fvblih8s1bv30jsuja6ql A RRSIG  ;{ flags: -, from: www.xn--denic-itstt-nsentry--uwb.de. to: denic-itstt-nsentry-aaaa.de.}
+9ebck2c2rm6u6r5ulu4jerdsjf9bm63p.de.	7200	IN	RRSIG	NSEC3 8 2 7200 20151209154056 20151111154056 11286 de. dIDbWZ/Lr9SgcHzq9ZCyuTBJ8c9LNPRD7WOoEwxdU8Far8SVem0ip5GF8BmqO3NunNKYPlhuvjzui1IfaaNeFIHvHoTR/jDz9LQI5rzisetl88U9s8YUdZuW0KdstNrI3taoAh45eD5nwx+j9HVMEjT0ham/3GhNsBI2gqd5n+c=
+;

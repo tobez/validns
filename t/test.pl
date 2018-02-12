@@ -379,6 +379,26 @@ isnt(rc, 0, 'multitime: valid signed zone with timestamps in the past');
 @e = split /\n/, stderr;
 like(shift @e, qr/signature is too old/, "multitime: signature is too old");
 
+run('./validns', @threads, '-t1447282800', '-pnsec3-consistency', '-s', 't/issues/42-consistency-of-nsec3-chain/de.test.inconsistent_algorithm');
+isnt(rc, 0, 'inconsistent algorithm in NSEC3 not detected');
+# this is not testable, because there is only one algorithm allowed. er get other errors in this case
+like(stderr, qr/unrecognized or unsupported hash algorithm$/m, "inconsistent algorithm in NSEC3 detected");
+
+run('./validns', @threads, '-t1447282800', '-pnsec3-consistency', '-s', 't/issues/42-consistency-of-nsec3-chain/de.test.inconsistent_flags');
+isnt(rc, 0, 'inconsistent flags in NSEC3 not detected');
+like(stderr, qr/inconsistent NSEC3 flags$/m, "inconsistent flags in NSEC3 detected");
+
+run('./validns', @threads, '-t1447282800', '-pnsec3-consistency', '-s', 't/issues/42-consistency-of-nsec3-chain/de.test.inconsistent_iterations');
+isnt(rc, 0, 'inconsistent iterations in NSEC3 not detected');
+like(stderr, qr/inconsistent NSEC3 iterations$/m, "inconsistent iterations in NSEC3 detected");
+
+run('./validns', @threads, '-t1447282800', '-pnsec3-consistency', '-s', 't/issues/42-consistency-of-nsec3-chain/de.test.inconsistent_salt');
+isnt(rc, 0, 'inconsistent salt in NSEC3 not detected');
+like(stderr, qr/inconsistent NSEC3 salt$/m, "inconsistent salt in NSEC3 detected");
+
+run('./validns', @threads, '-t1447282800', '-pnsec3-consistency', '-s', 't/issues/42-consistency-of-nsec3-chain/de.test.ok');
+is(rc, 0, 'no error when policy nsec3-consistency is active and no error is in the zone');
+
 # issue 51: support curved algorithms 
 run('./validns', @threads, '-t1459259658', 't/issues/51-support-curved-algorithms/13.example.com.signed');
 is(rc, 0, 'issue 51: support ECDSAP256SHA256');
