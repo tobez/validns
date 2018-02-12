@@ -14,7 +14,21 @@ $INCLUDE Kexample.sec.+010+01862.key
 		A 3.4.5.6
 		RP some.mail.box @
 		TXT "Responsible person"
+        CAA 0 issue "example.sec" ; fine
 
+        CDS	50458 12 3 2e40b2a6ccd2760ec70af69d1c144064c8931e53a6b3eee78bdb9e0bafbb9c02
+        CDNSKEY 256 3 8 (
+            AwEAAdZOvnLtTdQjfdIqqH3stb7vI6bJlg27
+            3Tp4oRpnmnmgizDFtLQhnIv1Mr3AuwSWVIDe
+            avuiyWIAtfvwy0f3EYIv8Ys5kDiKs8PE1k90
+            yQwfC53hxyH10GzGnAx4Sutrdkh1w4HM1nMB
+            dlTMa0g9yxjJ0vm/T7qHzj+3dTUi84s8Du2m
+            fMD6noy+leZ2IuX7lFca8SzDNmhUPTkXuFrB
+            /QUuoY2FyThfidT+nhOQpzftVtLcta0E0Uv3
+            PcVDp1d7vBXsAEYGHr54r2vb3eXdOTmoFyh/
+            byehUlPq1gDEH0mBRlWbUHqbGnKyolz0dR01
+            u8SJYP6ULwx0mZ0p5BmoMH8=
+        )
 ns1		A	1.2.3.4
 ns2		A	5.6.7.8
 mail	A	2.3.4.5
@@ -32,6 +46,12 @@ _8443._tcp.www.example.sec. IN TLSA (
 
 _25._tcp.mail IN TLSA (
       3 0 0 30820307308201efa003020102020123 )
+
+c93f1e400f26708f98cb19d936620da35eec8f72e57f9eec01c1afd6._smimecert.example.com IN SMIMEA (
+      1 1 2 92003ba34942dc74152e2f2c408d29ec
+            a5a520e7f2e06bb944f4dca346baf63c
+            1b177615d466f6c4b71c216a50292bd5
+            8c9ebdd2f74e38fe51ffd48c43326cbc )
 
 delegation NS ns1
 delegation NS ns2

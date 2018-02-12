@@ -55,6 +55,8 @@ tlsa\-host
 .IP \[bu] 2
 ksk\-exists
 .IP \[bu] 2
+smimea\-host
+.IP \[bu] 2
 all
 .RE
 .TP
@@ -71,12 +73,18 @@ quiet \- do not produce any output
 .RE
 .TP
 .B \-s
-print validation summary/stats
+Print validation summary/stats.
+If specified twice, also print record counts by type.
 .RS
 .RE
 .TP
 .B \-v
 be extra verbose
+.RS
+.RE
+.TP
+.B \-M
+use SOA MINTTL as the default TTL when no TTL specified
 .RS
 .RE
 .TP
@@ -182,6 +190,8 @@ record if it is within the zone
 domain name of a TLSA record must be a proper prefixed DNS name
 .IP \[bu] 2
 a KSK key must exist in a signed zone
+.IP \[bu] 2
+domain name must have the form which is proper for an SMIMEA record
 .SH BUGS
 .IP \[bu] 2
 textual segments in \f[I]TXT\f[] and \f[I]HINFO\f[] must be enclosed in

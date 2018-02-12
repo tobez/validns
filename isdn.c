@@ -23,52 +23,52 @@
 
 static struct rr *isdn_parse(char *name, long ttl, int type, char *s)
 {
-	struct rr_isdn *rr = getmem(sizeof(*rr));
+    struct rr_isdn *rr = getmem(sizeof(*rr));
 
-	rr->isdn_address = extract_text(&s, "ISDN-address");
-	if (rr->isdn_address.length < 0)
-		return NULL;
-	if (rr->isdn_address.length > 255)
-		return bitch("ISDN-address too long");
+    rr->isdn_address = extract_text(&s, "ISDN-address");
+    if (rr->isdn_address.length < 0)
+        return NULL;
+    if (rr->isdn_address.length > 255)
+        return bitch("ISDN-address too long");
 
-	rr->sa_present = 0;
-	if (*s) {
-		rr->sa = extract_text(&s, "subaddress");
-		if (rr->sa.length < 0)
-			return NULL;
-		if (rr->sa.length > 255)
-			return bitch("subaddress too long");
-		rr->sa_present = 1;
-	}
+    rr->sa_present = 0;
+    if (*s) {
+        rr->sa = extract_text(&s, "subaddress");
+        if (rr->sa.length < 0)
+            return NULL;
+        if (rr->sa.length > 255)
+            return bitch("subaddress too long");
+        rr->sa_present = 1;
+    }
 
-	if (*s) {
-		return bitch("garbage after valid ISDN data");
-	}
+    if (*s) {
+        return bitch("garbage after valid ISDN data");
+    }
 
-	return store_record(type, name, ttl, rr);
+    return store_record(type, name, ttl, rr);
 }
 
 static char* isdn_human(struct rr *rrv)
 {
-	RRCAST(isdn);
+    RRCAST(isdn);
 
     return rr->isdn_address.data;
 }
 
 static struct binary_data isdn_wirerdata(struct rr *rrv)
 {
-	RRCAST(isdn);
-	struct binary_data r, t;
+    RRCAST(isdn);
+    struct binary_data r, t;
 
-	r = bad_binary_data();
-	t.length = 0;
-	t.data = NULL;
-	r = compose_binary_data("db", 1, t, rr->isdn_address);
-	t = r;
-	if (rr->sa_present) {
-		r = compose_binary_data("db", 1, t, rr->sa);
-		t = r;
-	}
+    r = bad_binary_data();
+    t.length = 0;
+    t.data = NULL;
+    r = compose_binary_data("db", 1, t, rr->isdn_address);
+    t = r;
+    if (rr->sa_present) {
+        r = compose_binary_data("db", 1, t, rr->sa);
+        t = r;
+    }
     return r;
 }
 

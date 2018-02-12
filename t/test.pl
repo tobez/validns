@@ -20,7 +20,7 @@ push @threads, $threads if $threads;
 run('./validns', @threads, 't/zones/galaxyplus.org');
 is(rc, 0, 'valid zone parses ok');
 
-run('./validns', @threads, '-t1381239017', 't/zones/example.sec.signed');
+run('./validns', @threads, '-t1501789043', 't/zones/example.sec.signed');
 is(rc, 0, 'valid signed zone parses ok');
 
 run('./validns', @threads, '-t1303720010', 't/zones/example.sec.signed');
@@ -28,7 +28,7 @@ isnt(rc, 0, 'valid signed zone with timestamps in the future');
 @e = split /\n/, stderr;
 like(shift @e, qr/signature is too new/, "signature is too new");
 
-run('./validns', @threads, '-t1421410832', 't/zones/example.sec.signed');
+run('./validns', @threads, '-t1561789043', 't/zones/example.sec.signed');
 isnt(rc, 0, 'valid signed zone with timestamps in the past');
 @e = split /\n/, stderr;
 like(shift @e, qr/signature is too old/, "signature is too old");
@@ -113,11 +113,34 @@ like(shift @e, qr/name cannot start with a dot/, "dot-something");
 like(shift @e, qr/name cannot start with a dot/, "dot-dot");
 like(shift @e, qr/garbage after valid DNAME data/, "DNAME garbage");
 
+like(shift @e, qr/CAA flags expected/, "CAA without a flag");
+like(shift @e, qr/CAA tag expected/, "CAA without a tag");
+like(shift @e, qr/CAA unrecognized flags value/, "CAA with bad flags");
+like(shift @e, qr/CAA unrecognized tag name/, "CAA with bad tag");
+like(shift @e, qr/CAA tag is not valid/, "CAA with bad chars in tag");
+like(shift @e, qr/CAA reserved tag name/, "CAA with reserved tag 1");
+like(shift @e, qr/CAA reserved tag name/, "CAA with reserved tag 2");
+like(shift @e, qr/CAA reserved tag name/, "CAA with reserved tag 3");
+like(shift @e, qr/CAA missing tag value/, "CAA without a tag value");
+like(shift @e, qr/garbage after valid CAA/, "CAA + garbage");
+## these things are not validated but probably should be
+#like(shift @e, qr/CAA invalid issue domain/, "CAA bad issue domain");
+#like(shift @e, qr/CAA missing issue parameter value/, "CAA missing issue parameter value");
+#like(shift @e, qr/CAA missing issue parameter tag/, "CAA missing issue parameter tag");
+#like(shift @e, qr/CAA invalid issuewild domain/, "CAA bad issuewild domain");
+#like(shift @e, qr/CAA missing issuewild parameter value/, "CAA missing issuewild parameter value");
+#like(shift @e, qr/CAA missing issuewild parameter tag/, "CAA missing issuewild parameter tag");
+#like(shift @e, qr/CAA iodef value not a URL/, "CAA iodef value is not a URL");
+#like(shift @e, qr/CAA iodef value unrecognized URL/, "CAA iodef value unrecognized URL");
+
 ## actual validations done after parsing
 like(shift @e, qr/CNAME and other data/, "CNAME+CNAME");
 like(shift @e, qr/CNAME and other data/, "CNAME+something else");
 like(shift @e, qr/there should be at least two NS records/, "NS limit");
+like(shift @e, qr/not a proper domain name for an SMIMEA record/, "SMIMEA host 1");
 like(shift @e, qr/not a proper prefixed DNS domain name/, "TLSA host 1");
+like(shift @e, qr/not a proper domain name for an SMIMEA record/, "SMIMEA host 2");
+like(shift @e, qr/not a proper domain name for an SMIMEA record/, "SMIMEA host 3");
 like(shift @e, qr/not a proper prefixed DNS domain name/, "TLSA host 2");
 
 like(shift @e, qr/TTL values differ within an RR set/, "TTL conflict");
@@ -338,20 +361,20 @@ run('./validns', @threads, '-t1378203490', 't/issues/32-sshfp-ecdsa-sha-256/exam
 is(rc, 0, 'issue 32: SSHFP supports ECDSA and SHA-256');
 
 # issue 34: multiple time specifications
-run('./validns', @threads, ('-t1381239017') x 32, 't/zones/example.sec.signed');
+run('./validns', @threads, ('-t1501789043') x 32, 't/zones/example.sec.signed');
 is(rc, 0, 'valid signed zone parses ok');
 
-run('./validns', @threads, ('-t1421410832') x 33, 't/zones/example.sec.signed');
+run('./validns', @threads, ('-t1501789043') x 33, 't/zones/example.sec.signed');
 isnt(rc, 0, 'too many time specs');
 @e = split /\n/, stderr;
 like(shift @e, qr/too many -t/, "too many -t");
 
-run('./validns', @threads, '-t1381239017', '-t1303720010', 't/zones/example.sec.signed');
+run('./validns', @threads, '-t1501789043', '-t1303720010', 't/zones/example.sec.signed');
 isnt(rc, 0, 'multitime: valid signed zone with timestamps in the future');
 @e = split /\n/, stderr;
 like(shift @e, qr/signature is too new/, "multitime: signature is too new");
 
-run('./validns', @threads, '-t1381239017', '-t1421410832', 't/zones/example.sec.signed');
+run('./validns', @threads, '-t1501789043', '-t1561789043', 't/zones/example.sec.signed');
 isnt(rc, 0, 'multitime: valid signed zone with timestamps in the past');
 @e = split /\n/, stderr;
 like(shift @e, qr/signature is too old/, "multitime: signature is too old");
@@ -376,6 +399,12 @@ like(stderr, qr/inconsistent NSEC3 salt$/m, "inconsistent salt in NSEC3 detected
 run('./validns', @threads, '-t1447282800', '-pnsec3-consistency', '-s', 't/issues/42-consistency-of-nsec3-chain/de.test.ok');
 is(rc, 0, 'no error when policy nsec3-consistency is active and no error is in the zone');
 
+# issue 51: support curved algorithms 
+run('./validns', @threads, '-t1459259658', 't/issues/51-support-curved-algorithms/13.example.com.signed');
+is(rc, 0, 'issue 51: support ECDSAP256SHA256');
+
+run('./validns', @threads, '-t1459259658', 't/issues/51-support-curved-algorithms/14.example.com.signed');
+is(rc, 0, 'issue 51: support ECDSAP384SHA384');
 
 }
 

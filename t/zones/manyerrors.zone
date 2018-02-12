@@ -112,6 +112,17 @@ _30._xtp.www IN TLSA (
       0 0 1 d2abde240d7cd3ee6b4b28c54df034b9
             7983a1d16e8a410e4561cb106618e9aa )
 
+; policy  bad domain name for SMIMEA
+smimea IN SMIMEA (
+      0 0 1 d2abde240d7cd3ee6b4b28c54df034b9
+            7983a1d16e8a410e4561cb106618e9aa )
+93f1e400f26708f98cb19d936620da35eec8f72e57f9eec01c1afd6._smimecert.www IN SMIMEA (
+      0 0 1 d2abde240d7cd3ee6b4b28c54df034b9
+            7983a1d16e8a410e4561cb106618e9aa )
+c93f1e400f26708f98cb19d936620da35eec8f72e57f9eec01c1afd6._xmimecert.www IN SMIMEA (
+      0 0 1 d2abde240d7cd3ee6b4b28c54df034b9
+            7983a1d16e8a410e4561cb106618e9aa )
+
 outside.org. A 194.28.255.11
 long.outside.org. A 194.28.255.11
 outsidegalaxyplus.org. A 194.28.255.11
@@ -155,6 +166,37 @@ zzzz4 CNAME zzzz4.a.b.org. ; CNAME and other data
 zzzz5 DNAME a.b.org. ; fine
 x.y.z.zzzz5 A 5.6.7.8 ; DNAME must not have any children (but z.zzzz5.galaxyplus.org exists) - yuck
 zzzz6 DNAME x.y.dk.  ; fine, no induced error
+
+@ CAA          ; CAA flag expected
+  CAA 0        ; CAA tag expected
+  CAA 45       ; CAA unrecognized flags value
+  CAA 0 meow   ; CAA unrecognized tag name
+  CAA 0 x-y    ; CAA tag is not valid
+  CAA 0 auth   ; CAA reserved tag name
+  CAA 0 path   ; CAA reserved tag name
+  CAA 0 policy ; CAA reserved tag name
+  CAA 0 issue  ; CAA missing tag value
+  CAA 0 issue ";"   ; fine
+  CAA 0 issue ";" blah  ; garbage after valid CAA
+; commented out things are not validated but probably should be
+;  CAA 0 issue "hello/world" ; CAA invalid issue domain
+  CAA 0 issue "example.net" ; fine
+  CAA 0 issue "example.net ;" ; fine
+;  CAA 0 issue "example.net ; sometag" ; CAA missing issue parameter value
+;  CAA 0 issue "example.net ; =sometag" ; CAA missing issue parameter tag
+;  CAA 0 issue "example.net ; sometag=somevalue othertag=othervalue" ; fine
+  CAA 0 issuewild ";"   ; fine
+;  CAA 0 issuewild "hello/world" ; CAA invalid issuewild domain
+  CAA 0 issuewild "example.net" ; fine
+  CAA 0 issuewild "example.net ;" ; fine
+;  CAA 0 issuewild "example.net ; sometag" ; CAA missing issuewild parameter value
+;  CAA 0 issuewild "example.net ; =sometag" ; CAA missing issuewild parameter tag
+  CAA 0 issuewild "example.net ; sometag=somevalue othertag=othervalue" ; fine
+;  CAA 0 iodef "hello-world"    ; CAA iodef value not a URL
+;  CAA 0 iodef "hello:world"    ; CAA iodef value unrecognized URL
+  CAA 0 iodef "mailto:tobez@tobez.org"    ; fine
+  CAA 0 iodef "http://example.net"    ; fine
+  CAA 128 iodef "https://example.net" ; fine
 
 @       SOA ns1.catpipe.net. hostmaster.catpipe.net. ( ; skipped again
             2011011400  ; Serial

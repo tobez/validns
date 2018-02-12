@@ -12,9 +12,11 @@
 #include <sys/types.h>
 
 struct binary_data {
-	int length;
-	char *data;
+    int length;
+    char *data;
 };
+
+void dump_binary_data(FILE *f, struct binary_data d);
 
 struct binary_data compose_binary_data(const char *fmt, int tmp, ...);
 /*
@@ -28,17 +30,21 @@ struct binary_data compose_binary_data(const char *fmt, int tmp, ...);
  * B - another binary structure, will incorporate its data,
  *     and prepend the length as a 16-bit word in NBO,
  *     fatal error on overflow
+ * s - a NULL-terminated string, will incorporate the string
+ *     without the NULL byte, and prepend the string length as a byte
+ *     (fatal error on overflow)
  * tmp : allocate temp storage if true, permanent if false
  *
  */
 
 #define KEEP_CAPITALIZATION 32
+#define DOLLAR_OK_IN_NAMES  64
 
 int empty_line_or_comment(char *s);
 char *skip_white_space(char *s);
 char *extract_name(char **input, char *what, int options);
 char *extract_label(char **input, char *what, void *is_temporary);
-long long extract_integer(char **input, char *what);
+long long extract_integer(char **input, char *what, const char *extra_delimiters);
 long extract_timevalue(char **input, char *what);
 long long extract_timestamp(char **input, char *what);
 int extract_ipv4(char **input, char *what, struct in_addr *addr);
@@ -59,7 +65,9 @@ struct binary_data new_set(void);
 void add_bit_to_set(struct binary_data *set, int bit);
 struct binary_data compressed_set(struct binary_data *set);
 
-/* stpcpy(3) is not available everywhere */
-char *mystpcpy(char *to, const char *from);
+char *mystpcpy(char *to, const char *from); /* stpcpy(3) is not available everywhere */
+size_t mystrlcat(char *dst, const char *src, size_t siz); /* so is strlcat */
+
+char *read_zone_line(void);
 
 #endif

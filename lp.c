@@ -20,41 +20,41 @@
 
 static struct rr *lp_parse(char *name, long ttl, int type, char *s)
 {
-	struct rr_lp *rr = getmem(sizeof(*rr));
-	int preference;
+    struct rr_lp *rr = getmem(sizeof(*rr));
+    int preference;
 
-	rr->preference = preference = extract_integer(&s, "LP preference");
-	if (preference < 0)
-		return NULL;
-	rr->fqdn = extract_name(&s, "LP fqdn", 0);
-	if (!rr->fqdn)
-		return NULL;
-	if (strcasecmp(name, rr->fqdn) == 0) {
-		return bitch("LP points to itself");
-	}
+    rr->preference = preference = extract_integer(&s, "LP preference", NULL);
+    if (preference < 0)
+        return NULL;
+    rr->fqdn = extract_name(&s, "LP fqdn", 0);
+    if (!rr->fqdn)
+        return NULL;
+    if (strcasecmp(name, rr->fqdn) == 0) {
+        return bitch("LP points to itself");
+    }
 
-	if (*s) {
-		return bitch("garbage after valid LP data");
-	}
+    if (*s) {
+        return bitch("garbage after valid LP data");
+    }
 
-	return store_record(type, name, ttl, rr);
+    return store_record(type, name, ttl, rr);
 }
 
 static char* lp_human(struct rr *rrv)
 {
-	RRCAST(lp);
-	char s[1024];
+    RRCAST(lp);
+    char s[1024];
 
-	snprintf(s, 1024, "%d %s",
-			 rr->preference, rr->fqdn);
-	return quickstrdup_temp(s);
+    snprintf(s, 1024, "%d %s",
+             rr->preference, rr->fqdn);
+    return quickstrdup_temp(s);
 }
 
 static struct binary_data lp_wirerdata(struct rr *rrv)
 {
-	RRCAST(lp);
+    RRCAST(lp);
     return compose_binary_data("2d", 1,
-		rr->preference, name2wire_name(rr->fqdn));
+        rr->preference, name2wire_name(rr->fqdn));
 }
 
 struct rr_methods lp_methods = { lp_parse, lp_human, lp_wirerdata, NULL, NULL };

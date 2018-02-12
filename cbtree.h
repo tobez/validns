@@ -47,8 +47,8 @@ intptr_t cbtree_delete(struct cbtree *t, const char *u);
 void cbtree_clear(struct cbtree *t);
 
 int cbtree_allprefixed(struct cbtree *t, const char *prefix,
-					   int (*handle)(const char *, intptr_t *, void *),
-					   void *arg);
+                       int (*handle)(const char *, intptr_t *, void *),
+                       void *arg);
 
 void cbtree_dump(struct cbtree *t);
 

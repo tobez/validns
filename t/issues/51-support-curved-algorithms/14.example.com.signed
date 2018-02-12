@@ -1,0 +1,63 @@
+; File written on Tue Mar 29 15:52:22 2016
+; dnssec_signzone version 9.9.8-P4-RedHat-9.9.8_P4-2.el7.0
+14.example.com.		86400	IN SOA	ns1.example.com. hostmaster.example.com. (
+					2014012401 ; serial
+					14400      ; refresh (4 hours)
+					1800       ; retry (30 minutes)
+					1209600    ; expire (2 weeks)
+					3600       ; minimum (1 hour)
+					)
+			86400	RRSIG	SOA 14 3 86400 (
+					20160428125222 20160329125222 1045 14.example.com.
+					5FEzZuz1HrgRNTakg4D24h1RrO1Kx9IDzXN6
+					S/00bsfO5AQ8hxVd2X7XzrYGdqs+gpecBpkl
+					WLG1MrEgzYvRVgPTVY0bL0U7GxmvqAp871WH
+					yuJKB8NFTkgQDA7cA2Do )
+			172800	NS	ns1.example.org.
+			172800	NS	ns2.example.org.
+			172800	RRSIG	NS 14 3 172800 (
+					20160428125222 20160329125222 1045 14.example.com.
+					9Yol4eoRhw52o7LJqCnTlDlQlFbaHFyTOGf4
+					3MAPNe5hx2NFCujCg9RxE66l+BE6otDMC+tb
+					hJKVPfb5U8+rpjDna3H1RSjV7MkS4crlzS0k
+					0rximlQ9x7OIy2wkZ0bw )
+			86400	A	203.0.113.10
+			86400	RRSIG	A 14 3 86400 (
+					20160428125222 20160329125222 1045 14.example.com.
+					DG685u5rAML7/ga7TnixPiLwBEHFzcGpQeRc
+					WZkPX2W/gJ8VyejkZbWDinYEZIVUeQaRTNW4
+					RcXBSq7o5wDgTJUSih+fnoLh9Fuzlfch6voG
+					qGKMeWl4i+2eYF7QImB8 )
+			3600	NSEC	www.14.example.com. A NS SOA RRSIG NSEC DNSKEY
+			3600	RRSIG	NSEC 14 3 3600 (
+					20160428125222 20160329125222 1045 14.example.com.
+					tPxJtlAhflaMsTI0zx0vt+R73cmU9zL9ly20
+					xrhZlRWhScxZ4y8fAIs57rfbl4XCe1Rln6y/
+					TZ3V0BcpXH2fl3vXxOJqcnsK/RHHxl57va7E
+					v704MwP3Je9qhirfLd6O )
+			86400	DNSKEY	257 3 14 (
+					FWoMjTSsjInt9389me7cymDHNbntmNWejqPI
+					zSsifAs2CdBtfCoN98LvEU1eADIG4kkpKvVv
+					QTYnoiUP/jsFQa6Uz+PmfgKO+PpyNl1fNy+b
+					N7uEPJzIZhen3X6bIwYg
+					) ; KSK; alg = ECDSAP384SHA384; key id = 1045
+			86400	RRSIG	DNSKEY 14 3 86400 (
+					20160428125222 20160329125222 1045 14.example.com.
+					FD2AI0MGo8w5JRfVihohNNsgj1pVrCUxaehv
+					R7DH2eS7STiJFEBFr8e8UO1CiDGXuOGhgoPY
+					CyEay93XJfdHaWBA4iCPctZUkdyA5ZXrYrpT
+					iCkK6GK0MtbyH7W3H4Uu )
+www.14.example.com.	86400	IN CNAME 14.example.com.
+			86400	RRSIG	CNAME 14 4 86400 (
+					20160428125222 20160329125222 1045 14.example.com.
+					Y8knRqg1Hpta6KZ57zc+eY6XDgIgRLVYWZ0m
+					7YESOgRTU0oEU8j8NQ+S1RPAZM8migNkHjB4
+					NKdm9DCMnlD237546++VmZFUZgzGnKW3lQAQ
+					GpTe7MtqMUY40B+TxSIg )
+			3600	NSEC	14.example.com. CNAME RRSIG NSEC
+			3600	RRSIG	NSEC 14 4 3600 (
+					20160428125222 20160329125222 1045 14.example.com.
+					TnQB0LmuU2Z4WtQDOBslDrIWFguyh4rv17gZ
+					nV8GvUJnn1Wk8/djZv47chNeNK6Rxt+lUaDm
+					E9S6f7eSJiGTAP6N0Mgfg7BmFbmD+4ZOUez2
+					t5FEl5KRUrPoiHQvOB8w )

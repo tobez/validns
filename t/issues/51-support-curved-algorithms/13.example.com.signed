@@ -1,0 +1,55 @@
+; File written on Tue Mar 29 15:52:18 2016
+; dnssec_signzone version 9.9.8-P4-RedHat-9.9.8_P4-2.el7.0
+13.example.com.		86400	IN SOA	ns1.example.com. hostmaster.example.com. (
+					2014012401 ; serial
+					14400      ; refresh (4 hours)
+					1800       ; retry (30 minutes)
+					1209600    ; expire (2 weeks)
+					3600       ; minimum (1 hour)
+					)
+			86400	RRSIG	SOA 13 3 86400 (
+					20160428125218 20160329125218 18450 13.example.com.
+					7LfQswmP8B9hr6Bg8nr9o8yd/fe6n86HDhs9
+					pAByPITSjdqML6Rwb4NOHWvFDZJXVA4mz5Pe
+					TG4JVHiGYU7HCw== )
+			172800	NS	ns1.example.org.
+			172800	NS	ns2.example.org.
+			172800	RRSIG	NS 13 3 172800 (
+					20160428125218 20160329125218 18450 13.example.com.
+					eses1PGFULOHDZbqPt+CMQHdYCIVNdxVMYba
+					YtW3iA9nN4mfvS6jls69J60bqSA4p3w4tD3k
+					v9dnDcFdS+tEUQ== )
+			86400	A	203.0.113.10
+			86400	RRSIG	A 13 3 86400 (
+					20160428125218 20160329125218 18450 13.example.com.
+					2QqqZ4i7yq1sCrK82aLm85pTSUgpWR0XsBzi
+					MVFyjcoW75f0ysZKZafO5lFJECKEP8ncJfEP
+					NEMXVuyAUJihSA== )
+			3600	NSEC	www.13.example.com. A NS SOA RRSIG NSEC DNSKEY
+			3600	RRSIG	NSEC 13 3 3600 (
+					20160428125218 20160329125218 18450 13.example.com.
+					IV+0txuv6DNk7kRBUmkk4jorMjXoyi/klFC/
+					1g5ZK8/cZuFcKREuIW7bmpvhB4Mhj8yWpLJ9
+					CVNy339z+Rt/6g== )
+			86400	DNSKEY	257 3 13 (
+					SFycyLoVKBBL0re1qD6sezd/bOM9jwtT/mTT
+					1KkW0yqIXixXN/szwzm49r6YzlIFHRDXry8a
+					7aaIKWopkx8WBA==
+					) ; KSK; alg = ECDSAP256SHA256; key id = 18450
+			86400	RRSIG	DNSKEY 13 3 86400 (
+					20160428125218 20160329125218 18450 13.example.com.
+					OsKqN6fhvL4b0XK5TOEpZXrSoC/GcRMlCqIe
+					csfZem7xMmcBjUe333/fJdw0x1QKmA17BoX/
+					Px88zz24dRW0Vg== )
+www.13.example.com.	86400	IN CNAME 13.example.com.
+			86400	RRSIG	CNAME 13 4 86400 (
+					20160428125218 20160329125218 18450 13.example.com.
+					CFfxilFg72g3rQerviVCO6jmf8kVodqusejq
+					WETSBiCAfMhcB2+uLsitmaH8LsAiNLNMY7nc
+					533WnQjsJ4vsmQ== )
+			3600	NSEC	13.example.com. CNAME RRSIG NSEC
+			3600	RRSIG	NSEC 13 4 3600 (
+					20160428125218 20160329125218 18450 13.example.com.
+					IWqCg2pcOd9kX4waHb8Ij3kWeJxfXGKUBbpf
+					Fuc3bhOJ/rvQ2kPYO305TeZP5Rfcd7+efDEb
+					i8be+VqhOgf7Pg== )
