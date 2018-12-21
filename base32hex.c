@@ -48,7 +48,7 @@ decode_base32hex(void *dest, char *src, size_t dstsize)
             v = *src - 'a' + 10;
         else if (*src >= '0' && *src <= '9')
             v = *src - '0';
-        else if (isspace(*src) || *src == '=') {
+        else if (isspace((unsigned char)*src) || *src == '=') {
             src++;
             continue;
         } else {
