@@ -105,7 +105,7 @@ not_a_prefixed_domain_name:
             return moan(rr->file_name, rr->line, "not a proper prefixed DNS domain name");
         }
         s++;
-        while (isdigit(*s)) {
+        while (isdigit((unsigned char)*s)) {
             port = port * 10  + *s - '0';
             s++;
         }
@@ -134,7 +134,7 @@ static void* smimea_validate_set(struct rr_set *rr_set)
 
         /* c93f1e400f26708f98cb19d936620da35eec8f72e57f9eec01c1afd6._smimecert.example.com. */
         s = named_rr->name;
-        while (isxdigit(*s)) {
+        while (isxdigit((unsigned char)*s)) {
             hash_len++;
             s++;
         }

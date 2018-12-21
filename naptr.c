@@ -42,7 +42,7 @@ static struct rr *naptr_parse(char *name, long ttl, int type, char *s)
     if (text.length < 0)
         return NULL;
     for (i = 0; i < text.length; i++) {
-        if (!isalnum(text.data[i])) {
+        if (!isalnum((unsigned char)text.data[i])) {
             return bitch("flags contains illegal characters");
         }
     }

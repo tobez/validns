@@ -65,7 +65,7 @@ static struct rr* nsec3_parse(char *name, long ttl, int type, char *s)
         rr->salt.length = 0;
         rr->salt.data = NULL;
         s++;
-        if (*s && !isspace(*s) && *s != ';' && *s != ')')
+        if (*s && !isspace((unsigned char)*s) && *s != ';' && *s != ')')
             return bitch("salt is not valid");
         s = skip_white_space(s);
     } else {
