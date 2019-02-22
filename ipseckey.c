@@ -93,17 +93,17 @@ static struct rr *ipseckey_parse(char *name, long ttl, int type, char *s)
 static char* ipseckey_human(struct rr *rrv)
 {
     RRCAST(ipseckey);
-    char s[1024], gw[1024];
+    char s[1024], gw[1000];
 
     switch (rr->gateway_type) {
     case 0:
         strcpy(gw, rr->gateway.gateway_none);
         break;
     case 1:
-        inet_ntop(AF_INET, &rr->gateway.gateway_ipv4, gw, 1024);
+        inet_ntop(AF_INET, &rr->gateway.gateway_ipv4, gw, sizeof(gw));
         break;
     case 2:
-        inet_ntop(AF_INET6, &rr->gateway.gateway_ipv6, gw, 1024);
+        inet_ntop(AF_INET6, &rr->gateway.gateway_ipv6, gw, sizeof(gw));
         break;
     case 3:
         strcpy(gw, rr->gateway.gateway_name);

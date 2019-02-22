@@ -27,7 +27,7 @@
 struct verification_data
 {
     struct verification_data *next;
-    EVP_MD_CTX ctx;
+    EVP_MD_CTX *ctx;
     struct rr_dnskey *key;
     struct rr_rrsig *rr;
     int ok;
@@ -98,9 +98,13 @@ static struct rr* rrsig_parse(char *name, long ttl, int type, char *s)
          */
         ECDSA_SIG *ecdsa_sig = ECDSA_SIG_new();
         int l = sig.length / 2;
-        if ((BN_bin2bn((unsigned char *)sig.data, l, ecdsa_sig->r) == NULL) ||
-            (BN_bin2bn(((unsigned char *)sig.data) + l, l, ecdsa_sig->s) == NULL))
+        BIGNUM *r, *s;
+
+        r = BN_bin2bn((unsigned char *)sig.data, l, NULL);
+        s = BN_bin2bn((unsigned char *)sig.data + l, l, NULL);
+        if ((r == NULL) || (s == NULL))
             return NULL;
+        ECDSA_SIG_set0(ecdsa_sig, r, s);
         sig.length = i2d_ECDSA_SIG(ecdsa_sig, NULL);
         sig.data = getmem(sig.length); /* reallocate larger mempool chunk */
         unsigned char *sig_ptr = (unsigned char *)sig.data;
@@ -197,7 +201,7 @@ void *verification_thread(void *dummy)
         if (d) {
             int r;
             d->next = NULL;
-            r = EVP_VerifyFinal(&d->ctx, (unsigned char *)d->rr->signature.data, d->rr->signature.length, d->key->pkey);
+            r = EVP_VerifyFinal(d->ctx, (unsigned char *)d->rr->signature.data, d->rr->signature.length, d->key->pkey);
             if (r == 1) {
                 d->ok = 1;
             } else {
@@ -249,7 +253,7 @@ static void schedule_verification(struct verification_data *d)
     } else {
         int r;
         G.stats.signatures_verified++;
-        r = EVP_VerifyFinal(&d->ctx, (unsigned char *)d->rr->signature.data, d->rr->signature.length, d->key->pkey);
+        r = EVP_VerifyFinal(d->ctx, (unsigned char *)d->rr->signature.data, d->rr->signature.length, d->key->pkey);
         if (r == 1) {
             d->ok = 1;
         } else {
@@ -267,29 +271,32 @@ static int verify_signature(struct verification_data *d, struct rr_set *signed_s
     struct rr *signed_rr;
     int i;
 
-    EVP_MD_CTX_init(&d->ctx);
+    d->ctx = EVP_MD_CTX_new();
+    if (!d->ctx)
+        return 0;
+
     switch (d->rr->algorithm) {
     case ALG_DSA:
     case ALG_RSASHA1:
     case ALG_DSA_NSEC3_SHA1:
     case ALG_RSASHA1_NSEC3_SHA1:
-        if (EVP_VerifyInit(&d->ctx, EVP_sha1()) != 1)
+        if (EVP_VerifyInit(d->ctx, EVP_sha1()) != 1)
             return 0;
         break;
     case ALG_RSASHA256:
-        if (EVP_VerifyInit(&d->ctx, EVP_sha256()) != 1)
+        if (EVP_VerifyInit(d->ctx, EVP_sha256()) != 1)
             return 0;
         break;
     case ALG_RSASHA512:
-        if (EVP_VerifyInit(&d->ctx, EVP_sha512()) != 1)
+        if (EVP_VerifyInit(d->ctx, EVP_sha512()) != 1)
             return 0;
         break;
     case ALG_ECDSAP256SHA256:
-        if (EVP_VerifyInit(&d->ctx, EVP_sha256()) != 1)
+        if (EVP_VerifyInit(d->ctx, EVP_sha256()) != 1)
             return 0;
         break;
     case ALG_ECDSAP384SHA384:
-        if (EVP_VerifyInit(&d->ctx, EVP_sha384()) != 1)
+        if (EVP_VerifyInit(d->ctx, EVP_sha384()) != 1)
             return 0;
         break;
     default:
@@ -299,7 +306,7 @@ static int verify_signature(struct verification_data *d, struct rr_set *signed_s
     chunk = rrsig_wirerdata_ex(&d->rr->rr, 0);
     if (chunk.length < 0)
         return 0;
-    EVP_VerifyUpdate(&d->ctx, chunk.data, chunk.length);
+    EVP_VerifyUpdate(d->ctx, chunk.data, chunk.length);
 
     set = getmem_temp(sizeof(*set) * signed_set->count);
 
@@ -319,12 +326,12 @@ static int verify_signature(struct verification_data *d, struct rr_set *signed_s
         chunk = name2wire_name(signed_set->named_rr->name);
         if (chunk.length < 0)
             return 0;
-        EVP_VerifyUpdate(&d->ctx, chunk.data, chunk.length);
-        b2 = htons(set[i].rr->rdtype);    EVP_VerifyUpdate(&d->ctx, &b2, 2);
-        b2 = htons(1);  /* class IN */   EVP_VerifyUpdate(&d->ctx, &b2, 2);
-        b4 = htonl(set[i].rr->ttl);       EVP_VerifyUpdate(&d->ctx, &b4, 4);
-        b2 = htons(set[i].wired.length); EVP_VerifyUpdate(&d->ctx, &b2, 2);
-        EVP_VerifyUpdate(&d->ctx, set[i].wired.data, set[i].wired.length);
+        EVP_VerifyUpdate(d->ctx, chunk.data, chunk.length);
+        b2 = htons(set[i].rr->rdtype);    EVP_VerifyUpdate(d->ctx, &b2, 2);
+        b2 = htons(1);  /* class IN */   EVP_VerifyUpdate(d->ctx, &b2, 2);
+        b4 = htonl(set[i].rr->ttl);       EVP_VerifyUpdate(d->ctx, &b4, 4);
+        b2 = htons(set[i].wired.length); EVP_VerifyUpdate(d->ctx, &b2, 2);
+        EVP_VerifyUpdate(d->ctx, set[i].wired.data, set[i].wired.length);
     }
 
     schedule_verification(d);
@@ -396,48 +403,11 @@ static void *rrsig_validate(struct rr *rrv)
     return rr;
 }
 
-static pthread_mutex_t *lock_cs;
-static long *lock_count;
-
-static unsigned long pthreads_thread_id(void)
-{
-    unsigned long ret;
-
-    ret=(unsigned long)pthread_self();
-    return(ret);
-}
-
-static void pthreads_locking_callback(int mode, int type, char *file, int line)
-{
-    if (mode & CRYPTO_LOCK) {
-        pthread_mutex_lock(&(lock_cs[type]));
-        lock_count[type]++;
-    } else {
-        pthread_mutex_unlock(&(lock_cs[type]));
-    }
-}
-
 void verify_all_keys(void)
 {
     struct keys_to_verify *k = all_keys_to_verify;
     int i;
     struct timespec sleep_time;
-
-    ERR_load_crypto_strings();
-    if (G.opt.n_threads > 1) {
-        lock_cs = OPENSSL_malloc(CRYPTO_num_locks() * sizeof(pthread_mutex_t));
-        lock_count = OPENSSL_malloc(CRYPTO_num_locks() * sizeof(long));
-        for (i = 0; i < CRYPTO_num_locks(); i++) {
-            lock_count[i] = 0;
-            pthread_mutex_init(&lock_cs[i],NULL);
-        }
-
-        CRYPTO_set_id_callback((unsigned long (*)())pthreads_thread_id);
-        CRYPTO_set_locking_callback((void (*)())pthreads_locking_callback);
-
-        if (pthread_mutex_init(&queue_lock, NULL) != 0)
-            croak(1, "pthread_mutex_init");
-    }
 
     while (k) {
         freeall_temp();
@@ -471,6 +441,7 @@ void verify_all_keys(void)
                 if (k->to_verify[i].openssl_error != 0)
                     e = k->to_verify[i].openssl_error;
             }
+            EVP_MD_CTX_free(k->to_verify[i].ctx);
         }
         if (!ok) {
             struct named_rr *named_rr;
