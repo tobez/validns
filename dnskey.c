@@ -157,6 +157,7 @@ int dnskey_build_pkey(struct rr_dnskey *rr)
         unsigned int e_bytes;
         unsigned char *pk;
         int l;
+        BIGNUM *n, *e;
 
         rsa = RSA_new();
         if (!rsa)
@@ -177,11 +178,15 @@ int dnskey_build_pkey(struct rr_dnskey *rr)
         if (l < e_bytes) /* public key is too short */
             goto done;
 
-        rsa->e = BN_bin2bn(pk, e_bytes, NULL);
+        e = BN_bin2bn(pk, e_bytes, NULL);
         pk += e_bytes;
         l -= e_bytes;
 
-        rsa->n = BN_bin2bn(pk, l, NULL);
+        n = BN_bin2bn(pk, l, NULL);
+        if (!e || !n)
+            goto done;
+
+        RSA_set0_key(rsa, n, e, NULL);
 
         pkey = EVP_PKEY_new();
         if (!pkey)
