@@ -102,7 +102,7 @@ static char proggy[MAXPATHLEN];
 
 const char *thisprogname(void)
 {
-#if defined(__FreeBSD__)
+#if defined(__FreeBSD__) || defined(__NetBSD__) || defined(__OpenBSD__)
     return getprogname();
 #elif defined(__APPLE__)
     return getprogname();
