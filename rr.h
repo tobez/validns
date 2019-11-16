@@ -76,6 +76,7 @@
 #define ALG_RSA_FAMILY      2
 #define ALG_PRIVATE_FAMILY  3
 #define ALG_ECC_FAMILY      4
+#define ALG_XMSS_FAMILY     5
 
 #define RRCAST(t) struct rr_ ## t *rr = (struct rr_ ## t *)rrv
 
