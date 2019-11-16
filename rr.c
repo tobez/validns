@@ -874,6 +874,8 @@ int extract_algorithm(char **s, char *what)
             return ALG_ED25519;
         if (strcmp(str_alg, "ed448") == 0)
             return ALG_ED448;
+        if (strcmp(str_alg, "xmss") == 0)
+            return ALG_XMSS;
 
         if (strcmp(str_alg, "privatedns") == 0)
             return ALG_PRIVATEDNS;
@@ -909,6 +911,8 @@ int algorithm_type(int alg)
         return ALG_ECC_FAMILY;
     case ALG_ED448:
         return ALG_ECC_FAMILY;
+    case ALG_XMSS:
+        return ALG_XMSS_FAMILY;
     case ALG_PRIVATEDNS:
         return ALG_PRIVATE_FAMILY;
     case ALG_PRIVATEOID:
