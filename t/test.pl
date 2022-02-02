@@ -167,8 +167,8 @@ like(shift @e, qr/NSEC says ns1.example.sec. comes after mail.example.sec., but 
 like(shift @e, qr/NSEC says ns2.example.sec. comes after ns1.example.sec., but ns122.example.sec. does/, "NSEC chain error");
 like(shift @e, qr/NSEC says www.example.sec. is the last name, but zzz.example.sec. exists/, "NSEC chain not the last");
 like(shift @e, qr/NSEC says zzzz.example.sec. comes after zzz.example.sec., but nothing does/, "NSEC chain unexpected last");
-like(shift @e, qr/RRSIG\(NSEC\): bad signature/, "NSEC incomplete fallout") for 1..4;
-like(shift @e, qr/RRSIG\(NSEC\): bad signature/, "NSEC lists too much fallout") for 1..4;
+like(shift @e, qr/RRSIG\(NSEC\): (bad signature|RSA lib)/, "NSEC incomplete fallout") for 1..4;
+like(shift @e, qr/RRSIG\(NSEC\): (bad signature|RSA lib)/, "NSEC lists too much fallout") for 1..4;
 
 is(+@e, 0, "no unaccounted errors");
 
