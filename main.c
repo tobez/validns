@@ -487,6 +487,8 @@ static void initialize_globals(void)
     rr_methods[T_DNAME]        =      dname_methods;
     rr_methods[T_DNSKEY]       =     dnskey_methods;
     rr_methods[T_DS]           =         ds_methods;
+    rr_methods[T_EUI48]        =      eui48_methods;
+    rr_methods[T_EUI64]        =      eui64_methods;
     rr_methods[T_HINFO]        =      hinfo_methods;
     rr_methods[T_IPSECKEY]     =   ipseckey_methods;
     rr_methods[T_ISDN]         =       isdn_methods;
