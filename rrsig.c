@@ -409,6 +409,10 @@ void verify_all_keys(void)
     int i;
     struct timespec sleep_time;
 
+    ERR_load_crypto_strings();
+    if (pthread_mutex_init(&queue_lock, NULL) != 0)
+        croak(1, "pthread_mutex_init");
+
     while (k) {
         freeall_temp();
         for (i = 0; i < k->n_keys; i++) {
@@ -446,9 +450,9 @@ void verify_all_keys(void)
         if (!ok) {
             struct named_rr *named_rr;
             named_rr = k->rr->rr.rr_set->named_rr;
-            moan(k->rr->rr.file_name, k->rr->rr.line, "%s RRSIG(%s): %s",
+            moan(k->rr->rr.file_name, k->rr->rr.line, "%s RRSIG(%s): cannot verify signature: %s",
                  named_rr->name, rdtype2str(k->rr->type_covered),
-                 e ? ERR_reason_error_string(e) : "cannot verify signature, reason unknown");
+                 e ? ERR_reason_error_string(e) : "reason unknown");
         }
         k = k->next;
     }

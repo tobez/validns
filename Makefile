@@ -1,8 +1,11 @@
 # The following options seem to work fine on Linux, FreeBSD, and Darwin
 OPTIMIZE=-O2 -g
-CFLAGS=-Wall -Werror -pthread -fno-strict-aliasing
-INCPATH=-I/usr/local/include -I/opt/local/include -I/usr/local/ssl/include
+CFLAGS=-Wall -Wno-deprecated-declarations -Werror -pthread -fno-strict-aliasing
+INCPATH=-I/usr/local/include -I/opt/homebrew/include -I/usr/local/ssl/include -I/opt/homebrew/opt/openssl@3/include
 CC?=cc
+
+# M1/M2 MacOS
+EXTRALPATH=-L/opt/homebrew/opt/openssl@3/lib -L/opt/homebrew/lib
 
 # These additional options work on Solaris/gcc to which I have an access
 # (when combined with the options above, and CC=gcc).
@@ -39,7 +42,7 @@ validns: main.o carp.o mempool.o textparse.o base64.o base32hex.o \
 	    ipseckey.o cbtree.o mb.o mg.o mr.o minfo.o \
 	    afsdb.o x25.o isdn.o rt.o px.o kx.o \
 	    dlv.o dhcid.o nsap.o caa.o \
-	    -L/usr/local/lib -L/opt/local/lib $(EXTRALPATH) \
+	    -L/usr/local/lib $(EXTRALPATH) \
 	    -lJudy -lcrypto $(EXTRALIBS) $(EXTRALINKING)
 
 clean:
