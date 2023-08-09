@@ -1,0 +1,106 @@
+AlignAfterOpenBracket: Align
+AlignArrayOfStructures: Right
+AlignConsecutiveAssignments:
+  Enabled: true
+  AcrossEmptyLines: true
+  AcrossComments: false
+  PadOperators: true
+  AlignCompound: true
+AlignConsecutiveBitFields: AcrossEmptyLines
+AlignConsecutiveDeclarations: AcrossEmptyLines
+AlignConsecutiveMacros: AcrossEmptyLines
+#AlignConsecutiveShortCaseStatements: AcrossEmptyLines    since v 17
+AlignEscapedNewlines: Left
+AlignOperands: AlignAfterOperator
+AlignTrailingComments:
+  Kind: Always
+  OverEmptyLines: 2
+AllowAllArgumentsOnNextLine: true
+AllowAllParametersOfDeclarationOnNextLine: true
+AllowShortBlocksOnASingleLine: Always
+AllowShortCaseLabelsOnASingleLine: false
+AllowShortEnumsOnASingleLine: true
+AllowShortFunctionsOnASingleLine: All
+AllowShortIfStatementsOnASingleLine: Never
+AllowShortLambdasOnASingleLine: All
+AllowShortLoopsOnASingleLine: true
+AlwaysBreakAfterReturnType: TopLevelDefinitions
+AlwaysBreakBeforeMultilineStrings: false
+BinPackArguments: true
+BinPackParameters: true
+BitFieldColonSpacing: Both
+BreakBeforeBraces: Custom
+BraceWrapping:
+  AfterCaseLabel: false
+  AfterClass: false
+  AfterControlStatement: MultiLine
+  AfterEnum: false
+  AfterFunction: true
+  AfterStruct: true
+  AfterUnion: true
+  AfterExternBlock: true
+  BeforeElse: false
+  BeforeLambdaBody: false
+  BeforeWhile: false
+  IndentBraces: false
+  SplitEmptyFunction: false
+  SplitEmptyRecord: false
+  SplitEmptyNamespace: false
+BreakBeforeBinaryOperators: NonAssignment
+BreakBeforeTernaryOperators: true
+BreakStringLiterals: true
+ColumnLimit: 132
+ContinuationIndentWidth: 2
+ForEachMacros: ['FOREACH', 'SLIST_FOREACH', 'SLIST_FOREACH_SAFE', 'SLIST_FOREACH_PREVPTR', 'STAILQ_FOREACH', 'STAILQ_FOREACH_SAFE', 'LIST_FOREACH', 'LIST_FOREACH_SAFE', 'TAILQ_FOREACH', 'TAILQ_FOREACH_SAFE', 'TAILQ_FOREACH_REVERSE', 'TAILQ_FOREACH_REVERSE_SAFE']
+IfMacros: ['IF']
+IncludeBlocks: Preserve
+IndentCaseBlocks: false
+IndentCaseLabels: false
+IndentExternBlock: false
+IndentGotoLabels: false
+IndentPPDirectives: None
+IndentWidth: 4
+IndentWrappedFunctionNames: false
+InsertBraces: false
+InsertNewlineAtEOF: true
+KeepEmptyLinesAtTheStartOfBlocks: false
+LambdaBodyIndentation: Signature
+Language: Cpp
+LineEnding: LF
+MaxEmptyLinesToKeep: 2
+# all the Penalties....
+PointerAlignment: Right
+QualifierAlignment: Left
+ReferenceAlignment: Pointer
+RemoveBracesLLVM: false
+#RemoveParentheses: false    since v 17
+RemoveSemicolon: false
+SeparateDefinitionBlocks: Always
+SortIncludes: Never
+SpaceAfterCStyleCast: false
+SpaceAfterLogicalNot: false
+SpaceAroundPointerQualifiers: Default
+SpaceBeforeAssignmentOperators: true
+SpaceBeforeCaseColon: false
+SpaceBeforeParens: ControlStatements
+SpaceBeforeSquareBrackets: false
+SpaceInEmptyBlock: true
+SpacesBeforeTrailingComments: 4
+# v 17:
+#SpacesInParens: Custom
+#SpacesInParensOptions:
+#  InConditionalStatements: false
+#  InCStyleCasts: false
+#  InEmptyParentheses: false
+#  Other: false
+# Older:
+SpacesInConditionalStatement: false
+SpaceInEmptyParentheses: false
+SpacesInCStyleCastParentheses: false
+SpacesInSquareBrackets: false
+StatementAttributeLikeMacros: []
+StatementMacros: []
+TabWidth: 4
+# TypeNames: []   since v 17
+TypenameMacros: [ 'SLIST_HEAD', 'SLIST_ENTRY', 'LIST_HEAD', 'LIST_ENTRY', 'STAILQ_HEAD', 'STAILQ_ENTRY', 'TAILQ_HEAD', 'TAILQ_ENTRY' ]
+UseTab: Never
