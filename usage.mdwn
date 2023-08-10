@@ -37,20 +37,6 @@ Coming soon.
     checks are performed.
     This option can be specified multiple times.
     See **POLICY CHECKS**, below, for details.
-    The following names are understood:
-
-	- single-ns
-	- cname-other-data
-	- dname
-	- dnskey
-	- nsec3param-not-apex
-	- mx-alias
-	- ns-alias
-	- rp-txt-exists
-	- tlsa-host
-	- ksk-exists
-	- smimea-host
-	- all
 
 -n *N*
 :   Use N worker threads for parallelizable operations.
@@ -123,21 +109,57 @@ Other basic checks include:
 
 # POLICY CHECKS
 
-- there should be at least two NS records per name (or zero);
-- CNAME and other data (excluding possible RRSIG and NSEC);
-- DNAME checks: no multiple DNAMEs, no descendants of a node with a DNAME;
-  please note that DNAME/CNAME clash is handled by CNAME and other data
-  check already;
-- DNSKEY checks: public key too short, leading zero octets
-  in public key exponent or modulus;
-- NSEC3PARAM, if present, should only be at the zone apex.
-- MX exchange should not be an alias
-- NS nsdname should not be an alias
-- TXT domain name mentioned in RP record must have
-  a corresponding TXT record if it is within the zone
-- domain name of a TLSA record must be a proper prefixed DNS name
-- a KSK key must exist in a signed zone
-- domain name must have the form which is proper for an SMIMEA record
+The following policy checks are understood:
+
+**single-ns**
+
+: Checks that there are at least two NS records per name (or zero).
+
+**cname-other-data**
+
+: Checks for CNAME and other data condition (excluding possible and NSEC).
+
+**dname**
+
+: DNAME checks: no multiple DNAMEs, no descendants of a node with a DNAME.
+Please note that DNAME/CNAME clash is handled by CNAME and other data check already.
+
+**dnskey**
+
+: DNSKEY checks: public key too short, leading zero octets in public key exponent or modulus.
+
+**nsec3param-not-apex**
+
+: NSEC3PARAM, if present, should only be at the zone apex.
+
+**mx-alias**
+
+: MX exchange should not be an alias.
+
+**ns-alias**
+
+: NS nsdname should not be an alias.
+
+**rp-txt-exists**
+
+: TXT domain name mentioned in RP record must have
+a corresponding TXT record if it is within the zone.
+
+**tlsa-host**
+
+: Domain name of a TLSA record must be a proper prefixed DNS name.
+
+**ksk-exists**
+
+: A KSK key must exist in a signed zone.
+
+**smimea-host**
+
+: Domain name must have the form which is proper for an SMIMEA record.
+
+**all**
+
+: Activates all of the above policy checks.
 
 # BUGS
 
