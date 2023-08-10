@@ -159,7 +159,11 @@ a corresponding TXT record if it is within the zone.
 
 **all**
 
-: Activates all of the above policy checks.
+: Activates all of the above policy checks (but not the ones described below).
+
+**permit-starting-hyphen**
+
+: Starting hyphen (normally disallowed) is permitted in names.
 
 # BUGS
 

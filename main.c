@@ -443,7 +443,8 @@ void usage(char *err)
     fprintf(stderr, "\t\t\ttlsa-host\n");
     fprintf(stderr, "\t\t\tksk-exists\n");
     fprintf(stderr, "\t\t\tsmimea-host\n");
-    fprintf(stderr, "\t\t\tall\n");
+    fprintf(stderr, "\t\t\tall (except permit-starting-hyphen)\n");
+    fprintf(stderr, "\t\t\tpermit-starting-hyphen\n");
 
     fprintf(stderr, "\t-n N\t\tuse N worker threads\n");
     fprintf(stderr, "\t-q\t\tquiet - do not produce any output\n");
@@ -552,7 +553,7 @@ main(int argc, char **argv)
         case 'p':
             if (strcmp(optarg, "all") == 0) {
                 int i;
-                for (i = 0; i < N_POLICY_CHECKS; i++) {
+                for (i = 0; i < N_RESTRICTIVE_POLICY_CHECKS; i++) {
                     G.opt.policy_checks[i] = 1;
                 }
             } else if (strcmp(optarg, "single-ns") == 0) {
@@ -577,6 +578,8 @@ main(int argc, char **argv)
                 G.opt.policy_checks[POLICY_SMIMEA_HOST] = 1;
             } else if (strcmp(optarg, "ksk-exists") == 0) {
                 G.opt.policy_checks[POLICY_KSK_EXISTS] = 1;
+            } else if (strcmp(optarg, "permit-starting-hyphen") == 0) {
+                G.opt.policy_checks[POLICY_PERMIT_STARTING_HYPHEN] = 1;
             } else {
                 usage("unknown policy name");
             }

@@ -386,6 +386,17 @@ is(rc, 0, 'issue 51: support ECDSAP256SHA256');
 run('./validns', @threads, '-t1459259658', 't/issues/51-support-curved-algorithms/14.example.com.signed');
 is(rc, 0, 'issue 51: support ECDSAP384SHA384');
 
+# PERMIT_STARTING_HYPHEN test
+run('./validns', @threads, 't/issues/policy-permit-starting-hyphen/example.com');
+isnt(rc, 0, 'starting hyphen in name fails');
+@e = split /\n/, stderr;
+like(shift @e, qr/record name expected/, "starting hyphen 1");
+like(shift @e, qr/record name expected/, "starting hyphen 2");
+is(+@e, 0, "no unaccounted errors for starting hyphen checks");
+
+run('./validns', @threads, '-p', 'permit-starting-hyphen', 't/issues/policy-permit-starting-hyphen/example.com');
+is(rc, 0, 'starting hyphen parses OK with corresponding policy check');
+
 }
 
 done_testing;

@@ -181,7 +181,9 @@ char *extract_name(char **input, char *what, int options)
         }
         r = quickstrdup(file_info->current_origin);
     } else {
-        if (!(isalnum(*s) || *s == '_' || *s == '.' || *s == '/' || ((options & DOLLAR_OK_IN_NAMES) && *s == '$'))) {
+        if (!(isalnum(*s) || *s == '_' || *s == '.' || *s == '/' || ((options & DOLLAR_OK_IN_NAMES) && *s == '$')
+              || (G.opt.policy_checks[POLICY_PERMIT_STARTING_HYPHEN] && *s == '-')))
+        {
             if (*s == '*') {
                 wildcard = 1;
             } else {
