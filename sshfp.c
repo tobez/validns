@@ -24,7 +24,7 @@ static struct rr* sshfp_parse(char *name, long ttl, int type, char *s)
 
     algorithm = extract_integer(&s, "algorithm", NULL);
     if (algorithm < 0)  return NULL;
-    if (algorithm != 1 && algorithm != 2 && algorithm != 3 && algorithm != 4)
+    if (algorithm != 1 && algorithm != 2 && algorithm != 3 && algorithm != 4 && algorithm != 5 )
         return bitch("unsupported algorithm");
     rr->algorithm = algorithm;
 
